@@ -18,7 +18,7 @@ export default function Home() {
       <Funds />
       <DataInfo />
       <HaveCollection />
-      {/* <Artist /> */}
+      <Artist />
     </main>
   );
 }

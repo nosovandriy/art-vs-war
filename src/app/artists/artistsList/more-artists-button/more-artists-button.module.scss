@@ -1,0 +1,37 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.button {
+  margin: 56px auto 0;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-0;
+  font-size: $font-size-base;
+  border: 1px solid $gray-0;
+  transition-duration: 0.3s;
+  cursor: pointer;
+  color: $gray-100;
+
+  &:hover {
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+
+  @include tablet {
+    @include set-square(144px);
+
+    border-radius: 50%;
+    color: $gray-0;
+    background-color: $gray-100;
+  }
+
+  @include desktop {
+    @include set-square(208px);
+  }
+}
