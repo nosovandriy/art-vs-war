@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 
-// import "swiper/swiper.css";
+import "swiper/scss";
 import styles from "./carousel.module.scss";
 
 const images = [
@@ -15,7 +16,7 @@ const images = [
 const Carousel = () => (
   <Swiper
     className={styles.swiper}
-    // modules={[Autoplay]}
+    modules={[Autoplay]}
     slidesPerView="auto"
     spaceBetween={16}
     centeredSlides

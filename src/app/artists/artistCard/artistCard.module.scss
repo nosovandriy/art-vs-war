@@ -1,0 +1,127 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.artist {
+  @include set-flex(column, flex-start);
+
+  margin-top: 48px;
+  gap: 16px;
+
+  @include tablet {
+    @include set-flex(row);
+    gap: 24px;
+  }
+
+  @include laptop {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.info {
+  flex: 1;
+  @include set-flex(column);
+
+  &__wrapper {
+    @include set-flex(column);
+
+    gap: 16px;
+  }
+}
+
+.images__wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+
+  @include desktop {
+  }
+}
+
+.ornament {
+  display: none;
+
+  @include laptop {
+    display: block;
+    position: absolute;
+    z-index: 0;
+  }
+}
+
+.name {
+  color: $gray-0;
+  font-size: $font-size-lg;
+}
+
+.location {
+  @include set-flex(row, flex-start, center);
+
+  gap: 16px;
+  color: $gray-30;
+}
+
+.style {
+  color: $gray-10;
+}
+
+.description {
+  color: $gray-5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+
+  @include tabletXL {
+    -webkit-line-clamp: 11;
+  }
+}
+
+.button {
+  @include set-flex(row, center, center);
+
+  gap: 10px;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-100;
+  color: $gray-0;
+  border-color: $gray-0;
+  border-style: solid;
+  border-width: 1px;
+  font-size: $font-size-base;
+  font-family: $font-text;
+  font-weight: $font-weight-regular;
+  margin-top: 16px;
+
+  &:hover {
+    background-color: $gray-0;
+    color: $gray-100;
+    cursor: pointer;
+
+    &:last-child {
+      path {
+        fill: $gray-100;
+      }
+    }
+  }
+
+  &:active {
+    background-color: $gray-5;
+  }
+
+  @include tablet {
+    margin-top: 32px;
+  }
+
+  @include desktop {
+    margin-top: 32px;
+    max-width: 320px;
+  }
+}

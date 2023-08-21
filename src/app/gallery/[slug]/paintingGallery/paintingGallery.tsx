@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
-import { Navigation, Thumbs, Mousewheel, Pagination } from "swiper";
+import { Navigation, Thumbs, Mousewheel, Pagination } from "swiper/modules";
 
 import "./paintingGallery.scss";
 import "@styles/globals.scss";
