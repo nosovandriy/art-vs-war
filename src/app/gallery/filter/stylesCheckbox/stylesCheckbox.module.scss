@@ -1,0 +1,60 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.stylesHeader {
+  height: 56px;
+  padding: 12px;
+  @include set-flex(row, space-between, center);
+  border-bottom: 1px solid $gray-50;
+  cursor: pointer;
+
+  &__wrapper {
+    @include set-flex(row, flex-start, center);
+    gap: 8px;
+  }
+}
+
+.title {
+  color: $gray-0;
+}
+
+.point {
+  @include set-square(8px);
+  background-color: $gray-0;
+  border-radius: 50%;
+}
+
+.arrow {
+  transform: rotate(180deg);
+  transition: 0.2s;
+}
+
+.arrowUp {
+  transform: rotate(360deg);
+  transition: 0.2s;
+}
+
+.option {
+  @include set-flex(row, flex-start, center);
+
+  gap: 8px;
+  height: 56px;
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+
+  &:hover {
+    .option__title {
+      color: $gray-10;
+    }
+  }
+
+  &__checkbox {
+    @include set-square(24px);
+
+    border: 1px solid $gray-0;
+  }
+
+  &__title {
+    color: $gray-0;
+  }
+}
