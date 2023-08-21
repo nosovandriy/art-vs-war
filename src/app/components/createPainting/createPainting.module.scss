@@ -1,0 +1,327 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.createPainting {
+  margin: 0 auto;
+  padding: 32px 22px;
+
+  @include tabletXL {
+    padding: 50px 36px;
+  }
+
+  @include desktop {
+    padding: 48px;
+  }
+}
+
+.navigationContainer {
+  @include set-flex(row, flex-start, center);
+  margin-bottom: 32px;
+  gap: 20px;
+
+  @include tablet {
+    gap: 24px;
+  }
+
+  .page {
+    color: $gray-30;
+    font-family: $font-text;
+    font-size: $font-size-md;
+    line-height: 100%;
+    font-weight: $font-weight-regular;
+    transition: color 0.3s;
+
+    @include tablet {
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $gray-5;
+    }
+  }
+
+  .current {
+    color: $gray-5;
+  }
+
+  .arrow {
+    @include set-square(32px);
+    background-color: transparent;
+
+    path {
+      fill: $gray-30;
+      transition: fill 0.3s;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      path {
+        fill: $gray-5;
+      }
+    }
+  }
+}
+
+.error {
+  position: absolute;
+  margin-top: 2px;
+  font-size: $font-size-sm;
+  color: $system-error;
+
+  &__file {
+    font-size: $font-size-base;
+  }
+}
+
+.devider {
+  position: absolute;
+  left: 0;
+  display: none;
+  width: 100%;
+  height: 1px;
+  background-color: $gray-0;
+
+  @include laptop {
+    display: block;
+  }
+}
+
+.topContainer {
+  margin-bottom: 32px;
+
+  @include laptop {
+    padding: 0 148px;
+  }
+
+  @include desktop {
+    @include set-flex(row, center, flex-start);
+    padding: 0;
+    gap: 18px;
+  }
+}
+
+.desktopContainer {
+  @include desktop {
+    width: 50%;
+  }
+}
+
+.container {
+  margin-bottom: 12px;
+
+  @include tablet {
+    @include set-flex(row, center, flex-start);
+    gap: 24px;
+  }
+
+  &__left {
+    width: 100%;
+  }
+
+  &__right {
+    width: 100%;
+  }
+}
+
+.buttonContainer {
+  @include set-flex(column, center, center);
+  width: 100%;
+  gap: 24px;
+
+  @include tabletXL {
+    @include set-flex(row, center, center);
+  }
+}
+
+.star {
+  margin-left: 4px;
+  color: #D32B10;
+}
+
+.label {
+  @include set-flex(column, flex-start, flex-start);
+  margin-bottom: 20px;
+  width: 100%;
+  gap: 8px;
+  color: $gray-30;
+  font-family: $font-text;
+  font-size: $font-size-md;
+  font-weight: $font-weight-regular;
+  line-height: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.text {
+  width: 100%;
+  height: 48px;
+  padding: 12px 16px;
+  background-color: $gray-90;
+  color: $gray-30;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: start;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.input {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+}
+
+.about {
+  margin-bottom: 32px;
+  width: 100%;
+  display: block;
+
+  @include laptop {
+    @include set-flex (row, center, flex-start);
+    padding: 48px 82px;
+    gap: 18px;
+  }
+
+  &__label {
+    margin-bottom: 24px;
+    color: #fff;
+    font-family: $font-text;
+    font-size: $font-size-xl;
+    line-height: 32px;
+    letter-spacing: 0.72px;
+    text-transform: uppercase;
+
+    @include desktop {
+     width: 208px;
+    }
+  }
+
+  &__input {
+    padding: 2px 6px;
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+    background-color: transparent;
+    color: $gray-30;
+    background-color: $gray-90;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+    resize: none;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.file {
+  @include set-flex(column, center, center);
+  margin-bottom: 32px;
+  width: 100%;
+  height: 412px;
+  gap: 48px;
+  background-color: $gray-90;
+
+  @include tablet {
+    height: 524px;
+  }
+
+  @include desktop {
+    margin-bottom: 0;
+    width: 50%;
+    height: 556px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__icon {
+    @include set-square(72px);
+
+    path {
+      fill: $gray-5;
+    }
+  }
+
+  &__label {
+    color: $gray-5;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+  }
+}
+
+.preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .image {
+    padding: 20px;
+    object-fit: contain;
+  }
+}
+
+.forward {
+  @include set-flex(row, center, center);
+  height: 48px;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 24px;
+  background-color: $gray-5;
+  color: $gray-100;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.cancel {
+  @include set-flex(row, center, center);
+  height: 48px;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: 1px solid $gray-5;
+  background-color: transparent;
+  color: $gray-5;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

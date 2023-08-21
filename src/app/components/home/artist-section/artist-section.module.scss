@@ -1,0 +1,105 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.artist {
+  margin: 0 auto;
+  width: 100%;
+
+  @include laptop {
+    margin: 72px auto;
+  }
+}
+
+.content {
+  @include set-flex(column, center, center);
+  position: relative;
+  margin: 0 auto;
+  padding: 48px 22px;
+  height: 528px;
+  gap: 24px;
+  color: $gray-5;
+  text-align: center;
+  z-index: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background-color: $gray-100;
+    z-index: 1;
+  }
+
+  @include laptop {
+    padding: 64px 0;
+  }
+
+  @include desktop {
+    padding: 64px 0;
+    gap: 48px;
+  }
+
+  .title {
+    font-size: $font-size-xxl;
+    line-height: $line-height-xxl;
+    color: $gray-0;
+    z-index: 2;
+
+    @include laptop {
+      font-size: $font-size-huge;
+      line-height: $line-height-huge;
+    }
+  }
+
+  .subtitle {
+    font-family: $font-text;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    z-index: 2;
+
+    @include laptop {
+      font-size: $font-size-lg;
+      line-height: $line-height-base;
+    }
+  }
+
+  .button {
+    @include set-square(140px);
+    @include set-flex(row, center, center);
+    border-radius: 50%;
+    background-color: $gray-5;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: $gray-100;
+    z-index: 2;
+
+    @include desktop {
+      @include set-square(208px);
+      font-size: $font-size-lg;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $gray-0;
+    }
+
+    &:active {
+      transition-duration: 0.3s;
+      transform: scale(0.9);
+    }
+  }
+}
+
+.background {
+  display: none;
+  margin: 0 auto;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}

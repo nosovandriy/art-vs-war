@@ -1,0 +1,439 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.mobile {
+  position: relative;
+  height: calc(100dvh - 56px);
+  margin: 0 auto;
+
+  @include set-flex(column, center, center);
+  gap: 100px;
+
+  @include tablet {
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $gray-100;
+    opacity: 0.3;
+    z-index: 1;
+  }
+
+  &__background {
+    z-index: 0;
+    object-fit: cover;
+  }
+
+  &__title {
+    margin-top: 100px;
+
+    text-align: center;
+    font-size: 50px;
+    line-height: 64px;
+    font-weight: $font-weight-regular;
+    color: $gray-0;
+    z-index: 2;
+  }
+
+  &__button {
+    @include set-flex(row, center, center);
+    @include set-square(144px);
+
+    // margin-top: 150px;
+    border-radius: 50%;
+    z-index: 2;
+
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+    background-color: $gray-5;
+    color: $gray-100;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $gray-0;
+    }
+  }
+}
+
+.hero {
+  display: none;
+
+  @include tablet {
+    display: grid;
+    padding: 0 20px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(24, 24px);
+    column-gap: 24px;
+  }
+
+  @include tabletXL {
+    padding: 0 22px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(25, 24px);
+    column-gap: 24px;
+  }
+
+  @include laptop {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(33, 24px);
+    column-gap: 24px;
+  }
+
+  @include desktop {
+    padding: 0 19px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(50, 24px);
+    column-gap: 16px;
+  }
+
+  @include desktopHD {
+    padding: 0 40px;
+    grid-template-rows: repeat(50, 28px);
+  }
+}
+
+.title {
+  @include tablet {
+    grid-column: 1 / 5;
+    grid-row: 2 / 7;
+    color: $gray-0;
+    font-family: $font-title;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-4xl;
+    line-height: 75px;
+  }
+
+  @include tabletXL {
+    font-size: $font-size-huge;
+  }
+
+  @include laptop {
+    text-align: end;
+    grid-column: 1 / 7;
+    grid-row: 3 / 9;
+  }
+
+  @include desktop {
+    grid-column: 1 / 7;
+    grid-row: 4 / 14;
+    font-size: $font-size-giant;
+    line-height: 120px;
+  }
+}
+
+.images {
+  position: relative;
+  object-fit: cover;
+
+  &:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+    scale: (1.01);
+  }
+}
+
+.first__image {
+  @include tablet {
+    grid-column: 1 / 3;
+    grid-row: 9 / 13;
+  }
+
+  @include tabletXL {
+    display: none;
+  }
+
+  @include laptop {
+    display: block;
+    grid-column: 7 / 11;
+    grid-row: 10 / 17;
+  }
+
+  @include desktop {
+    grid-column: 8 / -1;
+    grid-row: 3 / 13;
+  }
+}
+
+.second__image {
+  @include tablet {
+    grid-column: 5 / -1;
+    grid-row: 12 / 23;
+  }
+
+  @include tabletXL {
+    grid-column: 5 / -1;
+    grid-row: 13 / 26;
+  }
+
+  @include laptop {
+    grid-column: 7 / 10;
+    grid-row: 18 / 31;
+  }
+
+  @include desktop {
+    grid-column: 1 / 4;
+    grid-row: 17 / 32;
+  }
+}
+
+.third__image {
+  @include tablet {
+    grid-column: 5 / -1;
+    grid-row: 2 / 8;
+  }
+
+  @include tabletXL {
+    grid-column: 5 / -1;
+    grid-row: 2 / 9;
+  }
+
+  @include laptop {
+    display: none;
+  }
+}
+
+.fourth__image {
+  @include tablet {
+    grid-column: 1 / 3;
+    grid-row: 21 / -1;
+  }
+
+  @include tabletXL {
+    display: none;
+  }
+
+  @include laptop {
+    display: block;
+    grid-column: 1 / 7;
+    grid-row: 22 / 31;
+  }
+
+  @include desktop {
+    grid-column: 1 / 6;
+    grid-row: 36 / 46;
+  }
+}
+
+.fifth__image {
+  @include tablet {
+    display: none;
+  }
+
+  @include laptop {
+    display: block;
+    grid-column: 10 / -1;
+    grid-row: 18 / 31;
+  }
+
+  @include desktop {
+    grid-column: 7 / 10;
+    grid-row: 36 / -1;
+  }
+}
+
+.sixth__image {
+  @include tablet {
+    grid-column: 3 / 5;
+    grid-row: 9 / 17;
+  }
+
+  @include tabletXL {
+    grid-column: 1 / 3;
+    grid-row: 17 / 26;
+  }
+
+  @include laptop {
+    display: none;
+  }
+
+  @include desktop {
+    display: block;
+    grid-column: 11 / -1;
+    grid-row: 30 / 39;
+  }
+}
+
+.seventh__image {
+  @include tablet {
+    display: none;
+  }
+
+  @include tabletXL {
+    display: block;
+    grid-column: 3 / 5;
+    grid-row: 9 / 18;
+  }
+
+  @include laptop {
+    display: none;
+  }
+
+  @include desktop {
+    display: block;
+    grid-column: 11 / -1;
+    grid-row: 42 / -1;
+  }
+}
+
+.eighth__image {
+  @include tablet {
+    grid-column: 1 / 3;
+    grid-row: 14 / 20;
+  }
+
+  @include tabletXL {
+    display: none;
+  }
+}
+
+.ninth__image {
+  @include tablet {
+    grid-column: 3 / 5;
+    grid-row: 18 / 24;
+  }
+
+  @include tabletXL {
+    display: none;
+  }
+}
+
+.tenth__image {
+  @include tablet {
+    display: none;
+  }
+
+  @include tabletXL {
+    display: block;
+    grid-column: 1 / 3;
+    grid-row: 9 / 16;
+  }
+
+  @include laptop {
+    grid-column: 7 / 10;
+    grid-row: 3 / 9;
+  }
+
+  @include desktop {
+    grid-column: 5 / 10;
+    grid-row: 17 / 32;
+  }
+}
+
+.eleventh__image {
+  @include tablet {
+    display: none;
+  }
+
+  @include tabletXL {
+    display: block;
+    grid-column: 3 / 5;
+    grid-row: 19 / -1;
+  }
+
+  @include laptop {
+    grid-column: 10 / -1;
+    grid-row: 3 / 9;
+  }
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.twelfth__image {
+  display: none;
+
+  @include laptop {
+    display: block;
+    grid-column: 1 / 7;
+    grid-row: 10 / 21;
+  }
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.button {
+  @include tablet {
+    @include set-flex(row, center, center);
+    @include set-size(100%, 48px);
+
+    grid-column: 5 / -1;
+    grid-row: 9 / 11;
+    background-color: $gray-5;
+    color: $gray-100;
+    border-radius: 24px;
+  }
+
+  @include tabletXL {
+    grid-column: 5 / -1;
+    grid-row: 10 / 12;
+  }
+
+  @include laptop {
+    @include set-square(170px);
+
+    border-radius: 50%;
+    grid-column: 11 / -1;
+    grid-row: 10 / 17;
+  }
+
+  @include desktop {
+    @include set-square(208px);
+
+    grid-column: 11 / -1;
+    grid-row: 17 / 26;
+  }
+
+  @include desktopHD {
+    @include set-square(240px);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $gray-0;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: scale(0.9);
+  }
+}
+
+.additionalButton {
+  display: none;
+
+  @include desktop {
+    @include set-flex(row, center, center);
+
+    grid-column: 1 / 6;
+    grid-row: 49 / -1;
+    height: 48px;
+    width: 100%;
+    border-radius: 24px;
+    background-color: $gray-5;
+    color: $gray-100;
+  }
+
+  @include desktopHD {
+    height: 56px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $gray-0;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: scale(0.9);
+  }
+}
