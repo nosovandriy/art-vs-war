@@ -24,6 +24,38 @@ export default function Home() {
               height={24}
               priority
             />
+            <Image
+              src="/mark_Hamill.webp"
+              alt="webp"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
+            <Image
+              src="/jpg.jpg"
+              alt="jpg"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
+            <Image
+              src="/png.png"
+              alt="png"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
+            <Image
+              src="/logo_icon.svg"
+              alt="png"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
           </a>
         </div>
       </div>
