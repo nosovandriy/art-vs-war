@@ -48,6 +48,14 @@ export default function Home() {
               height={100}
               priority
             />
+            <Image
+              src="/logo_icon.svg"
+              alt="png"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
           </a>
         </div>
       </div>
