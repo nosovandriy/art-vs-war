@@ -26,10 +26,26 @@ export default function Home() {
             />
             <Image
               src="/mark_Hamill.webp"
-              alt="Vercel Logo"
+              alt="webp"
               className={styles.vercelLogo}
               width={100}
-              height={24}
+              height={100}
+              priority
+            />
+            <Image
+              src="/jpg.jpg"
+              alt="jpg"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
+              priority
+            />
+            <Image
+              src="/png.png"
+              alt="png"
+              className={styles.vercelLogo}
+              width={100}
+              height={100}
               priority
             />
           </a>
