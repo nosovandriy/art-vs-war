@@ -1,0 +1,316 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.wrapper {
+  @include laptop {
+    @include set-flex(row);
+    gap: 16px;
+    position: relative;
+  }
+}
+
+.orderInfo {
+  @include laptop {
+    width: 65%;
+  }
+}
+
+.headerStep {
+  @include set-flex(row, space-between, center);
+
+  margin-top: 24px;
+  height: 48px;
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+  transition: 0.3s;
+  color: $gray-0;
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: 1px solid $gray-30;
+    transition: 0.3s;
+    color: $gray-10;
+
+    path {
+      fill: $gray-10;
+    }
+  }
+}
+
+.arrow {
+  transition: 0.3s;
+
+  &__close {
+    transform: rotate(180deg);
+    transition: 0.3s;
+  }
+}
+
+.paintingWrapper {
+  position: relative;
+
+  @include tablet {
+    @include set-flex(row);
+
+    margin-top: 32px;
+    gap: 16px;
+  }
+}
+
+.imageWrapper {
+  margin-top: 24px;
+  width: 100%;
+
+  @include tablet {
+    position: static;
+    width: 35%;
+    margin-top: 0;
+  }
+
+  @include laptop {
+    width: 30%;
+  }
+}
+
+.image {
+  height: auto;
+  width: 100%;
+  max-width: 600px;
+  max-height: 600px;
+}
+
+.closeIcon {
+  @include set-flex(row, center, center);
+  @include set-square(56px);
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: $gray-30;
+  border-radius: 50%;
+  cursor: pointer;
+
+  @include tablet {
+    top: 0;
+    right: 0;
+  }
+
+  &:hover {
+    transform: rotate(90deg);
+    transition: 0.3s;
+    background-color: $gray-50;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.paintingInfo {
+  color: $gray-0;
+
+  @include tablet {
+    @include set-flex(column, space-between);
+
+    width: 65%;
+  }
+
+  @include laptop {
+    width: 70%;
+  }
+}
+
+.title {
+  margin-top: 24px;
+  text-transform: uppercase;
+  font-size: $font-size-xl;
+
+  @include tablet {
+    margin-top: 0;
+  }
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
+}
+
+.author {
+  margin-top: 16px;
+}
+
+.size {
+  margin-top: 16px;
+}
+
+.country {
+  @include set-flex(row);
+
+  gap: 10px;
+  margin-top: 16px;
+  color: $gray-10;
+}
+
+.price {
+  margin-top: 24px;
+  font-size: $font-size-xxl;
+  font-family: $font-title;
+
+  @include tablet {
+    margin-top: 0;
+    text-align: end;
+  }
+
+  @include tabletXL {
+    font-size: $font-size-xxxl;
+  }
+}
+
+.line {
+  margin-top: 24px;
+  height: 1px;
+  background-color: $gray-10;
+}
+
+.totalInfo {
+  margin-top: 48px;
+
+  @include tablet {
+    @include set-flex(row, space-between, center);
+  }
+}
+
+.totalPrice {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-family: $font-title;
+
+  @include tabletXL {
+    font-size: $font-size-xxxl;
+  }
+}
+
+.button {
+  margin-top: 24px;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-5;
+  font-size: $font-size-base;
+  transition-duration: 0.3s;
+  color: $gray-100;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+
+  @include tablet {
+    width: 184px;
+    margin-top: 0;
+  }
+
+  @include tabletXL {
+    width: 216px;
+  }
+
+  @include laptop {
+    width: 319px;
+  }
+
+  @include desktopHD {
+    width: 368px;
+  }
+}
+
+.profile {
+  margin-top: 24px;
+  color: $gray-0;
+  @include tablet {
+    text-align: end;
+  }
+}
+
+.account {
+  color: $system-error;
+  font-size: $font-size-lg;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.asidePanel {
+  display: none;
+
+  @include laptop {
+    @include set-flex(column);
+
+    position: sticky;
+    top: 20px;
+    padding: 24px;
+    margin-top: 24px;
+    width: 35%;
+    height: min-content;
+    border: 1px solid $gray-10;
+    border-radius: 24px;
+    color: $gray-0;
+
+    &__title {
+      color: $gray-0;
+      font-size: $font-size-xl;
+    }
+
+    &__totalPrice {
+      margin-top: 24px;
+      font-size: $font-size-xxl;
+      font-family: $font-title;
+    }
+  }
+}
+
+.orderItem {
+  &__paintingWrapper {
+    @include set-flex(row);
+
+    margin-top: 24px;
+    gap: 16px;
+  }
+
+  &__imageWrapper {
+    @include set-square(80px);
+
+    position: relative;
+
+    @include desktop {
+      @include set-square(100px);
+    }
+  }
+
+  &__paintingInfo {
+    @include set-flex(column, space-between);
+
+    flex: 1;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+  }
+
+  &__author {
+    font-size: $font-size-md;
+    color: $gray-10;
+  }
+
+  &__price {
+    @include set-flex(row, space-between);
+  }
+}
