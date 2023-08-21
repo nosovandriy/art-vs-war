@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+import Image from "next/image";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
@@ -9,54 +9,50 @@ export default function Home() {
           Get started by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx</code>
         </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-            <Image
-              src="/mark_Hamill.webp"
-              alt="webp"
-              className={styles.vercelLogo}
-              width={100}
-              height={100}
-              priority
-            />
-            <Image
-              src="/jpg.jpg"
-              alt="jpg"
-              className={styles.vercelLogo}
-              width={100}
-              height={100}
-              priority
-            />
-            <Image
-              src="/png.png"
-              alt="png"
-              className={styles.vercelLogo}
-              width={100}
-              height={100}
-              priority
-            />
-            <Image
-              src="/logo_icon.svg"
-              alt="png"
-              className={styles.vercelLogo}
-              width={100}
-              height={100}
-              priority
-            />
-          </a>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Image
+            src="/vercel.svg"
+            alt="Vercel Logo"
+            className={styles.vercelLogo}
+            width={100}
+            height={24}
+            priority
+          />
+          <Image
+            src="/mark_Hamill.webp"
+            alt="webp"
+            className={styles.vercelLogo}
+            width={100}
+            height={100}
+            priority
+          />
+          <Image
+            src="/jpg.jpg"
+            alt="jpg"
+            className={styles.vercelLogo}
+            width={100}
+            height={100}
+            priority
+          />
+          <Image
+            src="/png.png"
+            alt="png"
+            className={styles.vercelLogo}
+            width={100}
+            height={100}
+            priority
+          />
+          <Image
+            src="/logo_icon.svg"
+            alt="png"
+            className={styles.vercelLogo}
+            width={100}
+            height={100}
+            priority
+          />
+          <img src="/mark_Hamill.webp" alt="mark_Hamill.webp" />
+          <img src="/png.png" alt="png.png" />
+          <img src="/jpg.jpg" alt="jpg.jpg" />
         </div>
       </div>
 
@@ -123,5 +119,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  )
+  );
 }
