@@ -1,0 +1,32 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.wrapper {
+  @include set-flex(row, center, center);
+  gap: 5px;
+}
+
+.image__wrapper {
+  @include set-square(32px);
+
+  position: relative;
+
+  :hover {
+    transition: 1s;
+    transform: rotate(180deg);
+  }
+
+  @include laptop {
+    @include set-square(48px);
+  }
+}
+
+.text {
+  color: $gray-0;
+  font-family: $font-title;
+  font-size: $font-size-lg;
+
+  @include laptop {
+    display: none;
+  }
+}

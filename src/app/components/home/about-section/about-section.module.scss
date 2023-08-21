@@ -1,0 +1,283 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.about {
+  @include laptop {
+    padding-bottom: 120px;
+  }
+
+  .mobile {
+    margin: 20px auto 0;
+    width: calc(100% - 40px);
+    padding: 20px;
+    height: 408px;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+    background-color: $gray-5;
+    color: $gray-100;
+
+    @include tablet {
+      display: none;
+    }
+
+    &__title {
+      width: 100%;
+      font-size: $font-size-xxl;
+      line-height: $line-height-xxl;
+      font-weight: 350;
+      text-align: start;
+    }
+
+    &__content {
+      margin-top: 24px;
+      width: 100%;
+      font-weight: $font-weight-regular;
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+    }
+
+    &__button {
+      margin-top: 24px;
+      width: 100%;
+      height: 48px;
+      border-radius: 24px;
+      background-color: $gray-90;
+      color: $gray-0;
+      flex-shrink: 0;
+
+      @include set-flex(row, center, center);
+
+      &:hover {
+        cursor: pointer;
+        background-color: $gray-100;
+      }
+
+      &:active {
+        background-color: $gray-90;
+        transition-duration: 0.3s;
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .tablet {
+    display: none;
+    margin: 72px auto 0;
+    width: 100%;
+    height: 814px;
+
+    @include tablet {
+      display: block;
+    }
+
+    @include tabletXL {
+      margin: 80px auto 0;
+      height: 910px;
+    }
+
+    @include laptop {
+      display: none;
+    }
+
+    .title {
+      &__white {
+        font-size: $font-size-huge;
+        line-height: $line-height-huge;
+        text-align: center;
+        color: $gray-0;
+      }
+
+      &__black {
+        font-size: $font-size-huge;
+        line-height: $line-height-huge;
+        text-align: center;
+        color: $gray-100;
+      }
+    }
+
+    .content {
+      position: relative;
+      padding: 0 48px 48px;
+      background-color: $gray-5;
+      z-index: 1;
+    }
+
+    .text {
+      margin-top: 20px;
+      font-size: $font-size-base;
+      color: $gray-100;
+    }
+
+    .ornament {
+      @include set-flex(row, center, center);
+      @include set-square(600px);
+
+      position: relative;
+      bottom: 208px;
+      margin: 0 auto;
+      z-index: 0;
+
+      @include tabletXL {
+        @include set-square(696px);
+      }
+    }
+
+    .button {
+      @include set-flex(row, center, center);
+      @include set-square(144px);
+      position: absolute;
+      color: $gray-80;
+      background-color: $gray-5;
+      border-radius: 50%;
+      z-index: 2;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $gray-0;
+      }
+
+      &:active {
+        transition-duration: 0.3s;
+        transform: scale(0.9);
+      }
+    }
+  }
+
+  .laptop {
+    display: none;
+    position: relative;
+    margin: 160px auto 0;
+    padding: 0 40px;
+    height: 420px;
+
+    @include laptop {
+      display: block;
+    }
+
+    @include desktop {
+      margin-top: 312px;
+      padding: 0 56px;
+      height: 580px;
+    }
+
+    .title {
+      position: absolute;
+      font-weight: $font-weight-light;
+      font-size: $font-size-huge;
+      line-height: $line-height-huge;
+      transform: translateY(-115%);
+
+      &__white {
+        color: $gray-0;
+      }
+
+      &__black {
+        margin-top: 5px;
+        color: $gray-100;
+      }
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+      padding-left: 160px;
+      padding-right: 400px;
+
+      @include desktop {
+        padding-left: 160px;
+        padding-right: 520px;
+      }
+    }
+
+    .content {
+      position: relative;
+      padding: 91px 94px 67px 32px;
+      height: 100%;
+      min-width: 417px;
+      width: 100%;
+      background-color: $gray-5;
+
+      @include desktop {
+        padding: 96px 120px 72px 96px;
+      }
+    }
+
+    .text {
+      margin-top: 20px;
+      color: $gray-100;
+    }
+
+    .lines {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      display: flex;
+      gap: 24px;
+      height: 100%;
+
+      @include desktop {
+        right: calc(100% + 24px);
+      }
+
+      .line {
+        height: 100%;
+        background-color: $gray-5;
+      }
+
+      div {
+        &:nth-child(1) {
+          width: 2px;
+        }
+
+        &:nth-child(2) {
+          width: 12px;
+        }
+
+        &:nth-child(3) {
+          width: 24px;
+        }
+
+        &:nth-child(4) {
+          width: 48px;
+        }
+      }
+    }
+
+    .ornament {
+      @include set-flex(row, center, center);
+      @include set-square(566px);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+      z-index: -1;
+
+      @include desktop {
+        @include set-square(816px);
+      }
+    }
+
+    .button {
+      @include set-flex(row, center, center);
+      @include set-square(144px);
+      position: absolute;
+      color: $gray-80;
+      background-color: $gray-5;
+      border-radius: 50%;
+      z-index: 2;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $gray-0;
+      }
+
+      &:active {
+        transition-duration: 0.3s;
+        transform: scale(0.9);
+      }
+    }
+  }
+}

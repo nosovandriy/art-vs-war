@@ -1,0 +1,18 @@
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
+
+.swiper {
+  height: 528px;
+  background-color: transparent;
+
+  .container {
+    height: 528px !important;
+    width: fit-content !important;
+
+    .image {
+      position: relative !important;
+      height: 100% !important;
+      width: auto !important;
+    }
+  }
+}

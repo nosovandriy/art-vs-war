@@ -1,0 +1,8 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.profile {
+  @include laptop {
+    display: none;
+  }
+}
