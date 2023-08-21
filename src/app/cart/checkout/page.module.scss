@@ -1,0 +1,44 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.cart {
+  padding: 24px 22px 48px 24px;
+}
+
+.titleWrapper {
+  @include set-flex(row, flex-start, center);
+
+  gap: 16px;
+
+  @include tablet {
+    gap: 48px;
+  }
+
+  @include desktop {
+    gap: 80px;
+  }
+
+  @include desktopHD {
+    gap: 96px;
+  }
+}
+
+.arrowBack {
+  @include set-flex(row, flex-start, center);
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+
+  @include tabletXL {
+    font-size: $font-size-huge;
+  }
+}
+
+.paintingWrapper {
+  @include desktop {
+    // padding: 0 110px;
+  }
+}
