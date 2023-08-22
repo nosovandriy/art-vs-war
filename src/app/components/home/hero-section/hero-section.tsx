@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import style from "./hero-section.module.scss";
+import { useEffect, useState } from "react";
 
 type Painting = {
   url: string;
@@ -38,6 +39,20 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
   const firstImage0_75 = paintings["0.75"][0];
   const secondImage0_75 = paintings["0.75"][1];
 
+  const [showImage, setShowImage] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowImage(true);
+
+      setTimeout(() => {
+        setShowImage(false);
+      }, 3000);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section>
       <div className={style.mobile}>
@@ -58,10 +73,20 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
         </Link>
       </div>
       <div className={style.hero}>
-        <h1 className={style.title}>
-          Buy Art
-          <br /> Help Ukraine
-        </h1>
+        <div className={style.title}>
+          <h1 className={style.title__text}>
+            Buy Art
+            <br /> Help Ukraine
+          </h1>
+          <Image
+            src="/assets/map.webp"
+            alt="map of Ukraine"
+            width={145}
+            height={80}
+            className={`${style.imageMap} ${showImage && style.visible}`}
+          />
+        </div>
+
         <div className={`${style.first__image} ${style.images}`}>
           <Link href={`/gallery/${firstImage2_0.prettyId}`}>
             <Image
