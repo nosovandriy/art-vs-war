@@ -20,7 +20,10 @@ import {
   saveOrderPaintingsToServer,
 } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
-import { getDataFromLocalStorage } from "@/utils/localStorageData";
+import {
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
+} from "@/utils/localStorageData";
 import { Logo } from "../logo/logo";
 import { MenuItems } from "../menuItems/menuItems";
 import SocialNetworkIcons from "../social-network/social-network";
@@ -54,14 +57,17 @@ const Header = () => {
 
   useEffect(() => {
     const data: DataFromLocalStorage = getDataFromLocalStorage();
-    dispatch(setDataToCartFromLocalStorage(data));
 
-    if (user) {
-      const paintingsId = data.paintingsFromLocalStorage
-        .map((painting) => painting.id)
-        .join(",");
+    if (data.paintingsFromLocalStorage.length > 0) {
+      dispatch(setDataToCartFromLocalStorage(data));
 
-      saveOrderPaintingsToServer(paintingsId, headers);
+      if (user) {
+        const paintingsId = data.paintingsFromLocalStorage
+          .map((painting) => painting.id)
+          .join(",");
+
+        saveOrderPaintingsToServer(paintingsId, headers);
+      }
     }
 
     const getDataFromCart = async () => {
@@ -85,6 +91,7 @@ const Header = () => {
       });
 
       dispatch(setCartDataFromServer(orderData));
+      setDataToLocalStorage([]);
     };
 
     if (user) {
