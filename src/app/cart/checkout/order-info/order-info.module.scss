@@ -249,6 +249,7 @@
 
 .asidePanel {
   display: none;
+  background-color: $gray-80;
 
   @include laptop {
     @include set-flex(column);
@@ -312,5 +313,28 @@
 
   &__price {
     @include set-flex(row, space-between);
+  }
+}
+
+.saveOrder {
+  &__secure {
+    @include set-flex(row);
+
+    margin-top: 24px;
+    gap: 24px;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    color: $gray-5;
+  }
+
+  &__text {
+    margin-top: 16px;
+    color: $gray-10;
   }
 }

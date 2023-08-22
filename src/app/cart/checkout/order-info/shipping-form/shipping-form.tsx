@@ -177,12 +177,6 @@ const ShippingForm: React.FC<Props> = ({
                 placeholder="Enter your street, apartment, №..."
                 {...register("addressFirstAdditional")}
               />
-              <input
-                type="text"
-                className={style.inputText}
-                placeholder="Enter your street, apartment, №..."
-                {...register("addressSecondAdditional")}
-              />
             </div>
           </label>
           <label className={style.label}>

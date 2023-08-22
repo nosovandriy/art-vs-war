@@ -9,7 +9,6 @@ export const defaultValues = {
   postcode: "",
   addressMain: "",
   addressFirstAdditional: "",
-  addressSecondAdditional: "",
   phoneNumber: "",
 };
 
@@ -41,7 +40,6 @@ export const validation = yup.object({
   postcode: yup.string().required("This field is required!"),
   addressMain: yup.string().required("This field is required!"),
   addressFirstAdditional: yup.string(),
-  addressSecondAdditional: yup.string(),
   phoneNumber: yup
     .string()
     .required("This field is required!")
