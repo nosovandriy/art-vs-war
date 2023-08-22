@@ -15,7 +15,7 @@
   position: relative;
   margin: 0 auto;
   padding: 48px 22px;
-  height: 528px;
+  height: 435px;
   gap: 24px;
   color: $gray-5;
   text-align: center;
@@ -33,13 +33,23 @@
     z-index: 1;
   }
 
+  @include tablet {
+    height: 411px;
+  }
+
   @include laptop {
+    height: 423px;
     padding: 64px 0;
   }
 
   @include desktop {
+    height: 548px;
     padding: 64px 0;
     gap: 48px;
+  }
+
+  @include desktopHD {
+    height: 648px;
   }
 
   .title {

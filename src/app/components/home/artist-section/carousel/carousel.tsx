@@ -1,44 +1,44 @@
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import "./slick.scss";
+import "./slick-theme.scss";
 
-import "swiper/scss";
-import styles from "./carousel.module.scss";
+import React, { Component } from "react";
+import Slider from "react-slick";
+import Image from "next/image";
 
 const images = [
-  "Rectangle 3.png",
-  "Rectangle 4.png",
-  "Rectangle 5.png",
-  "Rectangle 6.png",
-  "Rectangle 7.png",
+  "/assets/images/Rectangle3.png",
+  "/assets/images/Rectangle4.png",
+  "/assets/images/Rectangle5.png",
+  "/assets/images/Rectangle6.png",
+  "/assets/images/Rectangle7.png",
 ];
 
-const Carousel = () => (
-  <Swiper
-    className={styles.swiper}
-    modules={[Autoplay]}
-    slidesPerView="auto"
-    spaceBetween={16}
-    centeredSlides
-    loop
-    speed={4000}
-    loopedSlides={2}
-    autoplay={{
-      delay: 0,
-      waitForTransition: true,
-    }}
-  >
-    {images.map((image) => (
-      <SwiperSlide key={image} className={styles.container}>
-        <Image
-          className={styles.image}
-          src={`/assets/images/${image}`}
-          alt="background"
-          fill
-        />
-      </SwiperSlide>
-    ))}
-  </Swiper>
-);
-
-export default Carousel;
+export default class Carousel extends Component {
+  render() {
+    const settings = {
+      arrows: false,
+      dots: false,
+      slidesToScroll: 1,
+      autoplay: true,
+      speed: 10000,
+      autoplaySpeed: 0,
+      variableWidth: true,
+      cssEase: "linear",
+      infinite: true,
+    };
+    return (
+      <Slider {...settings}>
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            className="image"
+            src={image}
+            alt="art"
+            width={1500}
+            height={650}
+          />
+        ))}
+      </Slider>
+    );
+  }
+}

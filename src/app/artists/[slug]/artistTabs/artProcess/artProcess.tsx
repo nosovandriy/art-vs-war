@@ -8,7 +8,7 @@ const ArtProcess = () => {
       <div className={style.card}>
         <div className={style.image}>
           <Image
-            src={"/assets/images/Rectangle 7.png"}
+            src={"/assets/images/Rectangle7.png"}
             alt="process"
             width={1000}
             height={1000}
@@ -50,7 +50,7 @@ const ArtProcess = () => {
       <div className={style.card}>
         <div className={style.image}>
           <Image
-            src={"/assets/images/Rectangle 7.png"}
+            src={"/assets/images/Rectangle7.png"}
             alt="process"
             width={1000}
             height={1000}
