@@ -23,7 +23,7 @@
 }
 
 .slick-slider {
-    overflow: hidden;
+  overflow: hidden;
   position: relative;
   display: block;
   box-sizing: border-box;
@@ -55,6 +55,8 @@
 }
 .slick-slider .slick-track,
 .slick-slider .slick-list {
+  width: 1600px;
+
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
