@@ -92,6 +92,11 @@ const cartSlice = createSlice({
       state.totalPrice = getTotalPrice(state.paintings);
       setDataToLocalStorage(state.paintings);
     },
+
+    clearOrderFromCart(state) {
+      state.paintings = [];
+      state.totalPrice = 0;
+    },
   },
 });
 
@@ -100,6 +105,7 @@ export const {
   removePaintingFromCart,
   setDataToCartFromLocalStorage,
   setCartDataFromServer,
+  clearOrderFromCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
