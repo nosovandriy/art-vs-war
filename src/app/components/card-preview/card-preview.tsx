@@ -10,6 +10,7 @@ import { Painting } from "@/types/Painting";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { saveOrderPaintingToServer } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
+import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
 
 import "@styles/globals.scss";
 import style from "./card-preview.module.scss";
@@ -22,6 +23,7 @@ type Props = {
 const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
   const dispatch = useAppDispatch();
   const { paintings } = useAppSelector((state) => state.cart);
+  const { paintingsShippingInfo } = useAppSelector((state) => state.shipping);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
 
@@ -62,6 +64,10 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
     if (user) {
       saveOrderPaintingToServer(id, headers);
+    }
+
+    if (paintingsShippingInfo) {
+      dispatch(clearShippingInfo());
     }
   };
 

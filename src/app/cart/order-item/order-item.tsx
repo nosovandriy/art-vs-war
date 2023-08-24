@@ -1,19 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+import { useDispatch } from "react-redux";
 
 import { CloseIcon } from "@/app/icons/icon-close";
 import { MapPoint } from "@/app/icons/icon-map-point";
+import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
 import { CartItem } from "@/types/CartItem";
 
 import style from "./order-item.module.scss";
-
 type Props = {
   paintings: CartItem[];
   handleRemovePainting: (id: number) => void;
 };
 
 const OrderItem: React.FC<Props> = ({ paintings, handleRemovePainting }) => {
+  const dispatch = useDispatch();
+
+  const handleRemoveArts = (id: number) => {
+    handleRemovePainting(id);
+    dispatch(clearShippingInfo());
+  };
+
   return (
     <>
       {paintings.map((painting: CartItem) => (
@@ -32,7 +40,7 @@ const OrderItem: React.FC<Props> = ({ paintings, handleRemovePainting }) => {
               </Link>
               <div
                 className={style.closeIcon}
-                onClick={() => handleRemovePainting(painting.id)}
+                onClick={() => handleRemoveArts(painting.id)}
               >
                 <CloseIcon />
               </div>

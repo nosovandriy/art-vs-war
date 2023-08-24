@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { PaintingData } from "@/types/Painting";
 import { RequestParams, UserData, UserDataToSave } from "@/types/Profile";
+import { ShippingFormTypes, ShippingInfo } from "@/types/ShippingForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -258,13 +259,47 @@ export async function getOrderDataFromServer(headers: object) {
   return data;
 }
 
-export async function getOrder(headers: object, id: string) {
-  const { data } = await axios.get(
-    `${BASE_URL}stripe/checkout?paintingIds=${id}`,
+export async function getShippingInfo(
+  ids: string,
+  shippingFormData: ShippingFormTypes,
+  headers: object
+) {
+  const response = await fetch(
+    `${BASE_URL}shipping/getRates?paintingIds=${ids}`,
     {
-      headers,
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(shippingFormData),
     }
   );
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const data = await response.json();
+
   return data;
+}
+
+export async function getStripeLink(
+  ids: string,
+  shippingFormData: ShippingInfo,
+  headers: object
+) {
+  const response = await axios.post(
+    `${BASE_URL}stripe/checkout?paintingIds=${ids}`,
+    shippingFormData,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return response.data;
 }

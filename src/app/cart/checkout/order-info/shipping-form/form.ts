@@ -5,11 +5,11 @@ export const defaultValues = {
   lastName: "",
   country: "",
   city: "",
-  state_region: "",
-  postcode: "",
-  addressMain: "",
-  addressFirstAdditional: "",
-  phoneNumber: "",
+  state: "",
+  postalCode: "",
+  addressLine1: "",
+  addressLine2: "",
+  phone: "",
 };
 
 const phoneRegExp =
@@ -19,7 +19,10 @@ export const validation = yup.object({
   firstName: yup
     .string()
     .required("This field is required!")
-    .matches(/^[A-Za-z-]+$/i, "The first name should contain only Latin letters")
+    .matches(
+      /^[A-Za-z-]+$/i,
+      "The first name should contain only Latin letters"
+    )
     .max(30, "Max 30 characters")
     .min(2, "Min 2 characters"),
   lastName: yup
@@ -31,16 +34,16 @@ export const validation = yup.object({
   country: yup
     .string()
     .required("This field is required!")
-    .matches(/^[A-Za-z]+$/i, "The country should contain only Latin letters"),
+    .matches(/^[A-Za-z ]+$/i, "The country should contain only Latin letters"),
   city: yup
     .string()
     .required("This field is required!")
     .matches(/^[A-Za-z]+$/i, "The city should contain only Latin letters"),
-  state_region: yup.string(),
-  postcode: yup.string().required("This field is required!"),
-  addressMain: yup.string().required("This field is required!"),
-  addressFirstAdditional: yup.string(),
-  phoneNumber: yup
+    state: yup.string(),
+  postalCode: yup.string().required("This field is required!"),
+  addressLine1: yup.string().required("This field is required!"),
+  addressLine2: yup.string(),
+  phone: yup
     .string()
     .required("This field is required!")
     .matches(phoneRegExp, "Phone number is not valid"),
