@@ -5,6 +5,7 @@ import artists from "./slices/searchArtistsSlice";
 import artistPaintings from "./slices/artistPaintingsSlice";
 import paintings from "./slices/paintingsSlice";
 import cart from "./slices/cartSlice";
+import shipping from "./slices/shippingSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     artistPaintings,
     paintings,
     cart,
+    shipping,
   },
   devTools: false,
 });

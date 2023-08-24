@@ -1,21 +1,25 @@
 "use client";
 
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
+import {
+  setPaintingsShippingInfo,
+  setShippingAddress,
+} from "@/app/redux/slices/shippingSlice";
+import { useAppSelector } from "@/types/ReduxHooks";
+import { ShippingFormTypes } from "@/types/ShippingForm";
+import { CartSteps } from "@/types/cartSteps";
+import { getShippingInfo } from "@/utils/api";
 import { defaultValues, validation } from "./form";
 
 import style from "./shipping-form.module.scss";
-import { getOrder } from "@/utils/api";
-import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/types/ReduxHooks";
-import { CartSteps } from "@/types/cartSteps";
-import { ShippingFormTypes } from "@/types/ShippingForm";
 
 type Props = {
   headers: object;
   isVisible: boolean;
-  handleSectionClick: (string: CartSteps) => void;
+  handleSectionClick: (string: CartSteps | null) => void;
 };
 
 const ShippingForm: React.FC<Props> = ({
@@ -23,8 +27,8 @@ const ShippingForm: React.FC<Props> = ({
   isVisible,
   handleSectionClick,
 }) => {
-  const router = useRouter();
   const { paintings } = useAppSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -37,10 +41,16 @@ const ShippingForm: React.FC<Props> = ({
   });
 
   const submit: SubmitHandler<ShippingFormTypes> = async (data) => {
+    if (data && isVisible) {
+      handleSectionClick(null);
+    }
+
     const orderIds = paintings.map((painting) => painting.id).join(",");
 
-    const stripePage = await getOrder(headers, orderIds);
-    router.push(stripePage);
+    const shippingInfo = await getShippingInfo(orderIds, data, headers);
+
+    dispatch(setPaintingsShippingInfo(shippingInfo));
+    dispatch(setShippingAddress(data));
   };
 
   const error: SubmitErrorHandler<ShippingFormTypes> = async (data) => {
@@ -110,14 +120,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.state_region?.message && style.inputText__error
+                    errors?.state?.message && style.inputText__error
                   }`}
                   placeholder="Enter state/region name"
-                  {...register("state_region")}
+                  {...register("state")}
                 />
-                <div className={style.error}>
-                  {errors.state_region?.message}
-                </div>
+                <div className={style.error}>{errors.state?.message}</div>
               </div>
             </label>
           </div>
@@ -146,12 +154,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.postcode?.message && style.inputText__error
+                    errors?.postalCode?.message && style.inputText__error
                   }`}
                   placeholder="Enter your postcode"
-                  {...register("postcode")}
+                  {...register("postalCode")}
                 />
-                <div className={style.error}>{errors.postcode?.message}</div>
+                <div className={style.error}>{errors.postalCode?.message}</div>
               </div>
             </label>
           </div>
@@ -163,19 +171,21 @@ const ShippingForm: React.FC<Props> = ({
               <input
                 type="text"
                 className={`${style.inputText} ${
-                  errors?.addressMain?.message && style.inputText__error
+                  errors?.addressLine1?.message && style.inputText__error
                 }`}
                 placeholder="Enter your street, apartment, №..."
-                {...register("addressMain")}
+                {...register("addressLine1")}
               />
-              {errors?.addressMain?.message && (
-                <div className={style.error}>{errors.addressMain?.message}</div>
+              {errors?.addressLine1?.message && (
+                <div className={style.error}>
+                  {errors.addressLine1?.message}
+                </div>
               )}
               <input
                 type="text"
                 className={style.inputText}
                 placeholder="Enter your street, apartment, №..."
-                {...register("addressFirstAdditional")}
+                {...register("addressLine2")}
               />
             </div>
           </label>
@@ -187,19 +197,19 @@ const ShippingForm: React.FC<Props> = ({
               <input
                 type="phone"
                 className={`${style.inputText} ${
-                  errors?.phoneNumber?.message && style.inputText__error
+                  errors?.phone?.message && style.inputText__error
                 }`}
                 placeholder="Enter your phone number"
-                {...register("phoneNumber")}
+                {...register("phone")}
               />
-              <div className={style.error}>{errors.phoneNumber?.message}</div>
+              <div className={style.error}>{errors.phone?.message}</div>
             </div>
           </label>
         </>
       )}
 
       <button type="submit" className={style.button}>
-        Place order
+        Calculate shipping cost
       </button>
     </form>
   );

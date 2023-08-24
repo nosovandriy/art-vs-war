@@ -10,22 +10,28 @@ import { removePaintingFromCart } from "@/app/redux/slices/cartSlice";
 import { CartItem } from "@/types/CartItem";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { CartSteps } from "@/types/cartSteps";
-import { removeOrderPaintingFromServer } from "@/utils/api";
+import { getStripeLink, removeOrderPaintingFromServer } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import OrderItem from "../../order-item/order-item";
 import EmptyCartPage from "../../order-list/empty-cart/empty-cart";
 import ShippingForm from "./shipping-form/shipping-form";
-
-import style from "./order-info.module.scss";
 import { LockIcon } from "@/app/icons/icon-lock";
 import { SupportIcon } from "@/app/icons/icon-support";
+
+import style from "./order-info.module.scss";
+import { ShippingInfo } from "@/types/ShippingForm";
 
 const OrderInfo = () => {
   const [activeSection, setActiveSection] = useState<CartSteps | null>(
     CartSteps.secondStep
   );
+  const [orderError, setOrderError] = useState("");
+
   const dispatch = useAppDispatch();
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
+  const { totalShippingInfo, shippingAddress } = useAppSelector(
+    (state) => state.shipping
+  );
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
   const router = useRouter();
@@ -44,11 +50,29 @@ const OrderInfo = () => {
     }
   }, [paintings, router]);
 
-  const handleSectionClick = (step: CartSteps) => {
+  const handleSectionClick = (step: CartSteps | null) => {
     setActiveSection(activeSection === step ? null : step);
   };
 
   const isVisibleShippingForm = activeSection === CartSteps.secondStep;
+
+  const handleGetStripeUrl = async () => {
+    const orderIds = paintings.map((painting) => painting.id).join(",");
+
+    const body: ShippingInfo = {
+      shippingRates: totalShippingInfo,
+      shippingAddress: shippingAddress,
+    };
+
+    try {
+      const stripePage = await getStripeLink(orderIds, body, headers);
+      router.push(stripePage);
+    } catch (error: any) {
+      if (error?.response?.status === 422) {
+        setOrderError(error?.response?.data.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -136,35 +160,55 @@ const OrderInfo = () => {
                 </Fragment>
               ))}
             </div>
-            <p
-              className={style.asidePanel__totalPrice}
-            >{`Total: ${totalPrice} €`}</p>
-            <hr className={style.line} />
-            <div className={style.saveOrder}>
-              <div className={style.saveOrder__secure}>
-                <LockIcon />
-                <div className={style.saveOrder__info}>
-                  <p className={style.saveOrder__title}>
-                    Safe & Secure Payments
-                  </p>
-                  <p className={style.saveOrder__text}>
-                    All payments and transactions are secure
-                  </p>
+            {totalShippingInfo.length === 0 && (
+              <p
+                className={style.asidePanel__totalPrice}
+              >{`Total: ${totalPrice} €`}</p>
+            )}
+
+            {totalShippingInfo.length > 0 && (
+              <>
+                <p
+                  className={style.asidePanel__shippingCost}
+                >{`Shipping: ${totalShippingInfo[0].totalShippingPrice} €`}</p>
+
+                <p className={style.asidePanel__totalPrice}>{`Total: ${
+                  totalPrice + totalShippingInfo[0].totalShippingPrice
+                } €`}</p>
+                <hr className={style.line} />
+                <div className={style.saveOrder}>
+                  <div className={style.saveOrder__secure}>
+                    <LockIcon />
+                    <div className={style.saveOrder__info}>
+                      <p className={style.saveOrder__title}>
+                        Safe & Secure Payments
+                      </p>
+                      <p className={style.saveOrder__text}>
+                        All payments and transactions are secure
+                      </p>
+                    </div>
+                  </div>
+                  <div className={style.saveOrder__secure}>
+                    <SupportIcon />
+                    <div className={style.saveOrder__info}>
+                      <p className={style.saveOrder__title}>
+                        Support Those Who Most Needed
+                      </p>
+                      <p className={style.saveOrder__text}>
+                        Almost half price on every sale goes on charity to
+                        support people in Ukraine
+                      </p>
+                    </div>
+                  </div>
+                  <button onClick={handleGetStripeUrl} className={style.button}>
+                    Place order
+                  </button>
+                  {orderError && (
+                    <p className={style.errorInfo}>{orderError}</p>
+                  )}
                 </div>
-              </div>
-              <div className={style.saveOrder__secure}>
-                <SupportIcon />
-                <div className={style.saveOrder__info}>
-                  <p className={style.saveOrder__title}>
-                    Support Those Who Most Needed
-                  </p>
-                  <p className={style.saveOrder__text}>
-                    Almost half price on every sale goes on charity to support
-                    people in Ukraine
-                  </p>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       ) : (

@@ -6,6 +6,7 @@ import { FaGift, FaShoppingCart } from "react-icons/fa";
 
 import { CheckIcon } from "@/app/icons/icon-check";
 import { addPaintingToCart } from "@/app/redux/slices/cartSlice";
+import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
 import { CartItem } from "@/types/CartItem";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { saveOrderPaintingToServer } from "@/utils/api";
@@ -21,6 +22,7 @@ const AddToCartButton: React.FC<Props> = ({ orderData }) => {
   const dispatch = useAppDispatch();
   const [animation, setAnimation] = useState(false);
   const { paintings } = useAppSelector((state) => state.cart);
+  const { paintingsShippingInfo } = useAppSelector((state) => state.shipping);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
 
@@ -38,6 +40,10 @@ const AddToCartButton: React.FC<Props> = ({ orderData }) => {
         saveOrderPaintingToServer(orderData.id, headers);
       }
     }, 1500);
+
+    if (paintingsShippingInfo) {
+      dispatch(clearShippingInfo());
+    }
   };
 
   return (

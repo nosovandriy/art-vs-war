@@ -3,10 +3,27 @@ export interface ShippingFormTypes {
   lastName: string;
   country: string;
   city: string;
-  state_region?: string;
-  postcode: string;
-  addressMain: string;
-  addressFirstAdditional?: string;
-  addressSecondAdditional?: string;
-  phoneNumber: string;
+  state?: string;
+  postalCode: string;
+  addressLine1: string;
+  addressLine2?: string;
+  phone: string;
+}
+
+export interface PaintingsShippingInfo {
+  paintingId: number;
+  shippingPrice: number;
+  deliveryMinDays: number;
+  deliveryMaxDays: number;
+}
+
+export interface TotalShippingInfo {
+  totalShippingPrice: number;
+  totalDeliveryMinDays: number;
+  totalDeliveryMaxDays: number;
+}
+
+export interface ShippingInfo {
+  shippingRates: TotalShippingInfo[] | [];
+  shippingAddress: ShippingFormTypes | {};
 }
