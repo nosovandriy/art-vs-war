@@ -88,13 +88,13 @@
 
   &__image {
     position: absolute;
-    right: -25%;
-    top: -18%;
+    right: -28%;
+    top: -26%;
 
-    rotate: -37deg;
+    rotate: -45deg;
 
     @media screen and (min-width: 480px) {
-      right: -18%;
+      right: -19%;
     }
   }
 }
@@ -132,12 +132,12 @@
 
 .imageAccountSecondary {
   position: absolute;
-  top: -40%;
-  right: -44%;
-  rotate: -37deg;
+  top: -52%;
+  right: -48%;
+  rotate: -45deg;
 
   @media screen and (min-width: 480px) {
-    right: -28%;
+    right: -30%;
   }
 }
 
