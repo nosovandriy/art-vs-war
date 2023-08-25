@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  Authenticator,
-  Button,
-  Heading,
-  Text,
-  View,
-  useAuthenticator,
-  useTheme,
-} from "@aws-amplify/ui-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { Artist } from "@/types/Artist";
@@ -17,6 +7,10 @@ import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 import { Painting } from "@/types/Painting";
 import { useAppDispatch } from "@/types/ReduxHooks";
 import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
+import {
+  Authenticator,
+  useAuthenticator,
+} from "@aws-amplify/ui-react";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
 import CreatePainting from "../components/createPainting/createPainting";
@@ -28,6 +22,7 @@ import {
   setArtistPaintings,
 } from "../redux/slices/artistPaintingsSlice";
 
+import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 import style from "./page.module.scss";
 
 const Profile = () => {
@@ -80,7 +75,7 @@ const Profile = () => {
       ) : (
         <Authenticator
           className={style.auth}
-          // components={authenticatorStylesComponents}
+          components={authenticatorStylesComponents}
         >
           {!openForm && author && (
             <>
