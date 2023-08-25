@@ -72,26 +72,29 @@ const Header = () => {
 
     const getDataFromCart = async () => {
       const dataFromServer = await getOrderDataFromServer(headers);
-      const orderData = dataFromServer.paintings.map((item: Painting) => {
-        const orderData: CartItem = {
-          id: item.id,
-          prettyId: item.prettyId,
-          title: item.title,
-          price: item.price,
-          author: item.authorFullName,
-          authorId: item.authorPrettyId,
-          country: item.authorCountry,
-          image: item.imageUrl,
-          width: item.width,
-          height: item.height,
-          depth: item.depth,
-        };
 
-        return orderData;
-      });
+      if (dataFromServer.paintings.length > 0) {
+        const orderData = dataFromServer.paintings.map((item: Painting) => {
+          const orderData: CartItem = {
+            id: item.id,
+            prettyId: item.prettyId,
+            title: item.title,
+            price: item.price,
+            author: item.authorFullName,
+            authorId: item.authorPrettyId,
+            country: item.authorCountry,
+            image: item.imageUrl,
+            width: item.width,
+            height: item.height,
+            depth: item.depth,
+          };
 
-      dispatch(setCartDataFromServer(orderData));
-      setDataToLocalStorage([]);
+          return orderData;
+        });
+
+        dispatch(setCartDataFromServer(orderData));
+        setDataToLocalStorage([]);
+      }
     };
 
     if (user) {
