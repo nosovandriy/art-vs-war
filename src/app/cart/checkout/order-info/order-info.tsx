@@ -20,6 +20,7 @@ import { SupportIcon } from "@/app/icons/icon-support";
 
 import style from "./order-info.module.scss";
 import { ShippingInfo } from "@/types/ShippingForm";
+import { setDataToLocalStorage } from "@/utils/localStorageData";
 
 const OrderInfo = () => {
   const [activeSection, setActiveSection] = useState<CartSteps | null>(
@@ -67,6 +68,7 @@ const OrderInfo = () => {
     try {
       const stripePage = await getStripeLink(orderIds, body, headers);
       router.push(stripePage);
+      setDataToLocalStorage([]);
     } catch (error: any) {
       if (error?.response?.status === 422) {
         setOrderError(error?.response?.data.message);
