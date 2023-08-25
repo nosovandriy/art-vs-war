@@ -1,5 +1,9 @@
 @import "@styles/vars.scss";
 
+.accountWrapper {
+  padding: 0 !important;
+}
+
 [data-amplify-authenticator] [data-amplify-router] {
   overflow: hidden;
 }
