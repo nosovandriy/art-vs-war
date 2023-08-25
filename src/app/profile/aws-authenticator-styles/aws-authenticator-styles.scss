@@ -140,3 +140,16 @@
     right: -28%;
   }
 }
+
+.amplify-alert--error {
+  background-color: transparent;
+  color: $system-error;
+}
+
+.amplify-alert__dismiss {
+  background-color: transparent;
+}
+
+.amplify-text--error {
+  color: $system-error;
+}
