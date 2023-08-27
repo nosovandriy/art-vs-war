@@ -34,27 +34,6 @@
     min-width: 220px;
     max-width: 360px;
   }
-
-  &:hover {
-    transform: scale(1.01);
-    opacity: 80%;
-    transition: transform 0.3s ease;
-
-    .buy__icon {
-      background-color: $gray-0;
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
-      @keyframes pulse {
-        50% {
-          opacity: 0.5;
-        }
-      }
-
-      path {
-        fill: $gray-100;
-      }
-    }
-  }
 }
 
 .image {
@@ -101,11 +80,42 @@
     border-color: $gray-0;
     border-width: 1px;
     border-style: solid;
-    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.01);
+      opacity: 80%;
+      transition: transform 0.3s ease;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      background-color: $gray-0;
+      cursor: pointer;
+
+      @keyframes pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      path {
+        fill: $gray-100;
+      }
+    }
 
     &:active {
       transform: scale(0.9);
       transition-duration: 0.3s;
     }
+  }
+
+  &__iconSold {
+    @include set-flex(row, center, center);
+    @include set-square(40px);
+
+    border-radius: 50%;
+    border-color: $system-error;
+    border-width: 1px;
+    border-style: solid;
+    color: $system-error;
+    font-size: 13px;
+    font-weight: $font-weight-bold;
   }
 }

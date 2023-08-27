@@ -9,6 +9,7 @@ export interface Painting {
   authorFullName: string;
   authorPrettyId: string;
   authorCountry?: string;
+  paymentStatus?: string;
   width: number;
   height: number;
   depth: number;
