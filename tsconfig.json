@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,31 +19,14 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@redux*": [
-        "./src/app/redux/*"
-      ],
-      "@styles*": [
-        "./src/styles/*"
-      ],
-      "@home*": [
-        "./src/app/components/home*"
-      ],
-      "@components*": [
-        "./src/app/components/*"
-      ]
+      "@/*": ["./src/*"],
+      "@redux*": ["./src/app/redux/*"],
+      "@styles*": ["./src/styles/*"],
+      "@home*": ["./src/app/components/home*"],
+      "@components*": ["./src/app/components/*"]
     },
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

@@ -3,6 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 import {
   setPaintingsShippingInfo,
@@ -15,6 +16,7 @@ import { getShippingInfo } from "@/utils/api";
 import { defaultValues, validation } from "./form";
 
 import style from "./shipping-form.module.scss";
+import ButtonLoader from "@/app/components/button-loader/button-loader";
 
 type Props = {
   headers: object;
@@ -27,6 +29,7 @@ const ShippingForm: React.FC<Props> = ({
   isVisible,
   handleSectionClick,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { paintings } = useAppSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -47,10 +50,16 @@ const ShippingForm: React.FC<Props> = ({
 
     const orderIds = paintings.map((painting) => painting.id).join(",");
 
-    const shippingInfo = await getShippingInfo(orderIds, data, headers);
-
-    dispatch(setPaintingsShippingInfo(shippingInfo));
-    dispatch(setShippingAddress(data));
+    try {
+      setIsLoading(true);
+      const shippingInfo = await getShippingInfo(orderIds, data, headers);
+      dispatch(setPaintingsShippingInfo(shippingInfo));
+      dispatch(setShippingAddress(data));
+    } catch (error: any) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const error: SubmitErrorHandler<ShippingFormTypes> = async (data) => {
@@ -209,7 +218,14 @@ const ShippingForm: React.FC<Props> = ({
       )}
 
       <button type="submit" className={style.button}>
-        Calculate shipping cost
+        {isLoading ? (
+          <div className={style.buttonLoader}>
+            <span>Calculating...</span>
+            <ButtonLoader />
+          </div>
+        ) : (
+          <span>Calculate shipping cost</span>
+        )}
       </button>
     </form>
   );

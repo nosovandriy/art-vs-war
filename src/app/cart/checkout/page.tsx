@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { ArrowBackIcon } from "@/app/icons/icon-arrow-back";
+import OrderInfo from "./order-info/order-info";
 
 import style from "./page.module.scss";
-import OrderInfo from "./order-info/order-info";
-import { useEffect } from "react";
 
 const Checkout = () => {
   const { user } = useAuthenticator((context) => [context.route]);

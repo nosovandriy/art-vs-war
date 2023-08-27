@@ -77,14 +77,21 @@
   border: 1px solid $gray-5;
   color: $gray-0;
   cursor: pointer;
+  transition-duration: 0.3s;
 
   &:hover {
-    background-color: $gray-0;
-    color: $gray-100;
+    background-color: $gray-80;
+    transition-duration: 0.3s;
   }
 
   &:active {
     transform: scale(0.9);
     transition-duration: 0.3s;
   }
+}
+
+.buttonLoader {
+  @include set-flex(row, center, center);
+
+  gap: 20px;
 }
