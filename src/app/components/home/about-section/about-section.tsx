@@ -48,6 +48,7 @@ const About = () => (
           src="/assets/images/button&ornament.png"
           alt="ornament"
           fill
+          sizes="(max-width: 1600px) 50vw"
         />
       </div>
     </div>
@@ -92,6 +93,7 @@ const About = () => (
             className={styles.image}
             src="/assets/images/button&ornament.png"
             alt="ornament"
+            sizes="(max-width: 1600px) 50vw"
             fill
           />
         </div>

@@ -32,10 +32,9 @@ const OrderItem: React.FC<Props> = ({ paintings, handleRemovePainting }) => {
                 <Image
                   className={style.image}
                   src={painting.image}
-                  alt="author"
+                  alt={`Painting ${painting.prettyId} by artist ${painting.author}`}
                   width={600}
                   height={600}
-                  objectFit="cover"
                 />
               </Link>
               <div

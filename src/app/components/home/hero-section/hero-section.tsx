@@ -87,150 +87,174 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
           />
         </div>
 
-        <div className={`${style.first__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage2_0.prettyId}`}>
-            <Image
-              src={firstImage2_0.url}
-              alt={`Painting ${firstImage2_0.prettyId} by artist ${firstImage2_0.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.second__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage0_75.prettyId}`}>
-            <Image
-              src={firstImage0_75.url}
-              alt={`Painting ${firstImage0_75.prettyId} by artist ${firstImage0_75.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.third__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage1_25.prettyId}`}>
-            <Image
-              src={firstImage1_25.url}
-              alt={`Painting ${firstImage1_25.prettyId} by artist ${firstImage1_25.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.fourth__image} ${style.images}`}>
-          <Link href={`/gallery/${secondImage2_0.prettyId}`}>
-            <Image
-              src={secondImage2_0.url}
-              alt={`Painting ${secondImage2_0.prettyId} by artist ${secondImage2_0.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.fifth__image} ${style.images}`}>
-          <Link href={`/gallery/${secondImage0_75.prettyId}`}>
-            <Image
-              src={secondImage0_75.url}
-              alt={`Painting ${secondImage0_75.prettyId} by artist ${secondImage0_75.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.sixth__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage1_0.prettyId}`}>
-            <Image
-              src={firstImage1_0.url}
-              alt={`Painting ${firstImage1_0.prettyId} by artist ${firstImage1_0.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.seventh__image} ${style.images}`}>
-          <Link href={`/gallery/${secondImage1_0.prettyId}`}>
-            <Image
-              src={secondImage1_0.url}
-              alt={`Painting ${secondImage1_0.prettyId} by artist ${secondImage1_0.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.eighth__image} ${style.images}`}>
-          <Link href={`/gallery/${secondImage1_25.prettyId}`}>
-            <Image
-              src={secondImage1_25.url}
-              alt={`Painting ${secondImage1_25.prettyId} by artist ${secondImage1_25.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.ninth__image} ${style.images}`}>
-          <Link href={`/gallery/${thirdImage1_25.prettyId}`}>
-            <Image
-              src={thirdImage1_25.url}
-              alt={`Painting ${thirdImage1_25.prettyId} by artist ${thirdImage1_25.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.tenth__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage1_5.prettyId}`}>
-            <Image
-              src={firstImage1_5.url}
-              alt={`Painting ${firstImage1_5.prettyId} by artist ${firstImage1_5.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.eleventh__image} ${style.images}`}>
-          <Link href={`/gallery/${secondImage1_5.prettyId}`}>
-            <Image
-              src={secondImage1_5.url}
-              alt={`Painting ${secondImage1_5.prettyId} by artist ${secondImage1_5.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
-        <div className={`${style.twelfth__image} ${style.images}`}>
-          <Link href={`/gallery/${firstImage1_75.prettyId}`}>
-            <Image
-              src={firstImage1_75.url}
-              alt={`Painting ${firstImage1_75.prettyId} by artist ${firstImage1_75.authorPrettyId}`}
-              fill
-              style={{ objectFit: "cover" }}
-              className={`${style.image} imageOpacityEffect`}
-              onLoadingComplete={(img) => (img.style.opacity = "1")}
-            />
-          </Link>
-        </div>
+        <Link
+          href={`/gallery/${firstImage2_0.prettyId}`}
+          className={`${style.first__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage2_0.url}
+            alt={`Painting ${firstImage2_0.prettyId} by artist ${firstImage2_0.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${firstImage0_75.prettyId}`}
+          className={`${style.second__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage0_75.url}
+            alt={`Painting ${firstImage0_75.prettyId} by artist ${firstImage0_75.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${firstImage1_25.prettyId}`}
+          className={`${style.third__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage1_25.url}
+            alt={`Painting ${firstImage1_25.prettyId} by artist ${firstImage1_25.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${secondImage2_0.prettyId}`}
+          className={`${style.fourth__image} ${style.images}`}
+        >
+          <Image
+            src={secondImage2_0.url}
+            alt={`Painting ${secondImage2_0.prettyId} by artist ${secondImage2_0.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${secondImage0_75.prettyId}`}
+          className={`${style.fifth__image} ${style.images}`}
+        >
+          <Image
+            src={secondImage0_75.url}
+            alt={`Painting ${secondImage0_75.prettyId} by artist ${secondImage0_75.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${firstImage1_0.prettyId}`}
+          className={`${style.sixth__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage1_0.url}
+            alt={`Painting ${firstImage1_0.prettyId} by artist ${firstImage1_0.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${secondImage1_0.prettyId}`}
+          className={`${style.seventh__image} ${style.images}`}
+        >
+          <Image
+            src={secondImage1_0.url}
+            alt={`Painting ${secondImage1_0.prettyId} by artist ${secondImage1_0.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${secondImage1_25.prettyId}`}
+          className={`${style.eighth__image} ${style.images}`}
+        >
+          <Image
+            src={secondImage1_25.url}
+            alt={`Painting ${secondImage1_25.prettyId} by artist ${secondImage1_25.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${thirdImage1_25.prettyId}`}
+          className={`${style.ninth__image} ${style.images}`}
+        >
+          <Image
+            src={thirdImage1_25.url}
+            alt={`Painting ${thirdImage1_25.prettyId} by artist ${thirdImage1_25.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${firstImage1_5.prettyId}`}
+          className={`${style.tenth__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage1_5.url}
+            alt={`Painting ${firstImage1_5.prettyId} by artist ${firstImage1_5.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${secondImage1_5.prettyId}`}
+          className={`${style.eleventh__image} ${style.images}`}
+        >
+          <Image
+            src={secondImage1_5.url}
+            alt={`Painting ${secondImage1_5.prettyId} by artist ${secondImage1_5.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
+        <Link
+          href={`/gallery/${firstImage1_75.prettyId}`}
+          className={`${style.twelfth__image} ${style.images}`}
+        >
+          <Image
+            src={firstImage1_75.url}
+            alt={`Painting ${firstImage1_75.prettyId} by artist ${firstImage1_75.authorPrettyId}`}
+            fill
+            priority
+            sizes="(max-width: 1600px) 33vw"
+            className={`${style.image} imageOpacityEffect`}
+            onLoadingComplete={(img) => (img.style.opacity = "1")}
+          />
+        </Link>
         <Link href={"/gallery"} className={style.additionalButton}>
           More artworks
         </Link>

@@ -17,6 +17,7 @@ const NotFound = () => {
           <Image
             src="/assets/ornament-404.webp"
             alt="Ukrainian gallery ornament"
+            priority
             width={1000}
             height={1000}
             className={style.imageMobile}
