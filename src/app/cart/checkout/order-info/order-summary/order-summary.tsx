@@ -67,7 +67,6 @@ const OrderSummary = () => {
                   src={painting.image}
                   alt={`art ${painting.title}`}
                   fill
-                  objectFit="cover"
                 />
               </div>
               <div className={style.orderItem__paintingInfo}>

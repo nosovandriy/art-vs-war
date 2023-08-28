@@ -244,7 +244,7 @@ export async function saveOrderPaintingsToServer(ids: string, headers: object) {
 }
 
 export async function removeOrderPaintingFromServer(id: number, headers: object) {
-  const { data } = await axios.get(`${BASE_URL}cart/remove/${id}`, {
+  const { data } = await axios.delete(`${BASE_URL}cart/remove/${id}`, {
     headers,
   });
 

@@ -204,13 +204,16 @@
 
 .images {
   position: relative;
-  object-fit: cover;
 
   &:hover {
     opacity: 0.8;
     transition: 0.3s;
     scale: (1.01);
   }
+}
+
+.image {
+  object-fit: cover;
 }
 
 .first__image {

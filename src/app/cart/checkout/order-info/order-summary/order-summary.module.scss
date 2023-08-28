@@ -57,6 +57,10 @@
     }
   }
 
+  &__image {
+    object-fit: cover;
+  }
+
   &__paintingInfo {
     @include set-flex(column, space-between);
 
@@ -127,7 +131,6 @@
 
   gap: 20px;
 }
-
 
 .errorInfo {
   margin-top: 16px;
