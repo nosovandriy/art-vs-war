@@ -144,8 +144,45 @@
   }
 }
 
+.titleContainer {
+  padding: 15px 22px;
+  width: 100%;
+
+    @include tabletXL {
+      padding: 15px 36px;
+    }
+
+  .title {
+    color: $gray-5;
+    font-family: $font-title;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-xxl;
+    line-height: $line-height-xxl;
+
+    @include tabletXL {
+      font-size: 48px;
+      line-height: 56px;
+    }
+
+    @include desktop {
+      font-size: $font-size-huge;
+      line-height: $line-height-huge;
+    }
+  }
+}
+
+.button__container {
+  @include set-flex(column, center, center);
+  margin-top: 24px;
+  gap: 16px;
+
+  @include laptop {
+    @include set-flex(row, center, center);
+    gap: 20px;
+  }
+}
+
 .button__add {
-  margin-top: 16px;
   width: 100%;
   border-radius: 24px;
   border: 1px solid $gray-5;
@@ -172,7 +209,6 @@
 }
 
 .button__edit {
-  margin-top: 24px;
   width: 100%;
   border-radius: 24px;
   border: 1px solid $gray-5;
@@ -183,6 +219,42 @@
   background-color: transparent;
   color: $gray-5;
   font-size: $font-size-base;
+
+  @include tabletXL {
+    max-width: 640px;
+  }
+
+  @include laptop {
+    max-width: 100%;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.signout {
+  @include set-flex(row, center, center);
+  height: 48px;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: 1px solid $gray-5;
+  background-color: transparent;
+  color: $system-error;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: center;
+
+  @include tabletXL {
+    max-width: 640px;
+  }
+
+  @include laptop {
+    max-width: 100%;
+  }
 
   &:hover {
     cursor: pointer;

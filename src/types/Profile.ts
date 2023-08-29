@@ -41,3 +41,10 @@ export interface RequestParams {
   upload_preset: string;
   folder: string;
 }
+
+export interface AuthorData {
+  country: string,
+  fullName: string,
+  id: string,
+  prettyId: string,
+}

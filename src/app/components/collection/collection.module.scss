@@ -1,0 +1,29 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.titleContainer {
+    padding: 22px;
+    width: 100%;
+
+    @include tabletXL {
+        padding: 36px;
+    }
+
+    .title {
+        color: $gray-5;
+        font-family: $font-title;
+        font-weight: $font-weight-regular;
+        font-size: $font-size-xxl;
+        line-height: $line-height-xxl;
+
+        @include tabletXL {
+            font-size: 48px;
+            line-height: 56px;
+        }
+
+        @include desktop {
+            font-size: $font-size-huge;
+            line-height: $line-height-huge;
+        }
+    }
+}

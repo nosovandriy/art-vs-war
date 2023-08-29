@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import Select from "react-select";
@@ -12,24 +13,22 @@ import { Add } from "@/app/icons/icon-add";
 import { CountryType, countries } from "./countries";
 import { ArrowLeft } from "@/app/icons/icon-arrow-left";
 import { Artist } from "@/types/Artist";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from "@/types/Profile";
 import { uploadImageToServer, validateDataOnServer } from "@/utils/profile";
 import { createProfile, updateProfile } from "@/utils/api";
 import { styles } from "./stylesSelect";
+import createHeaders from "@/utils/getAccessToken";
 
 const URL = 'authors/checkInputAndGet';
 
 type Props = {
   author: Artist | null;
-  setOpenForm: Dispatch<SetStateAction<ArtistTabOptions | null>>;
   setAuthor: Dispatch<SetStateAction<Artist | null>>;
 };
 
 const EditProfile: FC<Props> = ({
   author,
   setAuthor,
-  setOpenForm,
 }) => {
   const {
     handleSubmit,
@@ -50,16 +49,14 @@ const EditProfile: FC<Props> = ({
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { user, route, signOut } = useAuthenticator((context) => [context.route]);
-  const accessToken = user.getSignInUserSession()?.getAccessToken().getJwtToken();
+  const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
   const decoded = idToken ? (jwt_decode(idToken) as CustomJwtPayload) : '';
   const userEmail = decoded && decoded.email;
   const isAuthenticated = route === 'authenticated';
-  const headers = {
-    'Authorization': `Bearer ${accessToken}`,
-  };
+  const headers = createHeaders(user);
+  const router = useRouter();
 
   const getValue = (value: string) => (
     value ? countries.find(county => county.value === value) : ''
@@ -193,7 +190,7 @@ const EditProfile: FC<Props> = ({
           <button
             type="button"
             className={style.arrow}
-            onClick={() => setOpenForm(null)}
+            onClick={() => router.back()}
           >
             <ArrowLeft />
           </button>
@@ -241,10 +238,20 @@ const EditProfile: FC<Props> = ({
                     {errors.image.message}
                   </div>
                 ) : (
-                  <>
-                    <Add className={style.file__icon}/>
-                    <span className={style.file__label}>Choose a file</span>
-                  </>
+                  author?.imageUrl
+                    ? (
+                      <Image
+                        src={author.imageUrl}
+                        alt="Preview"
+                        className={style.image}
+                        fill
+                      />
+                    ) : (
+                    <>
+                      <Add className={style.file__icon}/>
+                      <span className={style.file__label}>Choose a file</span>
+                    </>
+                  )
                 )
             )}
             </label>
@@ -351,13 +358,6 @@ const EditProfile: FC<Props> = ({
               >
                 Submit
               </button>
-              <button
-                type="submit"
-                className={style.signout}
-                onClick={signOut}
-              >
-                Sign Out
-              </button>
             </div>
           </div>
         </div>
@@ -365,7 +365,6 @@ const EditProfile: FC<Props> = ({
           <button
             type="reset"
             className={style.cancel}
-            onClick={() => setOpenForm(null)}
           >
             Cancel
           </button>
@@ -374,13 +373,6 @@ const EditProfile: FC<Props> = ({
             className={style.submit}
           >
             Submit
-          </button>
-          <button
-            type="submit"
-            className={style.signout}
-            onClick={signOut}
-          >
-            Sign Out
           </button>
         </div>
       </form>

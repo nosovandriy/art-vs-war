@@ -1,19 +1,22 @@
 "use client";
 
+import {
+  Authenticator,
+  Button,
+  Heading,
+  Text,
+  View,
+  useAuthenticator,
+  useTheme,
+} from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
 
 import { Artist } from "@/types/Artist";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
-import { Painting } from "@/types/Painting";
 import { useAppDispatch } from "@/types/ReduxHooks";
 import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
-import {
-  Authenticator,
-  useAuthenticator,
-} from "@aws-amplify/ui-react";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
-import CreatePainting from "../components/createPainting/createPainting";
 import EditProfile from "../components/editProfile/editProfile";
 import Loading from "../loading";
 import {
@@ -22,37 +25,33 @@ import {
   setArtistPaintings,
 } from "../redux/slices/artistPaintingsSlice";
 
-import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 import style from "./page.module.scss";
+import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
+import createHeaders from "@/utils/getAccessToken";
 
 const Profile = () => {
-  const { user } = useAuthenticator((context) => [context.user]);
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [openForm, setOpenForm] = useState<ArtistTabOptions | null>(null);
-  const [paintings, setPaintings] = useState<Painting[]>([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const accessToken = user
-        .getSignInUserSession()
-        ?.getAccessToken()
-        .getJwtToken();
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+    setIsFetching(true);
 
+    const fetchData = async () => {
+      const headers = createHeaders(user);
       const fetchedAuthor = await getProfile(headers);
+
       setAuthor(fetchedAuthor);
-      setIsFetching(false);
 
       const paintingsData = await getAllPaintingsByArtist(headers);
 
-      // setPaintings(paintingsData);
       dispatch(resetArtistGalleryPageCount());
       dispatch(setArtistPaintings(paintingsData));
-      setIsFetching(false);
+
+      // const response = await axios.get('https://www.albedosunrise.com/paintings/additionalImages/68', { headers });
+      // console.log(response);
     };
 
     if (user?.username) {
@@ -77,28 +76,13 @@ const Profile = () => {
           className={style.auth}
           components={authenticatorStylesComponents}
         >
-          {!openForm && author && (
+          {author ? (
             <>
-              <ArtistInfo
-                isProfile
-                artistInfo={author}
-                setOpenForm={setOpenForm}
-              />
+              <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
               <ArtistTabs setOpenForm={setOpenForm} />
             </>
-          )}
-          {(openForm === ArtistTabOptions.profile || !author) && (
-            <EditProfile
-              author={author}
-              setAuthor={setAuthor}
-              setOpenForm={setOpenForm}
-            />
-          )}
-          {openForm === ArtistTabOptions.artworks && (
-            <CreatePainting
-              setPaintings={setPaintings}
-              setOpenForm={setOpenForm}
-            />
+          ) : (
+            <EditProfile author={author} setAuthor={setAuthor} />
           )}
         </Authenticator>
       )}

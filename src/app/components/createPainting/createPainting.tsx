@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
@@ -7,29 +8,31 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import style from "./createPainting.module.scss";
+import { stylesSelect } from "./stylesSelect";
 
 import { Add } from "@/app/icons/icon-add";
-import { ArrowLeft } from "@/app/icons/icon-arrow-left";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
+import { SubjectType, mediums, styles, subjects, supports } from "./subjects";
+import { uploadImageToServer } from "@/utils/profile";
+import createHeaders from "@/utils/getAccessToken";
 import {
-  Painting,
   PaintingData,
   PaintingDataToSave,
   PaintingForm,
+  UploadedPaintingData,
 } from "@/types/Painting";
-import { SubjectType, mediums, styles, subjects, supports } from "./subjects";
-import { uploadImageToServer } from "@/utils/profile";
-import { stylesSelect } from "./stylesSelect";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
 
 type Props = {
-  setPaintings: Dispatch<SetStateAction<Painting[]>>;
-  setOpenForm: Dispatch<SetStateAction<ArtistTabOptions | null>>;
+  setNextStep: Dispatch<SetStateAction<boolean>>;
+  setUploaded: Dispatch<SetStateAction<UploadedPaintingData | null>>;
 };
 
-const CreatePainting: FC<Props> = ({ setOpenForm, setPaintings }) => {
+const CreatePainting: FC<Props> = ({
+  setNextStep,
+  setUploaded,
+}) => {
   const {
     handleSubmit,
     register,
@@ -52,14 +55,9 @@ const CreatePainting: FC<Props> = ({ setOpenForm, setPaintings }) => {
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectType[]>([]);
 
   const { user, route } = useAuthenticator((context) => [context.route]);
-  const accessToken = user
-    .getSignInUserSession()
-    ?.getAccessToken()
-    .getJwtToken();
   const isAuthenticated = route === "authenticated";
-  const headers = {
-    Authorization: `Bearer ${accessToken}`,
-  };
+  const headers = createHeaders(user);
+  const router = useRouter();
 
   const checkOptions = (options: SubjectType[]) => {
     if (options.length === 3) {
@@ -80,48 +78,34 @@ const CreatePainting: FC<Props> = ({ setOpenForm, setPaintings }) => {
 
   const handleCreatePainting = async (data: PaintingData) => {
     if (data.image instanceof File) {
-      await toast.promise(
-        uploadImageToServer(data, URL, headers).then((imageData) => {
-          const paintingData: PaintingDataToSave = {
-            ...data,
-            image: imageData,
-          };
-
-          axios
-            .post(BASE_URL + "paintings", paintingData, { headers })
-            .then(({ data }) => {
-              const uploadedPainting: Painting = {
-                id: data.id,
-                title: data.title,
-                price: data.price,
-                prettyId: data.prettyId,
-                imageUrl: data.image.imageUrl,
-                authorFullName: data.author.fullName,
-                authorPrettyId: data.author.prettyId,
-                width: data.width,
-                height: data.height,
-                depth: data.depth,
-              };
-
-              setPaintings((current) => [...current, uploadedPainting]);
-            })
-            .finally(() => {
-              onReset();
-            });
-        }),
-        {
-          loading: "Creating...",
-          success: <b>Painting created!</b>,
-          error: <b>Could not create.</b>,
-        },
-        {
-          style: {
-            borderRadius: "10px",
-            background: "#1c1d1d",
-            color: "#b3b4b5",
+      await uploadImageToServer(data, URL, headers).then((imageData) => {
+        const paintingData: PaintingDataToSave = {
+          ...data,
+          image: imageData,
+        };
+        toast.promise(
+          axios.post(BASE_URL + "paintings", paintingData, { headers })
+          .then(({ data }) => {
+            setUploaded(data);
+            setNextStep(true);
+          })
+          .finally(() => {
+            onReset();
+          }),
+          {
+            loading: "Creating...",
+            success: <b>Painting created!</b>,
+            error: <b>Could not create.</b>,
           },
-        }
-      );
+          {
+            style: {
+              borderRadius: "10px",
+              background: "#1c1d1d",
+              color: "#b3b4b5",
+            },
+          }
+        );
+      })
     }
   };
 
@@ -163,14 +147,6 @@ const CreatePainting: FC<Props> = ({ setOpenForm, setPaintings }) => {
   return (
     <section className={style.createPainting}>
       <div className={style.navigationContainer}>
-        <button
-          type="button"
-          className={style.arrow}
-          onClick={() => setOpenForm(null)}
-        >
-          <ArrowLeft />
-        </button>
-
         <div className={`${style.page} ${style.current}`}>
           General Information
         </div>
@@ -555,7 +531,7 @@ const CreatePainting: FC<Props> = ({ setOpenForm, setPaintings }) => {
           <button
             type="reset"
             className={style.cancel}
-            onClick={() => setOpenForm(null)}
+            onClick={() => router.push('/profile')}
           >
             Cancel
           </button>

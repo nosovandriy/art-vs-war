@@ -2,7 +2,7 @@ import axios from "axios";
 import { notFound } from "next/navigation";
 
 import { PaintingData } from "@/types/Painting";
-import { RequestParams, UserData, UserDataToSave } from "@/types/Profile";
+import { ImageData, RequestParams, UserData, UserDataToSave } from "@/types/Profile";
 import { ShippingFormTypes, ShippingInfo } from "@/types/ShippingForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -201,11 +201,46 @@ export async function getSignature(
   return data;
 }
 
+export async function createFolder (
+  headers: HeadersInit,
+  paintingId: number,
+) {
+  const response = await fetch(BASE_URL + `additionalPaintingImage/folder/${paintingId}`, {
+    method: "GET",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const { folder } = await response.json();
+
+  return folder;
+}
+
 export async function uploadImage(formData: FormData, cloudName: string) {
   const { data } = await axios.post(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     formData,
     { headers: { "Content-Type": "multipart/form-data" } }
+  );
+
+  return data;
+}
+
+export async function saveAdditionalPhotos(
+  images: ImageData[],
+  headers: { Authorization?: string },
+  paintingId: number,
+) {
+  const { data } = await axios.post(
+    BASE_URL + `additionalPaintingImage/${paintingId}`,
+    images,
+    { headers },
   );
 
   return data;
