@@ -39,11 +39,14 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
     authorFullName,
     authorPrettyId,
     authorCountry,
+    paymentStatus,
     price,
     width,
     height,
     depth,
   } = paintingDetails;
+
+  const isSoldPainting = paymentStatus === "SOLD";
 
   const handleAddPaintingToCart = () => {
     const orderData: CartItem = {
@@ -92,14 +95,26 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
       <div className={style.buy}>
         <p className={style.buy__price}>{`€ ${price}`}</p>
-        {isPaintingSelected ? (
-          <div className={style.buy__icon} onClick={handleAddPaintingToCart}>
-            <CheckProduct />
-          </div>
+        {isSoldPainting ? (
+          <div className={style.buy__iconSold}>SOLD</div>
         ) : (
-          <div className={style.buy__icon} onClick={handleAddPaintingToCart}>
-            <Cart />
-          </div>
+          <>
+            {isPaintingSelected ? (
+              <div
+                className={style.buy__icon}
+                onClick={handleAddPaintingToCart}
+              >
+                <CheckProduct />
+              </div>
+            ) : (
+              <div
+                className={style.buy__icon}
+                onClick={handleAddPaintingToCart}
+              >
+                <Cart />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

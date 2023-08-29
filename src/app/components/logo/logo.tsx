@@ -10,6 +10,7 @@ export const Logo = () => {
           src="/assets/logo_icon.svg"
           alt="Art gallery logo"
           fill
+          priority
           sizes="10vw"
           className={style.image}
         />

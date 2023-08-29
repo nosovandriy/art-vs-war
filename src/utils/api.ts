@@ -262,7 +262,7 @@ export async function updateProfile(userData: UserDataToSave, headers: object) {
   return data;
 }
 
-export async function saveOrderPaintingToServer(id: any, headers: object) {
+export async function saveOrderPaintingToServer(id: number, headers: object) {
   const { data } = await axios.get(`${BASE_URL}cart/add/${id}`, {
     headers,
   });
@@ -278,8 +278,8 @@ export async function saveOrderPaintingsToServer(ids: string, headers: object) {
   return data;
 }
 
-export async function removeOrderPaintingFromServer(id: any, headers: object) {
-  const { data } = await axios.get(`${BASE_URL}cart/remove/${id}`, {
+export async function removeOrderPaintingFromServer(id: number, headers: object) {
+  const { data } = await axios.delete(`${BASE_URL}cart/remove/${id}`, {
     headers,
   });
 

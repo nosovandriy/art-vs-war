@@ -23,7 +23,7 @@ const Funds = () => {
             src="/assets/mark_Hamill.webp"
             alt="Mark Hamill United24 Ambassador"
             fill
-            sizes="100vw"
+            sizes="(max-width: 1600px) 50vw"
             className={style.imageWrapper__image}
           />
         </div>
@@ -37,13 +37,16 @@ const Funds = () => {
 
         <div className={style.quote}>
           <div className={style.quoteWrapper}>
-            <Image
-              src="/assets/quote.webp"
-              alt="quote"
-              width={72}
-              height={96}
-              className={style.quote__image}
-            />
+            <div className={style.imageQuoteWrapper}>
+              <Image
+                src="/assets/quote.webp"
+                alt="quote"
+                fill
+                sizes="(max-width: 1600px) 20vw"
+                className={style.quote__image}
+              />
+            </div>
+
             <div className={style.quoteContainer}>
               <p className={style.text}>
                 You are winning. Don&apos;t doubt it for a second. Everyone said

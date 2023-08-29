@@ -141,12 +141,14 @@
   }
 }
 
-.quote__image {
-  @include set-size(100%, 100%);
-
+.imageQuoteWrapper {
+  @include set-size(64px, 48px);
   min-width: 64px;
-  max-height: 96px;
-  max-width: 72px;
+  position: relative;
+
+  @include laptop {
+    @include set-size(96px, 72px);
+  }
 }
 
 .quoteContainer {

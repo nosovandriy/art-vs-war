@@ -13,6 +13,7 @@ import MoreArtistPaintingsButton from "./artProcess/more-artist-paintings/more-a
 
 import style from "./artistTabs.module.scss";
 import Collection from "@/app/components/collection/collection";
+import React from "react";
 
 const tabs: ArtistTabOptions[] = [
   ArtistTabOptions.artworks,

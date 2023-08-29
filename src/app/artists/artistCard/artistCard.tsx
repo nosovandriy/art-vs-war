@@ -30,6 +30,7 @@ const ArtistCard: React.FC<Props> = ({ artist, className }) => {
           alt={`artist ${fullName}`}
           width={645}
           height={790}
+          priority
           style={{
             objectFit: "cover",
             maxHeight: "789px",
@@ -42,6 +43,7 @@ const ArtistCard: React.FC<Props> = ({ artist, className }) => {
           src="/assets/artistsOrnament.webp"
           alt={`ukrainian ornament`}
           fill
+          sizes="(max-width: 1600px) 33vw"
           style={{
             objectFit: "contain",
             transitionDuration: "3s",
