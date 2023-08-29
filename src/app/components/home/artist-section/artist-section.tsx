@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 
-import styles from "./artist-section.module.scss";
-
 import Carousel from "./carousel/carousel";
+
+import styles from "./artist-section.module.scss";
 
 const Artist = () => {
   return (
