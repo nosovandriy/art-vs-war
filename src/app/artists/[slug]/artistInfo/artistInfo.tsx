@@ -1,22 +1,22 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import style from "./artistInfo.module.scss";
 import { MapPoint } from "@/app/icons/icon-map-point";
 import { Add } from "@/app/icons/icon-add";
 import { Artist } from "@/types/Artist";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 
 type Props = {
   artistInfo: Artist;
   isProfile?: boolean;
-  setOpenForm?: Dispatch<SetStateAction<ArtistTabOptions | null>>;
+  signOut?: () => void;
 };
 
 const ArtistInfo: FC<Props> = ({
-  artistInfo,
-  setOpenForm,
   isProfile = false,
+  artistInfo,
+  signOut,
 }) => {
   const {
     fullName,
@@ -24,11 +24,19 @@ const ArtistInfo: FC<Props> = ({
     city,
     aboutMe,
     imageUrl,
-    styles = ['Contemporary', 'Abstract'],
+    styles,
   } = artistInfo;
 
   return (
     <div className={style.author}>
+      {isProfile && (
+        <div className={style.titleContainer}>
+          <h2 className={style.title}>
+            Profile
+          </h2>
+        </div>
+      )}
+
       <div className={style.container}>
         <div className={style.author__photo}>
           <Image
@@ -67,24 +75,29 @@ const ArtistInfo: FC<Props> = ({
           </div>
           <div className={style.author__about}>{aboutMe}</div>
 
-          {(isProfile && setOpenForm) && (
-            <>
-              <button
-                className={style.button__edit}
-                type="button"
-                onClick={() => setOpenForm(ArtistTabOptions.profile)}
-              >
-                Edit profile
-              </button>
-              <button
+          {isProfile && (
+            <div className={style.button__container}>
+              <Link
                 className={style.button__add}
-                type="button"
-                onClick={() => setOpenForm(ArtistTabOptions.artworks)}
+                href="/profile/createPainting"
               >
                 <Add className={style.button__icon} />
                 Add Arts
+              </Link>
+              <Link
+                className={style.button__edit}
+                href="/profile/edit"
+              >
+                Edit profile
+              </Link>
+              <button
+                type="button"
+                className={style.signout}
+                onClick={signOut}
+              >
+                Sign Out
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

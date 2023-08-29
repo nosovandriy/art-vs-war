@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
+import Link from "next/link";
 
 import MasonryGallery from "@/app/components/masonry/masonry";
 import { Add } from "@/app/icons/icon-add";
@@ -11,6 +12,8 @@ import ArtProcess from "./artProcess/artProcess";
 import MoreArtistPaintingsButton from "./artProcess/more-artist-paintings/more-artist-paintings";
 
 import style from "./artistTabs.module.scss";
+import Collection from "@/app/components/collection/collection";
+import React from "react";
 
 const tabs: ArtistTabOptions[] = [
   ArtistTabOptions.artworks,
@@ -50,14 +53,13 @@ const ArtistTabs: React.FC<Props> = ({ setOpenForm }) => {
         </div>
 
         {isProfile && setOpenForm && (
-          <button
-            type="button"
+          <Link
+            href="/profile/createPainting"
             className={style.add}
-            onClick={() => setOpenForm(selectedTab)}
           >
             <Add />
             {selectedTab}
-          </button>
+          </Link>
         )}
 
         <div className={style.tabsFooter} />
@@ -71,6 +73,7 @@ const ArtistTabs: React.FC<Props> = ({ setOpenForm }) => {
           </>
         )}
         {selectedTab === ArtistTabOptions.artProcess && <ArtProcess />}
+        {selectedTab === ArtistTabOptions.collections && <Collection />}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { ImageData } from "./Profile";
+import { AuthorData, ImageData } from "./Profile";
 
 export interface Painting {
   id: number;
@@ -10,20 +10,6 @@ export interface Painting {
   authorPrettyId: string;
   authorCountry?: string;
   paymentStatus?: string;
-  width: number;
-  height: number;
-  depth: number;
-}
-
-export interface UploadedPainting {
-  id: number;
-  title: string;
-  price: number;
-  prettyId: string;
-  imageUrl: string;
-  authorFullName: string;
-  authorPrettyId: string;
-  authorCountry: string;
   width: number;
   height: number;
   depth: number;
@@ -48,40 +34,41 @@ export interface PaintingFilterParams {
   subjects: string[];
 }
 
-export type PaintingForm = {
-  image: FileList;
-  yearOfCreation: number;
-  title: string;
-  weight: number;
-  width: number;
-  height: number;
-  depth: number;
-  price: number;
-  styleIds: number[];
-  mediumIds: number[];
-  supportIds: number[];
-  subjectIds: number[];
-  description: string;
-};
+export interface UploadedPainting extends Painting {
+  authorCountry: string;
+}
 
-export type PaintingData = {
+export interface PaintingData extends Painting {
   image?: File;
-  yearOfCreation: number;
-  title: string;
-  weight: number;
-  width: number;
-  height: number;
-  depth: number;
-  price: number;
-  styleIds: number[];
-  mediumIds: number[];
-  supportIds: number[];
-  subjectIds: number[];
-  description: string;
 };
 
-export type PaintingDataToSave = {
+export interface PaintingForm extends Painting {
+  image: FileList;
+  weight: number;
+  styleIds: number[];
+  mediumIds: number[];
+  supportIds: number[];
+  subjectIds: number[];
+  description: string;
+  yearOfCreation: number;
+};
+
+export interface PaintingDataToSave extends Painting {
   image: ImageData;
+};
+
+export interface ResponseImage {
+  imageModerationStatus: string;
+  imagePublicId: string;
+  imageUrl: string;
+}
+
+export interface UploadedPaintingData {
+  id: number;
+  prettyId: string;
+  image: ResponseImage;
+  author: AuthorData;
+  collection: object,
   yearOfCreation: number;
   title: string;
   weight: number;
@@ -89,9 +76,10 @@ export type PaintingDataToSave = {
   height: number;
   depth: number;
   price: number;
-  styleIds: number[];
-  mediumIds: number[];
-  supportIds: number[];
-  subjectIds: number[];
+  styles: string[];
+  mediums: string[];
+  supports: string[];
+  subjects: string[];
   description: string;
+  addedToDataBase: { addedToDataBase: string };
 };

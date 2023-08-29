@@ -29,16 +29,11 @@
     font-size: $font-size-md;
     line-height: 100%;
     font-weight: $font-weight-regular;
-    transition: color 0.3s;
+    cursor: default;
 
     @include tablet {
       font-size: $font-size-base;
       line-height: $line-height-base;
-    }
-
-    &:hover {
-      cursor: pointer;
-      color: $gray-5;
     }
   }
 
@@ -209,7 +204,7 @@
   }
 
   &__input {
-    padding: 2px 6px;
+    padding: 14px;
     width: 100%;
     height: auto;
     min-height: 180px;
