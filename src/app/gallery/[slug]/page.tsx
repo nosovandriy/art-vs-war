@@ -17,6 +17,7 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
     title,
     prettyId,
     price,
+    paymentStatus,
     height,
     width,
     depth,
@@ -42,6 +43,8 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
     height: height,
     depth: depth,
   };
+
+  const isSoldPainting = paymentStatus === "SOLD";
 
   return (
     <section className={style.card}>
@@ -129,7 +132,11 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
           <div>
-            <AddToCartButton orderData={orderData} />
+            {isSoldPainting ? (
+              <button className={style.soldButton}>SOLD OUT</button>
+            ) : (
+              <AddToCartButton orderData={orderData} />
+            )}
           </div>
         </div>
       </div>
