@@ -113,11 +113,11 @@ export const uploadImageToServer = async (
 };
 
 export const uploadAdditionalImages = async (
+  images: File[],
   headers: { Authorization?: string },
   paintingId: number,
-  images: File[],
 ) => {
-  if (!upload_preset || !cloudinaryApiKey || !cloudName) return;
+  if (!upload_preset || !cloudinaryApiKey || !cloudName) return [];
 
   const folder = await createFolder(headers, paintingId);
 
@@ -126,19 +126,19 @@ export const uploadAdditionalImages = async (
     folder,
   };
 
-  const formData = new FormData();
-  const upladedData: ImageData[] = [];
+  const uploadedData = [];
 
-  images.forEach( async (file) => {
+  for (const file of images) {
     if (file) {
       const { signature, timestamp } = await getSignature(requestParams, headers);
 
+      const formData = new FormData();
       formData.append('file', file);
-      formData.append("folder", folder);
-      formData.append("signature", signature);
-      formData.append("timestamp", timestamp);
-      formData.append("upload_preset", upload_preset);
-      formData.append("api_key", cloudinaryApiKey);
+      formData.append('folder', folder);
+      formData.append('signature', signature);
+      formData.append('timestamp', timestamp);
+      formData.append('upload_preset', upload_preset);
+      formData.append('api_key', cloudinaryApiKey);
 
       try {
         const {
@@ -146,21 +146,21 @@ export const uploadAdditionalImages = async (
           version,
           signature,
         } = await uploadImage(formData, cloudName);
-    
-        const imageData: ImageData = {
+
+        const imageData = {
           version,
           signature,
           publicId: public_id,
           moderationStatus: 'APPROVED',
         };
 
-        upladedData.push(imageData);
+        uploadedData.push(imageData);
       } catch (error) {
         console.error('Error uploading images to Cloudinary:', error);
         return [];
       }
     }
-  })
+  }
 
-  return upladedData;
+  return uploadedData;
 }

@@ -11,10 +11,9 @@ const Footer = () => {
   return (
     <footer>
       <div className={style.lines}>
-        <div className={`${style.line} ${style.line_0}`}></div>
-        <div className={`${style.line} ${style.line_1}`}></div>
-        <div className={`${style.line} ${style.line_2}`}></div>
-        <div className={`${style.line} ${style.line_3}`}></div>
+        <div className={`${style.line} ${style.line_0}`}/>
+        <div className={`${style.line} ${style.line_1}`}/>
+        <div className={`${style.line} ${style.line_2}`}/>
       </div>
       <div className={style.content}>
         <div className={style.wrapper}>

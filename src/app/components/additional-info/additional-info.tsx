@@ -35,6 +35,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     mediums,
     supports,
     subjects,
+    prettyId,
     collection,
     description,
     yearOfCreation,
@@ -55,24 +56,23 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
       newImagePreviews[index] = reader.result as string;
       setImagePreviews(newImagePreviews);
     };
-  
+
     reader.readAsDataURL(file);
   };
-  
+
   const resetFileInputs = () => {
     setImagePreviews([null, null, null]);
+    router.replace(`/gallery/${prettyId}`);
   };
 
   const handleSaveImages = async (
     images: File[],
-    paintingId: number,
     headers: { Authorization?: string },
+    paintingId: number,
   ) => {
-    const uploaded = await uploadAdditionalImages(headers, paintingId, images);
+    const uploaded = await uploadAdditionalImages(images, headers, paintingId);
 
-    console.log(uploaded);
-
-    if (!uploaded) return;
+    if (!uploaded.length) return;
 
     toast.promise(
       saveAdditionalPhotos(uploaded, headers, paintingId),
@@ -91,11 +91,12 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     );
   }
 
+
   const onSubmit = async () => {
     const headers = createHeaders(user);
 
-    await handleSaveImages(images, id, headers);
-    router.replace('/profile');
+    await handleSaveImages(images, headers, id);
+    router.replace(`/gallery/${prettyId}`);
   };
 
   return (
