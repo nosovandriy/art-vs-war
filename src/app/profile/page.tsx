@@ -28,6 +28,7 @@ import {
 import style from "./page.module.scss";
 import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 import createHeaders from "@/utils/getAccessToken";
+import axios from "axios";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
@@ -49,9 +50,6 @@ const Profile = () => {
 
       dispatch(resetArtistGalleryPageCount());
       dispatch(setArtistPaintings(paintingsData));
-
-      // const response = await axios.get('https://www.albedosunrise.com/paintings/additionalImages/68', { headers });
-      // console.log(response);
     };
 
     if (user?.username) {
@@ -79,7 +77,7 @@ const Profile = () => {
           {author ? (
             <>
               <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
-              <ArtistTabs setOpenForm={setOpenForm} />
+              <ArtistTabs />
             </>
           ) : (
             <EditProfile author={author} setAuthor={setAuthor} />

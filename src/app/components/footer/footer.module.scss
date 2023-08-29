@@ -5,6 +5,10 @@
   @include set-flex(column);
 
   gap: 12px;
+
+  @include laptop {
+    gap: 24px;
+  }
 }
 
 .line {
@@ -12,18 +16,22 @@
 }
 
 .line_0 {
-  height: 1px;
-}
-
-.line_1 {
   height: 12px;
 }
 
-.line_2 {
+.line_1 {
   height: 24px;
 }
-.line_3 {
+.line_2 {
   height: 48px;
+
+  @include laptop {
+    display: none;
+  }
+
+  @include desktop {
+    display: block;
+  }
 }
 
 .content {
@@ -35,6 +43,10 @@
 
   @include tablet {
     padding-top: 48px;
+  }
+
+  @include laptop {
+    margin-top: 24px;
   }
 }
 

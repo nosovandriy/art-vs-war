@@ -83,9 +83,11 @@ const CreatePainting: FC<Props> = ({
           ...data,
           image: imageData,
         };
+
         toast.promise(
           axios.post(BASE_URL + "paintings", paintingData, { headers })
           .then(({ data }) => {
+            console.log('saved image data:', data);
             setUploaded(data);
             setNextStep(true);
           })

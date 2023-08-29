@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 import MasonryGallery from "@/app/components/masonry/masonry";
@@ -21,11 +21,7 @@ const tabs: ArtistTabOptions[] = [
   ArtistTabOptions.artProcess,
 ];
 
-type Props = {
-  setOpenForm?: Dispatch<SetStateAction<ArtistTabOptions | null>>;
-};
-
-const ArtistTabs: React.FC<Props> = ({ setOpenForm }) => {
+const ArtistTabs = () => {
   const { artistPaintings } = useAppSelector((state) => state.artistPaintings);
 
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
@@ -52,13 +48,13 @@ const ArtistTabs: React.FC<Props> = ({ setOpenForm }) => {
           ))}
         </div>
 
-        {isProfile && setOpenForm && (
+        {isProfile && (
           <Link
             href="/profile/createPainting"
             className={style.add}
           >
             <Add />
-            {selectedTab}
+            Add artworks
           </Link>
         )}
 
