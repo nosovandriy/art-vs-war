@@ -89,6 +89,15 @@
   color: $gray-100;
 }
 
+.soldButton {
+  @include set-size(100%, 48px);
+
+  background-color: transparent;
+  border: 1px solid $system-error;
+  font-weight: $font-weight-semibold;
+  color: $system-error;
+}
+
 .title {
   margin-top: 50px;
   font-size: $font-size-xl;
