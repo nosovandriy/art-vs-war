@@ -70,8 +70,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   ) => {
     const uploaded = await uploadAdditionalImages(headers, paintingId, images);
 
-    console.log(uploaded);
-
     if (!uploaded) return;
 
     toast.promise(

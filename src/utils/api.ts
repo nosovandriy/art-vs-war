@@ -2,7 +2,12 @@ import axios from "axios";
 import { notFound } from "next/navigation";
 
 import { PaintingData } from "@/types/Painting";
-import { ImageData, RequestParams, UserData, UserDataToSave } from "@/types/Profile";
+import {
+  ImageData,
+  RequestParams,
+  UserData,
+  UserDataToSave,
+} from "@/types/Profile";
 import { ShippingFormTypes, ShippingInfo } from "@/types/ShippingForm";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -201,17 +206,17 @@ export async function getSignature(
   return data;
 }
 
-export async function createFolder (
-  headers: HeadersInit,
-  paintingId: number,
-) {
-  const response = await fetch(BASE_URL + `additionalPaintingImage/folder/${paintingId}`, {
-    method: "GET",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json;charset=utf-8",
-    },
-  });
+export async function createFolder(headers: HeadersInit, paintingId: number) {
+  const response = await fetch(
+    BASE_URL + `additionalPaintingImage/folder/${paintingId}`,
+    {
+      method: "GET",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch data");
@@ -235,12 +240,12 @@ export async function uploadImage(formData: FormData, cloudName: string) {
 export async function saveAdditionalPhotos(
   images: ImageData[],
   headers: { Authorization?: string },
-  paintingId: number,
+  paintingId: number
 ) {
   const { data } = await axios.post(
     BASE_URL + `additionalPaintingImage/${paintingId}`,
     images,
-    { headers },
+    { headers }
   );
 
   return data;
@@ -263,23 +268,34 @@ export async function updateProfile(userData: UserDataToSave, headers: object) {
 }
 
 export async function saveOrderPaintingToServer(id: number, headers: object) {
-  const { data } = await axios.get(`${BASE_URL}cart/add/${id}`, {
-    headers,
-  });
+  const { data } = await axios.post(
+    `${BASE_URL}cart/${id}`,
+    {},
+    {
+      headers,
+    }
+  );
 
   return data;
 }
 
 export async function saveOrderPaintingsToServer(ids: string, headers: object) {
-  const { data } = await axios.get(`${BASE_URL}cart/add?paintingIds=${ids}`, {
-    headers,
-  });
+  const { data } = await axios.post(
+    `${BASE_URL}cart?paintingIds=${ids}`,
+    {},
+    {
+      headers,
+    }
+  );
 
   return data;
 }
 
-export async function removeOrderPaintingFromServer(id: number, headers: object) {
-  const { data } = await axios.delete(`${BASE_URL}cart/remove/${id}`, {
+export async function removeOrderPaintingFromServer(
+  id: number,
+  headers: object
+) {
+  const { data } = await axios.delete(`${BASE_URL}cart/${id}`, {
     headers,
   });
 

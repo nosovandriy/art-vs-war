@@ -72,7 +72,6 @@ const Header = () => {
 
     const getDataFromCart = async () => {
       const dataFromServer = await getOrderDataFromServer(headers);
-      console.log(dataFromServer);
 
       if (dataFromServer.paintings.length > 0) {
         const orderData = dataFromServer.paintings.map((item: Painting) => {
