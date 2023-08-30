@@ -14,6 +14,7 @@ import { CloseIcon } from "@/app/icons/icon-close";
 import { FilterIcon } from "@/app/icons/icon-filter";
 import { PaintingFilterParams } from "@/types/Painting";
 import { handleCloseDropdown } from "@/utils/checkClick";
+import AvailablePaintings from "./available-paintings/available-paintings";
 import RangeSlider from "./rangeSlider/rangeSlider";
 import SizesSection from "./sizesSection/sizesSection";
 import StylesCheckBox from "./stylesCheckbox/stylesCheckbox";
@@ -40,6 +41,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("");
+
   const [priceRanges, setPriceRanges] = useState<number[]>([
     minPrice,
     maxPrice,
@@ -78,6 +81,11 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     const params = new URLSearchParams(window.location.search);
     dispatch(resetGalleryPageCount());
 
+    if (paymentStatus) {
+      params.set("paymentStatus", paymentStatus);
+    } else {
+      params.delete("paymentStatus");
+    }
     if (priceRanges[0] !== minPrice || priceRanges[1] !== maxPrice) {
       params.set("priceBetween", priceRanges.join(","));
     } else {
@@ -126,6 +134,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const removeAllSearchParameters = (params: URLSearchParams) => {
     const allSearchParams = [
+      "paymentStatus",
       "priceBetween",
       "styleIn",
       "subjectIn",
@@ -146,6 +155,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     removeAllSearchParameters(params);
     router.replace(`${pathname}?${params.toString()}`);
 
+    setPaymentStatus("");
     setPriceRanges([minPrice, maxPrice]);
     setStyleCheckOptions([]);
     setSubjectCheckOptions([]);
@@ -158,6 +168,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   };
 
   useEffect(() => {
+    const paymentStatus = searchParams.get("paymentStatus");
     const price = searchParams.get("priceBetween");
     const style = searchParams.get("styleIn");
     const subject = searchParams.get("subjectIn");
@@ -165,6 +176,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     const support = searchParams.get("supportIn");
     const width = searchParams.get("widthBetween");
     const height = searchParams.get("heightBetween");
+
+    if (paymentStatus) {
+      setPaymentStatus(paymentStatus);
+    }
 
     if (price) {
       const priceNumbers = price.split(",").map((item) => Number(item));
@@ -231,6 +246,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
             </div>
           </div>
           <div className={style.dropdown}>
+            <AvailablePaintings
+              paymentStatus={paymentStatus}
+              setPaymentStatus={setPaymentStatus}
+            />
             <RangeSlider
               title={"PRICE"}
               valueType={"€"}
