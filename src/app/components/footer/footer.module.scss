@@ -1,0 +1,196 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.lines {
+  @include set-flex(column);
+
+  gap: 12px;
+
+  @include laptop {
+    gap: 24px;
+  }
+}
+
+.line {
+  background-color: $gray-5;
+}
+
+.line_0 {
+  height: 12px;
+}
+
+.line_1 {
+  height: 24px;
+}
+.line_2 {
+  height: 48px;
+
+  @include laptop {
+    display: none;
+  }
+
+  @include desktop {
+    display: block;
+  }
+}
+
+.content {
+  @include set-flex(column, center, center);
+
+  margin-top: 12px;
+  background-color: $gray-5;
+  padding: 0 22px 16px;
+
+  @include tablet {
+    padding-top: 48px;
+  }
+
+  @include laptop {
+    margin-top: 24px;
+  }
+}
+
+.wrapper {
+  @include tablet {
+    @include set-flex(row, space-between, center);
+
+    width: 100%;
+  }
+}
+
+.button {
+  @include set-size(328px, 48px);
+  @include set-flex(row, center, center);
+
+  margin-top: 48px;
+  border-radius: 24px;
+  font-size: $font-size-base;
+  color: $gray-0;
+  background-color: $gray-90;
+
+  @include tablet {
+    @include set-square(144px);
+
+    margin-top: 0;
+    border-radius: 50%;
+  }
+
+  @include desktop {
+    @include set-square(208px);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $gray-100;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: scale(0.9);
+  }
+}
+
+.menuItems {
+  @include set-flex(column, center, center);
+
+  margin-top: 32px;
+  gap: 16px;
+  font-size: $font-size-xxl;
+  font-family: $font-title;
+  line-height: 48px;
+  color: $gray-100;
+  list-style: none;
+
+  li:last-child {
+    display: none;
+  }
+
+  @include tablet {
+    align-items: flex-start;
+    margin-top: 0;
+    order: -1;
+  }
+
+  @include laptop {
+    min-width: 190px;
+    font-size: $font-size-xxxl;
+    gap: 24px;
+  }
+
+  @include desktop {
+    min-width: 301px;
+    font-size: $font-size-huge;
+    line-height: 72px;
+  }
+}
+
+.icons {
+  @include set-flex(row, center, center);
+
+  margin-top: 32px;
+  gap: 30px;
+
+  @include tablet {
+    @include set-flex(row, flex-start, flex-start);
+
+    margin-top: 40px;
+  }
+
+  @include laptop {
+    justify-content: flex-end;
+  }
+}
+
+.icon {
+  path {
+    fill: $gray-70;
+  }
+}
+
+.list {
+  display: none;
+
+  @include tablet {
+    @include set-flex(column, flex-end, flex-end);
+
+    list-style: none;
+    gap: 24px;
+  }
+
+  @include laptop {
+    min-width: 190px;
+  }
+
+  @include desktop {
+    min-width: 301px;
+  }
+
+  &__desktop {
+    display: none;
+
+    @include laptop {
+      display: block;
+    }
+  }
+}
+
+.license {
+  @include set-flex(column, center, center);
+
+  text-align: center;
+  margin-top: 36px;
+  gap: 8px;
+  font-size: $font-size-md;
+
+  @include tablet {
+    @include set-flex(row, space-between);
+
+    margin-top: 24px;
+    width: 100%;
+    text-align: start;
+  }
+
+  &__text {
+    width: 352px;
+  }
+}

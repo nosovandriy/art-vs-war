@@ -1,0 +1,191 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.notFound {
+  @include set-flex(column, center);
+
+  padding: 24px 22px 100px;
+
+  @include tablet {
+    @include set-flex(row, space-evenly);
+
+    padding: 56px 22px;
+    gap: 24px;
+  }
+
+  @include tabletXL {
+    @include set-flex(row, space-evenly);
+
+    padding: 56px 22px 0 22px;
+    gap: 24px;
+  }
+
+  @include laptop {
+    padding: 56px 30px 0 30px;
+    gap: 120px;
+  }
+}
+
+.firstSection {
+  @include tablet {
+    @include set-flex(column, center);
+
+    flex: 1;
+  }
+
+  @include tabletXL {
+    width: 45%;
+    flex: auto;
+  }
+
+  @include laptop {
+    width: 50%;
+    flex: auto;
+  }
+
+  @include desktop {
+    width: 45%;
+    flex: auto;
+  }
+}
+
+.title {
+  font-family: $font-title;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+  color: $gray-5;
+
+  @include tablet {
+    margin-top: 0;
+    font-size: $font-size-xxl;
+  }
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
+
+  @include laptop {
+    font-size: $font-size-xxxl;
+  }
+
+  @include desktop {
+    font-size: $font-size-4xl;
+  }
+
+  @include desktopHD {
+    font-size: $font-size-huge;
+  }
+}
+
+.text {
+  margin-top: 16px;
+  color: $gray-10;
+}
+
+.secondSection {
+  @include tablet {
+    @include set-flex(column, center, center);
+
+    flex: 1;
+  }
+
+  @include tabletXL {
+    width: 55%;
+    flex: auto;
+  }
+
+  @include laptop {
+    width: 50%;
+    flex: auto;
+  }
+
+  @include desktop {
+    width: 55%;
+    flex: auto;
+  }
+}
+
+.button {
+  position: relative;
+  margin-top: 64px;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-5;
+  cursor: pointer;
+
+  @include tablet {
+    margin-top: 0;
+    top: -50%;
+  }
+
+  @include tabletXL {
+    @include set-square(140px);
+
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+  }
+
+  @include desktop {
+    @include set-square(208px);
+    font-size: $font-size-lg;
+  }
+
+  &:hover {
+    background-color: $gray-0;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: scale(0.9);
+
+    @include tabletXL {
+      transform: translateX(-50%) scale(0.9);
+    }
+  }
+}
+
+.ornament {
+  margin-top: 24px;
+  width: 100%;
+  overflow: hidden;
+
+  @include tablet {
+    margin-top: 48px;
+    height: auto;
+  }
+
+  @include tablet {
+    margin-top: 50px;
+  }
+
+  @include laptop {
+    margin-top: 0;
+  }
+}
+
+.imageMobile {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: auto;
+  animation-name: spin;
+  animation-duration: 60s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  @include tablet {
+    display: block;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,98 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.firstStep {
+  @include set-flex(row, space-between, center);
+
+  margin-top: 24px;
+  height: 48px;
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+
+  &__text {
+    color: $gray-0;
+  }
+
+  &__arrow {
+    transform: rotate(180deg);
+    transition: 0.3s;
+  }
+}
+
+.totalInfo {
+  margin-top: 48px;
+
+  @include tablet {
+    @include set-flex(row, space-between, center);
+  }
+}
+
+.totalPrice {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-family: $font-title;
+
+  @include tabletXL {
+    font-size: $font-size-xxxl;
+  }
+}
+
+.button {
+  @include set-flex(row, center, center);
+
+  margin-top: 24px;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-5;
+  font-size: $font-size-base;
+  transition-duration: 0.3s;
+  color: $gray-100;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+
+  @include tablet {
+    width: 184px;
+    margin-top: 0;
+  }
+
+  @include tabletXL {
+    width: 216px;
+  }
+
+  @include laptop {
+    width: 319px;
+  }
+
+  @include desktopHD {
+    width: 368px;
+  }
+}
+
+.profile {
+  margin-top: 24px;
+  color: $gray-0;
+  @include tablet {
+    text-align: end;
+  }
+}
+
+.account {
+  color: $system-error;
+  font-size: $font-size-lg;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

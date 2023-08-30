@@ -1,0 +1,55 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.priceSlider {
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__title {
+    color: $gray-5;
+  }
+
+  &__price {
+    @include set-flex(row, space-between, center);
+
+    color: $gray-10;
+  }
+}
+
+.price-slider-wrapper {
+  max-width: 100%;
+  margin: 32px 0;
+  height: 8px;
+  background-color: $gray-5;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.price-slider-wrapper .thumb {
+  @include set-square(24px);
+
+  background-color: $gray-5;
+  border-radius: 50%;
+  cursor: grab;
+  will-change: inherit;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.range-track.range-track-0,
+.range-track.range-track-2 {
+  height: 8px;
+  border-radius: 50px;
+  background-color: $gray-30;
+}

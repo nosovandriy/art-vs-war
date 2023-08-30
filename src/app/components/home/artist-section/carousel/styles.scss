@@ -1,0 +1,28 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.keen-slider__slide {
+  position: relative;
+
+  height: 435px;
+
+  @include tablet {
+    height: 411px;
+  }
+
+  @include laptop {
+    height: 423px;
+  }
+
+  @include desktop {
+    height: 548px;
+  }
+
+  @include desktopHD {
+    height: 648px;
+  }
+}
+
+.keen-slider__image {
+  object-fit: cover;
+}

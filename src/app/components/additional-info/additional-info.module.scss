@@ -1,0 +1,361 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.additionalInfo {
+  margin: 0 auto;
+  padding: 32px 26px;
+}
+
+.navigationContainer {
+  @include set-flex(row, flex-start, center);
+  margin-bottom: 32px;
+  gap: 20px;
+
+  @include tablet {
+    gap: 24px;
+  }
+
+  .page {
+    color: $gray-30;
+    font-family: $font-text;
+    font-size: $font-size-md;
+    line-height: 100%;
+    font-weight: $font-weight-regular;
+    transition: color 0.3s;
+
+    @include tablet {
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+    }
+  }
+
+  .current {
+    color: $gray-5;
+  }
+}
+
+  .title {
+    margin-bottom: 32px;
+    color: $gray-5;
+    font-family: $font-title;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-xxl;
+    line-height: $line-height-xxl;
+
+    @include tabletXL {
+      font-size: 48px;
+      line-height: 56px;
+    }
+
+    @include desktop {
+      margin-bottom: 48px;
+      font-size: $font-size-huge;
+      line-height: $line-height-huge;
+    }
+  }
+
+
+.links {
+  display: none;
+  margin-bottom: 32px;
+  font-family: $font-text;
+  font-size: $font-size-md;
+  font-weight: $font-weight-regular;
+  line-height: 20px;
+  color: $gray-0;
+
+  @include laptop {
+    display: block;
+  }
+
+  .link {
+    color: $system-info;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.painting {
+  margin-bottom: 32px;
+
+  @include laptop {
+    @include set-flex(row, flex-start, base-line);
+    gap: 20px;
+  }
+
+  .imageContainer {
+    position: relative;
+    margin-bottom: 24px;
+    width: 50%;
+    height: 238px;
+    // flex-grow: 1;
+    // flex-basis: 30%;
+
+    @include tablet {
+      height: 456px;
+    }
+
+    .image {
+      width: 100%;
+      object-fit: contain;
+      height: auto;
+      max-width: 752px;
+    }
+  }
+
+  .paramsContainer {
+    width: fit-content;
+  }
+  
+  .params {
+    @include set-flex(row, flex-start, base-line);
+    gap: 30px;
+
+    &:nth-child(n + 1) {
+      margin-bottom: 16px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .subject {
+    width: 108px;
+    color: $gray-5;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+  }
+
+  .value {
+    width: 100%;
+    color: $gray-0;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.devider {
+  display: none;
+  height: 1px;
+  background-color: $gray-30;
+  width: 100%;
+
+  @include laptop {
+    position: absolute;
+    display: block;
+  }
+}
+
+.deviderWrapper {
+  display: none;
+  width: calc(100% + 52px);
+
+  @include laptop {
+    position: relative;
+    left: -26px;
+    display: block;
+  }
+}
+
+.aboutContainer {
+  margin-bottom: 32px;
+
+  @include laptop {
+    @include set-flex(row, flex-start, base-line);
+    padding: 48px 130px;
+    gap: 155px;
+  }
+
+  .aboutTitle {
+    margin-bottom: 24px;
+    color: $gray-0;
+    font-family: $font-text;
+    font-size: $font-size-xl;
+    line-height: 32px;
+    letter-spacing: 0.72px;
+    text-transform: uppercase;
+    font-weight: $font-weight-regular;
+  }
+
+  .aboutDescription {
+    color: $gray-5;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+  }
+}
+
+.additional {
+  margin-bottom: 32px;
+
+  @include laptop {
+    @include set-flex(row, flex-start, base-line);
+    padding: 48px 130px;
+    gap: 30px;
+  }
+
+  .titles {
+    margin-bottom: 24px;
+    flex-grow: 0;
+    flex-basis: 30%;
+
+    @include laptop {
+      max-width: 210px;
+    }
+
+    .title {
+      margin-bottom: 24px;
+      color: white;
+      font-family: $font-text;
+      font-size: $font-size-xl;
+      line-height: 32px;
+      letter-spacing: 0.72px;
+      text-transform: uppercase;
+      font-weight: $font-weight-regular;
+    }
+
+    .subtitle {
+      color: $gray-10;
+      font-family: $font-text;
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+      font-weight: $font-weight-regular;
+    }
+  }
+
+  .photos {
+    overflow: auto;
+    flex-grow: 1;
+
+    .wrapper {
+      @include set-flex(row, center, center);
+      gap: 16px;
+      width: auto;
+    }
+
+    .file {
+      @include set-flex(column, center, center);
+      margin-bottom: 32px;
+      width: 118px;
+      height: 136px;
+      gap: 32px;
+      background-color: $gray-90;
+    
+      @include tablet {
+        width: 33%;
+        min-width: 118px;
+        height: 264px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    
+      &__input {
+        display: none;
+      }
+    
+      &__icon {
+        @include set-square(24px);
+
+        @include tablet {
+          @include set-square(72px);
+        }
+    
+        path {
+          fill: $gray-5;
+        }
+      }
+    
+      &__label {
+        color: $gray-5;
+        font-family: $font-text;
+        font-size: $font-size-md;
+        font-weight: $font-weight-regular;
+        line-height: 20px;
+
+        @include tablet {
+          font-size: $font-size-base;
+        }
+      }
+    }
+    
+    .preview {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    
+      .image {
+        padding: 20px;
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+.buttons {
+  @include tabletXL {
+    @include set-flex(row-reverse, center, base-line);
+    gap: 16px;
+  }
+
+  @include desktop {
+    justify-content: flex-start;
+  }
+
+  .submit {
+    @include set-flex(row, center, center);
+    margin-bottom: 16px;
+    height: 48px;
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 24px;
+    background-color: $gray-5;
+    color: $gray-100;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+    text-align: center;
+
+    @include desktop {
+      width: 25%;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  
+  .cancel {
+    @include set-flex(row, center, center);
+    height: 48px;
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 24px;
+    border: 1px solid $gray-5;
+    background-color: transparent;
+    color: $gray-5;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    font-weight: $font-weight-regular;
+    text-align: center;
+
+    @include desktop {
+      width: 25%;
+    }
+  
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
