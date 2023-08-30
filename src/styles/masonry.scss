@@ -1,0 +1,16 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.my-masonry-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
+  gap: 20px;
+}
+.my-masonry-grid_column {
+  background-clip: padding-box;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}

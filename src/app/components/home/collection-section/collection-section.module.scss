@@ -1,0 +1,154 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.collection {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.top {
+  display: none;
+
+  @include tablet {
+    @include set-flex(column, center, center);
+    gap: 12px;
+  }
+
+  @include laptop {
+    @include set-flex(column, center, center);
+    gap: 24px;
+  }
+
+  .line {
+    width: 100%;
+    background-color: $gray-5;
+
+    &:nth-child(1) {
+      height: 12px;
+    }
+
+    &:nth-child(2) {
+      height: 24px;
+    }
+
+    &:last-child {
+      margin-bottom: 12px;
+      height: 48px;
+
+      @include laptop {
+        margin-top: 0;
+      }
+
+      @include desktop {
+        margin-bottom: 24px;
+      }
+    }
+  }
+}
+
+.content {
+  @include set-flex(column, center, center);
+  margin: 0 auto;
+  height: 540px;
+  padding: 48px 22px;
+  gap: 24px;
+  background-color: $gray-5;
+  color: $gray-100;
+  text-align: center;
+
+  @include laptop {
+    padding: 64px 0;
+  }
+
+  @include desktop {
+    padding: 64px 0;
+    gap: 48px;
+  }
+
+  .title {
+    font-size: $font-size-xxl;
+    line-height: $line-height-xxl;
+
+    @include laptop {
+      font-size: $font-size-huge;
+      line-height: $line-height-huge;
+    }
+  }
+
+  .subtitle {
+    font-family: $font-text;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+
+    @include laptop {
+      font-size: $font-size-lg;
+      line-height: $line-height-base;
+    }
+  }
+
+  .button {
+    @include set-square(140px);
+    @include set-flex(row, center, center);
+
+    border-radius: 50%;
+    background-color: $gray-90;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: $gray-0;
+
+    @include desktop {
+      @include set-square(208px);
+      font-size: $font-size-lg;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $gray-100;
+    }
+
+    &:active {
+      transition-duration: 0.3s;
+      transform: scale(0.9);
+    }
+  }
+}
+
+.bottom {
+  display: none;
+
+  @include tablet {
+    @include set-flex(column, center, center);
+    gap: 12px;
+  }
+
+  @include laptop {
+    gap: 24px;
+  }
+
+  .line {
+    width: 100%;
+    background-color: $gray-5;
+
+    &:first-child {
+      margin-top: 12px;
+      height: 48px;
+
+      @include laptop {
+        margin-top: 0;
+      }
+
+      @include desktop {
+        margin-top: 24px;
+      }
+    }
+
+    &:nth-child(2) {
+      height: 24px;
+    }
+
+    &:nth-child(3) {
+      height: 12px;
+    }
+  }
+}

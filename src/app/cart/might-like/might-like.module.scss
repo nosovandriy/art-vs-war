@@ -1,0 +1,40 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.title {
+  margin-top: 24px;
+  color: $gray-0;
+  font-size: $font-size-lg;
+
+  @include tablet {
+    font-size: $font-size-xl;
+  }
+
+  @include desktop {
+    margin-top: 48px;
+  }
+}
+
+.more__painting {
+  margin-top: 24px;
+  display: flex;
+  gap: 20px;
+
+  @include tablet {
+    gap: 24px;
+  }
+
+  @include desktop {
+    margin-top: 48px;
+  }
+}
+
+.cardPreview {
+  max-height: 450px;
+}
+
+.line {
+  margin-top: 48px;
+  height: 1px;
+  background-color: $gray-10;
+}

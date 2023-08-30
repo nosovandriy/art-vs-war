@@ -1,0 +1,140 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.orderDone {
+  @include set-flex(column);
+
+  padding: 30px 22px 80px;
+  position: relative;
+
+  @include tabletXL {
+    padding: 50px 22px 120px;
+  }
+
+  @include desktop {
+    padding: 50px 20px 90px 130px;
+  }
+
+  @include desktopHD {
+    padding: 70px 20px 110px 130px;
+  }
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+
+  @include tabletXL {
+    font-size: $font-size-4xl;
+  }
+
+  @include laptop {
+    font-size: $font-size-huge;
+  }
+
+  @include desktop {
+    font-size: $font-size-giant;
+  }
+}
+
+.text {
+  margin-top: 24px;
+  color: $gray-10;
+
+  @include tablet {
+    max-width: 360px;
+  }
+}
+
+.button {
+  @include set-square(144px);
+  @include set-flex(column, center, center);
+
+  margin: 32px auto 0;
+  background-color: $gray-5;
+  border-radius: 50%;
+
+  @include desktopHD {
+    @include set-square(208px);
+  }
+
+  &:hover {
+    background-color: $gray-0;
+    cursor: pointer;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: scale(0.9);
+  }
+}
+
+.quote {
+  @include set-flex(row);
+  gap: 30px;
+  margin-top: 32px;
+
+  @include tablet {
+    align-self: end;
+  }
+
+  @include laptop {
+    padding-right: 100px;
+  }
+
+  @include desktop {
+    padding-right: 150px;
+  }
+}
+
+.quoteText {
+  color: $gray-30;
+  max-width: 180px;
+
+  @include tablet {
+    max-width: 230px;
+  }
+}
+
+.image {
+  @include set-square(250px);
+  position: absolute;
+
+  @include tabletXL {
+    @include set-square(300px);
+  }
+
+  @include laptop {
+    @include set-square(350px);
+  }
+
+  @include desktop {
+    @include set-square(400px);
+  }
+
+  @include desktopHD {
+    @include set-square(500px);
+  }
+}
+
+.imageLeft {
+  bottom: 0;
+  right: 0;
+
+  @include tablet {
+    rotate: 270deg;
+    top: 0;
+  }
+}
+
+.imageRight {
+  display: none;
+
+  @include tablet {
+    display: block;
+    bottom: 0;
+    left: 0;
+    rotate: 90deg;
+  }
+}

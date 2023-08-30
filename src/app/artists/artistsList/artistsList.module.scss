@@ -1,0 +1,137 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.artists {
+  @include set-flex(column);
+
+  padding: 24px 22px 48px;
+
+  @include tabletXL {
+    padding: 32px 36px 48px;
+  }
+
+  @include laptop {
+    padding: 32px 30px 32px;
+  }
+
+  @include desktop {
+    padding: 24px 19px 72px;
+  }
+}
+
+.inputWrapper {
+  @include tabletXL {
+    @include set-flex(row, space-between, center);
+  }
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+
+  @include laptop {
+    font-size: $font-size-xxxl;
+  }
+
+  @include desktop {
+    font-size: $font-size-huge;
+  }
+
+  @include desktopHD {
+    font-size: $font-size-giant;
+  }
+}
+
+.button {
+  @include set-size(100%, 48px);
+  cursor: pointer;
+
+  font-family: $font-text;
+  margin-top: 48px;
+  border-radius: 24px;
+  font-size: $font-size-base;
+  color: $gray-100;
+  background-color: $gray-5;
+  transition-duration: 0.3s;
+
+  &:hover {
+    background-color: $gray-0;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+
+  @include tablet {
+    @include set-square(144px);
+
+    align-self: center;
+    border-radius: 50%;
+    background-color: $gray-100;
+    border: 1px solid $gray-0;
+    color: $gray-0;
+
+    &:hover {
+      background-color: $gray-0;
+      color: $gray-100;
+    }
+  }
+
+  @include desktop {
+    @include set-square(208px);
+  }
+}
+
+.artistsCardOdd {
+  @include laptop {
+    :first-child {
+      grid-column-start: 4;
+      grid-column-end: 9;
+    }
+
+    :last-child {
+      grid-column-start: 9;
+      grid-column-end: -1;
+    }
+  }
+}
+
+.artistsCardOdd > :first-child {
+  @include laptop {
+    :last-child {
+      transform: translate(-50%);
+    }
+  }
+}
+
+.artistsCardEven {
+  @include tablet {
+    @include set-flex(row-reverse);
+  }
+
+  @include laptop {
+    display: grid;
+    grid-auto-flow: dense;
+
+    :first-child {
+      grid-column-start: 5;
+      grid-column-end: 10;
+    }
+
+    :last-child {
+      grid-column-start: 1;
+      grid-column-end: 5;
+    }
+  }
+}
+
+.artistsCardEven > :first-child {
+  @include laptop {
+    :last-child {
+      transform: translate(50%);
+    }
+  }
+}
+

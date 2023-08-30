@@ -1,0 +1,248 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.card {
+  @include set-flex(column, center);
+
+  padding: 24px 22px 0;
+  color: $gray-0;
+}
+
+.paintingTitle {
+  font-weight: 400;
+  line-height: 48px;
+  font-size: $font-size-xxl;
+
+  @include desktop {
+    margin-left: 112px;
+    font-size: $font-size-huge;
+  }
+}
+
+.gallery {
+  @include laptop {
+    padding: 48px 0 72px;
+  }
+
+  @include laptop {
+    @include set-flex(row, space-evenly);
+
+    gap: 20px;
+  }
+
+  @include desktop {
+    gap: 50px;
+  }
+
+  &__slider {
+    @include desktop {
+      @include set-flex(column);
+    }
+  }
+}
+
+.paintingInfo {
+  @include laptop {
+    @include set-flex(column, space-between);
+
+    height: 405px;
+    width: 310px;
+  }
+
+  @include desktop {
+    min-width: 340px;
+    height: 450px;
+  }
+}
+
+.description {
+  @include set-flex(column);
+
+  gap: 16px;
+  padding: 24px 0 32px;
+  color: $gray-5;
+
+  @include laptop {
+    padding: 0;
+  }
+
+  @include desktopHD {
+    gap: 24px;
+  }
+
+  &__block {
+    @include set-flex(row);
+
+    > :first-child {
+      min-width: 100px;
+      color: $gray-10;
+    }
+  }
+}
+
+.button {
+  @include set-size(100%, 48px);
+
+  border-radius: 24px;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $gray-100;
+}
+
+.soldButton {
+  @include set-size(100%, 48px);
+
+  background-color: transparent;
+  border: 1px solid $system-error;
+  font-weight: $font-weight-semibold;
+  color: $system-error;
+}
+
+.title {
+  margin-top: 50px;
+  font-size: $font-size-xl;
+  line-height: $font-size-xxl;
+
+  @include laptop {
+    margin-top: 0;
+  }
+}
+
+.about {
+  @include laptop {
+    @include set-flex(row, flex-start);
+
+    gap: 50px;
+    padding: 48px 0;
+
+    @include desktop {
+      padding: 48px 130px;
+    }
+  }
+
+  &__description {
+    margin-top: 24px;
+
+    @include laptop {
+      margin-top: 0;
+    }
+  }
+}
+
+.more {
+  @include laptop {
+    padding: 48px 0;
+  }
+
+  @include desktop {
+    padding: 48px 130px;
+  }
+}
+
+.buttonExplore {
+  @include set-size(100%, 48px);
+
+  margin-top: 50px;
+  border-radius: 24px;
+  background-color: $gray-100;
+  font-size: $font-size-base;
+  color: $gray-0;
+  border-color: $gray-0;
+  border-style: solid;
+  border-width: 1px;
+
+  &:active {
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  @include laptop {
+    display: none;
+  }
+}
+
+.shipping {
+  @include laptop {
+    @include set-flex(row);
+
+    padding: 48px 0;
+    gap: 50px;
+  }
+
+  @include desktop {
+    padding: 48px 130px;
+  }
+
+  &__wrapper {
+    @include set-flex(column);
+
+    margin-top: 24px;
+    gap: 24px;
+
+    @include laptop {
+      margin-top: 0;
+    }
+  }
+
+  &__info {
+    @include set-flex(row);
+
+    :first-child {
+      min-width: 140px;
+
+      @include tablet {
+        min-width: 185px;
+      }
+    }
+  }
+}
+
+.question {
+  margin-bottom: 48px;
+
+  @include laptop {
+    @include set-flex(row, flex-start, center);
+
+    padding: 48px 0;
+    gap: 50px;
+  }
+
+  @include desktop {
+    padding: 48px 130px;
+  }
+
+  &__info {
+    margin-top: 16px;
+
+    @include laptop {
+      margin-top: 0;
+    }
+  }
+
+  &__help {
+    color: $system-info;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.line {
+  display: none;
+
+  @include laptop {
+    display: block;
+    @include set-size(100%, 1px);
+
+    background-color: $gray-50;
+  }
+}
+
+.link {
+  text-transform: uppercase;
+
+  &:hover {
+    color: $gray-10;
+  }
+}

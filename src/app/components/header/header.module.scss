@@ -1,0 +1,238 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.header {
+  @include set-flex(row, space-between, center);
+
+  position: relative;
+  padding: 0 22px;
+  height: 56px;
+  background-color: $gray-100;
+
+  @include laptop {
+    height: 96px;
+    padding: 0 30px;
+  }
+
+  &__mobileElement {
+    height: 24px;
+
+    @include laptop {
+      display: none;
+    }
+  }
+}
+
+.cart__container {
+  @include set-flex(row, flex-end, center);
+
+  @include laptop {
+    min-width: 250px;
+    gap: 40px;
+  }
+}
+
+.cart {
+  position: relative;
+  cursor: pointer;
+  height: 24px;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    @include set-square(50px);
+
+    position: absolute;
+    top: -55%;
+    left: -50%;
+    background-color: $gray-30;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: 0.3s ease;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    background-color: $gray-50;
+    transition: 0.3s ease;
+  }
+
+  &__circle {
+    @include set-flex(row, center, center);
+    @include set-square(16px);
+
+    position: absolute;
+    left: 55%;
+    bottom: 60%;
+    border-radius: 100%;
+    background-color: $gray-0;
+    color: $gray-100;
+    font-size: $font-size-sm;
+  }
+}
+
+.price {
+  display: none;
+  color: $gray-0;
+  gap: 5px;
+  cursor: pointer;
+
+  @include laptop {
+    @include set-flex(column);
+  }
+
+  &__title {
+    color: $gray-10;
+    font-size: $font-size-sm;
+  }
+
+  &__amount {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.profile {
+  display: none;
+
+  @include laptop {
+    @include set-flex(row, center, center);
+    @include set-square(50px);
+
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: 0.3s ease;
+  }
+
+  &:hover {
+    background-color: $gray-50;
+  }
+}
+
+.loginDesktop {
+  display: none;
+
+  @include laptop {
+    display: flex;
+  }
+}
+
+.loginMobile {
+  @include laptop {
+    display: none;
+  }
+}
+
+.signOut {
+  @include set-flex(row, center, center);
+  @include set-size(96px, 48px);
+
+  border: 1px solid $gray-0;
+  color: $gray-0;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+.navigation {
+  display: none;
+
+  @include laptop {
+    display: block;
+  }
+}
+
+.mobileNavigation {
+  @include set-flex(column, space-around, center);
+  @include set-size(100vw, 100%);
+  top: 57px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  position: fixed;
+  z-index: $z-index-menu;
+  background-color: $gray-100;
+  transition-timing-function: ease;
+  transition-duration: 0.3s;
+
+  @include laptop {
+    display: none;
+  }
+}
+
+.showMobileNavigation {
+  left: 0;
+}
+
+.hideMobileNavigation {
+  left: -100%;
+}
+
+.line {
+  @include set-size(100%, 1px);
+
+  background-color: $gray-50;
+}
+
+.contacts {
+  @include set-flex(column, center, center);
+
+  gap: 24px;
+
+  &__title {
+    color: $gray-0;
+  }
+
+  &__icons {
+    @include set-flex(row, center, center);
+
+    gap: 30px;
+    padding-bottom: 40px;
+  }
+}
+
+.menuItems {
+  @include set-flex(column, center, center);
+
+  color: $gray-0;
+  list-style: none;
+  gap: 32px;
+  list-style: none;
+  transition: 0.3s ease;
+
+  @include laptop {
+    @include set-flex(row);
+    gap: 40px;
+  }
+
+  :first-child {
+    margin-top: 72px;
+
+    @include laptop {
+      margin-top: 0;
+    }
+  }
+
+  & li {
+    @include laptop {
+      padding: 10px 0;
+    }
+  }
+
+  li:last-child {
+    display: none;
+
+    @include laptop {
+      display: block;
+    }
+  }
+
+  :hover {
+    color: $gray-10;
+    transition: 0.3s ease;
+  }
+
+  :active {
+    color: $gray-30;
+  }
+}

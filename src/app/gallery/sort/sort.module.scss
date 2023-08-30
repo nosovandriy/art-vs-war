@@ -1,0 +1,106 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.wrapper {
+  width: 100%;
+  cursor: pointer;
+
+  @include laptop {
+    width: 32%;
+  }
+
+  @include desktop {
+    width: 24%;
+  }
+}
+
+.select {
+  @include set-flex(row, flex-start, center);
+
+  height: 56px;
+  padding: 12px;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-bottom: 1px solid $gray-0;
+}
+
+.title {
+  color: $gray-0;
+}
+
+.menu {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background-color: $gray-100;
+  z-index: 10;
+
+  @include tablet {
+    width: calc(50% - 10px);
+  }
+
+  @include laptop {
+    width: 32%;
+  }
+
+  @include desktop {
+    width: 24%;
+  }
+
+  &__wrapper {
+    @include set-flex(row, space-between, center);
+    height: 56px;
+    padding: 12px;
+    border: 1px solid $gray-0;
+    border-bottom: 1px solid $gray-50;
+    border-radius: 24px 24px 0 0;
+  }
+
+  &__container {
+    @include set-flex(row, center, center);
+
+    gap: 10px;
+  }
+
+  &__title {
+    color: $gray-0;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  background: $gray-100;
+  border: 1px solid $gray-0;
+  border-top: 0;
+  box-sizing: border-box;
+  border-radius: 0 0 24px 24px;
+
+  &__options {
+    @include set-flex(row, space-between, center);
+
+    padding: 12px 15px 12px 48px;
+    height: 48px;
+    border-bottom: 1px solid $gray-50;
+    color: $gray-0;
+
+    &:hover {
+      color: $gray-10;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.radioButton {
+  @include set-square(24px);
+
+  border: 1px solid $gray-0;
+  border-radius: 50%;
+}
+
+.radioButtonActive {
+  background-color: $gray-0;
+}

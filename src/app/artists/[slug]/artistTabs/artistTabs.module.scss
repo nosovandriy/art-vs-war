@@ -1,0 +1,142 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.tabs {
+  position: relative;
+  margin-top: 36px;
+  margin-bottom: 32px;
+  padding-left: 22px;
+  font-size: $font-size-md;
+  line-height: 20px;
+  color: $gray-0;
+
+  @include tablet {
+    margin-top: 40px;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+  }
+
+  @include tabletXL {
+    @include set-flex(row, center, center);
+    padding-left: 36px;
+    justify-content: space-between;
+  }
+
+  @include laptop {
+    padding-left: 24px;
+  }
+
+  @include desktop {
+    padding-left: 40px;
+  }
+
+  &:first-child {
+    @include laptop {
+      margin-left: 24px;
+    }
+
+    @include desktop {
+      margin-left: 40px;
+    }
+  }
+
+  &__container {
+    @include set-flex(row, center, center);
+    gap: 16px;
+
+    @include tablet {
+      gap: 24px;
+    }
+
+    @include tabletXL {
+      gap: 16px;
+    }
+  }
+
+  .tab {
+    @include set-flex(row, center, center);
+    padding: 12px;
+    width: 94px;
+    height: 48px;
+    text-align: center;
+    background-color: $gray-100;
+
+    @include tablet {
+      width: 184px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .isActive {
+    @include set-flex(row, center, center);
+    padding: 12px;
+    width: 94px;
+    height: 48px;
+    border: 1px solid $gray-0;
+    border-bottom: 3px solid $gray-100;
+    border-radius: 24px 24px 0px 0px;
+    z-index: 2;
+
+    @include tablet {
+      width: 184px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .add {
+    display: none;
+    margin-right: 22px;
+    padding: 12px;
+    width: 184px;
+    height: 48px;
+    border-radius: 24px 24px 0px 0px;
+    transform: translateY(-1px);
+    color: $gray-70;
+    text-align: center;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    background-color: $gray-5;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @include tabletXL {
+      @include set-flex(row, center, center);
+      width: 208px;
+      gap: 4px;
+    }
+  }
+
+  .tabsFooter {
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    height: 1px;
+    width: 100%;
+    background-color: $gray-0;
+    z-index: 0;
+  }
+}
+
+.gallery {
+  padding: 15px 22px;
+
+  @include tabletXL {
+    padding: 32px 36px;
+  }
+
+  @include laptop {
+    padding: 24px;
+  }
+
+  @include desktop {
+    padding: 24px 40px;
+  }
+}

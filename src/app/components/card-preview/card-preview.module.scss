@@ -1,0 +1,127 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.card {
+  @include set-flex(column);
+
+  min-width: 148px;
+  max-width: 289px;
+  transition: transform 0.3s ease;
+  cursor: default;
+  color: $gray-5;
+
+  @include tablet {
+    min-width: 182px;
+    max-width: 228px;
+  }
+
+  @include tabletXL {
+    min-width: 160px;
+    max-width: 250px;
+  }
+
+  @include laptop {
+    min-width: 200px;
+    max-width: 350px;
+  }
+
+  @include desktop {
+    min-width: 180px;
+    max-width: 360px;
+  }
+
+  @include desktopHD {
+    min-width: 220px;
+    max-width: 360px;
+  }
+
+  &:hover {
+    opacity: 85%;
+    transform: scale(0.995);
+    transition-duration: 0.3s;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 1.5s;
+  cursor: pointer;
+}
+
+.title {
+  width: fit-content;
+  margin-top: 16px;
+  font-family: $font-text;
+}
+
+.artist {
+  width: fit-content;
+  margin-top: 5px;
+  color: $gray-10;
+
+  &:hover {
+    color: $gray-0;
+  }
+}
+
+.buy {
+  @include set-flex(row, space-between, center);
+
+  margin-top: 5px;
+  width: 100%;
+
+  &__price {
+    align-self: flex-end;
+  }
+
+  &__icon {
+    @include set-flex(row, center, center);
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-color: $gray-0;
+    border-width: 1px;
+    border-style: solid;
+
+    &:hover {
+      transform: scale(1.01);
+      opacity: 80%;
+      transition: transform 0.3s ease;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      background-color: $gray-0;
+      cursor: pointer;
+
+      @keyframes pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      path {
+        fill: $gray-100;
+      }
+    }
+
+    &:active {
+      transform: scale(0.9);
+      transition-duration: 0.3s;
+    }
+  }
+
+  &__iconSold {
+    @include set-flex(row, center, center);
+    @include set-square(40px);
+
+    border-radius: 50%;
+    border-color: $system-error;
+    border-width: 1px;
+    border-style: solid;
+    color: $system-error;
+    font-size: $font-size-md;
+    font-weight: $font-weight-bold;
+  }
+}

@@ -1,0 +1,52 @@
+@mixin set-size($width: 0px, $height: 0px) {
+  width: $width;
+  height: $height;
+}
+
+@mixin set-square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin set-flex($flex-direction: row, $justify-content: flex-start, $align-items: stretch) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin mobile {
+  @media (max-width: 639px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin tabletXL {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1366px) {
+    @content;
+  }
+}
+
+@mixin desktopHD {
+  @media (min-width: 1600px) {
+    @content;
+  }
+}
