@@ -13,6 +13,22 @@
   transition-duration: 0.3s;
 }
 
+.phoneWrapperError {
+  border: 1px solid $system-error;
+}
+
+.phoneWrapperError:hover {
+  border: 1px solid $system-error;
+  transition-duration: 0.3s;
+}
+
+.phoneWrapper .phoneNumber {
+  &:focus {
+    border: 1px solid $gray-50 !important;
+    transition-duration: 0.3s;
+  }
+}
+
 .phoneWrapper .form-control.phoneNumber {
   border-radius: 0;
   margin-top: 8px;
@@ -29,7 +45,7 @@
 }
 
 .phoneWrapper .flag-dropdown.phoneFlag {
-  background-color: $gray-90  !important;
+  background-color: $gray-90 !important;
   border-width: 0 !important;
 }
 
