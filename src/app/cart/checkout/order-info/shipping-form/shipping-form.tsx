@@ -1,10 +1,16 @@
 "use client";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
+import {
+  Controller,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { useDispatch } from "react-redux";
 
+import ButtonLoader from "@/app/components/button-loader/button-loader";
 import {
   setPaintingsShippingInfo,
   setShippingAddress,
@@ -14,9 +20,9 @@ import { ShippingFormTypes } from "@/types/ShippingForm";
 import { CartSteps } from "@/types/cartSteps";
 import { getShippingInfo } from "@/utils/api";
 import { defaultValues, validation } from "./form";
+import { PhoneNumber } from "./phone-number/phone-number";
 
 import style from "./shipping-form.module.scss";
-import ButtonLoader from "@/app/components/button-loader/button-loader";
 
 type Props = {
   headers: object;
@@ -36,6 +42,7 @@ const ShippingForm: React.FC<Props> = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -203,15 +210,22 @@ const ShippingForm: React.FC<Props> = ({
               Phone number<span className={style.star}> *</span>
             </p>
             <div className={style.input}>
-              <input
-                type="phone"
-                className={`${style.inputText} ${
-                  errors?.phone?.message && style.inputText__error
-                }`}
-                placeholder="Enter your phone number"
-                {...register("phone")}
+              <Controller
+                control={control}
+                name="phone"
+                defaultValue=""
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <>
+                    <PhoneNumber value={value} onChange={onChange} />
+                    {error && (
+                      <div className={style.error}>{errors.phone?.message}</div>
+                    )}
+                  </>
+                )}
               />
-              <div className={style.error}>{errors.phone?.message}</div>
             </div>
           </label>
         </>
