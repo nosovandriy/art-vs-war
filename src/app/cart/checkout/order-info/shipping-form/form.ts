@@ -12,9 +12,6 @@ export const defaultValues = {
   phone: "",
 };
 
-const phoneRegExp =
-  /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
-
 export const validation = yup.object({
   firstName: yup
     .string()
@@ -44,10 +41,7 @@ export const validation = yup.object({
     .min(1, "Min 1 characters")
     .matches(/^[A-Za-z- ]+$/i, "The city should contain only Latin letters"),
   state: yup
-    .string()
-    .max(50, "Max 50 characters")
-    .min(1, "Min 1 characters")
-    .matches(/^[A-Za-z- ]+$/i, "The country should contain only Latin letters"),
+    .string(),
   postalCode: yup
     .string()
     .required("This field is required!")
@@ -62,5 +56,5 @@ export const validation = yup.object({
   phone: yup
     .string()
     .required("This field is required!")
-    .matches(phoneRegExp, "Phone number is not valid"),
+    .min(7, "Phone number is not valid"),
 });
