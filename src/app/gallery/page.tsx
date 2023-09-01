@@ -1,11 +1,18 @@
+
 import { getFiltersData, getPaintings } from "@/utils/api";
+import { Metadata } from "next";
 import Filter from "./filter/filter";
 import MasonryCatalog from "./massonry-catalog/massonry-catalog";
+import MorePaintingsUploading from "./more-paintings-uploading/more-paintings-uploading";
 import Preloader from "./preloader";
 import Sort from "./sort/sort";
-import MorePaintingsUploading from "./more-paintings-uploading/more-paintings-uploading";
 
 import style from "./page.module.scss";
+
+export const metadata: Metadata = {
+  title: 'Gallery catalog',
+  description: 'List of paintings in Art vs War GALLERY',
+}
 
 const Gallery = async ({
   searchParams,

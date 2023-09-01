@@ -2,6 +2,7 @@ import { Open_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import { Toaster } from "react-hot-toast";
 
+import { Metadata } from "next";
 import ReduxProvider from "@redux/redux-provider";
 import AuthenticatorProvider from "./authenticator/authenticatior";
 import Footer from "./components/footer/footer";
@@ -24,22 +25,22 @@ const openSansFont = Open_Sans({
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://develop.artvswar.gallery"),
   title: {
-    default: "Art vs. War GALLERY",
-    template: `%s | Art vs. War GALLERY`,
+    default: "Art vs War GALLERY",
+    template: `%s | Art vs War GALLERY`,
   },
   description:
     "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
   icons: "./favicon.ico",
   keywords: "artist, gallery, paintings, ukraine artists, arts, ukraine",
   openGraph: {
-    title: "Art vs. War GALLERY",
+    title: "Art vs War GALLERY",
     description:
       "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
     url: "https://artvswar.gallery/",
-    siteName: "Art vs. War GALLERY",
+    siteName: "Art vs War GALLERY",
     images: [
       {
         url: "https://artvswar.gallery/assets/logo_icon.svg",

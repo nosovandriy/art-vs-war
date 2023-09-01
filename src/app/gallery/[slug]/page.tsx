@@ -8,8 +8,6 @@ import PaintingGallery from "./paintingGallery/paintingGallery";
 
 import style from "./page.module.scss";
 
-import type { Metadata, ResolvingMetadata } from "next";
-
 export async function generateMetadata({
   params,
 }: {
@@ -33,7 +31,7 @@ export async function generateMetadata({
         title: `${paintingsList.title} by ${paintingsList.author.fullName}`,
         description: paintingsList.description,
         url: `https://artvswar.gallery/gallery/${paintingsList.prettyId}`,
-        siteName: "Art vs. War GALLERY",
+        siteName: "Art vs War GALLERY",
         images: [
           {
             url: `${paintingsList.image.imageUrl}`,
