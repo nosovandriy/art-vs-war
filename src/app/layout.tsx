@@ -1,17 +1,13 @@
 import { Open_Sans } from "next/font/google";
 import localFont from "next/font/local";
-
-import "@styles/globals.scss";
-
-import ReduxProvider from "@redux/redux-provider";
-import Header from "./components/header/header";
-import Footer from "./components/footer/footer";
-import AuthenticatorProvider from "./authenticator/authenticatior";
 import { Toaster } from "react-hot-toast";
 
-interface Props {
-  children: React.ReactNode;
-}
+import ReduxProvider from "@redux/redux-provider";
+import AuthenticatorProvider from "./authenticator/authenticatior";
+import Footer from "./components/footer/footer";
+import Header from "./components/header/header";
+
+import "@styles/globals.scss";
 
 const kyivFont = localFont({
   src: "../fonts/KyivTypeSans-Regular-.woff",
@@ -29,11 +25,39 @@ const openSansFont = Open_Sans({
 });
 
 export const metadata = {
-  title: "Art vs war",
-  description: "Artists gallery",
+  metadataBase: new URL("https://develop.artvswar.gallery"),
+  title: {
+    default: "Art vs. War GALLERY",
+    template: `%s | Art vs. War GALLERY`,
+  },
+  description:
+    "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
+  icons: "./favicon.ico",
+  keywords: "artist, gallery, paintings, ukraine artists, arts, ukraine",
+  openGraph: {
+    title: "Art vs. War GALLERY",
+    description:
+      "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
+    url: "https://artvswar.gallery/",
+    siteName: "Art vs. War GALLERY",
+    images: [
+      {
+        url: "https://artvswar.gallery/assets/logo_icon.svg",
+      },
+    ],
+    type: "website",
+  },
+  verification: {
+    google:
+      "google-site-verification=0m4tMeZMyX-batXw4H8H-CUJyAxN2ClefDqs-TAVxkA",
+  },
 };
 
-export default function RootLayout({ children }: Props) {
+interface Props {
+  children: React.ReactNode;
+}
+
+const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
@@ -51,4 +75,6 @@ export default function RootLayout({ children }: Props) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
