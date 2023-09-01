@@ -84,3 +84,17 @@
 .dial-code {
   color: $gray-10 !important;
 }
+
+.search {
+  background-color: $gray-80 !important;
+}
+
+.search-box {
+  color: $gray-0 !important;
+  border: 1px solid $gray-30 !important;
+  background-color: $gray-80 !important;
+}
+
+.no-entries-message {
+  color: $gray-0 !important;
+}
