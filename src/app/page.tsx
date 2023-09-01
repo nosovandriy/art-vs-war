@@ -5,12 +5,7 @@ import DataInfo from "@home/dataInfo-section/dataInfo-section";
 import Funds from "@home/funds-section/funds-section";
 import Hero from "./components/home/hero-section/hero-loader";
 
-export const metadata = {
-  title: "Art vs war",
-  description: "Artists gallery",
-};
-
-export default function Home() {
+const Home = () => {
   return (
     <main>
       <Hero />
@@ -21,4 +16,6 @@ export default function Home() {
       <Artist />
     </main>
   );
-}
+};
+
+export default Home;

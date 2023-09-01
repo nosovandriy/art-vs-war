@@ -19,8 +19,6 @@ const MorePaintingsUploading = () => {
     threshold: 0,
   });
 
-  console.log("inView", inView);
-
   const { totalSize, paintings, pagesCount } = useAppSelector(
     (state) => state.paintings
   );
