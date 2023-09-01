@@ -3,19 +3,23 @@
 import { Artist } from "@/types/Artist";
 import { useAppSelector } from "@/types/ReduxHooks";
 import ArtistCard from "../artistCard/artistCard";
+import EmptyArtistsPage from "./empty-page/empty-page";
 import InputArtistSearch from "./inputSearch/inputSearch";
-import MoreArtistsButton from "./more-artists-button/more-artists-button";
+import MoreArtistsAutoFetch from "./more-artists-auto-fetch/more-artists-auto-fetch";
 
 import style from "./artistsList.module.scss";
-import EmptyArtistsPage from "./empty-page/empty-page";
 
 const ArtistsList = () => {
-  const { foundArtists } = useAppSelector((state) => state.artists);
+  const { foundArtists, totalSize } = useAppSelector((state) => state.artists);
 
   return (
     <section className={style.artists}>
       <div className={style.inputWrapper}>
-        <h1 className={style.title}>Artists</h1>
+      <div className={style.titleWrapper}>
+          <h1 className={style.title}>Artists</h1>
+          <p className={style.title__info}>&nbsp;{`(${totalSize})`}</p>
+        </div>
+
         <InputArtistSearch />
       </div>
 
@@ -35,7 +39,7 @@ const ArtistsList = () => {
                 />
               ))}
             </div>
-            <MoreArtistsButton />
+            <MoreArtistsAutoFetch />
           </>
         ) : (
           <EmptyArtistsPage />

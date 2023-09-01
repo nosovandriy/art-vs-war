@@ -1,25 +1,24 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
 
+import Collection from "@/app/components/collection/collection";
 import MasonryGallery from "@/app/components/masonry/masonry";
 import { Add } from "@/app/icons/icon-add";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 import { useAppSelector } from "@/types/ReduxHooks";
 import ArtProcess from "./artProcess/artProcess";
-import MoreArtistPaintingsButton from "./artProcess/more-artist-paintings/more-artist-paintings";
 
-import style from "./artistTabs.module.scss";
-import Collection from "@/app/components/collection/collection";
-import React from "react";
-
+import MoreArtistsAutoFetch from "./artProcess/more-artist-paintings/more-artist-paintings";
 const tabs: ArtistTabOptions[] = [
   ArtistTabOptions.artworks,
   ArtistTabOptions.collections,
   ArtistTabOptions.artProcess,
 ];
+
+import style from "./artistTabs.module.scss";
 
 const ArtistTabs = () => {
   const { artistPaintings } = useAppSelector((state) => state.artistPaintings);
@@ -49,10 +48,7 @@ const ArtistTabs = () => {
         </div>
 
         {isProfile && (
-          <Link
-            href="/profile/createPainting"
-            className={style.add}
-          >
+          <Link href="/profile/createPainting" className={style.add}>
             <Add />
             Add artworks
           </Link>
@@ -65,7 +61,7 @@ const ArtistTabs = () => {
         {selectedTab === ArtistTabOptions.artworks && (
           <>
             <MasonryGallery paintingsList={artistPaintings} />
-            <MoreArtistPaintingsButton />
+            <MoreArtistsAutoFetch />
           </>
         )}
         {selectedTab === ArtistTabOptions.artProcess && <ArtProcess />}
