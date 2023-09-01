@@ -18,11 +18,63 @@ export const PhoneNumber: React.FC<Props> = ({ value, error, onChange }) => {
         inputClass={"phoneNumber"}
         buttonClass={"phoneFlag"}
         dropdownClass={"custom-dropdown"}
-        countryCodeEditable={false}
-        preferredCountries={["gb", "ie", "ua"]}
+        countryCodeEditable={true}
+        placeholder={"Enter your phone number"}
+        enableSearch={true}
+        searchPlaceholder={"Search your country"}
+        disableSearchIcon={true}
+        preferredCountries={[
+          "al",
+          "ad",
+          "at",
+          "be",
+          "ba",
+          "bg",
+          "hr",
+          "ca",
+          "cy",
+          "cz",
+          "ch",
+          "dk",
+          "ee",
+          "fi",
+          "fr",
+          "de",
+          "gr",
+          "hu",
+          "gb",
+          "ie",
+          "is",
+          "it",
+          "xk",
+          "li",
+          "lt",
+          "lu",
+          "lv",
+          "mk",
+          "mt",
+          "md",
+          "mc",
+          "me",
+          "nl",
+          "no",
+          "pl",
+          "pt",
+          "ro",
+          "rs",
+          "sm",
+          "sk",
+          "si",
+          "es",
+          "se",
+          "sh",
+          "tr",
+          "va",
+          "ua",
+          "us",
+        ]}
         excludeCountries={["ru", "by"]}
         country={"ua"}
-        regions={"europe"}
         value={value}
         onChange={(event) => onChange(event)}
       />
