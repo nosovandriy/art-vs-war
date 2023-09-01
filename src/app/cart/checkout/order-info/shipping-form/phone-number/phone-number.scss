@@ -49,6 +49,12 @@
   border-width: 0 !important;
 }
 
+.react-tel-input .flag-dropdown.open,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background: $gray-90 !important;
+  background-color: $gray-90 !important;
+}
+
 .phoneWrapper .phoneFlag .selected-flag:hover {
   background-color: $gray-90 !important;
 }
