@@ -1,5 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+
+import Loading from "@/app/loading";
 import {
   addMoreArtists,
   increaseArtistsPageNumber,
@@ -7,9 +11,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { getArtists } from "@/utils/api";
 
-import style from "./more-artists-button.module.scss";
+import style from "./more-artists-auto-fetch.module.scss";
 
-const MoreArtistsButton = () => {
+const MoreArtistsAutoFetch = () => {
+  const [ref, inView] = useInView({
+    threshold: 0,
+  });
+
   const { pagesCount, totalSize, foundArtists, search } = useAppSelector(
     (state) => state.artists
   );
@@ -29,15 +37,21 @@ const MoreArtistsButton = () => {
       : getAdditionalPaintings(`?page=${currentPage}&query=${search}`);
   };
 
+  useEffect(() => {
+    if (inView) {
+      handleGetNewPage();
+    }
+  }, [inView]);
+
   return (
     <>
       {!isEndArtistsList && (
-        <button className={style.button} onClick={handleGetNewPage}>
-          More Artists
-        </button>
+        <div ref={ref}>
+          <Loading className={style.className} />
+        </div>
       )}
     </>
   );
 };
 
-export default MoreArtistsButton;
+export default MoreArtistsAutoFetch;

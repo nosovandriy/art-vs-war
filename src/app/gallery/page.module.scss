@@ -14,6 +14,10 @@
   }
 }
 
+.titleWrapper {
+  @include set-flex(row);
+}
+
 .title {
   color: $gray-0;
   font-size: $font-size-xxl;
@@ -29,6 +33,25 @@
 
   @include desktopHD {
     font-size: $font-size-giant;
+  }
+
+  &__info {
+    align-self: center;
+    color: $gray-10;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-regular;
+
+    @include laptop {
+      font-size: $font-size-xxl;
+    }
+
+    @include desktop {
+      font-size: $font-size-xxxl;
+    }
+
+    @include desktopHD {
+      font-size: $font-size-huge;
+    }
   }
 }
 

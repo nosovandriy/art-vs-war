@@ -1,7 +1,10 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
+import Loading from "@/app/loading";
 import {
   addMorePaintings,
   increaseGalleryPage,
@@ -9,9 +12,15 @@ import {
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { getPaintings } from "@/utils/api";
 
-import style from "./more-paintings-button.module.scss";
+import style from "./more-paintings-uploading.module.scss";
 
-const MorePaintingsButton = () => {
+const MorePaintingsUploading = () => {
+  const [ref, inView] = useInView({
+    threshold: 0,
+  });
+
+  console.log("inView", inView);
+
   const { totalSize, paintings, pagesCount } = useAppSelector(
     (state) => state.paintings
   );
@@ -34,15 +43,21 @@ const MorePaintingsButton = () => {
     dispatch(increaseGalleryPage());
   };
 
+  useEffect(() => {
+    if (inView) {
+      handleGetNewPage();
+    }
+  }, [inView]);
+
   return (
     <>
       {!isEndPaintingList && (
-        <button className={style.button} onClick={handleGetNewPage}>
-          More Artworks
-        </button>
+        <div ref={ref}>
+          <Loading className={style.className} />
+        </div>
       )}
     </>
   );
 };
 
-export default MorePaintingsButton;
+export default MorePaintingsUploading;

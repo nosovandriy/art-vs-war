@@ -1,15 +1,23 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
-import { getPaintingsByArtist } from "@/utils/api";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+
+import Loading from "@/app/loading";
 import {
   addMoreArtistPaintings,
   increaseArtistGalleryPage,
 } from "@/app/redux/slices/artistPaintingsSlice";
+import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
+import { getPaintingsByArtist } from "@/utils/api";
 
 import style from "./more-artist-paintings.module.scss";
 
-const MoreArtistPaintingsButton = () => {
+const MoreArtistsAutoFetch = () => {
+  const [ref, inView] = useInView({
+    threshold: 0,
+  });
+
   const { totalSize, artistPaintings, pagesCount, artistId } = useAppSelector(
     (state) => state.artistPaintings
   );
@@ -30,15 +38,21 @@ const MoreArtistPaintingsButton = () => {
     dispatch(increaseArtistGalleryPage());
   };
 
+  useEffect(() => {
+    if (inView) {
+      handleGetNewPage();
+    }
+  }, [inView]);
+
   return (
     <>
       {!isEndPaintingList && (
-        <button className={style.button} onClick={handleGetNewPage}>
-          More Artworks
-        </button>
+        <div ref={ref}>
+          <Loading className={style.className} />
+        </div>
       )}
     </>
   );
 };
 
-export default MoreArtistPaintingsButton;
+export default MoreArtistsAutoFetch;
