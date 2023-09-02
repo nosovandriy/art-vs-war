@@ -80,8 +80,8 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
         <Image
           src={imageUrl}
           alt={`${authorFullName} - ${title}`}
-          width={1368}
-          height={1500}
+          width={440}
+          height={800}
           className={`${style.image} ${className} imageOpacityEffect`}
           onLoadingComplete={(img) => (img.style.opacity = "1")}
         />
