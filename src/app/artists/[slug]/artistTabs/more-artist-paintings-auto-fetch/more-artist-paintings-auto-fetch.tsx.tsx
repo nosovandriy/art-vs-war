@@ -11,9 +11,9 @@ import {
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { getPaintingsByArtist } from "@/utils/api";
 
-import style from "./more-artist-paintings.module.scss";
+import style from "./more-artist-paintings-auto-fetch.module.scss";
 
-const MoreArtistsAutoFetch = () => {
+const MoreArtistPaintingsAutoFetch = () => {
   const [ref, inView] = useInView({
     threshold: 0,
   });
@@ -55,4 +55,4 @@ const MoreArtistsAutoFetch = () => {
   );
 };
 
-export default MoreArtistsAutoFetch;
+export default MoreArtistPaintingsAutoFetch;

@@ -10,15 +10,15 @@ import { Add } from "@/app/icons/icon-add";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 import { useAppSelector } from "@/types/ReduxHooks";
 import ArtProcess from "./artProcess/artProcess";
+import MoreArtistPaintingsAutoFetch from "./more-artist-paintings-auto-fetch/more-artist-paintings-auto-fetch.tsx";
 
-import MoreArtistsAutoFetch from "./artProcess/more-artist-paintings/more-artist-paintings";
+import style from "./artistTabs.module.scss";
+
 const tabs: ArtistTabOptions[] = [
   ArtistTabOptions.artworks,
   ArtistTabOptions.collections,
   ArtistTabOptions.artProcess,
 ];
-
-import style from "./artistTabs.module.scss";
 
 const ArtistTabs = () => {
   const { artistPaintings } = useAppSelector((state) => state.artistPaintings);
@@ -61,7 +61,7 @@ const ArtistTabs = () => {
         {selectedTab === ArtistTabOptions.artworks && (
           <>
             <MasonryGallery paintingsList={artistPaintings} />
-            <MoreArtistsAutoFetch />
+            <MoreArtistPaintingsAutoFetch />
           </>
         )}
         {selectedTab === ArtistTabOptions.artProcess && <ArtProcess />}
