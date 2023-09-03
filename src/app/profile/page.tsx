@@ -10,6 +10,7 @@ import {
   useTheme,
 } from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Artist } from "@/types/Artist";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
@@ -28,14 +29,14 @@ import {
 import style from "./page.module.scss";
 import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 import createHeaders from "@/utils/getAccessToken";
-import axios from "axios";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [openForm, setOpenForm] = useState<ArtistTabOptions | null>(null);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     setIsFetching(true);
@@ -57,6 +58,8 @@ const Profile = () => {
     }
 
     setIsFetching(false);
+
+    return setIsFetching(false);
   }, [user, dispatch]);
 
   useEffect(() => {

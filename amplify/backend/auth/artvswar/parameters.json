@@ -1,0 +1,30 @@
+{
+  "authSelections": "userPoolOnly",
+  "resourceName": "artvswar",
+  "serviceType": "imported",
+  "region": "eu-west-3",
+  "usernameAttributes": [
+    "email"
+  ],
+  "authProvidersUserPool": [
+    "Facebook",
+    "Google"
+  ],
+  "requiredAttributes": [
+    "email"
+  ],
+  "passwordPolicyMinLength": 8,
+  "passwordPolicyCharacters": [
+    "Requires Lowercase",
+    "Requires Uppercase",
+    "Requires Numbers",
+    "Requires Symbols"
+  ],
+  "mfaConfiguration": "OPTIONAL",
+  "autoVerifiedAttributes": [
+    "email"
+  ],
+  "mfaTypes": [
+    "TOTP"
+  ]
+}
