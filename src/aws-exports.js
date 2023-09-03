@@ -12,7 +12,7 @@ const awsmobile = {
             "email",
             "openid"
         ],
-        "redirectSignIn": "https://www.artvswar.gallery/callback",
+        "redirectSignIn": "https://www.artvswar.gallery/profile",
         "redirectSignOut": "https://www.artvswar.gallery",
         "responseType": "code"
     },
@@ -44,5 +44,6 @@ const awsmobile = {
         "EMAIL"
     ]
 };
+
 
 export default awsmobile;
