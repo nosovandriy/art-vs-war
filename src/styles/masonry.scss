@@ -8,9 +8,17 @@
   width: auto;
   gap: 20px;
 }
+
 .my-masonry-grid_column {
   background-clip: padding-box;
   display: flex;
   flex-direction: column;
   gap: 56px;
+}
+
+.my-masonry-grid_column__art-process {
+  background-clip: padding-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

@@ -1,0 +1,12 @@
+@import "@styles/mixins.scss";
+@import "@styles/vars.scss";
+
+.className {
+  margin: 48px 0 0;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-100;
+  z-index: 99999;
+}

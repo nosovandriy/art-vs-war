@@ -1,0 +1,106 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.phoneWrapper {
+  margin-top: 8px;
+  border: 1px solid transparent;
+  border-radius: 0 !important;
+  transition-duration: 0.3s;
+}
+
+.phoneWrapper:hover {
+  border: 1px solid $gray-50;
+  transition-duration: 0.3s;
+}
+
+.phoneWrapperError {
+  border: 1px solid $system-error;
+}
+
+.phoneWrapperError:hover {
+  border: 1px solid $system-error;
+  transition-duration: 0.3s;
+}
+
+.phoneWrapper .phoneNumber {
+  &:focus {
+    border: 1px solid $gray-50 !important;
+    transition-duration: 0.3s;
+  }
+}
+
+.phoneWrapper .form-control.phoneNumber {
+  border-radius: 0;
+  margin-top: 8px;
+  margin-left: 30px;
+  height: 48px;
+  width: calc(100% - 30px);
+  padding: 12px 16px;
+  color: $gray-0;
+  font-size: 16px;
+  outline: none;
+  background-color: $gray-90;
+  transition-duration: 0.3s;
+  border-width: 0 !important;
+}
+
+.phoneWrapper .flag-dropdown.phoneFlag {
+  background-color: $gray-90 !important;
+  border-width: 0 !important;
+}
+
+.react-tel-input .flag-dropdown.open,
+.react-tel-input .flag-dropdown.open .selected-flag {
+  background: $gray-90 !important;
+  background-color: $gray-90 !important;
+}
+
+.phoneWrapper .phoneFlag .selected-flag:hover {
+  background-color: $gray-90 !important;
+}
+
+.selected-flag.open {
+  background-color: $gray-90 !important;
+}
+
+.react-tel-input .flag-dropdown.open {
+  background: $gray-30 !important;
+}
+
+.country.highlight {
+  background-color: $gray-50 !important;
+}
+
+.country-list.custom-dropdown {
+  background-color: $gray-80 !important;
+}
+
+.country-list.custom-dropdown:hover {
+  background-color: $gray-80 !important;
+}
+
+.country:hover {
+  background-color: $gray-50 !important;
+}
+
+.country-name {
+  color: $gray-5 !important;
+}
+
+.dial-code {
+  color: $gray-10 !important;
+}
+
+.search {
+  background-color: $gray-80 !important;
+}
+
+.search-box {
+  color: $gray-0 !important;
+  border: 1px solid $gray-30 !important;
+  background-color: $gray-80 !important;
+}
+
+.no-entries-message {
+  color: $gray-0 !important;
+}

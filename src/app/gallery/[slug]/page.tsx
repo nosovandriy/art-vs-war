@@ -8,6 +8,46 @@ import PaintingGallery from "./paintingGallery/paintingGallery";
 
 import style from "./page.module.scss";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  try {
+    const paintingsList = await getPainting(params.slug);
+    if (!paintingsList) {
+      return {
+        title: "Not Found",
+        description: "The page you are looking for does not exist",
+      };
+    }
+    return {
+      title: `${paintingsList.title} by ${paintingsList.author.fullName}`,
+      description: paintingsList.description,
+      alternates: {
+        canonical: `/gallery/${paintingsList.prettyId}`,
+      },
+      openGraph: {
+        title: `${paintingsList.title} by ${paintingsList.author.fullName}`,
+        description: paintingsList.description,
+        url: `https://artvswar.gallery/gallery/${paintingsList.prettyId}`,
+        siteName: "Art vs War GALLERY",
+        images: [
+          {
+            url: `${paintingsList.image.imageUrl}`,
+          },
+        ],
+        type: "website",
+      },
+    };
+  } catch (error) {
+    return {
+      title: "Not Found",
+      description: "The page you are looking for does not exist",
+    };
+  }
+}
+
 const PaintingCard = async ({ params }: { params: { slug: string } }) => {
   const paintingsList = await getPainting(params.slug);
 
