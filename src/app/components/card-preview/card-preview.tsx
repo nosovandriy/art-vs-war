@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { saveOrderPaintingToServer } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
+import { setDataToLocalStorage } from "@/utils/localStorageData";
 
 import "@styles/globals.scss";
 import style from "./card-preview.module.scss";
@@ -67,6 +68,8 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
     if (user) {
       saveOrderPaintingToServer(id, headers);
+      setDataToLocalStorage([]);
+
     }
 
     if (paintingsShippingInfo) {
@@ -100,10 +103,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
         ) : (
           <>
             {isPaintingSelected ? (
-              <div
-                className={style.buy__icon}
-                onClick={handleAddPaintingToCart}
-              >
+              <div className={style.buy__icon}>
                 <CheckProduct />
               </div>
             ) : (
