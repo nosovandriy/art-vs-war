@@ -49,6 +49,7 @@
   border-width: 0 !important;
 }
 
+.react-tel-input .flag-dropdown,
 .react-tel-input .flag-dropdown.open,
 .react-tel-input .flag-dropdown.open .selected-flag {
   background: $gray-90 !important;
@@ -63,9 +64,6 @@
   background-color: $gray-90 !important;
 }
 
-.react-tel-input .flag-dropdown.open {
-  background: $gray-30 !important;
-}
 
 .country.highlight {
   background-color: $gray-50 !important;

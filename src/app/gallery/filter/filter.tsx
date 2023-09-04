@@ -86,8 +86,29 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     } else {
       params.delete("paymentStatus");
     }
+
     if (priceRanges[0] !== minPrice || priceRanges[1] !== maxPrice) {
-      params.set("priceBetween", priceRanges.join(","));
+      const newPriceRanges = [...priceRanges];
+
+      if (
+        newPriceRanges[0] < minPrice ||
+        newPriceRanges[0] > priceRanges[1] ||
+        newPriceRanges[0] > maxPrice
+      ) {
+        newPriceRanges[0] = minPrice;
+      }
+
+      if (
+        newPriceRanges[1] > maxPrice ||
+        newPriceRanges[1] < priceRanges[0] ||
+        newPriceRanges[1] < minPrice
+      ) {
+        newPriceRanges[1] = maxPrice;
+      }
+
+      setPriceRanges(newPriceRanges);
+
+      params.set("priceBetween", newPriceRanges.join(","));
     } else {
       params.delete("priceBetween");
     }

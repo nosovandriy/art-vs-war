@@ -69,7 +69,7 @@ const RootLayout = ({ children }: Props) => {
           <AuthenticatorProvider>
             <Toaster position="top-center" reverseOrder={false} />
             <Header />
-            {children}
+            <main>{children}</main>
             <Footer />
           </AuthenticatorProvider>
         </ReduxProvider>

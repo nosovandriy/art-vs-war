@@ -1,6 +1,4 @@
-import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 import style from "@styles/not-found.module.scss";
 
@@ -23,9 +21,9 @@ const NotFound = () => {
             height={1000}
             className={style.imageMobile}
           />
-          <Link href={"/"}>
+          <a href={"/"}>
             <button className={style.button}>Main page</button>
-          </Link>
+          </a>
         </div>
       </div>
     </section>
