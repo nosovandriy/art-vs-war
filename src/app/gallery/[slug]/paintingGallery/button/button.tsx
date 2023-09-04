@@ -11,6 +11,7 @@ import { CartItem } from "@/types/CartItem";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { saveOrderPaintingToServer } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
+import { setDataToLocalStorage } from "@/utils/localStorageData";
 
 import "./button-style.scss";
 
@@ -38,6 +39,7 @@ const AddToCartButton: React.FC<Props> = ({ orderData }) => {
 
       if (user) {
         saveOrderPaintingToServer(orderData.id, headers);
+        setDataToLocalStorage([]);
       }
     }, 1500);
 
