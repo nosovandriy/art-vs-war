@@ -14,6 +14,24 @@
   }
 }
 
+.sortHeader {
+  @include set-flex(row, flex-start, center);
+  gap: 8px;
+}
+
+.titleSelected {
+  display: none;
+
+  @include tablet {
+    display: block;
+    color: $gray-10;
+  }
+}
+
+.sortIcon {
+  transform: rotate(180deg);
+}
+
 .select {
   @include set-flex(row, flex-start, center);
 

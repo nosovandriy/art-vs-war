@@ -60,10 +60,9 @@ interface Props {
 
 const RootLayout = ({ children }: Props) => {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en">
       <body
         className={`${openSansFont.variable} ${kyivFont.variable}`}
-        suppressHydrationWarning={true}
       >
         <ReduxProvider>
           <AuthenticatorProvider>

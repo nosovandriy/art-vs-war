@@ -79,6 +79,10 @@ const Sort = () => {
     };
   });
 
+  const selectedOption = fieldsOptions.find(
+    (option) => option.value === sortBy
+  );
+
   return (
     <div
       className={style.wrapper}
@@ -87,14 +91,26 @@ const Sort = () => {
     >
       <div className={style.select}>
         <SortIcon />
-        <p className={style.title}>Sort</p>
+        <div className={style.sortHeader}>
+          <p className={style.title}>Sort</p>
+          {<div className={style.titleSelected}>{selectedOption?.title}</div>}
+        </div>
       </div>
       {isMenuOpen && (
         <div className={style.menu}>
           <div className={style.menu__wrapper}>
             <div className={style.menu__container}>
-              <SortIcon />
-              <p className={style.menu__title}>Sort</p>
+              <div className={style.sortIcon}>
+                <SortIcon />
+              </div>
+              <div className={style.sortHeader}>
+                <p className={style.title}>Sort</p>
+                {
+                  <div className={style.titleSelected}>
+                    {selectedOption?.title}
+                  </div>
+                }
+              </div>
             </div>
             <div>
               <ArrowUpIcon />
