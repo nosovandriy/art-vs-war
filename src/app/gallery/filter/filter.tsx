@@ -65,11 +65,28 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const sum =
+  const isFilterByPriceOrSize =
+    !Array.isArray(priceRanges) ||
+    priceRanges.length !== 2 ||
+    priceRanges[0] !== minPrice ||
+    priceRanges[1] !== maxPrice ||
+    !Array.isArray(widthRanges) ||
+    widthRanges.length !== 2 ||
+    widthRanges[0] !== minWidth ||
+    widthRanges[1] !== maxWidth ||
+    !Array.isArray(heightRanges) ||
+    heightRanges.length !== 2 ||
+    heightRanges[0] !== minHeight ||
+    heightRanges[1] !== maxHeight;
+
+  const isFilterByStyles =
     styleCheckOptions.length +
     subjectCheckOptions.length +
     mediumCheckOptions.length +
     supportCheckOptions.length;
+
+  const isFiltering =
+    isFilterByPriceOrSize || isFilterByStyles || paymentStatus;
 
   const getFilteringPaintings = async (filtersParams: string) => {
     const paintings = await getPaintings(filtersParams);
@@ -79,6 +96,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const handleFilterPaintings = () => {
     setIsMenuOpen(!isMenuOpen);
     const params = new URLSearchParams(window.location.search);
+    console.log(params);
+
     dispatch(resetGalleryPageCount());
 
     if (paymentStatus) {
@@ -250,7 +269,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     <div className={style.wrapper} ref={menuRef}>
       <div className={style.select} onClick={() => setIsMenuOpen(true)}>
         <FilterIcon />
-        <p className={style.title}>Filter</p>
+        <div className={style.filterHeader}>
+          <p className={style.title}>Filter</p>
+          {isFiltering && <div className={style.point} />}
+        </div>
       </div>
       {isMenuOpen && (
         <div className={style.menu}>
@@ -259,8 +281,13 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className={style.menu__container}>
-              <FilterIcon />
-              <p className={style.menu__title}>Filter</p>
+              <div className={style.filterIcon}>
+                <FilterIcon />
+              </div>
+              <div className={style.filterHeader}>
+                <p className={style.title}>Filter</p>
+                {isFiltering && <div className={style.point} />}
+              </div>
             </div>
             <div>
               <CloseIcon />
@@ -317,7 +344,9 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
               <button
                 className={`${style.button} ${style.mainButton}`}
                 onClick={handleFilterPaintings}
-              >{`Apply filters ${sum > 0 ? `(${sum})` : ""}`}</button>
+              >{`Apply filters ${
+                isFilterByStyles > 0 ? `(${isFilterByStyles})` : ""
+              }`}</button>
               <button className={style.button} onClick={handleClearFilters}>
                 Discard filters
               </button>
