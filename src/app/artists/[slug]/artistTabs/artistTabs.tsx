@@ -5,106 +5,76 @@ import { usePathname } from "next/navigation";
 import {Accordion, AccordionItem} from "@nextui-org/accordion";
 import Link from "next/link";
 
-import { Add } from "@/app/icons/icon-add";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
-import { useAppSelector } from "@/types/ReduxHooks";
-import ArtProcess from "./artProcess/artProcess";
-
 import style from "./artistTabs.module.scss";
 
-import Collection from "@/app/components/collection/collection";
-import ArtistPaintings from "./artistPaintings/artistPaintings";
+import { Add } from "@/app/icons/icon-add";
+import { ArtistTabOptions } from "@/types/ArtistTabOptions";
+import { renderItem, tabs } from "@/utils/artistTabs";
+import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
 
-const tabs: ArtistTabOptions[] = [
-  ArtistTabOptions.artworks,
-  ArtistTabOptions.collections,
-  ArtistTabOptions.artProcess,
-];
+const accordionStyles = {
+  base: style.accordion,
+  title: style.accordionTitle,
+  trigger: style.accordionItem,
+  content: [style.accordionTitle, style.content],
+  indicator: style.indicator,
+};
 
 const ArtistTabs = () => {
-  const { artistPaintings } = useAppSelector((state) => state.artistPaintings);
-
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
+  const [openTab, setOpenTab] = useState<ArtistTabOptions | null>(null);
   const pathname = usePathname();
-
   const isProfile = pathname === "/profile";
 
   const onTabSelect = (tab: ArtistTabOptions) => {
-    setSelectedTab(tab);
-  };
-
-  const components = [
-    {
-      option: ArtistTabOptions.artworks,
-      component: <ArtistPaintings paintings={artistPaintings} />,
-    },
-    {
-      option: ArtistTabOptions.collections,
-      component: <ArtProcess />,
-    },
-    {
-      option: ArtistTabOptions.artProcess,
-      component: <Collection />,
-    },
-  ]
-
-  const styles = {
-    base: style.accordion,
-    title: style.accordionTitle,
-    trigger: style.accordionItem,
-    content: [style.accordionTitle, style.accordionItem, style.contenet],
-    indicator: style.indicator,
+    if (tab === openTab) {
+      setOpenTab(null);
+    } else {
+      setOpenTab(tab);
+    }
   };
 
   return (
     <>
       <div className={style.tabs}>
-        <div className={style.tabs__container}>
-          {/* {tabs.map((tab: ArtistTabOptions, index) => (
-            <div
-              key={tab}
-              className={tab === selectedTab ? style.isActive : style.tab}
-              onClick={() => onTabSelect(tab)}
+        <Accordion className={style.accordion}>
+          {tabs.map(({ option, component }) => (
+            <AccordionItem
+              key={option}
+              aria-label={option}
+              title={option}
+              classNames={accordionStyles}
+              indicator={<ArrowDownIcon isRotated={option === openTab} />}
+              onPressStart={() => onTabSelect(option)}
             >
-              {tab}
-            </div>
-          ))} */}
-
-          {components.map(item => (
-            <Accordion
-              key={item.option}
-              className={style.accordion}
-              variant="bordered"
-            >
-              <AccordionItem
-                aria-label={item.option}
-                title={item.option}
-                classNames={styles}
-              >
-              {item.component}
+              {component}
             </AccordionItem>
-          </Accordion>
+          ))}
+        </Accordion>
+
+        <div className={style.container}>
+          {tabs.map(({ option })=> (
+            <div
+              key={option}
+              className={option === selectedTab ? style.isActive : style.tab}
+              onClick={() => setSelectedTab(option)}
+            >
+              {option}
+            </div>
           ))}
         </div>
 
         {isProfile && (
-          <Link
-            href="/profile/createPainting"
-            className={style.add}
-          >
+          <Link href="/profile/createPainting" className={style.add}>
             <Add />
-            Add artworks
+            Add arts
           </Link>
         )}
 
         <div className={style.tabsFooter} />
       </div>
 
-      <div className={style.gallery}>
-        {selectedTab === ArtistTabOptions.artworks && <ArtistPaintings paintings={artistPaintings} />}
-        {selectedTab === ArtistTabOptions.artProcess && <ArtProcess />}
-        {selectedTab === ArtistTabOptions.collections && <Collection />}
-      </div>
+      <div className={style.gallery}>{renderItem(selectedTab)}</div>
     </>
   );
 };

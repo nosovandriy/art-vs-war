@@ -13,6 +13,21 @@
   }
 }
 
+.filterHeader {
+  @include set-flex(row, flex-start, center);
+  gap: 8px;
+}
+
+.filterIcon {
+  transform: rotate(180deg);
+}
+
+.point {
+  @include set-square(8px);
+  background-color: $gray-0;
+  border-radius: 50%;
+}
+
 .select {
   @include set-flex(row, flex-start, center);
 

@@ -14,6 +14,7 @@ import { CloseIcon } from "@/app/icons/icon-close";
 import { FilterIcon } from "@/app/icons/icon-filter";
 import { PaintingFilterParams } from "@/types/Painting";
 import { handleCloseDropdown } from "@/utils/checkClick";
+import AvailablePaintings from "./available-paintings/available-paintings";
 import RangeSlider from "./rangeSlider/rangeSlider";
 import SizesSection from "./sizesSection/sizesSection";
 import StylesCheckBox from "./stylesCheckbox/stylesCheckbox";
@@ -40,6 +41,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("");
+
   const [priceRanges, setPriceRanges] = useState<number[]>([
     minPrice,
     maxPrice,
@@ -62,11 +65,28 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const sum =
+  const isFilterByPriceOrSize =
+    !Array.isArray(priceRanges) ||
+    priceRanges.length !== 2 ||
+    priceRanges[0] !== minPrice ||
+    priceRanges[1] !== maxPrice ||
+    !Array.isArray(widthRanges) ||
+    widthRanges.length !== 2 ||
+    widthRanges[0] !== minWidth ||
+    widthRanges[1] !== maxWidth ||
+    !Array.isArray(heightRanges) ||
+    heightRanges.length !== 2 ||
+    heightRanges[0] !== minHeight ||
+    heightRanges[1] !== maxHeight;
+
+  const isFilterByStyles =
     styleCheckOptions.length +
     subjectCheckOptions.length +
     mediumCheckOptions.length +
     supportCheckOptions.length;
+
+  const isFiltering =
+    isFilterByPriceOrSize || isFilterByStyles || paymentStatus;
 
   const getFilteringPaintings = async (filtersParams: string) => {
     const paintings = await getPaintings(filtersParams);
@@ -76,10 +96,38 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const handleFilterPaintings = () => {
     setIsMenuOpen(!isMenuOpen);
     const params = new URLSearchParams(window.location.search);
+    console.log(params);
+
     dispatch(resetGalleryPageCount());
 
+    if (paymentStatus) {
+      params.set("paymentStatus", paymentStatus);
+    } else {
+      params.delete("paymentStatus");
+    }
+
     if (priceRanges[0] !== minPrice || priceRanges[1] !== maxPrice) {
-      params.set("priceBetween", priceRanges.join(","));
+      const newPriceRanges = [...priceRanges];
+
+      if (
+        newPriceRanges[0] < minPrice ||
+        newPriceRanges[0] > priceRanges[1] ||
+        newPriceRanges[0] > maxPrice
+      ) {
+        newPriceRanges[0] = minPrice;
+      }
+
+      if (
+        newPriceRanges[1] > maxPrice ||
+        newPriceRanges[1] < priceRanges[0] ||
+        newPriceRanges[1] < minPrice
+      ) {
+        newPriceRanges[1] = maxPrice;
+      }
+
+      setPriceRanges(newPriceRanges);
+
+      params.set("priceBetween", newPriceRanges.join(","));
     } else {
       params.delete("priceBetween");
     }
@@ -126,6 +174,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const removeAllSearchParameters = (params: URLSearchParams) => {
     const allSearchParams = [
+      "paymentStatus",
       "priceBetween",
       "styleIn",
       "subjectIn",
@@ -146,6 +195,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     removeAllSearchParameters(params);
     router.replace(`${pathname}?${params.toString()}`);
 
+    setPaymentStatus("");
     setPriceRanges([minPrice, maxPrice]);
     setStyleCheckOptions([]);
     setSubjectCheckOptions([]);
@@ -158,6 +208,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   };
 
   useEffect(() => {
+    const paymentStatus = searchParams.get("paymentStatus");
     const price = searchParams.get("priceBetween");
     const style = searchParams.get("styleIn");
     const subject = searchParams.get("subjectIn");
@@ -165,6 +216,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     const support = searchParams.get("supportIn");
     const width = searchParams.get("widthBetween");
     const height = searchParams.get("heightBetween");
+
+    if (paymentStatus) {
+      setPaymentStatus(paymentStatus);
+    }
 
     if (price) {
       const priceNumbers = price.split(",").map((item) => Number(item));
@@ -214,7 +269,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     <div className={style.wrapper} ref={menuRef}>
       <div className={style.select} onClick={() => setIsMenuOpen(true)}>
         <FilterIcon />
-        <p className={style.title}>Filter</p>
+        <div className={style.filterHeader}>
+          <p className={style.title}>Filter</p>
+          {isFiltering && <div className={style.point} />}
+        </div>
       </div>
       {isMenuOpen && (
         <div className={style.menu}>
@@ -223,14 +281,23 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className={style.menu__container}>
-              <FilterIcon />
-              <p className={style.menu__title}>Filter</p>
+              <div className={style.filterIcon}>
+                <FilterIcon />
+              </div>
+              <div className={style.filterHeader}>
+                <p className={style.title}>Filter</p>
+                {isFiltering && <div className={style.point} />}
+              </div>
             </div>
             <div>
               <CloseIcon />
             </div>
           </div>
           <div className={style.dropdown}>
+            <AvailablePaintings
+              paymentStatus={paymentStatus}
+              setPaymentStatus={setPaymentStatus}
+            />
             <RangeSlider
               title={"PRICE"}
               valueType={"€"}
@@ -277,7 +344,9 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
               <button
                 className={`${style.button} ${style.mainButton}`}
                 onClick={handleFilterPaintings}
-              >{`Apply filters ${sum > 0 ? `(${sum})` : ""}`}</button>
+              >{`Apply filters ${
+                isFilterByStyles > 0 ? `(${isFilterByStyles})` : ""
+              }`}</button>
               <button className={style.button} onClick={handleClearFilters}>
                 Discard filters
               </button>

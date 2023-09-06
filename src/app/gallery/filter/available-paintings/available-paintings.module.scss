@@ -1,0 +1,31 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.option {
+  @include set-flex(row, flex-start, center);
+
+  gap: 8px;
+  height: 56px;
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+  cursor: pointer;
+  transition-duration: 0.3s;
+
+  &:hover {
+    .option__title {
+      color: $gray-10;
+      cursor: pointer;
+      transition-duration: 0.3s;
+    }
+  }
+
+  &__checkbox {
+    @include set-square(24px);
+
+    border: 1px solid $gray-0;
+  }
+
+  &__title {
+    color: $gray-0;
+  }
+}
