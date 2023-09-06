@@ -199,7 +199,7 @@ const EditProfile: FC<Props> = ({
         <h2 className={style.title}>
           {author
             ? 'Edit your profile'
-            : 'Welcome to Art Vs War'
+            : 'Welcome to Art vs War'
           }
         </h2>
       </div>
