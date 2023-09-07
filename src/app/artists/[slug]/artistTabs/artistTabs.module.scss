@@ -139,12 +139,9 @@
 
 .accordion {
   margin: 0 auto;
-  width: 98%;
+  padding: 0 18px;
+  width: 100%;
   cursor: pointer;
-
-  @include tabletXL {
-    max-width: 640px;
-  }
 
   @include laptop {
     display: none;
@@ -155,7 +152,7 @@
   @include set-flex(row, space-between, center);
   width: 100%;
   height: 56px;
-  padding: 10px 15px;
+  // padding: 10px 15px;
   background-color: $gray-100;
   border-bottom: 1px solid $gray-70;
   outline: none;
@@ -163,7 +160,7 @@
 
 .content {
   height: 100%;
-  padding: 10px 15px;
+  // padding: 10px 15px;
 }
 
 
