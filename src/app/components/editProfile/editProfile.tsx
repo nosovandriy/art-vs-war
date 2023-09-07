@@ -140,6 +140,7 @@ const EditProfile: FC<Props> = ({
     reset();
     setValue('country', '');
     setImagePreview(null);
+    router.back();
   };
 
   const onSubmit = async (data: ProfileForm) => {
@@ -372,6 +373,7 @@ const EditProfile: FC<Props> = ({
           <button
             type="reset"
             className={style.cancel}
+            onClick={onReset}
           >
             Cancel
           </button>

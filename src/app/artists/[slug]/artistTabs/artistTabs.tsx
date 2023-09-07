@@ -26,6 +26,8 @@ const ArtistTabs = () => {
   const pathname = usePathname();
   const isProfile = pathname === "/profile";
 
+  const renderTabs = isProfile ? tabs :  tabs.filter((_, index) => index <= 2);
+
   const onTabSelect = (tab: ArtistTabOptions) => {
     if (tab === openTab) {
       setOpenTab(null);
@@ -38,7 +40,7 @@ const ArtistTabs = () => {
     <>
       <div className={style.tabs}>
         <Accordion className={style.accordion}>
-          {tabs.map(({ option, component }) => (
+        {renderTabs.map(({ option, component }) => (
             <AccordionItem
               key={option}
               aria-label={option}
@@ -53,15 +55,15 @@ const ArtistTabs = () => {
         </Accordion>
 
         <div className={style.container}>
-          {tabs.map(({ option })=> (
-            <div
-              key={option}
-              className={option === selectedTab ? style.isActive : style.tab}
-              onClick={() => setSelectedTab(option)}
-            >
-              {option}
-            </div>
-          ))}
+          {renderTabs.map(({ option })=> (
+              <div
+                key={option}
+                className={option === selectedTab ? style.isActive : style.tab}
+                onClick={() => setSelectedTab(option)}
+              >
+                {option}
+              </div>
+            ))}
         </div>
 
         {isProfile && (
