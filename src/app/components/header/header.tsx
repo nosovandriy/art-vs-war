@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 import { Cart } from "@/app/icons/icon-cart";
-import { CloseIcon } from "@/app/icons/icon-close";
+import { IconClose } from "@/app/icons/icon-close";
 import { MobileMenu } from "@/app/icons/icon-menu";
 import { ProfileIcon } from "@/app/icons/icon-profile";
 import {
@@ -110,7 +110,7 @@ const Header = () => {
             className={style.header__mobileElement}
             onClick={handleShowMobileMenu}
           >
-            <CloseIcon />
+            <IconClose />
           </div>
         ) : (
           <div

@@ -25,7 +25,7 @@ export async function getHeroPaintings() {
   return data;
 }
 
-export async function getPaintings(params: string) {
+export async function getPaintings(params: string = "") {
   const response = await fetch(`${BASE_URL}paintings/search?${params}`, {
     cache: "no-store",
   });

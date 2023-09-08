@@ -10,7 +10,7 @@ import {
 import { useAppDispatch } from "@/types/ReduxHooks";
 import { getPaintings } from "@/utils/api";
 
-import { CloseIcon } from "@/app/icons/icon-close";
+import { IconClose } from "@/app/icons/icon-close";
 import { FilterIcon } from "@/app/icons/icon-filter";
 import { PaintingFilterParams } from "@/types/Painting";
 import { handleCloseDropdown } from "@/utils/checkClick";
@@ -23,9 +23,15 @@ import style from "./filter.module.scss";
 
 type Props = {
   filtersData: PaintingFilterParams;
+  styleCheckOptions: string[];
+  setStyleCheckOptions: (styles: string[]) => void;
 };
 
-const Filter: React.FC<Props> = ({ filtersData }) => {
+const Filter: React.FC<Props> = ({
+  filtersData,
+  styleCheckOptions,
+  setStyleCheckOptions,
+}) => {
   const {
     maxPrice,
     minPrice,
@@ -41,8 +47,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("");
 
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [priceRanges, setPriceRanges] = useState<number[]>([
     minPrice,
     maxPrice,
@@ -55,7 +61,6 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     minHeight,
     maxHeight,
   ]);
-  const [styleCheckOptions, setStyleCheckOptions] = useState<string[]>([]);
   const [subjectCheckOptions, setSubjectCheckOptions] = useState<string[]>([]);
   const [mediumCheckOptions, setMediumCheckOptions] = useState<string[]>([]);
   const [supportCheckOptions, setSupportCheckOptions] = useState<string[]>([]);
@@ -290,7 +295,7 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
               </div>
             </div>
             <div>
-              <CloseIcon />
+              <IconClose />
             </div>
           </div>
           <div className={style.dropdown}>

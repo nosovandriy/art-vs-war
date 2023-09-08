@@ -41,6 +41,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
     authorPrettyId,
     authorCountry,
     paymentStatus,
+    yearOfCreation,
     price,
     width,
     height,
@@ -69,7 +70,6 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
     if (user) {
       saveOrderPaintingToServer(id, headers);
       setDataToLocalStorage([]);
-
     }
 
     if (paintingsShippingInfo) {
@@ -85,15 +85,18 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
           alt={`${authorFullName} - ${title}`}
           width={440}
           height={800}
+          priority
           className={`${style.image} ${className} imageOpacityEffect`}
           onLoadingComplete={(img) => (img.style.opacity = "1")}
         />
       </Link>
       <Link href={`/gallery/${prettyId}`} className={style.title}>
-        {title}
+        {title}{" "}
+        <span className={style.artist__country}>| {yearOfCreation}</span>
       </Link>
       <Link href={`/artists/${authorPrettyId}`} className={style.artist}>
-        {authorFullName}
+        {authorFullName}{" "}
+        <span className={style.artist__country}>| {authorCountry}</span>
       </Link>
 
       <div className={style.buy}>
