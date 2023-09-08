@@ -1,72 +1,82 @@
 "use client";
 
-import Link from "next/link";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-import Collection from "@/app/components/collection/collection";
-import MasonryGallery from "@/app/components/masonry/masonry";
-import { Add } from "@/app/icons/icon-add";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
-import { useAppSelector } from "@/types/ReduxHooks";
-import ArtProcess from "./artProcess/artProcess";
-import MoreArtistPaintingsAutoFetch from "./more-artist-paintings-auto-fetch/more-artist-paintings-auto-fetch.tsx";
+import {Accordion, AccordionItem} from "@nextui-org/accordion";
+import Link from "next/link";
 
 import style from "./artistTabs.module.scss";
 
-const tabs: ArtistTabOptions[] = [
-  ArtistTabOptions.artworks,
-  ArtistTabOptions.collections,
-  ArtistTabOptions.artProcess,
-];
+import { Add } from "@/app/icons/icon-add";
+import { ArtistTabOptions } from "@/types/ArtistTabOptions";
+import { renderItem, tabs } from "@/utils/artistTabs";
+import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
+
+const accordionStyles = {
+  base: style.accordion,
+  title: style.accordionTitle,
+  trigger: style.accordionItem,
+  content: [style.accordionTitle, style.content],
+  indicator: style.indicator,
+};
 
 const ArtistTabs = () => {
-  const { artistPaintings } = useAppSelector((state) => state.artistPaintings);
-
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
+  const [openTab, setOpenTab] = useState<ArtistTabOptions | null>(null);
   const pathname = usePathname();
-
   const isProfile = pathname === "/profile";
 
+  const renderTabs = isProfile ? tabs :  tabs.filter((_, index) => index <= 2);
+
   const onTabSelect = (tab: ArtistTabOptions) => {
-    setSelectedTab(tab);
+    if (tab === openTab) {
+      setOpenTab(null);
+    } else {
+      setOpenTab(tab);
+    }
   };
 
   return (
     <>
       <div className={style.tabs}>
-        <div className={style.tabs__container}>
-          {tabs.map((tab: ArtistTabOptions) => (
-            <div
-              key={tab}
-              className={tab === selectedTab ? style.isActive : style.tab}
-              onClick={() => onTabSelect(tab)}
+        <Accordion className={style.accordion}>
+        {renderTabs.map(({ option, component }) => (
+            <AccordionItem
+              key={option}
+              aria-label={option}
+              title={option}
+              classNames={accordionStyles}
+              indicator={<ArrowDownIcon isRotated={option === openTab} />}
+              onPressStart={() => onTabSelect(option)}
             >
-              {tab}
-            </div>
+              {component}
+            </AccordionItem>
           ))}
+        </Accordion>
+
+        <div className={style.container}>
+          {renderTabs.map(({ option })=> (
+              <div
+                key={option}
+                className={option === selectedTab ? style.isActive : style.tab}
+                onClick={() => setSelectedTab(option)}
+              >
+                {option}
+              </div>
+            ))}
         </div>
 
         {isProfile && (
           <Link href="/profile/createPainting" className={style.add}>
             <Add />
-            Add artworks
+            Add arts
           </Link>
         )}
 
         <div className={style.tabsFooter} />
       </div>
 
-      <div className={style.gallery}>
-        {selectedTab === ArtistTabOptions.artworks && (
-          <>
-            <MasonryGallery paintingsList={artistPaintings} />
-            <MoreArtistPaintingsAutoFetch />
-          </>
-        )}
-        {selectedTab === ArtistTabOptions.artProcess && <ArtProcess />}
-        {selectedTab === ArtistTabOptions.collections && <Collection />}
-      </div>
+      <div className={style.gallery}>{renderItem(selectedTab)}</div>
     </>
   );
 };

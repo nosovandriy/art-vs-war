@@ -9,7 +9,7 @@ import {
   useAuthenticator,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Artist } from "@/types/Artist";
@@ -77,14 +77,12 @@ const Profile = () => {
           className={style.auth}
           components={authenticatorStylesComponents}
         >
-          {author ? (
+          {(author && !isFetching) && (
             <>
               <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
               <ArtistTabs />
             </>
-          ) : (
-            <EditProfile author={author} setAuthor={setAuthor} />
-          )}
+            )}
         </Authenticator>
       )}
     </section>

@@ -6,6 +6,7 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import style from "../page.module.scss";
 
 import EditProfile from "@/app/components/editProfile/editProfile";
+import createHeaders from "@/utils/getAccessToken";
 import { getProfile } from "@/utils/api";
 import { Artist } from "@/types/Artist";
 
@@ -15,13 +16,7 @@ const EditProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const accessToken = user
-        .getSignInUserSession()
-        ?.getAccessToken()
-        .getJwtToken();
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+      const headers = createHeaders(user);
 
       const fetchedAuthor = await getProfile(headers);
       setAuthor(fetchedAuthor);

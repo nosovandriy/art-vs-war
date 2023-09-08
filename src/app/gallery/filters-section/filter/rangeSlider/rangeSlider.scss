@@ -53,3 +53,35 @@
   border-radius: 50px;
   background-color: $gray-30;
 }
+
+.priceRangeSliderInput {
+  text-align: center;
+  height: 48px;
+  width: 100%;
+  padding: 12px 16px;
+  color: $gray-0;
+  font-size: 16px;
+  outline: none;
+  background-color: $gray-90;
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
+
+  &::placeholder {
+    color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50;
+    transition-duration: 0.3s;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+    transition-duration: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
+  }
+}
+

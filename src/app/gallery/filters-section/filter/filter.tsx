@@ -10,7 +10,7 @@ import {
 import { useAppDispatch } from "@/types/ReduxHooks";
 import { getPaintings } from "@/utils/api";
 
-import { CloseIcon } from "@/app/icons/icon-close";
+import { IconClose } from "@/app/icons/icon-close";
 import { FilterIcon } from "@/app/icons/icon-filter";
 import { PaintingFilterParams } from "@/types/Painting";
 import { handleCloseDropdown } from "@/utils/checkClick";
@@ -23,9 +23,15 @@ import style from "./filter.module.scss";
 
 type Props = {
   filtersData: PaintingFilterParams;
+  styleCheckOptions: string[];
+  setStyleCheckOptions: (styles: string[]) => void;
 };
 
-const Filter: React.FC<Props> = ({ filtersData }) => {
+const Filter: React.FC<Props> = ({
+  filtersData,
+  styleCheckOptions,
+  setStyleCheckOptions,
+}) => {
   const {
     maxPrice,
     minPrice,
@@ -41,8 +47,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
 
   const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState("");
 
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [priceRanges, setPriceRanges] = useState<number[]>([
     minPrice,
     maxPrice,
@@ -55,7 +61,6 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     minHeight,
     maxHeight,
   ]);
-  const [styleCheckOptions, setStyleCheckOptions] = useState<string[]>([]);
   const [subjectCheckOptions, setSubjectCheckOptions] = useState<string[]>([]);
   const [mediumCheckOptions, setMediumCheckOptions] = useState<string[]>([]);
   const [supportCheckOptions, setSupportCheckOptions] = useState<string[]>([]);
@@ -65,11 +70,28 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const sum =
+  const isFilterByPriceOrSize =
+    !Array.isArray(priceRanges) ||
+    priceRanges.length !== 2 ||
+    priceRanges[0] !== minPrice ||
+    priceRanges[1] !== maxPrice ||
+    !Array.isArray(widthRanges) ||
+    widthRanges.length !== 2 ||
+    widthRanges[0] !== minWidth ||
+    widthRanges[1] !== maxWidth ||
+    !Array.isArray(heightRanges) ||
+    heightRanges.length !== 2 ||
+    heightRanges[0] !== minHeight ||
+    heightRanges[1] !== maxHeight;
+
+  const isFilterByStyles =
     styleCheckOptions.length +
     subjectCheckOptions.length +
     mediumCheckOptions.length +
     supportCheckOptions.length;
+
+  const isFiltering =
+    isFilterByPriceOrSize || isFilterByStyles || paymentStatus;
 
   const getFilteringPaintings = async (filtersParams: string) => {
     const paintings = await getPaintings(filtersParams);
@@ -79,6 +101,8 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
   const handleFilterPaintings = () => {
     setIsMenuOpen(!isMenuOpen);
     const params = new URLSearchParams(window.location.search);
+    console.log(params);
+
     dispatch(resetGalleryPageCount());
 
     if (paymentStatus) {
@@ -86,8 +110,29 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     } else {
       params.delete("paymentStatus");
     }
+
     if (priceRanges[0] !== minPrice || priceRanges[1] !== maxPrice) {
-      params.set("priceBetween", priceRanges.join(","));
+      const newPriceRanges = [...priceRanges];
+
+      if (
+        newPriceRanges[0] < minPrice ||
+        newPriceRanges[0] > priceRanges[1] ||
+        newPriceRanges[0] > maxPrice
+      ) {
+        newPriceRanges[0] = minPrice;
+      }
+
+      if (
+        newPriceRanges[1] > maxPrice ||
+        newPriceRanges[1] < priceRanges[0] ||
+        newPriceRanges[1] < minPrice
+      ) {
+        newPriceRanges[1] = maxPrice;
+      }
+
+      setPriceRanges(newPriceRanges);
+
+      params.set("priceBetween", newPriceRanges.join(","));
     } else {
       params.delete("priceBetween");
     }
@@ -229,7 +274,10 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
     <div className={style.wrapper} ref={menuRef}>
       <div className={style.select} onClick={() => setIsMenuOpen(true)}>
         <FilterIcon />
-        <p className={style.title}>Filter</p>
+        <div className={style.filterHeader}>
+          <p className={style.title}>Filter</p>
+          {isFiltering && <div className={style.point} />}
+        </div>
       </div>
       {isMenuOpen && (
         <div className={style.menu}>
@@ -238,11 +286,16 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className={style.menu__container}>
-              <FilterIcon />
-              <p className={style.menu__title}>Filter</p>
+              <div className={style.filterIcon}>
+                <FilterIcon />
+              </div>
+              <div className={style.filterHeader}>
+                <p className={style.title}>Filter</p>
+                {isFiltering && <div className={style.point} />}
+              </div>
             </div>
             <div>
-              <CloseIcon />
+              <IconClose />
             </div>
           </div>
           <div className={style.dropdown}>
@@ -296,7 +349,9 @@ const Filter: React.FC<Props> = ({ filtersData }) => {
               <button
                 className={`${style.button} ${style.mainButton}`}
                 onClick={handleFilterPaintings}
-              >{`Apply filters ${sum > 0 ? `(${sum})` : ""}`}</button>
+              >{`Apply filters ${
+                isFilterByStyles > 0 ? `(${isFilterByStyles})` : ""
+              }`}</button>
               <button className={style.button} onClick={handleClearFilters}>
                 Discard filters
               </button>

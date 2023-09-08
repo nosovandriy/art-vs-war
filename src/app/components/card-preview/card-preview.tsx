@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import { saveOrderPaintingToServer } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
+import { setDataToLocalStorage } from "@/utils/localStorageData";
 
 import "@styles/globals.scss";
 import style from "./card-preview.module.scss";
@@ -40,6 +41,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
     authorPrettyId,
     authorCountry,
     paymentStatus,
+    yearOfCreation,
     price,
     width,
     height,
@@ -67,6 +69,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
     if (user) {
       saveOrderPaintingToServer(id, headers);
+      setDataToLocalStorage([]);
     }
 
     if (paintingsShippingInfo) {
@@ -82,15 +85,18 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
           alt={`${authorFullName} - ${title}`}
           width={440}
           height={800}
+          priority
           className={`${style.image} ${className} imageOpacityEffect`}
           onLoadingComplete={(img) => (img.style.opacity = "1")}
         />
       </Link>
       <Link href={`/gallery/${prettyId}`} className={style.title}>
-        {title}
+        {title}{" "}
+        <span className={style.artist__country}>| {yearOfCreation}</span>
       </Link>
       <Link href={`/artists/${authorPrettyId}`} className={style.artist}>
-        {authorFullName}
+        {authorFullName}{" "}
+        <span className={style.artist__country}>| {authorCountry}</span>
       </Link>
 
       <div className={style.buy}>
@@ -100,10 +106,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
         ) : (
           <>
             {isPaintingSelected ? (
-              <div
-                className={style.buy__icon}
-                onClick={handleAddPaintingToCart}
-              >
+              <div className={style.buy__icon}>
                 <CheckProduct />
               </div>
             ) : (

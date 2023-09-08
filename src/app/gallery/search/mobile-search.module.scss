@@ -1,0 +1,59 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.wrapper {
+  @include set-flex(row, space-between, flex-end);
+}
+
+.titleWrapper {
+  @include set-flex(row, space-between, center);
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+
+  @include laptop {
+    font-size: $font-size-xxxl;
+  }
+
+  @include desktop {
+    font-size: $font-size-huge;
+  }
+
+  @include desktopHD {
+    font-size: $font-size-giant;
+  }
+
+  &__info {
+    align-self: flex-start;
+    color: $gray-10;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-regular;
+
+    @include laptop {
+      font-size: $font-size-xl;
+    }
+
+    @include desktop {
+      font-size: $font-size-xxl;
+    }
+
+    @include desktopHD {
+      font-size: $font-size-4xl;
+    }
+  }
+}
+
+.iconSearch {
+  @include laptop {
+    display: none;
+  }
+}
+
+.mobileInputSearch {
+  @include laptop {
+    display: none;
+  }
+}

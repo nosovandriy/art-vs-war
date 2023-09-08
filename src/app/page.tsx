@@ -7,14 +7,14 @@ import Hero from "./components/home/hero-section/hero-loader";
 
 const Home = () => {
   return (
-    <main>
+    <>
       <Hero />
       <About />
       <Funds />
       <DataInfo />
       <HaveCollection />
       <Artist />
-    </main>
+    </>
   );
 };
 
