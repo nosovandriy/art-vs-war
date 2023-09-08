@@ -57,11 +57,11 @@
   }
 
   @include laptop {
-    width: 32%;
+    width: calc(33% - 9px);
   }
 
   @include desktop {
-    width: 24%;
+    width: calc(25% - 14px);
   }
 
   &__wrapper {
