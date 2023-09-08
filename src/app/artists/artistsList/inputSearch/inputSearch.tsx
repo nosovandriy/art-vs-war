@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { CloseIcon } from "@/app/icons/icon-close";
-import { Search } from "@/app/icons/icon-search";
+import { IconClose } from "@/app/icons/icon-close";
+import { IconSearch } from "@/app/icons/icon-search";
 import {
   resetArtistsPageNumber,
   setFoundArtists,
@@ -63,14 +63,14 @@ const InputArtistSearch = () => {
       />
       {!query ? (
         <div className={style.searchIcon}>
-          <Search />
+          <IconSearch />
         </div>
       ) : (
         <div
           className={`${style.searchIcon} ${style.closeIcon}`}
           onClick={handleClearQuery}
         >
-          <CloseIcon />
+          <IconClose />
         </div>
       )}
     </div>

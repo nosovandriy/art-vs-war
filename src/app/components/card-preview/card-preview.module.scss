@@ -65,6 +65,14 @@
   &:hover {
     color: $gray-0;
   }
+
+  &__country {
+    display: none;
+
+    @include laptop {
+      display: inline;
+    }
+  }
 }
 
 .buy {
