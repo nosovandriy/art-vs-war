@@ -67,6 +67,8 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
           className={style.mobile__background}
           alt="ukrainian art"
           fill
+          priority
+          sizes="(max-width: 639px) 100vw"
         />
         <Link href={"/gallery"} className={style.mobile__button}>
           Explore
