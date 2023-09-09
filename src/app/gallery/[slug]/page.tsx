@@ -113,6 +113,10 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
               </p>
             </div>
             <div className={style.description__block}>
+              <p>Country:</p>
+              <p className={style.info}>{author.country}</p>
+            </div>
+            <div className={style.description__block}>
               <p>Subject:</p>
               <div>
                 {subjects.map((subject: string, index: number) => (
