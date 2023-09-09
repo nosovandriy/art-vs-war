@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import showUp from "./slices/showUpSlice";
 import artists from "./slices/searchArtistsSlice";
 import artistPaintings from "./slices/artistPaintingsSlice";
 import paintings from "./slices/paintingsSlice";
@@ -9,7 +8,6 @@ import shipping from "./slices/shippingSlice";
 
 export const store = configureStore({
   reducer: {
-    showUp,
     artists,
     artistPaintings,
     paintings,
