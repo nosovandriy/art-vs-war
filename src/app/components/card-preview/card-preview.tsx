@@ -91,12 +91,13 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
         />
       </Link>
       <Link href={`/gallery/${prettyId}`} className={style.title}>
-        {title}{" "}
-        <span className={style.artist__country}>| {yearOfCreation}</span>
+        {title}
       </Link>
       <Link href={`/artists/${authorPrettyId}`} className={style.artist}>
         {authorFullName}{" "}
-        <span className={style.artist__country}>| {authorCountry}</span>
+        <span className={style.artist__country}>
+          | {authorCountry} | {yearOfCreation}
+        </span>
       </Link>
 
       <div className={style.buy}>

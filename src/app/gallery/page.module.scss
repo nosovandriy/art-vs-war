@@ -3,7 +3,9 @@
 
 .gallery {
   @include set-flex(column);
+
   padding: 24px 22px 48px;
+  min-height: 100vh;
 
   @include tabletXL {
     padding: 32px 36px 48px;

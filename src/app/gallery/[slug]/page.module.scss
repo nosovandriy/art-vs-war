@@ -58,15 +58,16 @@
 .description {
   @include set-flex(column);
 
-  gap: 16px;
+  gap: 14px;
   padding: 24px 0 32px;
   color: $gray-5;
 
   @include laptop {
-    padding: 0;
+    padding: 0 0 24px;
   }
 
   @include desktopHD {
+    padding: 0 0 32px;
     gap: 24px;
   }
 

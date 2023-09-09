@@ -20,6 +20,13 @@ import SizesSection from "./sizesSection/sizesSection";
 import StylesCheckBox from "./stylesCheckbox/stylesCheckbox";
 
 import style from "./filter.module.scss";
+import {
+  removeAllSearchParameters,
+  updatePrice,
+  updateSize,
+  updateStatus,
+  updateStyles,
+} from "@/utils/helpersGalleryFilter";
 
 type Props = {
   filtersData: PaintingFilterParams;
@@ -100,96 +107,23 @@ const Filter: React.FC<Props> = ({
 
   const handleFilterPaintings = () => {
     setIsMenuOpen(!isMenuOpen);
+
     const params = new URLSearchParams(window.location.search);
-    console.log(params);
 
     dispatch(resetGalleryPageCount());
 
-    if (paymentStatus) {
-      params.set("paymentStatus", paymentStatus);
-    } else {
-      params.delete("paymentStatus");
-    }
-
-    if (priceRanges[0] !== minPrice || priceRanges[1] !== maxPrice) {
-      const newPriceRanges = [...priceRanges];
-
-      if (
-        newPriceRanges[0] < minPrice ||
-        newPriceRanges[0] > priceRanges[1] ||
-        newPriceRanges[0] > maxPrice
-      ) {
-        newPriceRanges[0] = minPrice;
-      }
-
-      if (
-        newPriceRanges[1] > maxPrice ||
-        newPriceRanges[1] < priceRanges[0] ||
-        newPriceRanges[1] < minPrice
-      ) {
-        newPriceRanges[1] = maxPrice;
-      }
-
-      setPriceRanges(newPriceRanges);
-
-      params.set("priceBetween", newPriceRanges.join(","));
-    } else {
-      params.delete("priceBetween");
-    }
-
-    if (styleCheckOptions.length) {
-      params.set("styleIn", styleCheckOptions.join(","));
-    } else {
-      params.delete("styleIn");
-    }
-    if (subjectCheckOptions.length) {
-      params.set("subjectIn", subjectCheckOptions.join(","));
-    } else {
-      params.delete("subjectIn");
-    }
-
-    if (mediumCheckOptions.length) {
-      params.set("mediumIn", mediumCheckOptions.join(","));
-    } else {
-      params.delete("mediumIn");
-    }
-
-    if (supportCheckOptions.length) {
-      params.set("supportIn", supportCheckOptions.join(","));
-    } else {
-      params.delete("supportIn");
-    }
-
-    if (widthRanges[0] !== minWidth || widthRanges[1] !== maxWidth) {
-      params.set("widthBetween", widthRanges.join(","));
-    } else {
-      params.delete("widthBetween");
-    }
-
-    if (heightRanges[0] !== minHeight || heightRanges[1] !== maxHeight) {
-      params.set("heightBetween", heightRanges.join(","));
-    } else {
-      params.delete("heightBetween");
-    }
+    updateStatus(params, "paymentStatus", paymentStatus);
+    updatePrice(params, priceRanges, minPrice, maxPrice, setPriceRanges);
+    updateStyles("styleIn", styleCheckOptions, params);
+    updateStyles("subjectIn", subjectCheckOptions, params);
+    updateStyles("mediumIn", mediumCheckOptions, params);
+    updateStyles("supportIn", supportCheckOptions, params);
+    updateSize(params, "widthBetween", widthRanges, minWidth, maxWidth);
+    updateSize(params, "heightBetween", heightRanges, minHeight, maxHeight);
 
     router.replace(`${pathname}?${params.toString()}`);
 
     getFilteringPaintings(params.toString());
-  };
-
-  const removeAllSearchParameters = (params: URLSearchParams) => {
-    const allSearchParams = [
-      "paymentStatus",
-      "priceBetween",
-      "styleIn",
-      "subjectIn",
-      "mediumIn",
-      "supportIn",
-      "widthBetween",
-      "heightBetween",
-    ];
-
-    allSearchParams.forEach((param) => params.delete(param));
   };
 
   const handleClearFilters = () => {
@@ -212,7 +146,7 @@ const Filter: React.FC<Props> = ({
     getFilteringPaintings(params.toString());
   };
 
-  useEffect(() => {
+  const setValuesFromSearchParams = () => {
     const paymentStatus = searchParams.get("paymentStatus");
     const price = searchParams.get("priceBetween");
     const style = searchParams.get("styleIn");
@@ -256,6 +190,10 @@ const Filter: React.FC<Props> = ({
       const heightNumbers = height.split(",").map((item) => Number(item));
       setHeightRanges(heightNumbers);
     }
+  };
+
+  useEffect(() => {
+    setValuesFromSearchParams();
   }, []);
 
   useEffect(() => {
