@@ -9,8 +9,8 @@ import {
   useAuthenticator,
   useTheme,
 } from "@aws-amplify/ui-react";
-import { SetStateAction, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 
 import { Artist } from "@/types/Artist";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
@@ -33,13 +33,36 @@ import createHeaders from "@/utils/getAccessToken";
 const Profile = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
-  const [openForm, setOpenForm] = useState<ArtistTabOptions | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useAppDispatch();
-  const router = useRouter();
+
+  const getUserRole = (user: any) => {
+    if (!user) return;
+
+    const token =user
+      ?.getSignInUserSession()
+      ?.getAccessToken()
+      ?.getJwtToken();
+
+    const decoded: any = token && jwt_decode(token)
+    const roles = 'cognito:groups';
+    const hasUserRoles = decoded.hasOwnProperty(roles);
+
+    return hasUserRoles;
+  }
 
   useEffect(() => {
     setIsFetching(true);
+
+    const hasRole = getUserRole(user);
+    console.log(hasRole);
+
+    if (!hasRole) {
+      setAuthor(null);
+      setIsFetching(false);
+
+      return;
+    }
 
     const fetchData = async () => {
       const headers = createHeaders(user);
@@ -77,11 +100,14 @@ const Profile = () => {
           className={style.auth}
           components={authenticatorStylesComponents}
         >
-          {(author && !isFetching) && (
-            <>
-              <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
-              <ArtistTabs />
-            </>
+          {(author && !isFetching)
+            ? (
+              <>
+                <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
+                <ArtistTabs />
+              </>
+            ) : (
+              <EditProfile author={author} setAuthor={setAuthor} />
             )}
         </Authenticator>
       )}
