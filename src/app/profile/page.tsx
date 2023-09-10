@@ -53,9 +53,7 @@ const Profile = () => {
 
   useEffect(() => {
     setIsFetching(true);
-
     const hasRole = getUserRole(user);
-    console.log(hasRole);
 
     if (!hasRole) {
       setAuthor(null);
