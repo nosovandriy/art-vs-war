@@ -3,7 +3,9 @@
 
 .gallery {
   @include set-flex(column);
+
   padding: 24px 22px 48px;
+  min-height: 100vh;
 
   @include tabletXL {
     padding: 32px 36px 48px;
@@ -11,58 +13,6 @@
 
   @include laptop {
     padding: 32px 30px 32px;
-  }
-}
-
-.titleWrapper {
-  @include set-flex(row);
-}
-
-.title {
-  color: $gray-0;
-  font-size: $font-size-xxl;
-  font-weight: $font-weight-regular;
-
-  @include laptop {
-    font-size: $font-size-xxxl;
-  }
-
-  @include desktop {
-    font-size: $font-size-huge;
-  }
-
-  @include desktopHD {
-    font-size: $font-size-giant;
-  }
-
-  &__info {
-    align-self: center;
-    color: $gray-10;
-    font-size: $font-size-xl;
-    font-weight: $font-weight-regular;
-
-    @include laptop {
-      font-size: $font-size-xxl;
-    }
-
-    @include desktop {
-      font-size: $font-size-xxxl;
-    }
-
-    @include desktopHD {
-      font-size: $font-size-huge;
-    }
-  }
-}
-
-.filters {
-  @include set-flex(row);
-
-  gap: 20px;
-  position: relative;
-
-  @include laptop {
-    justify-content: flex-end;
   }
 }
 

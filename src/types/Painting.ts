@@ -10,6 +10,7 @@ export interface Painting {
   authorPrettyId: string;
   authorCountry?: string;
   paymentStatus?: string;
+  yearOfCreation: number;
   width: number;
   height: number;
   depth: number;
@@ -40,7 +41,7 @@ export interface UploadedPainting extends Painting {
 
 export interface PaintingData extends Painting {
   image?: File;
-};
+}
 
 export interface PaintingForm extends Painting {
   image: FileList;
@@ -51,11 +52,11 @@ export interface PaintingForm extends Painting {
   subjectIds: number[];
   description: string;
   yearOfCreation: number;
-};
+}
 
 export interface PaintingDataToSave extends Painting {
   image: ImageData;
-};
+}
 
 export interface ResponseImage {
   imageModerationStatus: string;
@@ -68,7 +69,7 @@ export interface UploadedPaintingData {
   prettyId: string;
   image: ResponseImage;
   author: AuthorData;
-  collection: object,
+  collection: object;
   yearOfCreation: number;
   title: string;
   weight: number;
@@ -82,4 +83,4 @@ export interface UploadedPaintingData {
   subjects: string[];
   description: string;
   addedToDataBase: { addedToDataBase: string };
-};
+}

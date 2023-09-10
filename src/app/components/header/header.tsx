@@ -2,18 +2,18 @@
 
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Cart } from "@/app/icons/icon-cart";
-import { CloseIcon } from "@/app/icons/icon-close";
+import { IconClose } from "@/app/icons/icon-close";
 import { MobileMenu } from "@/app/icons/icon-menu";
 import { ProfileIcon } from "@/app/icons/icon-profile";
 import {
   setCartDataFromServer,
   setDataToCartFromLocalStorage,
 } from "@/app/redux/slices/cartSlice";
-import { setShowMobileMenu } from "@/app/redux/slices/showUpSlice";
 import { CartItem, DataFromLocalStorage } from "@/types/CartItem";
+import { Painting } from "@/types/Painting";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
 import {
   getOrderDataFromServer,
@@ -30,21 +30,20 @@ import SocialNetworkIcons from "../social-network/social-network";
 import LoginButton from "./navigation/login-button/login-button";
 
 import style from "./header.module.scss";
-import { Painting } from "@/types/Painting";
 
 const Header = () => {
-  const dispatch = useAppDispatch();
-  const showMobileMenu = useAppSelector((state) => state.showUp.showMobileMenu);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
+  const dispatch = useAppDispatch();
 
   const handleShowMobileMenu = () => {
-    dispatch(setShowMobileMenu(!showMobileMenu));
+    setShowMobileMenu(!showMobileMenu);
   };
 
   const handleCloseMobileMenu = () => {
-    dispatch(setShowMobileMenu(false));
+    setShowMobileMenu(false);
   };
 
   useEffect(() => {
@@ -110,7 +109,7 @@ const Header = () => {
             className={style.header__mobileElement}
             onClick={handleShowMobileMenu}
           >
-            <CloseIcon />
+            <IconClose />
           </div>
         ) : (
           <div
@@ -125,7 +124,10 @@ const Header = () => {
         </Link>
 
         <nav className={style.navigation}>
-          <MenuItems className={style.menuItems} />
+          <MenuItems
+            className={style.menuItems}
+            setShowMobileMenu={setShowMobileMenu}
+          />
         </nav>
         <div className={style.cart__container}>
           <Link href={`/cart`}>
@@ -174,7 +176,10 @@ const Header = () => {
             </Link>
           )}
 
-          <MenuItems className={style.menuItems} />
+          <MenuItems
+            className={style.menuItems}
+            setShowMobileMenu={setShowMobileMenu}
+          />
         </div>
         <div className={style.contacts}>
           <p className={style.contacts__title}>Contacts</p>

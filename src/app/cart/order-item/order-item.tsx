@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
 
-import { CloseIcon } from "@/app/icons/icon-close";
+import { IconClose } from "@/app/icons/icon-close";
 import { MapPoint } from "@/app/icons/icon-map-point";
 import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
 import { CartItem } from "@/types/CartItem";
@@ -41,7 +41,7 @@ const OrderItem: React.FC<Props> = ({ paintings, handleRemovePainting }) => {
                 className={style.closeIcon}
                 onClick={() => handleRemoveArts(painting.id)}
               >
-                <CloseIcon />
+                <IconClose />
               </div>
             </div>
             <div className={style.paintingInfo}>
