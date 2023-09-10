@@ -10,26 +10,45 @@ import styles from "./about-section.module.scss";
 
 const About = () => (
   <section className={styles.about}>
-    <div className={styles.mobile}>
-      <motion.h1
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={TitleAnimation("x")}
-        className={styles.mobile__title}
-      >
-        Art vs War
-      </motion.h1>
+    <div className={styles.mobileWrapper}>
+      <div className={styles.mobile}>
+        <motion.h1
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={TitleAnimation("x")}
+          className={styles.mobile__title}
+        >
+          Art vs War
+        </motion.h1>
 
-      <div className={styles.mobile__content}>
-        Our project dedicated to supporting Ukrainian artists and creatives who
-        have been displaced abroad due to the war in Ukraine. Browse our
-        collection and find a painting that speaks to you. You also can donate
-        our project without purchasing a painting. Thank you for your support.
+        <div className={styles.mobile__content}>
+          Our project dedicated to supporting Ukrainian artists and creatives
+          who have been displaced abroad due to the war in Ukraine. Browse our
+          collection and find a painting that speaks to you. You also can donate
+          our project without purchasing a painting. Thank you for your support.
+        </div>
+        <Link href={"/donation"} className={styles.mobile__button}>
+          Donate
+        </Link>
+
+        {/* <Image
+        className={styles.mobileImage}
+        src="/assets/images/button&ornament.png"
+        alt="ornament"
+        fill
+        sizes="(max-width: 1600px) 50vw"
+      /> */}
       </div>
-      <Link href={"/donation"} className={styles.mobile__button}>
-        Donate
-      </Link>
+      <div className={styles.mobileOrnament}>
+        <Image
+          src="/assets/images/button&ornament.png"
+          alt="Ukrainian gallery ornament"
+          width={1000}
+          height={1000}
+          className={styles.imageMobile}
+        />
+      </div>
     </div>
 
     <div className={styles.tablet}>
