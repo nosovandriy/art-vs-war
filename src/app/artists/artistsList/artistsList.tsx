@@ -1,7 +1,10 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 import { Artist } from "@/types/Artist";
 import { useAppSelector } from "@/types/ReduxHooks";
+import { TitleAnimation } from "@/utils/animation";
 import ArtistCard from "../artistCard/artistCard";
 import EmptyArtistsPage from "./empty-page/empty-page";
 import InputArtistSearch from "./inputSearch/inputSearch";
@@ -15,9 +18,25 @@ const ArtistsList = () => {
   return (
     <section className={style.artists}>
       <div className={style.inputWrapper}>
-      <div className={style.titleWrapper}>
-          <h1 className={style.title}>Artists</h1>
-          <p className={style.title__info}>&nbsp;{`(${totalSize})`}</p>
+        <div className={style.titleWrapper}>
+          <motion.h1
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={TitleAnimation("x")}
+            className={style.title}
+          >
+            Artists
+          </motion.h1>
+          <motion.p
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={TitleAnimation("y", 0.5)}
+            className={style.title__info}
+          >
+            &nbsp;{`${totalSize}`}
+          </motion.p>
         </div>
 
         <InputArtistSearch />

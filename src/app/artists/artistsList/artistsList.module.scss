@@ -47,21 +47,21 @@
   }
 
   &__info {
-    align-self: center;
+    align-self: flex-start;
     color: $gray-10;
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-regular;
 
     @include laptop {
-      font-size: $font-size-xxl;
+      font-size: $font-size-xl;
     }
 
     @include desktop {
-      font-size: $font-size-xxxl;
+      font-size: $font-size-xxl;
     }
 
     @include desktopHD {
-      font-size: $font-size-huge;
+      font-size: $font-size-4xl;
     }
   }
 }
