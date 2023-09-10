@@ -1,10 +1,13 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+import { TitleAnimation } from "@/utils/animation";
 
 import style from "./hero-section.module.scss";
-import { useEffect, useState } from "react";
 
 type Painting = {
   url: string;
@@ -56,11 +59,17 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
   return (
     <section>
       <div className={style.mobile}>
-        <h1 className={style.mobile__title}>
+        <motion.h1
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={TitleAnimation("y")}
+          className={style.mobile__title}
+        >
           Buy Art
           <br />
           Help Ukraine
-        </h1>
+        </motion.h1>
 
         <Image
           src="/assets/hero_image.webp"
@@ -76,10 +85,16 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
       </div>
       <div className={style.hero}>
         <div className={style.title}>
-          <h1 className={style.title__text}>
+          <motion.h1
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={TitleAnimation("y")}
+            className={style.title__text}
+          >
             Buy Art
             <br /> Help Ukraine
-          </h1>
+          </motion.h1>
           <Image
             src="/assets/map.webp"
             alt="map of Ukraine"

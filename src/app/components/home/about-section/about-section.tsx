@@ -1,12 +1,25 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+
+import { TitleAnimation } from "@/utils/animation";
 
 import styles from "./about-section.module.scss";
 
 const About = () => (
   <section className={styles.about}>
     <div className={styles.mobile}>
-      <h1 className={styles.mobile__title}>Art vs War</h1>
+      <motion.h1
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={TitleAnimation("x")}
+        className={styles.mobile__title}
+      >
+        Art vs War
+      </motion.h1>
 
       <div className={styles.mobile__content}>
         Our project dedicated to supporting Ukrainian artists and creatives who
@@ -20,10 +33,26 @@ const About = () => (
     </div>
 
     <div className={styles.tablet}>
-      <h2 className={styles.title__white}>Art</h2>
+      <motion.h2
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={TitleAnimation("x")}
+        className={styles.title__white}
+      >
+        Arts
+      </motion.h2>
 
       <div className={styles.content}>
-        <h2 className={styles.title__black}>vs War</h2>
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={TitleAnimation("x")}
+          className={styles.title__black}
+        >
+          vs War
+        </motion.h2>
         <p className={styles.text}>
           Our project dedicated to supporting Ukrainian artists and creatives
           who have been displaced abroad due to the war in Ukraine. We offer a
@@ -57,8 +86,24 @@ const About = () => (
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.title}>
-            <h2 className={styles.title__white}>Art</h2>
-            <h2 className={styles.title__black}>vs War</h2>
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={TitleAnimation("x")}
+              className={styles.title__white}
+            >
+              Art
+            </motion.h2>
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={TitleAnimation("x")}
+              className={styles.title__black}
+            >
+              vs War
+            </motion.h2>
           </div>
 
           <div className={styles.lines}>
