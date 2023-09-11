@@ -6,14 +6,20 @@ import Link from "next/link";
 
 import style from "./dataInfo-section.module.scss";
 
-const DataInfo = () => {
+type DataInfoTypes = {
+  authorsQuantity: number;
+  paintingsQuantity: number;
+  raisedFunds: number;
+};
+
+const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
   return (
     <section className={style.dataInfo}>
       <div className={style.data}>
         <div className={style.info}>
           <h4 className={style.quantity}>
             <CountUp
-              end={45}
+              end={dataInfo.authorsQuantity}
               duration={2}
               enableScrollSpy={true}
               scrollSpyOnce={true}
@@ -24,7 +30,7 @@ const DataInfo = () => {
         <div className={style.info}>
           <h4 className={style.quantity}>
             <CountUp
-              end={567}
+              end={dataInfo.paintingsQuantity}
               duration={3}
               enableScrollSpy={true}
               scrollSpyOnce={true}
@@ -35,14 +41,14 @@ const DataInfo = () => {
         <div className={style.info}>
           <h4 className={style.quantity}>
             <CountUp
-              end={1000000}
+              end={dataInfo.raisedFunds}
               duration={4}
               suffix=" €"
               enableScrollSpy={true}
               scrollSpyOnce={true}
             />
           </h4>
-          <p className={style.text}>RAISED FUNDS</p>
+          <p className={style.text}>TOTAL PAINTINGS SOLD</p>
         </div>
       </div>
       <div className={style.wrapper}>
