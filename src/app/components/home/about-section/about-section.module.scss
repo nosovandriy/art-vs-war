@@ -3,23 +3,27 @@
 
 .about {
   @include laptop {
+    padding-bottom: 150px;
+  }
+
+  @include desktop {
     padding-bottom: 120px;
   }
 
+  .mobileWrapper {
+    @include tablet {
+      display: none;
+    }
+  }
+
   .mobile {
-    margin: 20px auto 0;
-    width: calc(100% - 40px);
-    padding: 20px;
-    height: 408px;
+    position: relative;
+    padding: 48px 22px;
     font-size: $font-size-base;
     line-height: $line-height-base;
     font-weight: $font-weight-regular;
     background-color: $gray-5;
     color: $gray-100;
-
-    @include tablet {
-      display: none;
-    }
 
     &__title {
       width: 100%;
@@ -35,6 +39,7 @@
       font-weight: $font-weight-regular;
       font-size: $font-size-base;
       line-height: $line-height-base;
+      text-align: justify;
     }
 
     &__button {
@@ -58,6 +63,26 @@
         transition-duration: 0.3s;
         transform: scale(0.9);
       }
+    }
+  }
+
+  .mobileOrnament {
+    @include set-flex(column, center);
+    margin-bottom: calc(-48%);
+    overflow: hidden;
+    transform: rotate(180deg);
+    @include laptop {
+      margin-top: 0;
+    }
+  }
+
+  .imageMobile {
+    @include set-square(100%);
+
+    transform: translateY(48%);
+
+    @include laptop {
+      display: none;
     }
   }
 
