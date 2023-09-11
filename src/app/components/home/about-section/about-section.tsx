@@ -1,10 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-
-import { TitleAnimation } from "@/utils/animation";
 
 import styles from "./about-section.module.scss";
 
@@ -12,15 +9,7 @@ const About = () => (
   <section className={styles.about}>
     <div className={styles.mobileWrapper}>
       <div className={styles.mobile}>
-        <motion.h1
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={TitleAnimation("x")}
-          className={styles.mobile__title}
-        >
-          Art vs War
-        </motion.h1>
+        <h1 className={styles.mobile__title}>Art vs War</h1>
 
         <div className={styles.mobile__content}>
           Our project dedicated to supporting Ukrainian artists and creatives
@@ -31,14 +20,6 @@ const About = () => (
         <Link href={"/donation"} className={styles.mobile__button}>
           Donate
         </Link>
-
-        {/* <Image
-        className={styles.mobileImage}
-        src="/assets/images/button&ornament.png"
-        alt="ornament"
-        fill
-        sizes="(max-width: 1600px) 50vw"
-      /> */}
       </div>
       <div className={styles.mobileOrnament}>
         <Image
@@ -52,26 +33,10 @@ const About = () => (
     </div>
 
     <div className={styles.tablet}>
-      <motion.h2
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={TitleAnimation("x")}
-        className={styles.title__white}
-      >
-        Arts
-      </motion.h2>
+      <h2 className={styles.title__white}>Arts</h2>
 
       <div className={styles.content}>
-        <motion.h2
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={TitleAnimation("x")}
-          className={styles.title__black}
-        >
-          vs War
-        </motion.h2>
+        <h2 className={styles.title__black}>vs War</h2>
         <p className={styles.text}>
           Our project dedicated to supporting Ukrainian artists and creatives
           who have been displaced abroad due to the war in Ukraine. We offer a
@@ -105,24 +70,8 @@ const About = () => (
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.title}>
-            <motion.h2
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={TitleAnimation("x")}
-              className={styles.title__white}
-            >
-              Art
-            </motion.h2>
-            <motion.h2
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={TitleAnimation("x")}
-              className={styles.title__black}
-            >
-              vs War
-            </motion.h2>
+            <h2 className={styles.title__white}>Art</h2>
+            <h2 className={styles.title__black}>vs War</h2>
           </div>
 
           <div className={styles.lines}>
