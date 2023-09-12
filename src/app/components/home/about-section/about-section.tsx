@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -5,22 +7,33 @@ import styles from "./about-section.module.scss";
 
 const About = () => (
   <section className={styles.about}>
-    <div className={styles.mobile}>
-      <h1 className={styles.mobile__title}>Art vs War</h1>
+    <div className={styles.mobileWrapper}>
+      <div className={styles.mobile}>
+        <h1 className={styles.mobile__title}>Art vs War</h1>
 
-      <div className={styles.mobile__content}>
-        Our project dedicated to supporting Ukrainian artists and creatives who
-        have been displaced abroad due to the war in Ukraine. Browse our
-        collection and find a painting that speaks to you. You also can donate
-        our project without purchasing a painting. Thank you for your support.
+        <div className={styles.mobile__content}>
+          Our project dedicated to supporting Ukrainian artists and creatives
+          who have been displaced abroad due to the war in Ukraine. Browse our
+          collection and find a painting that speaks to you. You also can donate
+          our project without purchasing a painting. Thank you for your support.
+        </div>
+        <Link href={"/donation"} className={styles.mobile__button}>
+          Donate
+        </Link>
       </div>
-      <Link href={"/donation"} className={styles.mobile__button}>
-        Donate
-      </Link>
+      <div className={styles.mobileOrnament}>
+        <Image
+          src="/assets/images/button&ornament.png"
+          alt="Ukrainian gallery ornament"
+          width={1000}
+          height={1000}
+          className={styles.imageMobile}
+        />
+      </div>
     </div>
 
     <div className={styles.tablet}>
-      <h2 className={styles.title__white}>Art</h2>
+      <h2 className={styles.title__white}>Arts</h2>
 
       <div className={styles.content}>
         <h2 className={styles.title__black}>vs War</h2>
