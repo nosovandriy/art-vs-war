@@ -25,6 +25,19 @@ export async function getHeroPaintings() {
   return data;
 }
 
+export async function getGeneralProjectData() {
+  const response = await fetch(`${BASE_URL}mainPage/data`, {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function getPaintings(params: string = "") {
   const response = await fetch(`${BASE_URL}paintings/search?${params}`, {
     cache: "no-store",
