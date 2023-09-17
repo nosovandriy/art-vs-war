@@ -52,6 +52,7 @@ const Account = () => {
     handleSubmit: handleSubmitAccount,
     register: registerAccount,
     formState: { errors: errors1 },
+    reset: resetAccountForm,
   } = useForm<AccountFormData>({
     mode: "onBlur",
     values: {
@@ -66,6 +67,7 @@ const Account = () => {
     handleSubmit: handleSubmitShipping,
     register: registerShipping,
     formState: { errors: errors2 },
+    reset: resetShippingform,
   } = useForm<ShippingFormData>({
     mode: "onBlur",
     values: {
@@ -240,7 +242,7 @@ const Account = () => {
 
           <div className={style.buttonContainer}>
             <button type='submit' className={style.submit}>Submit</button>
-            <button type='submit' className={style.cancel}>Cancel</button>
+            <button type='reset' onClick={() =>resetAccountForm()} className={style.cancel}>Cancel</button>
           </div>
         </div>
       </form>
@@ -376,7 +378,7 @@ const Account = () => {
 
               <div className={style.buttonContainer}>
                 <button type='submit' className={style.submit}>Submit</button>
-                <button type='submit' className={style.cancel}>Cancel</button>
+                <button type='reset' onClick={() => resetShippingform()} className={style.cancel}>Cancel</button>
               </div>
             </div>
           </form>
