@@ -3,6 +3,10 @@ import { JwtPayload } from "jwt-decode";
 export type Action = 'create' | 'update';
 export type CustomJwtPayload = JwtPayload & { email: string };
 
+export interface Headers {
+  Authorization?: string | undefined;
+}
+
 export interface ProfileForm {
   fullName: string;
   country: string;
