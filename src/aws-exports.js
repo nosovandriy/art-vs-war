@@ -12,8 +12,8 @@ const awsmobile = {
             "email",
             "openid"
         ],
-        "redirectSignIn": "https://www.artvswar.gallery/profile",
-        "redirectSignOut": "https://www.artvswar.gallery",
+        "redirectSignIn": "https://artvswar.gallery/profile",
+        "redirectSignOut": "https://artvswar.gallery",
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",

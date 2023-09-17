@@ -40,7 +40,7 @@ const ArtistTabs = () => {
     <>
       <div className={style.tabs}>
         <Accordion className={style.accordion}>
-        {renderTabs.map(({ option, component }) => (
+          {renderTabs.map(({ option, component }) => (
             <AccordionItem
               key={option}
               aria-label={option}

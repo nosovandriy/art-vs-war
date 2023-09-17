@@ -1,3 +1,5 @@
+import { Option } from 'react-google-places-autocomplete/build/types';
+
 export interface ShippingFormTypes {
   firstName: string;
   lastName: string;
@@ -26,4 +28,13 @@ export interface TotalShippingInfo {
 export interface ShippingInfo {
   shippingRates: TotalShippingInfo[] | [];
   shippingAddress: ShippingFormTypes | {};
+}
+
+export interface ShippingFormData {
+  addressLine1: Option,
+  addressLine2?: string,
+  country: string,
+  state?: string,
+  city: string,
+  postalCode: string,
 }

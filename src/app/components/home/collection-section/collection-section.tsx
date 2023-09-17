@@ -23,12 +23,12 @@ const HaveCollection = () => {
         <h6 className={styles.subtitle}>
           You can donate your collection items to support Ukraine
         </h6>
-        {/* <Link href={"/about"} className={styles.button}>
+        <Link href={"/account"} className={styles.button}>
           Learn more
-        </Link> */}
-        <button type="button" className={styles.button} onClick={signOut}>
+        </Link>
+        {/* <button type="button" className={styles.button} onClick={signOut}>
           Sign Out
-        </button>
+        </button> */}
       </div>
 
       <div className={styles.bottom}>

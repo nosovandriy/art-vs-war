@@ -6,6 +6,12 @@ const upload_preset = process.env.NEXT_APP_CLOUDINARY_UPLOAD_PRESET;
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const cloudinaryApiKey = process.env.NEXT_APP_CLOUDINARY_API_KEY;
 
+export const refreshAccessToken = (refreshToken: any, user: any) => {
+  if (refreshToken) {
+    user.refreshSession(refreshToken, (err: any, session: any) => {});
+  }
+};
+
 export const validateDataOnServer = async (
   data: UserData | PaintingData,
   url: string,
