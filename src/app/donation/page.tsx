@@ -32,8 +32,10 @@ const Donation = () => {
           <Image
             src="/assets/dataInfoDesk.webp"
             alt="Ukrainian gallery ornament"
-            width={1000}
-            height={1000}
+            width={600}
+            height={600}
+            priority
+            loading="eager"
             className={style.imageDesktop}
           />
           <Link
