@@ -3,12 +3,14 @@ import { notFound } from "next/navigation";
 
 import { PaintingData } from "@/types/Painting";
 import {
+  Headers,
   ImageData,
   RequestParams,
   UserData,
   UserDataToSave,
 } from "@/types/Profile";
 import { ShippingFormTypes, ShippingInfo } from "@/types/ShippingForm";
+import { AccountData } from "@/types/Account";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -367,3 +369,39 @@ export async function getStripeLink(
 
   return response.data;
 }
+
+export async function createAccount(
+  headers: Headers,
+  accountData: AccountData,
+) {
+  const { data } = await axios.post(
+    `${BASE_URL}account`,
+    accountData,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+};
+
+export async function saveAddress(
+  headers: Headers,
+  accountData: ShippingFormTypes,
+) {
+  const { data } = await axios.post(
+    `${BASE_URL}account/addresses`,
+    [accountData],
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+};

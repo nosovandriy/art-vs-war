@@ -10,11 +10,11 @@ export const tabs = [
   },
   {
     option: ArtistTabOptions.collections,
-    component: <ArtProcess />,
+    component: <Collection />,
   },
   {
     option: ArtistTabOptions.artProcess,
-    component: <Collection />,
+    component: <ArtProcess />,
   },
   {
     option: ArtistTabOptions.delivery,
