@@ -287,9 +287,9 @@ const Filter: React.FC<Props> = ({
               <button
                 className={`${style.button} ${style.mainButton}`}
                 onClick={handleFilterPaintings}
-              >{`Apply filters ${
-                isFilterByStyles > 0 ? `(${isFilterByStyles})` : ""
-              }`}</button>
+              >
+                Apply filters
+              </button>
               <button className={style.button} onClick={handleClearFilters}>
                 Discard filters
               </button>

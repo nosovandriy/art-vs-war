@@ -1,0 +1,313 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.donation {
+  padding: 40px 22px 100px;
+
+  @include laptop {
+    padding: 48px 30px 100px;
+  }
+
+  @include desktop {
+    padding: 24px 130px 90px;
+  }
+}
+
+.title {
+  max-width: 220px;
+  color: $gray-0;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-regular;
+
+  @include tablet {
+    max-width: none;
+    font-size: $font-size-xxxl;
+  }
+
+  @include laptop {
+    font-size: $font-size-4xl;
+  }
+
+  @include desktop {
+    font-size: $font-size-huge;
+  }
+}
+
+.textBlockWrapper {
+  @include laptop {
+    @include set-flex(row, center, center);
+
+    gap: 38px;
+  }
+
+  @include desktop {
+    margin-top: 55px;
+    gap: 100px;
+  }
+}
+
+.testBlock {
+  margin-top: 40px;
+  padding: 24px;
+  background-color: $gray-0;
+
+  &__title {
+    font-weight: $font-weight-semibold;
+  }
+
+  &__text {
+    margin-top: 24px;
+    display: block;
+    text-align: justify;
+  }
+}
+
+.ornament {
+  position: relative;
+  overflow: hidden;
+
+  margin-bottom: calc(-50% + 50px);
+
+  @include tablet {
+    margin-bottom: calc(-50% + 5px);
+  }
+
+  @include laptop {
+    overflow: auto;
+    margin-bottom: 0;
+  }
+}
+
+.imageDesktop {
+  width: 100%;
+  height: auto;
+  transform: translateY(-50%);
+
+  @include laptop {
+    transform: translateY(0);
+  }
+}
+
+.button {
+  @include set-square(144px);
+  @include set-flex(row, center, center);
+
+  margin-top: 92px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background-color: $gray-5;
+
+  @include tablet {
+    margin-top: 14px;
+  }
+
+  @include tabletXL {
+    margin-top: 50px;
+  }
+
+  @include laptop {
+    margin: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include desktopHD {
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: $gray-0;
+  }
+
+  &:active {
+    transition-duration: 0.3s;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+}
+
+.article {
+  @include tablet {
+    padding: 0 24px;
+  }
+
+  @include tabletXL {
+    @include set-flex(row);
+
+    gap: 96px;
+  }
+}
+
+.articleWrapper {
+  flex: 1;
+}
+
+.articleTitle {
+  font-size: $font-size-xxl;
+  line-height: 40px;
+  margin-top: 40px;
+  color: $gray-5;
+
+  @include desktop {
+    margin-top: 64px;
+  }
+}
+
+.articleText {
+  display: block;
+  margin-top: 16px;
+  color: $gray-10;
+
+  @include tabletXL {
+    text-align: justify;
+    margin-top: 24px;
+  }
+}
+
+.quote {
+  @include set-flex(column);
+
+  gap: 24px;
+  margin-top: 64px;
+
+  @include tablet {
+    @include set-flex(row, space-evenly, center);
+  }
+
+  @include laptop {
+    @include set-flex(row, center, center);
+
+    gap: 10%;
+  }
+}
+
+.qrCodeImage {
+  display: none;
+
+  @include tablet {
+    @include set-square(125px);
+
+    display: block;
+    position: relative;
+  }
+
+  @include laptop {
+    @include set-square(144px);
+  }
+}
+
+.quoteWrapper {
+  @include set-flex(column, flex-start);
+
+  gap: 24px;
+
+  @include tablet {
+    max-width: 260px;
+  }
+
+  @include tabletXL {
+    @include set-flex(row, space-evenly);
+    max-width: 460px;
+  }
+
+  @include laptop {
+    max-width: 480px;
+  }
+
+  @include desktopHD {
+    max-width: 560px;
+  }
+}
+
+.imageQuoteWrapper {
+  @include set-size(64px, 48px);
+  min-width: 64px;
+  position: relative;
+}
+
+.quoteContainer {
+  @include set-flex(column);
+
+  gap: 24px;
+}
+
+.quoteText {
+  color: $gray-5;
+  font-family: $font-title;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-xxl;
+}
+
+.footer {
+  margin-top: 56px;
+  position: relative;
+  height: 265px;
+  width: 100%;
+
+  @include tablet {
+    height: 353px;
+  }
+
+  @include tabletXL {
+    height: 412px;
+  }
+
+  @include laptop {
+    height: 451px;
+  }
+
+  &__imageL {
+    left: 0;
+  }
+
+  &__imageR {
+    right: 0;
+  }
+
+  &__image {
+    @include set-size(111px, 265px);
+
+    position: absolute;
+
+    @include tablet {
+      @include set-size(149px, 353px);
+    }
+
+    @include tabletXL {
+      @include set-size(181px, 412px);
+    }
+
+    @include laptop {
+      @include set-size(199px, 451px);
+    }
+  }
+
+  &__title {
+    padding: 0 80px;
+    position: absolute;
+    color: $gray-0;
+    font-weight: $font-weight-semibold;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+
+    @include tablet {
+      padding: 0 100px;
+      font-size: $font-size-lg;
+    }
+
+    @include tabletXL {
+      font-weight: $font-weight-regular;
+      font-size: $font-size-xxl;
+    }
+
+    @include laptop {
+      padding: 0 200px;
+      font-size: $font-size-xxxl;
+    }
+  }
+}

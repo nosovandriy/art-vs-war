@@ -38,6 +38,8 @@ const Header = () => {
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
 
+  const isHeaders = Object.keys(headers).length !== 0;
+
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
   };
@@ -60,7 +62,7 @@ const Header = () => {
     if (data.paintingsFromLocalStorage.length > 0) {
       dispatch(setDataToCartFromLocalStorage(data));
 
-      if (user) {
+      if (user && isHeaders) {
         const paintingsId = data.paintingsFromLocalStorage
           .map((painting) => painting.id)
           .join(",");
@@ -96,10 +98,10 @@ const Header = () => {
       }
     };
 
-    if (user) {
+    if (user && isHeaders) {
       getDataFromCart();
     }
-  }, [user]);
+  }, [user, isHeaders]);
 
   return (
     <header>
@@ -130,7 +132,7 @@ const Header = () => {
           />
         </nav>
         <div className={style.cart__container}>
-          <Link href={`/cart`}>
+          <Link href={`/cart`}  title="Cart">
             <div className={style.cart} onClick={handleCloseMobileMenu}>
               <Cart />
 
@@ -141,13 +143,13 @@ const Header = () => {
             </div>
           </Link>
           <div className={style.price}>
-            <Link href={`/cart`}>
+            <Link href={`/cart`} title="Cart">
               <div className={style.price__title}>Total</div>
               <div className={style.price__amount}>{`€ ${totalPrice}`}</div>
             </Link>
           </div>
           {user && (
-            <Link href={`/profile`}>
+            <Link href={`/profile`} title="Profile">
               <div className={style.profile}>
                 <ProfileIcon />
               </div>
