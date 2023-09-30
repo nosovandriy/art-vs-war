@@ -6,9 +6,14 @@
 
   padding: 30px 22px 80px;
   position: relative;
+  min-height: calc(100vh - 56px);
 
   @include tabletXL {
     padding: 50px 22px 120px;
+  }
+
+  @include laptop {
+    min-height: calc(100vh - 96px);
   }
 
   @include desktop {

@@ -219,7 +219,11 @@ const ShippingForm: React.FC<Props> = ({
                   fieldState: { error },
                 }) => (
                   <>
-                    <PhoneNumber value={value} onChange={onChange} error={error} />
+                    <PhoneNumber
+                      value={value}
+                      onChange={onChange}
+                      error={error}
+                    />
                     {error && (
                       <div className={style.error}>{errors.phone?.message}</div>
                     )}
