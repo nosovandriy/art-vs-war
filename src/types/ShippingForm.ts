@@ -38,3 +38,8 @@ export interface ShippingFormData {
   city: string,
   postalCode: string,
 }
+
+export interface MessageFormTypes {
+  email: string;
+  message: string;
+}
