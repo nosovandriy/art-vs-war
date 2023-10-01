@@ -2,7 +2,7 @@
 
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Cart } from "@/app/icons/icon-cart";
 import { IconClose } from "@/app/icons/icon-close";
@@ -30,9 +30,14 @@ import SocialNetworkIcons from "../social-network/social-network";
 import LoginButton from "./navigation/login-button/login-button";
 
 import style from "./header.module.scss";
+import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
+import { handleCloseDropdown } from "@/utils/checkClick";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showProfileMobileMenu, setShowProfileMobileMenu] = useState(false);
+  const menuRef = useRef<HTMLInputElement>(null);
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
@@ -45,6 +50,12 @@ const Header = () => {
   };
 
   const handleCloseMobileMenu = () => {
+    setShowMobileMenu(false);
+  };
+
+  const handleSelectProfile = () => {
+    setShowProfileMenu(!showProfileMenu);
+    setShowProfileMobileMenu(!showProfileMobileMenu);
     setShowMobileMenu(false);
   };
 
@@ -103,6 +114,18 @@ const Header = () => {
     }
   }, [user, isHeaders]);
 
+  useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) => {
+      handleCloseDropdown(event, menuRef, setShowProfileMenu);
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  });
+
   return (
     <header>
       <div className={style.header}>
@@ -132,7 +155,7 @@ const Header = () => {
           />
         </nav>
         <div className={style.cart__container}>
-          <Link href={`/cart`}  title="Cart">
+          <Link href={`/cart`} title="Cart">
             <div className={style.cart} onClick={handleCloseMobileMenu}>
               <Cart />
 
@@ -149,14 +172,37 @@ const Header = () => {
             </Link>
           </div>
           {user && (
-            <Link href={`/profile`} title="Profile">
-              <div className={style.profile}>
+            <div className={style.profileWrapper} ref={menuRef}>
+              <button
+                title="Account"
+                className={style.profile}
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+              >
                 <ProfileIcon />
-              </div>
-            </Link>
+              </button>
+              {showProfileMenu && (
+                <div className={`${style.profileButton__laptop}`}>
+                  <Link
+                    href={`/account`}
+                    className={style.profileButton}
+                    onClick={handleSelectProfile}
+                  >
+                    View Account
+                  </Link>
+                  <hr className={style.line}></hr>
+                  <Link
+                    href={`/profile`}
+                    className={style.profileButton}
+                    onClick={handleSelectProfile}
+                  >
+                    View Artist Profile
+                  </Link>
+                </div>
+              )}
+            </div>
           )}
           {!user && (
-            <Link href={`/profile`}>
+            <Link href={`/account`}>
               <LoginButton className={style.loginDesktop} />
             </Link>
           )}
@@ -172,10 +218,40 @@ const Header = () => {
         }`}
       >
         <div>
-          {!user && (
+          {!user ? (
             <Link href={`/profile`} onClick={handleCloseMobileMenu}>
               <LoginButton className={style.loginMobile} />
             </Link>
+          ) : (
+            <>
+              <div
+                className={style.profileButton}
+                onClick={() => setShowProfileMobileMenu(!showProfileMobileMenu)}
+              >
+                <ProfileIcon />
+                <span>Profile</span>
+                <ArrowDownIcon isRotated={showProfileMobileMenu} />
+              </div>
+              {showProfileMobileMenu && (
+                <div className={style.profileButton__menu}>
+                  <Link
+                    href={`/account`}
+                    className={style.profileButton}
+                    onClick={handleSelectProfile}
+                  >
+                    View Account
+                  </Link>
+                  <hr className={style.line}></hr>
+                  <Link
+                    href={`/profile`}
+                    className={style.profileButton}
+                    onClick={handleSelectProfile}
+                  >
+                    View Artist Profile
+                  </Link>
+                </div>
+              )}
+            </>
           )}
 
           <MenuItems
@@ -184,7 +260,13 @@ const Header = () => {
           />
         </div>
         <div className={style.contacts}>
-          <p className={style.contacts__title}>Contacts</p>
+          <Link
+            href={`/contacts`}
+            onClick={handleCloseMobileMenu}
+            className={style.contacts__title}
+          >
+            Contacts
+          </Link>
           <div className={style.contacts__icons}>
             <SocialNetworkIcons />
           </div>

@@ -23,7 +23,7 @@ export const MenuItems: React.FC<Props> = ({
   };
 
   const menuItems = [
-    { label: "Profile", href: "/profile", shouldRender: !!user },
+    // { label: "Profile", href: "/account", shouldRender: !!user },
     { label: "Gallery", href: "/gallery", shouldRender: true },
     { label: "Artists", href: "/artists", shouldRender: true },
     { label: "Donation", href: "/donation", shouldRender: true },
