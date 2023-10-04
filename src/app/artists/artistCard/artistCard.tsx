@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import style from "./artistCard.module.scss";
 import { Artist } from "@/types/Artist";
-import { MapPoint } from "@/app/icons/icon-map-point";
+import { MapPointIcon } from "@/app/icons/icon-map-point";
 import { ArrowRight } from "@/app/icons/icon-arrow-right";
 
 type Props = {
@@ -56,7 +56,7 @@ const ArtistCard: React.FC<Props> = ({ artist, className }) => {
         <div className={style.info__wrapper}>
           <h2 className={style.name}>{fullName}</h2>
           <div className={style.location}>
-            <MapPoint />
+            <MapPointIcon />
             <span>{`${country}, ${city}`}</span>
           </div>
           <div className={style.style}>

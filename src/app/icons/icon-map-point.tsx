@@ -1,4 +1,4 @@
-export const MapPoint = () => {
+export const MapPointIcon = () => {
   return (
     <svg
       width="25"
