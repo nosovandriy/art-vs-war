@@ -181,6 +181,8 @@
   }
 
   &__menu {
+    @include set-flex(column, center, center);
+
     margin-top: 12px;
     position: absolute;
     background-color: $gray-70;

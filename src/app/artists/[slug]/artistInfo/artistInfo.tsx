@@ -1,11 +1,13 @@
-import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { FC } from "react";
+
+import { Add } from "@/app/icons/icon-add";
+import { ArtStylesIcon } from "@/app/icons/icon-art-styles";
+import { MapPointIcon } from "@/app/icons/icon-map-point";
+import { Artist } from "@/types/Artist";
 
 import style from "./artistInfo.module.scss";
-import { MapPoint } from "@/app/icons/icon-map-point";
-import { Add } from "@/app/icons/icon-add";
-import { Artist } from "@/types/Artist";
 
 type Props = {
   artistInfo: Artist;
@@ -13,27 +15,14 @@ type Props = {
   signOut?: () => void;
 };
 
-const ArtistInfo: FC<Props> = ({
-  isProfile = false,
-  artistInfo,
-  signOut,
-}) => {
-  const {
-    fullName,
-    country,
-    city,
-    aboutMe,
-    imageUrl,
-    styles,
-  } = artistInfo;
+const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, signOut }) => {
+  const { fullName, country, city, aboutMe, imageUrl, styles } = artistInfo;
 
   return (
     <div className={style.author}>
       {isProfile && (
         <div className={style.titleContainer}>
-          <h2 className={style.title}>
-            Profile
-          </h2>
+          <h2 className={style.title}>Profile</h2>
         </div>
       )}
 
@@ -49,28 +38,22 @@ const ArtistInfo: FC<Props> = ({
         </div>
 
         <div className={style.author__info}>
-          <div className={style.author__name}>
-            {fullName}
-          </div>
+          <div className={style.author__name}>{fullName}</div>
 
           <div className={style.author__styles}>
-            <span className={style.style__title}>Styles: </span>
+            <ArtStylesIcon />
+
             {styles.map((artistStyle: string, index: number) => (
               <span className={style.style} key={index}>
-                <span className={style.style__mobile}>
-                  {artistStyle}
-                  {index !== styles.length - 1 && ", "}
-                </span>
+                <span className={style.style__mobile}>{artistStyle}</span>
 
-                <span className={style.style__laptop}>
-                  {artistStyle}
-                </span>
+                <span className={style.style__laptop}>{artistStyle}</span>
               </span>
             ))}
           </div>
 
           <div className={style.author__location}>
-            <MapPoint />
+            <MapPointIcon />
             {`${country}, ${city}`}
           </div>
           <div className={style.author__about}>{aboutMe}</div>
@@ -84,17 +67,10 @@ const ArtistInfo: FC<Props> = ({
                 <Add className={style.button__icon} />
                 Add Arts
               </Link>
-              <Link
-                className={style.button__edit}
-                href="/profile/edit"
-              >
+              <Link className={style.button__edit} href="/profile/edit">
                 Edit profile
               </Link>
-              <button
-                type="button"
-                className={style.signout}
-                onClick={signOut}
-              >
+              <button type="button" className={style.signout} onClick={signOut}>
                 Sign Out
               </button>
             </div>

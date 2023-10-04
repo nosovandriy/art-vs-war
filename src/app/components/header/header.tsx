@@ -32,6 +32,7 @@ import LoginButton from "./navigation/login-button/login-button";
 import style from "./header.module.scss";
 import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
 import { handleCloseDropdown } from "@/utils/checkClick";
+import LogOutButton from "./navigation/logOut-button/logOut-button";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -39,7 +40,7 @@ const Header = () => {
   const [showProfileMobileMenu, setShowProfileMobileMenu] = useState(false);
   const menuRef = useRef<HTMLInputElement>(null);
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
-  const { user } = useAuthenticator((context) => [context.route]);
+  const { user, signOut } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
 
@@ -187,7 +188,7 @@ const Header = () => {
                     className={style.profileButton}
                     onClick={handleSelectProfile}
                   >
-                    View Account
+                    View Profile
                   </Link>
                   <hr className={style.line}></hr>
                   <Link
@@ -197,6 +198,13 @@ const Header = () => {
                   >
                     View Artist Profile
                   </Link>
+                  <hr className={style.line}></hr>
+                  <button
+                    className={style.profileButton}
+                    onClick={signOut}
+                  >
+                    <LogOutButton />
+                  </button>
                 </div>
               )}
             </div>
@@ -229,7 +237,7 @@ const Header = () => {
                 onClick={() => setShowProfileMobileMenu(!showProfileMobileMenu)}
               >
                 <ProfileIcon />
-                <span>Profile</span>
+                <span>Select Profile</span>
                 <ArrowDownIcon isRotated={showProfileMobileMenu} />
               </div>
               {showProfileMobileMenu && (
@@ -239,7 +247,7 @@ const Header = () => {
                     className={style.profileButton}
                     onClick={handleSelectProfile}
                   >
-                    View Account
+                    View Profile
                   </Link>
                   <hr className={style.line}></hr>
                   <Link
@@ -249,6 +257,13 @@ const Header = () => {
                   >
                     View Artist Profile
                   </Link>
+                  <hr className={style.line}></hr>
+                  <button
+                    className={style.profileButton}
+                    onClick={signOut}
+                  >
+                    <LogOutButton />
+                  </button>
                 </div>
               )}
             </>
