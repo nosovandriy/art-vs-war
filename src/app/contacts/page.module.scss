@@ -1,0 +1,62 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.contacts {
+  padding: 0 22px 24px;
+  position: relative;
+  min-height: calc(100vh - 56px);
+
+  @include laptop {
+    min-height: calc(100vh - 96px);
+  }
+
+  @include desktop {
+    margin-left: 100px;
+  }
+}
+
+.content {
+  @include tabletXL {
+    width: 85%;
+  }
+
+  @include laptop {
+    width: 75%;
+  }
+}
+
+.title {
+  padding-top: 24px;
+  color: $gray-0;
+  font-size: $font-size-xxl;
+
+  @include tablet {
+    padding-top: 32px;
+    font-size: $font-size-xxxl;
+  }
+
+  @include laptop {
+    padding-top: 56px;
+    font-size: $font-size-4xl;
+  }
+}
+
+.subTitle {
+  margin-top: 20px;
+  color: $gray-10;
+}
+
+.image {
+  display: none;
+
+  @include tabletXL {
+    @include set-size(400px, 500px);
+
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 500px;
+    width: 400px;
+  }
+}

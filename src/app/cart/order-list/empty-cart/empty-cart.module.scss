@@ -107,7 +107,7 @@
 }
 
 .imageBottom {
-  bottom: -6%;
+  bottom: -20%;
   left: -5%;
   transform: rotate(180deg);
 
@@ -117,13 +117,19 @@
 
   @include tabletXL {
     left: -2%;
+    bottom: -12%;
   }
 
   @include laptop {
     left: -1%;
+    bottom: -6%;
   }
 
   @include desktop {
     left: -10%;
+  }
+
+  @include desktopHD {
+    bottom: -10%;
   }
 }

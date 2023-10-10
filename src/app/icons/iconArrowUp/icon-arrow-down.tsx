@@ -2,7 +2,7 @@ import { FC } from "react";
 import './icon-arrow-down.scss';
 
 type Props = {
-  isRotated: boolean;
+  isRotated?: boolean;
 }
 
 export const ArrowDownIcon: FC<Props> = ({ isRotated }) => {

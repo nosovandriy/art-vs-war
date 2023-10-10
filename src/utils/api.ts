@@ -9,7 +9,11 @@ import {
   UserData,
   UserDataToSave,
 } from "@/types/Profile";
-import { ShippingFormTypes, ShippingInfo } from "@/types/ShippingForm";
+import {
+  MessageFormTypes,
+  ShippingFormTypes,
+  ShippingInfo,
+} from "@/types/ShippingForm";
 import { AccountData } from "@/types/Account";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -347,8 +351,21 @@ export async function getShippingInfo(
   }
 
   const data = await response.json();
-
   return data;
+}
+
+export async function sendContactUsMessage(message: MessageFormTypes) {
+  const response = await fetch(`${BASE_URL}email/contactUs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(message),
+  });
+
+  if (response.ok) {
+    return "Email has been sent";
+  }
 }
 
 export async function getStripeLink(
@@ -387,21 +404,17 @@ export async function getAccount(headers: Headers) {
 
 export async function createAccount(
   headers: Headers,
-  accountData: AccountData,
+  accountData: AccountData
 ) {
-  const { data } = await axios.post(
-    `${BASE_URL}account`,
-    accountData,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+  const { data } = await axios.post(`${BASE_URL}account`, accountData, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
 
   return data;
-};
+}
 
 export async function updateAccount(
   headers: Headers,
@@ -423,7 +436,7 @@ export async function updateAccount(
 
 export async function saveAddress(
   headers: Headers,
-  accountData: ShippingFormTypes,
+  accountData: ShippingFormTypes
 ) {
   const { data } = await axios.post(
     `${BASE_URL}account/addresses`,
@@ -437,4 +450,4 @@ export async function saveAddress(
   );
 
   return data;
-};
+}

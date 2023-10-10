@@ -4,11 +4,12 @@ import { Fragment } from "react";
 import { useDispatch } from "react-redux";
 
 import { IconClose } from "@/app/icons/icon-close";
-import { MapPoint } from "@/app/icons/icon-map-point";
+import { MapPointIcon } from "@/app/icons/icon-map-point";
 import { clearShippingInfo } from "@/app/redux/slices/shippingSlice";
 import { CartItem } from "@/types/CartItem";
 
 import style from "./order-item.module.scss";
+
 type Props = {
   paintings: CartItem[];
   handleRemovePainting: (id: number) => void;
@@ -53,7 +54,7 @@ const OrderItem: React.FC<Props> = ({ paintings, handleRemovePainting }) => {
                   <p className={style.author}>{`by ${painting.author}`}</p>
                 </Link>
                 <div className={style.country}>
-                  <MapPoint />
+                  <MapPointIcon />
                   {`${painting.country}`}
                 </div>
                 <p
