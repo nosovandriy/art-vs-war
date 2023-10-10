@@ -78,10 +78,7 @@ export const uploadImageToServer = async (
     headers: HeadersInit,
     email: string = '',
   ): Promise<any> => {
-  if (data.image
-    && upload_preset
-    && cloudinaryApiKey
-    && cloudName) {
+  if (data.image && upload_preset && cloudinaryApiKey && cloudName) {
     const { signature, timestamp, folder } = await getSignatureFromServer(data, url, headers, email);
     const formData = new FormData();
 

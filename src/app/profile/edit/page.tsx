@@ -5,7 +5,7 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 
 import style from "../page.module.scss";
 
-import EditProfile from "@/app/components/editProfile/editProfile";
+import EditProfile from "@/app/profile/edit/assets/editProfile";
 import createHeaders from "@/utils/getAccessToken";
 import { getProfile } from "@/utils/api";
 import { Artist } from "@/types/Artist";
