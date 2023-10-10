@@ -17,8 +17,8 @@ const About = () => (
           collection and find a painting that speaks to you. You also can donate
           our project without purchasing a painting. Thank you for your support.
         </div>
-        <Link href={"/donation"} className={styles.mobile__button}>
-          Donate
+        <Link href={"/about"} className={styles.mobile__button}>
+          About
         </Link>
       </div>
       <div className={styles.mobileOrnament}>
@@ -53,8 +53,8 @@ const About = () => (
       </div>
 
       <div className={styles.ornament}>
-        <Link href={"/donation"} className={styles.button}>
-          Donate
+        <Link href={"/about"} className={styles.button}>
+          About
         </Link>
         <Image
           className={styles.image}
@@ -98,8 +98,8 @@ const About = () => (
         </div>
 
         <div className={styles.ornament}>
-          <Link href={"/donation"} className={styles.button}>
-            Donate
+          <Link href={"/about"} className={styles.button}>
+            About
           </Link>
 
           <Image

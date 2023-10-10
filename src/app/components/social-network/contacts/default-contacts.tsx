@@ -1,9 +1,13 @@
-import { Facebook, Instagram, Whatsapp } from "@/app/icons/icons-social-networks";
+import {
+  Facebook,
+  Instagram,
+  Whatsapp,
+} from "@/app/icons/icons-social-networks";
 
 export const defaultContacts = {
-  instagram: "https://www.instagram.com/",
-  facebook: "https://facebook.com",
-  whatsapp: "https://www.whatsapp.com/",
+  instagram: "https://www.instagram.com/artvswar.gallery/",
+  facebook: "https://www.facebook.com/groups/artvswar",
+  whatsapp: "https://chat.whatsapp.com/IVMZK1nACjUDzygtfXUJ0N",
 };
 
 export const iconContacts = [

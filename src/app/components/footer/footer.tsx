@@ -11,9 +11,9 @@ const Footer = () => {
   return (
     <footer>
       <div className={style.lines}>
-        <div className={`${style.line} ${style.line_0}`}/>
-        <div className={`${style.line} ${style.line_1}`}/>
-        <div className={`${style.line} ${style.line_2}`}/>
+        <div className={`${style.line} ${style.line_0}`} />
+        <div className={`${style.line} ${style.line_1}`} />
+        <div className={`${style.line} ${style.line_2}`} />
       </div>
       <div className={style.content}>
         <div className={style.wrapper}>
@@ -24,13 +24,27 @@ const Footer = () => {
           <MenuItems className={style.menuItems} />
           <div>
             <ul className={style.list}>
-              <li className={style.list__desktop}>For collectors</li>
-              <li className={style.list__desktop}>For artists</li>
-              <li>Payment</li>
-              <li>Delivery</li>
-              <li>FAQ</li>
-              <li>Terms of use</li>
-              <li>Privacy policy</li>
+              <Link href={"/under-development"}>
+                <li className={style.list__desktop}>For collectors</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li className={style.list__desktop}>For artists</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li>Payment</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li>Delivery</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li>FAQ</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li>Terms of use</li>
+              </Link>
+              <Link href={"/under-development"}>
+                <li>Privacy policy</li>
+              </Link>
             </ul>
             <div className={style.icons}>
               <SocialNetworkIcons className={style.icon} />

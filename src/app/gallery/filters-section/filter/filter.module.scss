@@ -92,8 +92,8 @@
   background: $gray-100;
   border: 1px solid $gray-0;
   border-top: 0;
+  border-bottom: 0;
   box-sizing: border-box;
-  border-radius: 0 0 24px 24px;
   max-height: 970px;
 
   @include tablet {
@@ -117,8 +117,8 @@
 .buttons {
   @include set-flex(column);
 
-  position: sticky;
-  bottom: 0;
+  border: 1px solid $gray-0;
+  border-top: 0;
   background-color: $gray-100;
   border-bottom-left-radius: 24px 24px;
   border-bottom-right-radius: 24px 24px;

@@ -145,6 +145,11 @@
   path {
     fill: $gray-70;
   }
+
+  &:hover {
+    transition: 0.3s;
+    transform: scale(1.1);
+  }
 }
 
 .list {
