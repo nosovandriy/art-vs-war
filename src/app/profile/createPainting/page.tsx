@@ -4,7 +4,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 
 import style from "../page.module.scss";
 
-import CreatePainting from "@/app/components/createPainting/createPainting";
+import CreatePainting from "@/app/profile/createPainting/assets/createPainting";
 import { useState } from "react";
 import AdditionalInfo from "@/app/components/additional-info/additional-info";
 import { UploadedPaintingData } from "@/types/Painting";
@@ -19,7 +19,7 @@ return (
       ? <AdditionalInfo uploaded={uploaded} />
       : (
         <CreatePainting
-          setNextStep={setIsNextStepVisible} 
+          setNextStep={setIsNextStepVisible}
           setUploaded={setUploaded}
         />
     )}

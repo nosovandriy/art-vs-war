@@ -387,6 +387,21 @@ export async function getStripeLink(
   return response.data;
 }
 
+export async function getAccount(headers: Headers) {
+  const { data } = await axios.get(
+    `${BASE_URL}account`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+};
+
+
 export async function createAccount(
   headers: Headers,
   accountData: AccountData
@@ -400,6 +415,24 @@ export async function createAccount(
 
   return data;
 }
+
+export async function updateAccount(
+  headers: Headers,
+  accountData: AccountData,
+) {
+  const { data } = await axios.put(
+    `${BASE_URL}account`,
+    accountData,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+};
 
 export async function saveAddress(
   headers: Headers,

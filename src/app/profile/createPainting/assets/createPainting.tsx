@@ -265,6 +265,7 @@ const CreatePainting: FC<Props> = ({
                   <div className={style.input}>
                     <input
                       type="number"
+                      accept="image/*"
                       className={style.text}
                       placeholder="Width cm"
                       onWheel={(e) => e.currentTarget.blur()}
