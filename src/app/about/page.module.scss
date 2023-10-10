@@ -1,0 +1,114 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.about {
+  padding: 24px 22px;
+
+  @include tablet {
+    padding: 32px 22px;
+  }
+
+  @include laptop {
+    padding: 32px 30px;
+  }
+
+  @include desktop {
+    padding: 32px 130px;
+  }
+}
+
+.title {
+  color: $gray-0;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-xxxl;
+
+  @include tabletXL {
+    font-size: $font-size-4xl;
+  }
+
+  @include laptop {
+    font-size: $font-size-huge;
+  }
+}
+
+.image {
+  @include set-size(100%, 100%);
+  margin-top: 32px;
+}
+
+.articleBlock {
+  @include laptop {
+    @include set-flex(row);
+    gap: 48px;
+  }
+}
+
+.article {
+  flex: 1;
+}
+
+.titleH2 {
+  margin-top: 48px;
+
+  color: $gray-0;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-xxl;
+}
+
+.text {
+  margin-top: 16px;
+  color: $gray-10;
+}
+
+.ornament {
+  @include set-flex(column, center);
+  margin-top: 48px;
+
+  @include tablet {
+    @include set-flex(row);
+    gap: 24px;
+  }
+
+  @include laptop {
+    @include set-flex(row, center);
+  }
+
+  &__text {
+    margin-top: 16px;
+    color: $gray-10;
+
+    @include tablet {
+      margin-top: 0;
+    }
+
+    @include laptop {
+      max-width: 366px;
+    }
+
+    @include desktop {
+      max-width: 460px;
+    }
+  }
+}
+
+.imageQuoteWrapper {
+  @include set-size(64px, 48px);
+
+  min-width: 64px;
+  position: relative;
+}
+
+.logoImage {
+  @include set-square(183px);
+
+  margin-top: 16px;
+  align-self: center;
+
+  @include tablet {
+    margin-top: 0;
+  }
+
+  @include laptop {
+    @include set-square(150px);
+  }
+}

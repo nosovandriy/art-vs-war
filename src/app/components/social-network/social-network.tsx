@@ -1,7 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
 
-import style from "./social-network.module.scss";
 
 import { iconContacts } from "./contacts/default-contacts";
 

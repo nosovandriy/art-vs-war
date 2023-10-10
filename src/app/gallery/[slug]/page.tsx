@@ -225,24 +225,16 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div className={style.shipping__info}>
             <p>Delivery Cost:</p>
-            <p>Shipping is included.</p>
+            <p>
+              Shipping is not included and will depend on chosen option of
+              delivery.
+            </p>
           </div>
           <div className={style.shipping__info}>
             <p>Handling:</p>
             <p>
-              Ships rolled in a tube. Artists are responsible for packaging and
-              adhering to “Art vs War” packing guidelines.
-            </p>
-          </div>
-          <div className={style.shipping__info}>
-            <p>Ships From:</p>
-            <p>Ukraine</p>
-          </div>
-          <div className={style.shipping__info}>
-            <p>Customs:</p>
-            <p>
-              Shipments from Ukraine may experience delays due to country&apos;s
-              regulations for exporting valuable artworks.
+              Artists are responsible for packaging and adhering to “Art vs War”
+              packing guidelines.
             </p>
           </div>
         </div>

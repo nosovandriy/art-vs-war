@@ -18,7 +18,7 @@ const Artist = () => {
         <h6 className={styles.subtitle}>
           Become a part of our conscious community
         </h6>
-        <Link href={"/profile"} className={styles.button}>
+        <Link href={"/account"} className={styles.button}>
           Create account
         </Link>
       </div>

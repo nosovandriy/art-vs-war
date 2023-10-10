@@ -283,17 +283,17 @@ const Filter: React.FC<Props> = ({
               setWidthRanges={setWidthRanges}
               setHeightRanges={setHeightRanges}
             />
-            <div className={style.buttons}>
-              <button
-                className={`${style.button} ${style.mainButton}`}
-                onClick={handleFilterPaintings}
-              >
-                Apply filters
-              </button>
-              <button className={style.button} onClick={handleClearFilters}>
-                Discard filters
-              </button>
-            </div>
+          </div>
+          <div className={style.buttons}>
+            <button
+              className={`${style.button} ${style.mainButton}`}
+              onClick={handleFilterPaintings}
+            >
+              Apply filters
+            </button>
+            <button className={style.button} onClick={handleClearFilters}>
+              Discard filters
+            </button>
           </div>
         </div>
       )}

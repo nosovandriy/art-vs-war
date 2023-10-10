@@ -188,7 +188,7 @@ const Header = () => {
                     className={style.profileButton}
                     onClick={handleSelectProfile}
                   >
-                    View Profile
+                    View Account
                   </Link>
                   <hr className={style.line}></hr>
                   <Link
@@ -247,7 +247,7 @@ const Header = () => {
                     className={style.profileButton}
                     onClick={handleSelectProfile}
                   >
-                    View Profile
+                    View Account
                   </Link>
                   <hr className={style.line}></hr>
                   <Link
