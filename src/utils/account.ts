@@ -32,10 +32,7 @@ export const getUserRole = (user: any, role: string) => {
     ?.getJwtToken();
 
   const decoded: any = token && jwt_decode(token)
-
-  console.log('decoded', decoded)
   const roles = 'cognito:groups';
-
   const hasUserRoles = decoded.hasOwnProperty(roles);
   const hasRole = hasUserRoles && decoded[roles].includes(role);
 

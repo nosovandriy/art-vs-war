@@ -22,7 +22,6 @@ const Account = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const [account, setAccount] = useState<AccountData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
-  // const refreshToken = user.getSignInUserSession()?.getRefreshToken();
 
   const fetchData = async () => {
     const headers = createHeaders(user);
