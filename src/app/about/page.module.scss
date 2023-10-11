@@ -83,10 +83,12 @@
 
     @include laptop {
       max-width: 366px;
+      font-size: $font-size-lg;
     }
 
     @include desktop {
-      max-width: 460px;
+      max-width: 510px;
+      font-size: $font-size-xl;
     }
   }
 }
