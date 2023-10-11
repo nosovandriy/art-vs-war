@@ -51,11 +51,9 @@ const About = () => {
           />
         </div>
         <p className={style.ornament__text}>
-          We would like to express our heartfelt gratitude to all the artists
-          who have shown incredible resilience and creativity in their
-          dedication to helping Ukraine. Their work is a testament to the power
-          of art and the human spirit and we are honored to be able to showcase
-          their talents.
+          Our logo transcends mere ornamentation. It serves as a profound
+          symbol, embodying the intrinsic goodness and unwavering strength that
+          resides within the human spirit.
         </p>
         <Image
           src="/assets/logo_icon.svg"

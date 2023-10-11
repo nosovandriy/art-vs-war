@@ -12,10 +12,16 @@ const About = () => (
         <h1 className={styles.mobile__title}>Art vs War</h1>
 
         <div className={styles.mobile__content}>
-          Our project dedicated to supporting Ukrainian artists and creatives
-          who have been displaced abroad due to the war in Ukraine. Browse our
-          collection and find a painting that speaks to you. You also can donate
-          our project without purchasing a painting. Thank you for your support.
+          Our project is dedicated to supporting Ukraine by providing a platform
+          for artists and creatives to showcase their work, connect with
+          appreciative customers and offer a unique opportunity to acquire
+          artwork while contributing to a noble cause.
+          <br />
+          <br />
+          By purchasing a painting, you support freedom and democracy. Explore
+          our collection to find a piece that speaks to you. Alternatively, you
+          can choose to support our project with a donation. Your assistance is
+          greatly appreciated.
         </div>
         <Link href={"/about"} className={styles.mobile__button}>
           About
@@ -38,17 +44,16 @@ const About = () => (
       <div className={styles.content}>
         <h2 className={styles.title__black}>vs War</h2>
         <p className={styles.text}>
-          Our project dedicated to supporting Ukrainian artists and creatives
-          who have been displaced abroad due to the war in Ukraine. We offer a
-          unique opportunity to purchase their artwork while contributing to a
-          good cause.
+          Our project is dedicated to supporting Ukraine by providing a platform
+          for artists and creatives to showcase their work, connect with
+          appreciative customers and offer a unique opportunity to acquire
+          artwork while contributing to a noble cause.
           <br />
           <br />
-          Each painting tells a story of Ukraine&apos;s struggle for freedom and
-          independence. By purchasing a painting, you support the artist and
-          contribute to the victory of Ukraine and democracy. Browse our
-          collection and find a painting that speaks to you. You also can donate
-          our project without purchasing a painting. Thank you for your support.
+          By purchasing a painting, you support freedom and democracy. Explore
+          our collection to find a piece that speaks to you. Alternatively, you
+          can choose to support our project with a donation. Your assistance is
+          greatly appreciated.
         </p>
       </div>
 
@@ -82,18 +87,16 @@ const About = () => (
           </div>
 
           <div className={styles.text}>
-            Our project dedicated to supporting Ukrainian artists and creatives
-            who have been displaced abroad due to the war in Ukraine. We offer a
-            unique opportunity to purchase their artwork while contributing to a
-            good cause.
+            Our project is dedicated to supporting Ukraine by providing a
+            platform for artists and creatives to showcase their work, connect
+            with appreciative customers and offer a unique opportunity to
+            acquire artwork while contributing to a noble cause.
             <br />
             <br />
-            Each painting tells a story of Ukraine&apos;s struggle for freedom
-            and independence. By purchasing a painting, you support the artist
-            and contribute to the victory of Ukraine and democracy. Browse our
-            collection and find a painting that speaks to you. You also can
-            donate our project without purchasing a painting. Thank you for your
-            support.
+            By purchasing a painting, you support freedom and democracy. Explore
+            our collection to find a piece that speaks to you. Alternatively,
+            you can choose to support our project with a donation. Your
+            assistance is greatly appreciated.
           </div>
         </div>
 
