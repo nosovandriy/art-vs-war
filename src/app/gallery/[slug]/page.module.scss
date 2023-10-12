@@ -204,6 +204,7 @@
   @include laptop {
     @include set-flex(row, flex-start, center);
 
+    margin-bottom: 0;
     padding: 48px 0;
     gap: 50px;
   }

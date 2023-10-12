@@ -1,61 +1,46 @@
 "use client";
 
-import {
-  Authenticator,
-  Button,
-  Heading,
-  Text,
-  View,
-  useAuthenticator,
-  useTheme,
-} from "@aws-amplify/ui-react";
 import { useEffect, useState } from "react";
-import jwt_decode from "jwt-decode";
+import { useRouter } from 'next/navigation';
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 
-import { Artist } from "@/types/Artist";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
-import { useAppDispatch } from "@/types/ReduxHooks";
-import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
-import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
-import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
-import EditProfile from "../components/editProfile/editProfile";
-import Loading from "../loading";
+import style from "./page.module.scss";
+
 import {
   resetArtistGalleryPageCount,
   setArtistId,
   setArtistPaintings,
 } from "../redux/slices/artistPaintingsSlice";
-
-import style from "./page.module.scss";
-import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
+import Loading from "../loading";
+import { Artist } from "@/types/Artist";
 import createHeaders from "@/utils/getAccessToken";
+import { useAppDispatch } from "@/types/ReduxHooks";
+import { getUserRole } from "@/utils/account";
+import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
+import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
+import EditProfile from "./edit/assets/editProfile";
+import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useAppDispatch();
-
-  const getUserRole = (user: any) => {
-    if (!user) return;
-
-    const token =user
-      ?.getSignInUserSession()
-      ?.getAccessToken()
-      ?.getJwtToken();
-
-    const decoded: any = token && jwt_decode(token)
-    const roles = 'cognito:groups';
-    const hasUserRoles = decoded.hasOwnProperty(roles);
-
-    return hasUserRoles;
-  }
+  const router = useRouter();
 
   useEffect(() => {
     setIsFetching(true);
-    const hasRole = getUserRole(user);
+    const hasCustomerRole = getUserRole(user, 'ROLE_CUSTOMER');
+    const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
 
-    if (!hasRole) {
+    if (!hasCustomerRole) {
+      router.replace('/account');
+
+      return;
+    };
+
+    if (!hasAuthorRole) {
       setAuthor(null);
       setIsFetching(false);
 
@@ -81,7 +66,7 @@ const Profile = () => {
     setIsFetching(false);
 
     return setIsFetching(false);
-  }, [user, dispatch]);
+  }, [user]);
 
   useEffect(() => {
     if (author) {

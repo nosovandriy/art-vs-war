@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 export const getAddressPieces = (piece: { terms: {value: string}[] }) => {
   const length = piece.terms.length;
 
@@ -20,3 +22,19 @@ export const getAddressPieces = (piece: { terms: {value: string}[] }) => {
     default: return ['', ''];
   }
 };
+
+export const getUserRole = (user: any, role: string) => {
+  if (!user) return;
+
+  const token =user
+    ?.getSignInUserSession()
+    ?.getAccessToken()
+    ?.getJwtToken();
+
+  const decoded: any = token && jwt_decode(token)
+  const roles = 'cognito:groups';
+  const hasUserRoles = decoded.hasOwnProperty(roles);
+  const hasRole = hasUserRoles && decoded[roles].includes(role);
+
+  return hasRole;
+}
