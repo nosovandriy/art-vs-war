@@ -10,8 +10,8 @@ import { authenticatorStylesComponents } from '../profile/aws-authenticator-styl
 import { ArrowLeft } from '../icons/icon-arrow-left';
 import createHeaders from '@/utils/getAccessToken';
 import { AccountData, CreatedAccountResponse } from '@/types/Account';
-import RegistersForm from './components/registers-form/registersForm';
-import ShippingForm from './components/shipping-form/shippingForm';
+import RegistersForm from './assets/registers-form/registersForm';
+import ShippingForm from './assets/shipping-form/shippingForm';
 import { getUserRole } from '@/utils/account';
 import { getAccount } from '@/utils/api';
 import Loading from '../loading';
