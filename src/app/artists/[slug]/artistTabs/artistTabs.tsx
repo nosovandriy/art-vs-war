@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-import {Accordion, AccordionItem} from "@nextui-org/accordion";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import Link from "next/link";
 
 import style from "./artistTabs.module.scss";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { ArtistTabOptions } from "@/types/ArtistTabOptions";
 import { renderItem, tabs } from "@/utils/artistTabs";
 import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
@@ -26,7 +26,7 @@ const ArtistTabs = () => {
   const pathname = usePathname();
   const isProfile = pathname === "/profile";
 
-  const renderTabs = isProfile ? tabs :  tabs.filter((_, index) => index <= 2);
+  const renderTabs = isProfile ? tabs : tabs.filter((_, index) => index <= 2);
 
   const onTabSelect = (tab: ArtistTabOptions) => {
     if (tab === openTab) {
@@ -55,20 +55,20 @@ const ArtistTabs = () => {
         </Accordion>
 
         <div className={style.container}>
-          {renderTabs.map(({ option })=> (
-              <div
-                key={option}
-                className={option === selectedTab ? style.isActive : style.tab}
-                onClick={() => setSelectedTab(option)}
-              >
-                {option}
-              </div>
-            ))}
+          {renderTabs.map(({ option }) => (
+            <div
+              key={option}
+              className={option === selectedTab ? style.isActive : style.tab}
+              onClick={() => setSelectedTab(option)}
+            >
+              {option}
+            </div>
+          ))}
         </div>
 
         {isProfile && (
           <Link href="/profile/createPainting" className={style.add}>
-            <Add />
+            <AddIcon />
             Add arts
           </Link>
         )}

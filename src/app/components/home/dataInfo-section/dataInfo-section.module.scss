@@ -168,7 +168,6 @@
 
   @include desktopHD {
     @include set-square(240px);
-    font-size: $font-size-xl;
   }
 
   &:hover {

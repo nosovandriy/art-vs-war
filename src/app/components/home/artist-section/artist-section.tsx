@@ -1,12 +1,22 @@
-"use client";
+'use client'
 
-import Link from "next/link";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useRouter } from "next/navigation";
 
 import Carousel from "./carousel/carousel";
+import { getRegistrationLink } from "@/utils/account";
 
 import styles from "./artist-section.module.scss";
 
 const Artist = () => {
+  const { user } = useAuthenticator((context) => [context.user]);
+
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push(getRegistrationLink(user));
+  };
+
   return (
     <section className={styles.artist}>
       <div className={styles.content}>
@@ -18,9 +28,9 @@ const Artist = () => {
         <h6 className={styles.subtitle}>
           Become a part of our conscious community
         </h6>
-        <Link href={"/account"} className={styles.button}>
+        <button className={styles.button} onClick={handleButtonClick}>
           Create account
-        </Link>
+        </button>
       </div>
     </section>
   );

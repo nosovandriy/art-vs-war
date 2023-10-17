@@ -31,7 +31,7 @@ const ContactFrom = () => {
     try {
       setIsLoading(true);
       const response = await sendContactUsMessage(data);
-      console.log("response", response);
+
       if (response) {
         setTimeout(() => {
           setIsLoading(false);

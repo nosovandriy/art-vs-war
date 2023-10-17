@@ -10,10 +10,10 @@ const Funds = () => {
         <h2 className={style.head__title}>Funds</h2>
 
         <p className={style.head__description}>
-          Our website raises funds for funds that help Ukraine, one of them is
-          United 24. It supports Ukraine in protecting, saving, and rebuilding
-          the country. Donations are delivered directly to those who need it
-          most through one-click donations from anywhere
+          Our platform raises funds to assist Ukraine. This support is delivered
+          directly to those in need, aiding in the protection, preservation, and
+          rebuilding of the country. Contributions can be made with one-click
+          ease from anywhere, ensuring that assistance reaches its goal
         </p>
       </div>
 
@@ -32,7 +32,7 @@ const Funds = () => {
           href={"/donation"}
           className={`${style.button} ${style.button__desktop}`}
         >
-          Learn more
+          Donation
         </Link>
 
         <div className={style.quote}>
@@ -66,7 +66,7 @@ const Funds = () => {
             href={"/donation"}
             className={`${style.button} ${style.button__mobile}`}
           >
-            Learn more
+            Donation
           </Link>
         </div>
       </div>

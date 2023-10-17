@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { ArtStylesIcon } from "@/app/icons/icon-art-styles";
 import { MapPointIcon } from "@/app/icons/icon-map-point";
 import { Artist } from "@/types/Artist";
@@ -64,7 +64,7 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, signOut }) => {
                 className={style.button__add}
                 href="/profile/createPainting"
               >
-                <Add className={style.button__icon} />
+                <AddIcon className={style.button__icon} />
                 Add Arts
               </Link>
               <Link className={style.button__edit} href="/profile/edit">

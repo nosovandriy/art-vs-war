@@ -1,15 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useRouter } from "next/navigation";
+
+import { getRegistrationLink } from "@/utils/account";
 
 import styles from "./collection-section.module.scss";
 
 const HaveCollection = () => {
-  const { user, route, signOut } = useAuthenticator((context) => [
-    context.route,
-  ]);
+  const { user } = useAuthenticator((context) => [context.user]);
 
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push(getRegistrationLink(user));
+  };
   return (
     <section className={styles.collection}>
       <div className={styles.top}>
@@ -23,12 +28,9 @@ const HaveCollection = () => {
         <h6 className={styles.subtitle}>
           You can donate your collection items to support Ukraine
         </h6>
-        <Link href={"/account"} className={styles.button}>
+        <button onClick={handleButtonClick} className={styles.button}>
           Learn more
-        </Link>
-        {/* <button type="button" className={styles.button} onClick={signOut}>
-          Sign Out
-        </button> */}
+        </button>
       </div>
 
       <div className={styles.bottom}>

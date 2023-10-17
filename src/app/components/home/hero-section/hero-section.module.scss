@@ -466,6 +466,7 @@
   @include desktop {
     @include set-square(208px);
 
+    font-size: $font-size-lg;
     grid-column: 11 / -1;
     grid-row: 17 / 26;
   }

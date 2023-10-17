@@ -16,6 +16,14 @@ export interface Painting {
   depth: number;
 }
 
+export interface ArtProcess {
+  id: number;
+  description: string;
+  imagePublicId: number;
+  imageUrl: string;
+  imageModerationStatus: string;
+}
+
 export interface ArtCollection {
   content: Painting[];
   total: number;
@@ -41,6 +49,11 @@ export interface UploadedPainting extends Painting {
 
 export interface PaintingData extends Painting {
   image?: File;
+}
+
+export interface ArtProcessData {
+  image?: File;
+  description: string;
 }
 
 export interface PaintingForm extends Painting {
