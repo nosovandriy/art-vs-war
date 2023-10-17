@@ -154,75 +154,80 @@ const AddArtProcessContent = () => {
         <h1 className={style.title}>Art Process</h1>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label
-          className={`${style.uploadSection} ${
-            errors?.image?.message && style.uploadSection__error
-          }`}
-          draggable={true}
-        >
-          <input
-            type="file"
-            className={style.uploadSection__input}
-            accept="image/*"
-            {...register("image", {
-              onChange: handleFileChange,
-            })}
-          />
-          {imagePreview ? (
-            <div className={style.preview}>
-              <Image
-                src={imagePreview}
-                alt="Art process previous view"
-                className={style.image}
-                fill
-              />
-            </div>
-          ) : (
-            <>
-              <AddIcon className={style.uploadSection__icon} isDark={false} />
-              <p className={style.uploadSection__text}>Choose a file</p>
-              {errors?.image?.message && (
-                <div className={style.error}>{errors.image?.message}</div>
-              )}
-            </>
-          )}
-        </label>
-
-        <label className={style.label}>
-          <p className={style.label__text}>
-            Description<span className={style.star}> *</span>
-          </p>
-          <div className={style.input}>
-            <textarea
-              className={`${style.inputText} ${style.inputTextArea} ${
-                errors?.description?.message && style.inputText__error
-              }`}
-              placeholder="Add image description"
-              {...register("description")}
+      <form onSubmit={handleSubmit(onSubmit)} className={style.form}>
+        <div className={style.formImageWrapper}>
+          <label
+            className={`${style.uploadSection} ${
+              errors?.image?.message && style.uploadSection__error
+            }`}
+            draggable={true}
+          >
+            <input
+              type="file"
+              className={style.uploadSection__input}
+              accept="image/*"
+              {...register("image", {
+                onChange: handleFileChange,
+              })}
             />
-            {errors?.description?.message && (
-              <div className={style.error}>{errors.description?.message}</div>
+            {imagePreview ? (
+              <div className={style.preview}>
+                <Image
+                  src={imagePreview}
+                  alt="Art process previous view"
+                  className={style.image}
+                  fill
+                />
+              </div>
+            ) : (
+              <>
+                <AddIcon className={style.uploadSection__icon} isDark={false} />
+                <p className={style.uploadSection__text}>Choose a file</p>
+                {errors?.image?.message && (
+                  <div className={style.error}>{errors.image?.message}</div>
+                )}
+              </>
             )}
-          </div>
-        </label>
+          </label>
+        </div>
 
-        <button
-          type="submit"
-          className={`${style.button} ${style.button__save}`}
-        >
-          {isLoading ? (
-            <div className={style.buttonLoader}>
-              <span> Saving...</span>
-              <ButtonLoader darkLoader={true} />
+        <div className={style.formAction}>
+          <label className={style.label}>
+            <p className={style.label__text}>
+              Description<span className={style.star}> *</span>
+            </p>
+            <div className={style.input}>
+              <textarea
+                className={`${style.inputText} ${style.inputTextArea} ${
+                  errors?.description?.message && style.inputText__error
+                }`}
+                placeholder="Add image description"
+                {...register("description")}
+              />
+              {errors?.description?.message && (
+                <div className={style.error}>{errors.description?.message}</div>
+              )}
             </div>
-          ) : (
-            <span> Save</span>
-          )}
-        </button>
-        <button className={`${style.button} ${style.button__cancel}`}>
-          Cancel
-        </button>
+          </label>
+          <div className={style.buttons}>
+            <button
+              type="submit"
+              className={`${style.button} ${style.button__save}`}
+            >
+              {isLoading ? (
+                <div className={style.buttonLoader}>
+                  <span> Saving...</span>
+                  <ButtonLoader darkLoader={true} />
+                </div>
+              ) : (
+                <span>Save</span>
+              )}
+            </button>
+            <button className={`${style.button} ${style.button__cancel}`}>
+              Cancel
+            </button>
+          </div>
+        </div>
       </form>
     </section>
   );
