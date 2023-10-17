@@ -1,16 +1,16 @@
-import React, { FC, useState } from "react";
-import Image from "next/image";
-
-import style from "./additional-info.module.scss";
-
-import { Add } from "@/app/icons/icon-add";
-import { UploadedPaintingData } from "@/types/Painting";
-import { uploadAdditionalImages } from "@/utils/profile";
 import { useAuthenticator } from "@aws-amplify/ui-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { FC, useState } from "react";
+import toast from "react-hot-toast";
+
+import { AddIcon } from "@/app/icons/icon-add";
+import { UploadedPaintingData } from "@/types/Painting";
 import { saveAdditionalPhotos } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { uploadAdditionalImages } from "@/utils/profile";
+
+import style from "./additional-info.module.scss";
 
 type Props = {
   uploaded: UploadedPaintingData;
@@ -222,7 +222,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
                     </div>
                   ) : (
                     <>
-                      <Add className={style.file__icon} />
+                      <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
                     </>
                   )}

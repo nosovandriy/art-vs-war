@@ -12,7 +12,6 @@ const Collection: FC<Props> = ({ title, isArtsTab }) => {
   const pathname = usePathname();
   const isProfile = pathname === "/profile";
 
-  console.log(isProfile)
     return (
         <div className={style.titleContainer}>
             <div className={style.title}>

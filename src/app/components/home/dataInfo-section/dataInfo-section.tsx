@@ -20,7 +20,7 @@ const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
           <h4 className={style.quantity}>
             <CountUp
               end={dataInfo.authorsQuantity}
-              duration={2}
+              duration={3}
               enableScrollSpy={true}
               scrollSpyOnce={true}
             />
@@ -42,7 +42,7 @@ const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
           <h4 className={style.quantity}>
             <CountUp
               end={dataInfo.raisedFunds}
-              duration={4}
+              duration={3}
               suffix=" €"
               enableScrollSpy={true}
               scrollSpyOnce={true}
@@ -52,8 +52,8 @@ const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
         </div>
       </div>
       <div className={style.wrapper}>
-        <Link href={"/donation"} className={style.button}>
-          Learn more
+        <Link href={"/gallery"} className={style.button}>
+          Gallery
         </Link>
 
         <div className={style.ornament}>

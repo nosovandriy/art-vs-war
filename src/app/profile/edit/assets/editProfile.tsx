@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 import style from "./editProfile.module.scss";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { CountryType, countries } from "./countries";
 import { ArrowLeft } from "@/app/icons/icon-arrow-left";
 import { Artist } from "@/types/Artist";
@@ -249,7 +249,7 @@ const EditProfile: FC<Props> = ({
                       />
                     ) : (
                     <>
-                      <Add className={style.file__icon}/>
+                      <AddIcon className={style.file__icon}/>
                       <span className={style.file__label}>Choose a file</span>
                     </>
                   )

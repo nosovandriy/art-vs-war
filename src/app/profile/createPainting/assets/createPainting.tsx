@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { SubjectType, mediums, styles, subjects, supports } from "./subjects";
 import { uploadImageToServer } from "@/utils/profile";
 import createHeaders from "@/utils/getAccessToken";
@@ -182,7 +182,7 @@ const CreatePainting: FC<Props> = ({
               </div>
             ) : (
               <>
-                <Add className={style.file__icon} />
+                <AddIcon className={style.file__icon} />
                 <span className={style.file__label}>Choose a file</span>
               </>
             )}

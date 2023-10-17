@@ -1,4 +1,4 @@
-import { getArtist, getPaintingsByArtist } from "@/utils/api";
+import { getArtProcess, getArtist, getPaintingsByArtist } from "@/utils/api";
 import ArtistPreloader from "./artist-preloader";
 import ArtistInfo from "./artistInfo/artistInfo";
 import ArtistTabs from "./artistTabs/artistTabs";
@@ -46,17 +46,17 @@ export async function generateMetadata({
 }
 
 const Artist = async ({ params }: { params: { slug: string } }) => {
-  const artistData = getArtist(params.slug);
-  const paintingsData = getPaintingsByArtist(params.slug);
-
-  const [artistInfo, paintingsList] = await Promise.all([
-    artistData,
-    paintingsData,
-  ]);
+  const artistInfo = await getArtist(params.slug);
+  const paintingsList = await getPaintingsByArtist(params.slug);
+  const artProcessImages = await getArtProcess(params.slug);
 
   return (
     <section className={style.artist}>
-      <ArtistPreloader paintingsList={paintingsList} artistId={params.slug} />
+      <ArtistPreloader
+        paintingsList={paintingsList}
+        artistId={params.slug}
+        artProcessImages={artProcessImages}
+      />
       <ArtistInfo artistInfo={artistInfo} />
       <ArtistTabs />
     </section>

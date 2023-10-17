@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 
@@ -9,6 +9,7 @@ import style from "./page.module.scss";
 
 import {
   resetArtistGalleryPageCount,
+  setArtProcessImages,
   setArtistId,
   setArtistPaintings,
 } from "../redux/slices/artistPaintingsSlice";
@@ -20,7 +21,11 @@ import { getUserRole } from "@/utils/account";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
 import EditProfile from "./edit/assets/editProfile";
-import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
+import {
+  getAllPaintingsByArtist,
+  getArtProcess,
+  getProfile,
+} from "@/utils/api";
 
 const Profile = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
@@ -31,14 +36,14 @@ const Profile = () => {
 
   useEffect(() => {
     setIsFetching(true);
-    const hasCustomerRole = getUserRole(user, 'ROLE_CUSTOMER');
-    const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
+    const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
+    const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
     if (!hasCustomerRole) {
-      router.replace('/account');
+      router.replace("/account");
 
       return;
-    };
+    }
 
     if (!hasAuthorRole) {
       setAuthor(null);
@@ -59,8 +64,16 @@ const Profile = () => {
       dispatch(setArtistPaintings(paintingsData));
     };
 
+    const fetchArtProcessData = async () => {
+      const userHeaders = hasAuthorRole ? createHeaders(user) : {};
+
+      const artProcessImages = await getArtProcess("", userHeaders);
+      dispatch(setArtProcessImages(artProcessImages));
+    };
+
     if (user?.username) {
       fetchData();
+      fetchArtProcessData();
     }
 
     setIsFetching(false);
@@ -83,15 +96,14 @@ const Profile = () => {
           className={style.auth}
           components={authenticatorStylesComponents}
         >
-          {(author && !isFetching)
-            ? (
-              <>
-                <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
-                <ArtistTabs />
-              </>
-            ) : (
-              <EditProfile author={author} setAuthor={setAuthor} />
-            )}
+          {author && !isFetching ? (
+            <>
+              <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
+              <ArtistTabs />
+            </>
+          ) : (
+            <EditProfile author={author} setAuthor={setAuthor} />
+          )}
         </Authenticator>
       )}
     </section>

@@ -8,6 +8,7 @@ import { Cart } from "@/app/icons/icon-cart";
 import { IconClose } from "@/app/icons/icon-close";
 import { MobileMenu } from "@/app/icons/icon-menu";
 import { ProfileIcon } from "@/app/icons/icon-profile";
+import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
 import {
   setCartDataFromServer,
   setDataToCartFromLocalStorage,
@@ -15,10 +16,12 @@ import {
 import { CartItem, DataFromLocalStorage } from "@/types/CartItem";
 import { Painting } from "@/types/Painting";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
+import { getUserRole } from "@/utils/account";
 import {
   getOrderDataFromServer,
   saveOrderPaintingsToServer,
 } from "@/utils/api";
+import { handleCloseDropdown } from "@/utils/checkClick";
 import createHeaders from "@/utils/getAccessToken";
 import {
   getDataFromLocalStorage,
@@ -27,22 +30,22 @@ import {
 import { Logo } from "../logo/logo";
 import { MenuItems } from "../menuItems/menuItems";
 import SocialNetworkIcons from "../social-network/social-network";
+import LogOutButton from "./navigation/logOut-button/logOut-button";
 import LoginButton from "./navigation/login-button/login-button";
 
 import style from "./header.module.scss";
-import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
-import { handleCloseDropdown } from "@/utils/checkClick";
-import LogOutButton from "./navigation/logOut-button/logOut-button";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProfileMobileMenu, setShowProfileMobileMenu] = useState(false);
-  const menuRef = useRef<HTMLInputElement>(null);
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user, signOut } = useAuthenticator((context) => [context.route]);
+
+  const menuRef = useRef<HTMLInputElement>(null);
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
+  const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
   const isHeaders = Object.keys(headers).length !== 0;
 
@@ -190,19 +193,21 @@ const Header = () => {
                   >
                     View Account
                   </Link>
+                  {hasAuthorRole && (
+                    <>
+                      <hr className={style.line}></hr>
+                      <Link
+                        href={`/profile`}
+                        className={style.profileButton}
+                        onClick={handleSelectProfile}
+                      >
+                        View Artist Profile
+                      </Link>
+                    </>
+                  )}
+
                   <hr className={style.line}></hr>
-                  <Link
-                    href={`/profile`}
-                    className={style.profileButton}
-                    onClick={handleSelectProfile}
-                  >
-                    View Artist Profile
-                  </Link>
-                  <hr className={style.line}></hr>
-                  <button
-                    className={style.profileButton}
-                    onClick={signOut}
-                  >
+                  <button className={style.profileButton} onClick={signOut}>
                     <LogOutButton />
                   </button>
                 </div>
@@ -258,10 +263,7 @@ const Header = () => {
                     View Artist Profile
                   </Link>
                   <hr className={style.line}></hr>
-                  <button
-                    className={style.profileButton}
-                    onClick={signOut}
-                  >
+                  <button className={style.profileButton} onClick={signOut}>
                     <LogOutButton />
                   </button>
                 </div>
