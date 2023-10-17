@@ -45,13 +45,20 @@
   cursor: pointer;
 
   @include tablet {
-    @include set-size(460px, 408px);
+    max-width: 460px;
+    height: 408px;
   }
 
   @include laptop {
-    @include set-size(600px, 408px);
+    max-width: 480px;
+  }
 
-    margin: 56px auto 0;
+  @include desktop {
+    max-width: 544px;
+  }
+
+  @include desktopHD {
+    max-width: 624px;
   }
 
   &__input {
@@ -79,6 +86,26 @@
   &__error {
     border: 1px solid $system-error !important;
   }
+}
+
+.form {
+  @include set-flex(column);
+
+  width: 100%;
+
+  @include laptop {
+    @include set-flex(row, center, center);
+
+    gap: 48px;
+  }
+}
+
+.formImageWrapper {
+  flex: 1;
+}
+
+.formAction {
+  flex: 1;
 }
 
 .preview {
@@ -136,12 +163,6 @@
   }
 }
 
-.form {
-  @include set-flex(column);
-
-  width: 100%;
-}
-
 .label {
   width: 100%;
 
@@ -149,6 +170,13 @@
     margin-top: 24px;
     color: $gray-30;
     font-size: $font-size-md;
+  }
+
+  @include tablet {
+    display: block;
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -196,11 +224,11 @@
 }
 
 .inputTextArea {
-  height: 240px;
+  height: 140px;
   resize: vertical;
 
   @include laptop {
-    height: 260px;
+    height: 210px;
   }
 }
 
@@ -208,6 +236,15 @@
   margin-top: 8px;
   font-size: $font-size-md;
   color: $system-error;
+}
+
+.buttons {
+  margin: 48px auto 0;
+  max-width: 100%;
+
+  @include tablet {
+    max-width: 460px;
+  }
 }
 
 .button {
@@ -223,14 +260,14 @@
   cursor: pointer;
   transition-duration: 0.3s;
 
-  @include tabletXL {
-    max-width: 350px;
-    margin-top: 48px;
-  }
-
   &:active {
     transform: scale(0.9);
     transition-duration: 0.3s;
+  }
+
+  &__cancel {
+    background-color: $gray-100;
+    color: $gray-0;
   }
 }
 
