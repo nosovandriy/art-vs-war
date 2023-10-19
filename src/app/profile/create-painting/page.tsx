@@ -1,13 +1,13 @@
 "use client"
 
+import { useState } from "react";
 import { Authenticator } from "@aws-amplify/ui-react";
 
 import style from "../page.module.scss";
 
-import CreatePainting from "@/app/profile/createPainting/assets/createPainting";
-import { useState } from "react";
-import AdditionalInfo from "@/app/components/additional-info/additional-info";
 import { UploadedPaintingData } from "@/types/Painting";
+import CreatePainting from "./painting-form/createPainting";
+import AdditionalInfo from "@/app/components/additional-info/additional-info";
 
 const EditProfilePage = () => {
   const [isNextStepVisible, setIsNextStepVisible] = useState(false);

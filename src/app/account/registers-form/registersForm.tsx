@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 import './registers.scss';
-import style from '../../account.module.scss';
+import style from '../account.module.scss';
 
 import { createAccount, updateAccount } from "@/utils/api";
 import { CustomJwtPayload } from "@/types/Profile";
@@ -17,18 +17,17 @@ import RegistersData from "./registersData";
 
 type Props = {
   account: AccountData | null;
+  setIsOpenForm: Dispatch<SetStateAction<boolean>>;
   setAccount: Dispatch<SetStateAction<AccountData | null>>;
 }
 
-const RegistersForm: FC<Props> = ({ account, setAccount }) => {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
+  const { user } = useAuthenticator((context) => [context.user]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
   const decoded = idToken ? (jwt_decode(idToken) as CustomJwtPayload) : '';
   const userEmail = decoded && decoded.email;
   const headers = createHeaders(user);
-
-  const [isOpenForm, setIsOpenForm] = useState(false);
 
   const {
     control: accountControl,
@@ -100,10 +99,6 @@ const RegistersForm: FC<Props> = ({ account, setAccount }) => {
     resetAccountForm();
     setIsOpenForm(false);
   }
-
-  if (account && !isOpenForm) return (
-    <RegistersData account={account} setIsOpenForm={setIsOpenForm} />
-  );
 
   return (
     <form

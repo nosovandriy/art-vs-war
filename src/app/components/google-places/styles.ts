@@ -13,7 +13,7 @@ export const selectStyles = {
   }),
   input: (provided: CSSObjectWithLabel) => ({
     ...provided,
-    color: '#78797A',
+    color: '#F9FAFB',
     fontSize: '16px',
   }),
   clearIndicator: (provided: CSSObjectWithLabel) => ({

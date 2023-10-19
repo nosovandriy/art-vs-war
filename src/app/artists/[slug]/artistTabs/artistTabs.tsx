@@ -67,7 +67,7 @@ const ArtistTabs = () => {
         </div>
 
         {isProfile && (
-          <Link href="/profile/createPainting" className={style.add}>
+          <Link href="/profile/create-painting" className={style.add}>
             <AddIcon />
             Add arts
           </Link>

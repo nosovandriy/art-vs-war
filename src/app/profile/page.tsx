@@ -20,7 +20,8 @@ import { useAppDispatch } from "@/types/ReduxHooks";
 import { getUserRole } from "@/utils/account";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
-import EditProfile from "./edit/assets/editProfile";
+import EditProfile from "./edit-profile/profile-form/editProfile";
+
 import {
   getAllPaintingsByArtist,
   getArtProcess,
@@ -28,14 +29,13 @@ import {
 } from "@/utils/api";
 
 const Profile = () => {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    setIsFetching(true);
     const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
     const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
@@ -57,6 +57,7 @@ const Profile = () => {
       const fetchedAuthor = await getProfile(headers);
 
       setAuthor(fetchedAuthor);
+      setIsFetching(false);
 
       const paintingsData = await getAllPaintingsByArtist(headers);
 
@@ -75,11 +76,7 @@ const Profile = () => {
       fetchData();
       fetchArtProcessData();
     }
-
-    setIsFetching(false);
-
-    return setIsFetching(false);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (author) {
@@ -89,23 +86,19 @@ const Profile = () => {
 
   return (
     <section className={style.profile}>
-      {isFetching ? (
-        <Loading />
-      ) : (
-        <Authenticator
-          className={style.auth}
-          components={authenticatorStylesComponents}
-        >
-          {author && !isFetching ? (
-            <>
-              <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
-              <ArtistTabs />
-            </>
-          ) : (
-            <EditProfile author={author} setAuthor={setAuthor} />
-          )}
-        </Authenticator>
-      )}
+      <Authenticator
+        className={style.auth}
+        components={authenticatorStylesComponents}
+      >
+        {isFetching && <Loading />}
+
+        {author && (
+          <>
+            <ArtistInfo artistInfo={author} isProfile />
+            <ArtistTabs />
+          </>
+        )}
+      </Authenticator>
     </section>
   );
 };

@@ -5,14 +5,16 @@ import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 
 import style from "../page.module.scss";
 
-import EditProfile from "@/app/profile/edit/assets/editProfile";
+import EditProfile from "./profile-form/editProfile";
 import createHeaders from "@/utils/getAccessToken";
 import { getProfile } from "@/utils/api";
 import { Artist } from "@/types/Artist";
+import Loading from "@/app/loading";
 
 const EditProfilePage = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +22,7 @@ const EditProfilePage = () => {
 
       const fetchedAuthor = await getProfile(headers);
       setAuthor(fetchedAuthor);
+      setIsFetching(false);
     };
 
     if (user?.username) {
@@ -30,10 +33,14 @@ const EditProfilePage = () => {
 
 return (
   <Authenticator className={style.auth}>
-    <EditProfile
-      author={author}
-      setAuthor={setAuthor}
-    />
+    {isFetching
+      ? <Loading />
+      : (
+      <EditProfile
+        author={author}
+        setAuthor={setAuthor}
+      />
+     )}
   </Authenticator>
   );
 };

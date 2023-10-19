@@ -18,6 +18,8 @@ import { uploadImageToServer, validateDataOnServer } from "@/utils/profile";
 import { createProfile, updateProfile } from "@/utils/api";
 import { styles } from "./stylesSelect";
 import createHeaders from "@/utils/getAccessToken";
+import ArtistInfo from "@/app/artists/[slug]/artistInfo/artistInfo";
+import ArtistTabs from "@/app/artists/[slug]/artistTabs/artistTabs";
 
 const URL = 'authors/checkInputAndGet';
 
@@ -49,7 +51,7 @@ const EditProfile: FC<Props> = ({
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { user, route, signOut } = useAuthenticator((context) => [context.route]);
+  const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
   const decoded = idToken ? (jwt_decode(idToken) as CustomJwtPayload) : '';
@@ -228,8 +230,8 @@ const EditProfile: FC<Props> = ({
                 <div className={style.preview}>
                   <Image
                     src={imagePreview}
+                    style={{ padding: '20px', objectFit: 'contain' }}
                     alt="Preview"
-                    className={style.image}
                     fill
                   />
                 </div>
@@ -243,8 +245,8 @@ const EditProfile: FC<Props> = ({
                     ? (
                       <Image
                         src={author.imageUrl}
+                        style={{ padding: '20px', objectFit: 'contain' }}
                         alt="Preview"
-                        className={style.image}
                         fill
                       />
                     ) : (
@@ -359,13 +361,6 @@ const EditProfile: FC<Props> = ({
               >
                 Submit
               </button>
-              <button
-                type="button"
-                className={style.signout}
-                onClick={signOut}
-              >
-                Sign Out
-              </button>
             </div>
           </div>
         </div>
@@ -382,13 +377,6 @@ const EditProfile: FC<Props> = ({
             className={style.submit}
           >
             Submit
-          </button>
-          <button
-            type="button"
-            className={style.signout}
-            onClick={signOut}
-          >
-            Sign Out
           </button>
         </div>
       </form>
