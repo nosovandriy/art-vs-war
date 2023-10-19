@@ -13,6 +13,7 @@ import {
   MessageFormTypes,
   ShippingFormTypes,
   ShippingInfo,
+  ShippingResponseData,
 } from "@/types/ShippingForm";
 import { AccountData } from "@/types/Account";
 
@@ -450,6 +451,22 @@ export async function updateAccount(
   });
 
   return data;
+}
+
+export async function getAddress(
+  headers: Headers,
+) {
+  const { data } = await axios.get(
+    `${BASE_URL}account/addresses`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data as ShippingResponseData[];
 }
 
 export async function saveAddress(

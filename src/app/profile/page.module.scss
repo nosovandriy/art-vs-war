@@ -1,10 +1,11 @@
 @import "@styles/vars.scss";
 
 .auth {
-  height: 100vh;
+  height: 100%;
   background-color: $gray-100;
 }
 
 .profile {
-  margin: 0 auto 200px;
+  margin: 0 auto;
+  padding-bottom: 200px;
 }
