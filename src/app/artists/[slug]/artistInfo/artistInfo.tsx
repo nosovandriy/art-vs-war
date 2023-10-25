@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { ArtStylesIcon } from "@/app/icons/icon-art-styles";
 import { MapPointIcon } from "@/app/icons/icon-map-point";
 import { Artist } from "@/types/Artist";
@@ -12,17 +12,16 @@ import style from "./artistInfo.module.scss";
 type Props = {
   artistInfo: Artist;
   isProfile?: boolean;
-  signOut?: () => void;
 };
 
-const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, signOut }) => {
+const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo }) => {
   const { fullName, country, city, aboutMe, imageUrl, styles } = artistInfo;
 
   return (
     <div className={style.author}>
       {isProfile && (
         <div className={style.titleContainer}>
-          <h2 className={style.title}>Profile</h2>
+          <h2 className={style.title}>Artist Profile</h2>
         </div>
       )}
 
@@ -62,17 +61,14 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, signOut }) => {
             <div className={style.button__container}>
               <Link
                 className={style.button__add}
-                href="/profile/createPainting"
+                href="/profile/create-painting"
               >
-                <Add className={style.button__icon} />
+                <AddIcon className={style.button__icon} />
                 Add Arts
               </Link>
-              <Link className={style.button__edit} href="/profile/edit">
+              <Link className={style.button__edit} href="/profile/edit-profile">
                 Edit profile
               </Link>
-              <button type="button" className={style.signout} onClick={signOut}>
-                Sign Out
-              </button>
             </div>
           )}
         </div>

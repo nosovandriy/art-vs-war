@@ -1,7 +1,7 @@
 import axios from "axios";
 import { notFound } from "next/navigation";
 
-import { PaintingData } from "@/types/Painting";
+import { ArtProcessData, PaintingData } from "@/types/Painting";
 import {
   Headers,
   ImageData,
@@ -13,6 +13,7 @@ import {
   MessageFormTypes,
   ShippingFormTypes,
   ShippingInfo,
+  ShippingResponseData,
 } from "@/types/ShippingForm";
 import { AccountData } from "@/types/Account";
 
@@ -129,6 +130,21 @@ export async function getPaintingsByArtist(id: string, page: number = 0) {
   return data;
 }
 
+export async function getArtProcess(id: string = "", headers?: HeadersInit) {
+  const response = await fetch(`${BASE_URL}artProcess/all/${id}`, {
+    cache: "no-store",
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function getMorePaintings(id: string, size: number) {
   const response = await fetch(
     `${BASE_URL}paintings/additional?paintingPrettyId=${id}&size=${size}`,
@@ -182,7 +198,7 @@ export async function getProfile(headers: object) {
 
 export async function validateData(
   url: string,
-  inputsData: UserData | PaintingData,
+  inputsData: UserData | PaintingData | ArtProcessData,
   headers: HeadersInit
 ) {
   const response = await fetch(BASE_URL + url, {
@@ -221,6 +237,17 @@ export async function getSignature(
   }
 
   const data = await response.json();
+
+  return data;
+}
+
+export async function createArtProcess(
+  artProcess: any,
+  headers: object
+) {
+  const { data } = await axios.post(`${BASE_URL}artProcess`, artProcess, {
+    headers,
+  });
 
   return data;
 }
@@ -388,19 +415,15 @@ export async function getStripeLink(
 }
 
 export async function getAccount(headers: Headers) {
-  const { data } = await axios.get(
-    `${BASE_URL}account`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+  const { data } = await axios.get(`${BASE_URL}account`, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
 
   return data;
-};
-
+}
 
 export async function createAccount(
   headers: Headers,
@@ -418,11 +441,23 @@ export async function createAccount(
 
 export async function updateAccount(
   headers: Headers,
-  accountData: AccountData,
+  accountData: AccountData
 ) {
-  const { data } = await axios.put(
-    `${BASE_URL}account`,
-    accountData,
+  const { data } = await axios.put(`${BASE_URL}account`, accountData, {
+    headers: {
+      ...headers,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
+
+  return data;
+}
+
+export async function getAddress(
+  headers: Headers,
+) {
+  const { data } = await axios.get(
+    `${BASE_URL}account/addresses`,
     {
       headers: {
         ...headers,
@@ -431,8 +466,8 @@ export async function updateAccount(
     }
   );
 
-  return data;
-};
+  return data as ShippingResponseData[];
+}
 
 export async function saveAddress(
   headers: Headers,

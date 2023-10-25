@@ -3,7 +3,7 @@
 
 .loginButton {
   @include set-flex(row, center, center);
-  @include set-size(96px, 38px);
+  @include set-size(90%, 38px);
 
   background-color: $gray-70;
   border: 1px solid $gray-0;
@@ -17,6 +17,7 @@
   }
 
   &:hover {
-    color: $gray-10;
+    color: $gray-100;
+    background-color: $gray-5;
   }
 }

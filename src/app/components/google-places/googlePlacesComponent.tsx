@@ -51,7 +51,15 @@ const GooglePlacesComponent: React.FC<GooglePlacesComponentProps> = ({ field, er
                 label: getSlicedAdress(newValue.label),
               })
           )},
-          styles: selectStyles,
+          styles: {
+            ...selectStyles,
+              singleValue: (provided) => ({
+                ...provided,
+                color: value?.label?.length ? '#F9FAFB' : '#78797A',
+                fontSize: '16px',
+                fontFamily: 'var(--font-openSans)',
+              }),
+          },
         }}
       />
       {error && <div style={{ color: "red" }}>{error.message}</div>}

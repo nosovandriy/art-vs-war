@@ -10,29 +10,44 @@ import { authenticatorStylesComponents } from '../profile/aws-authenticator-styl
 import { ArrowLeft } from '../icons/icon-arrow-left';
 import createHeaders from '@/utils/getAccessToken';
 import { AccountData, CreatedAccountResponse } from '@/types/Account';
-import RegistersForm from './assets/registers-form/registersForm';
-import ShippingForm from './assets/shipping-form/shippingForm';
+import RegistersForm from './registers-form/registersForm';
+import ShippingForm from './shipping-form/shippingForm';
 import { getUserRole } from '@/utils/account';
-import { getAccount } from '@/utils/api';
+import { getAccount, getAddress } from '@/utils/api';
 import Loading from '../loading';
 import Link from 'next/link';
+import { ShippingFormData, ShippingResponseData } from '@/types/ShippingForm';
+import RegistersData from './registers-form/registersData';
+import Image from 'next/image';
+import Ornament from "./account_ornament.png";
 
 const Account = () => {
   const router = useRouter();
   const { user } = useAuthenticator((context) => [context.user]);
   const [account, setAccount] = useState<AccountData | null>(null);
+  const [address, setAddress] = useState<ShippingFormData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [isOpenForm, setIsOpenForm] = useState(false);
 
   const fetchData = async () => {
     const headers = createHeaders(user);
     const fetchedUser: CreatedAccountResponse = await getAccount(headers);
+    const fetchedAddress: ShippingResponseData[] = await getAddress(headers)
 
-    setAccount({
-      email: fetchedUser?.email,
-      phone: fetchedUser?.phone,
-      firstName: fetchedUser?.firstName,
-      lastName: fetchedUser?.lastName,
+    const { email, phone, firstName, lastName } = fetchedUser;
+    const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
+
+    setAccount({ email, phone, firstName, lastName });
+    setAddress({
+      city,
+      state,
+      country,
+      postalCode,
+      addressLine2,
+      addressLine1: { value: '', label: addressLine1 },
     });
+
+    setIsFetching(false);
   };
 
   useEffect(() => {
@@ -47,57 +62,86 @@ const Account = () => {
     if (user?.username) {
       fetchData();
     }
+  }, []);
 
-    setIsFetching(false);
+  const getContent = () => {
+    if (account && !isOpenForm) {
+      return (
+        <RegistersData
+          account={account}
+          setIsOpenForm={setIsOpenForm}
+        />
+      )
+    }
 
-    return setIsFetching(false);
-  }, [user]);
+    return (
+      <RegistersForm
+        account={account}
+        setAccount={setAccount}
+        setIsOpenForm={setIsOpenForm}
+      />
+    )
+  };
 
   return (
     <section className={style.account}>
-      <div className={style.titleContainer}>
-        <button
-          type="button"
-          className={style.arrow}
-          onClick={() => router.back()}
-        >
-          <ArrowLeft />
-        </button>
-
-        <h2 className={style.title}>
-          {account ? 'Account' : 'Create account'}
-        </h2>
-      </div>
-
-      <div className={style.subtitle}>
-      {account && (
-        <>
-          <Link href="/profile" className={style.login}>Click here</Link>
-          <span> to unlock your artistic potential and create an Artist Account now!</span>
-        </>
-      )}
-      </div>
-
-
+      <Image
+        alt="ornament"
+        className={style.ornament}
+        src={Ornament}
+        width={370}
+        height={690}
+        style={{ position: 'absolute', top: '18%', right: 0 }}
+      />
       {isFetching
         ? <Loading />
         : (
           <>
-            <RegistersForm
-              account={account}
-              setAccount={setAccount}
-            />
+            <button
+              type="button"
+              className={style.arrowMobile}
+              onClick={() => router.back()}
+              >
+              <ArrowLeft />
+            </button>
 
-            {account && (
-              <ShippingForm
-                account={account}
-                setAccount={setAccount}
-              />
-            )}
+            <div className={style.formContainer}>
+              <div className={style.titleContainer}>
+                <button
+                  type="button"
+                  className={style.arrow}
+                  onClick={() => router.back()}
+                  >
+                  <ArrowLeft />
+                </button>
+
+                <h2 className={style.title}>
+                  {(account && !isFetching) ? 'Account' : 'Create account'}
+                </h2>
+              </div>
+
+              {(account) && (
+                <div className={style.subtitle}>
+                  <>
+                    <Link href="/profile" className={style.login}>Click here</Link>
+                    <span> to create an Artist Profile now!</span>
+                  </>
+                </div>
+              )}
+
+              {getContent()}
+
+              {account && (
+                <ShippingForm
+                  account={account}
+                  address={address}
+                  setAccount={setAccount}
+                />
+              )}
+            </div>
           </>
         )
       }
-
     </section>
   );
 };

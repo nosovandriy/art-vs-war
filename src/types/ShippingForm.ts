@@ -31,12 +31,16 @@ export interface ShippingInfo {
 }
 
 export interface ShippingFormData {
+  city: string,
+  state?: string,
+  country: string,
+  postalCode: string,
   addressLine1: Option,
   addressLine2?: string,
-  country: string,
-  state?: string,
-  city: string,
-  postalCode: string,
+}
+
+export interface ShippingResponseData extends ShippingFormTypes {
+  countryCode: string,
 }
 
 export interface MessageFormTypes {

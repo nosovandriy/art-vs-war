@@ -1,13 +1,13 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
-import style from '../../account.module.scss'
+import style from '../account.module.scss'
 
 import { AccountData } from '@/types/Account';
-import { LogoutIcon } from '@/app/icons/icon-logout';
+// import { LogoutIcon } from '@/app/icons/icon-logout';
 
 type Props = {
-  account:AccountData;
+  account: AccountData;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -52,14 +52,14 @@ const RegistersData: FC<Props> = ({ account, setIsOpenForm }) => {
             Edit account
           </button>
 
-          <button
+          {/* <button
             type='reset'
             className={style.signOut}
             onClick={signOut}
           >
             <LogoutIcon />
             <span>Sign out</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

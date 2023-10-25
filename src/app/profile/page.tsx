@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { authenticatorStylesComponents } from "./aws-authenticator-styles/aws-authenticator-styles";
 
@@ -9,6 +9,7 @@ import style from "./page.module.scss";
 
 import {
   resetArtistGalleryPageCount,
+  setArtProcessImages,
   setArtistId,
   setArtistPaintings,
 } from "../redux/slices/artistPaintingsSlice";
@@ -19,26 +20,30 @@ import { useAppDispatch } from "@/types/ReduxHooks";
 import { getUserRole } from "@/utils/account";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
-import EditProfile from "./edit/assets/editProfile";
-import { getAllPaintingsByArtist, getProfile } from "@/utils/api";
+import EditProfile from "./edit-profile/profile-form/editProfile";
+
+import {
+  getAllPaintingsByArtist,
+  getArtProcess,
+  getProfile,
+} from "@/utils/api";
 
 const Profile = () => {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   useEffect(() => {
-    setIsFetching(true);
-    const hasCustomerRole = getUserRole(user, 'ROLE_CUSTOMER');
-    const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
+    const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
+    const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
     if (!hasCustomerRole) {
-      router.replace('/account');
+      router.replace("/account");
 
       return;
-    };
+    }
 
     if (!hasAuthorRole) {
       setAuthor(null);
@@ -52,6 +57,7 @@ const Profile = () => {
       const fetchedAuthor = await getProfile(headers);
 
       setAuthor(fetchedAuthor);
+      setIsFetching(false);
 
       const paintingsData = await getAllPaintingsByArtist(headers);
 
@@ -59,14 +65,18 @@ const Profile = () => {
       dispatch(setArtistPaintings(paintingsData));
     };
 
+    const fetchArtProcessData = async () => {
+      const userHeaders = hasAuthorRole ? createHeaders(user) : {};
+
+      const artProcessImages = await getArtProcess("", userHeaders);
+      dispatch(setArtProcessImages(artProcessImages));
+    };
+
     if (user?.username) {
       fetchData();
+      fetchArtProcessData();
     }
-
-    setIsFetching(false);
-
-    return setIsFetching(false);
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (author) {
@@ -76,24 +86,19 @@ const Profile = () => {
 
   return (
     <section className={style.profile}>
-      {isFetching ? (
-        <Loading />
-      ) : (
-        <Authenticator
-          className={style.auth}
-          components={authenticatorStylesComponents}
-        >
-          {(author && !isFetching)
-            ? (
-              <>
-                <ArtistInfo isProfile artistInfo={author} signOut={signOut} />
-                <ArtistTabs />
-              </>
-            ) : (
-              <EditProfile author={author} setAuthor={setAuthor} />
-            )}
-        </Authenticator>
-      )}
+      <Authenticator
+        className={style.auth}
+        components={authenticatorStylesComponents}
+      >
+        {isFetching && <Loading />}
+
+        {author && (
+          <>
+            <ArtistInfo artistInfo={author} isProfile />
+            <ArtistTabs />
+          </>
+        )}
+      </Authenticator>
     </section>
   );
 };

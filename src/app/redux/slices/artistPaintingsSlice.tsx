@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { ArtCollection, Painting } from "@/types/Painting";
+import { ArtCollection, ArtProcess, Painting } from "@/types/Painting";
 
 export interface PaintingsState {
   artistPaintings: Painting[];
+  artProcessImages: ArtProcess[];
   artistId: string;
   totalSize: number;
   pagesCount: number;
@@ -11,6 +12,7 @@ export interface PaintingsState {
 
 const initialState: PaintingsState = {
   artistPaintings: [],
+  artProcessImages: [],
   artistId: "",
   totalSize: 0,
   pagesCount: 0,
@@ -27,6 +29,10 @@ const artistPaintingsSlice = createSlice({
 
     setArtistId(state, action: PayloadAction<string>) {
       state.artistId = action.payload;
+    },
+
+    setArtProcessImages(state, action: PayloadAction<ArtProcess[]>) {
+      state.artProcessImages = action.payload;
     },
 
     addMoreArtistPaintings(state, action: PayloadAction<ArtCollection>) {
@@ -49,6 +55,7 @@ export const {
   setArtistId,
   increaseArtistGalleryPage,
   resetArtistGalleryPageCount,
+  setArtProcessImages,
 } = artistPaintingsSlice.actions;
 
 export default artistPaintingsSlice.reducer;

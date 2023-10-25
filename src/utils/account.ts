@@ -1,4 +1,5 @@
 import jwt_decode from "jwt-decode";
+import { AmplifyUser } from "@aws-amplify/ui";
 
 export const getAddressPieces = (piece: { terms: {value: string}[] }) => {
   const length = piece.terms.length;
@@ -37,4 +38,17 @@ export const getUserRole = (user: any, role: string) => {
   const hasRole = hasUserRoles && decoded[roles].includes(role);
 
   return hasRole;
+}
+
+export function getRegistrationLink(user: AmplifyUser) {
+  const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
+  const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
+
+  if (!user || !hasCustomerRole) {
+    return "/account";
+  } else if (!hasAuthorRole) {
+    return "/profile";
+  } else {
+    return "/account";
+  }
 }

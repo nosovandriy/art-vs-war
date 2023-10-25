@@ -12,7 +12,6 @@ const Collection: FC<Props> = ({ title, isArtsTab }) => {
   const pathname = usePathname();
   const isProfile = pathname === "/profile";
 
-  console.log(isProfile)
     return (
         <div className={style.titleContainer}>
             <div className={style.title}>
@@ -20,7 +19,7 @@ const Collection: FC<Props> = ({ title, isArtsTab }) => {
             </div>
 
             {(isArtsTab && isProfile) && (
-              <Link href="/profile/createPainting" className={style.button}>Add arts</Link>
+              <Link href="/profile/create-painting" className={style.button}>Add arts</Link>
             )}
         </div>
     );

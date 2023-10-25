@@ -1,4 +1,4 @@
-import { AuthorData, ImageData } from "./Profile";
+import { AuthorData, ImageData } from './Profile';
 
 export interface Painting {
   id: number;
@@ -14,6 +14,16 @@ export interface Painting {
   width: number;
   height: number;
   depth: number;
+}
+
+export interface ArtProcess {
+  id: number;
+  description: string;
+  imagePublicId: number;
+  imageUrl: string;
+  imageModerationStatus: string;
+  imageWidth: number;
+  imageHeight: number;
 }
 
 export interface ArtCollection {
@@ -41,6 +51,11 @@ export interface UploadedPainting extends Painting {
 
 export interface PaintingData extends Painting {
   image?: File;
+}
+
+export interface ArtProcessData {
+  image?: File;
+  description: string;
 }
 
 export interface PaintingForm extends Painting {

@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 import style from "./editProfile.module.scss";
 
-import { Add } from "@/app/icons/icon-add";
+import { AddIcon } from "@/app/icons/icon-add";
 import { CountryType, countries } from "./countries";
 import { ArrowLeft } from "@/app/icons/icon-arrow-left";
 import { Artist } from "@/types/Artist";
@@ -18,6 +18,8 @@ import { uploadImageToServer, validateDataOnServer } from "@/utils/profile";
 import { createProfile, updateProfile } from "@/utils/api";
 import { styles } from "./stylesSelect";
 import createHeaders from "@/utils/getAccessToken";
+import ArtistInfo from "@/app/artists/[slug]/artistInfo/artistInfo";
+import ArtistTabs from "@/app/artists/[slug]/artistTabs/artistTabs";
 
 const URL = 'authors/checkInputAndGet';
 
@@ -45,11 +47,11 @@ const EditProfile: FC<Props> = ({
       aboutMe: author?.aboutMe || '',
       image: [],
     },
-    mode: "onBlur",
+    mode: "onTouched",
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { user, route, signOut } = useAuthenticator((context) => [context.route]);
+  const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
   const decoded = idToken ? (jwt_decode(idToken) as CustomJwtPayload) : '';
@@ -228,8 +230,8 @@ const EditProfile: FC<Props> = ({
                 <div className={style.preview}>
                   <Image
                     src={imagePreview}
+                    style={{ padding: '20px', objectFit: 'contain' }}
                     alt="Preview"
-                    className={style.image}
                     fill
                   />
                 </div>
@@ -243,13 +245,13 @@ const EditProfile: FC<Props> = ({
                     ? (
                       <Image
                         src={author.imageUrl}
+                        style={{ padding: '20px', objectFit: 'contain' }}
                         alt="Preview"
-                        className={style.image}
                         fill
                       />
                     ) : (
                     <>
-                      <Add className={style.file__icon}/>
+                      <AddIcon className={style.file__icon}/>
                       <span className={style.file__label}>Choose a file</span>
                     </>
                   )
@@ -359,13 +361,6 @@ const EditProfile: FC<Props> = ({
               >
                 Submit
               </button>
-              <button
-                type="button"
-                className={style.signout}
-                onClick={signOut}
-              >
-                Sign Out
-              </button>
             </div>
           </div>
         </div>
@@ -382,13 +377,6 @@ const EditProfile: FC<Props> = ({
             className={style.submit}
           >
             Submit
-          </button>
-          <button
-            type="button"
-            className={style.signout}
-            onClick={signOut}
-          >
-            Sign Out
           </button>
         </div>
       </form>
