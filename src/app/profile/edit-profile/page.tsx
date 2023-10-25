@@ -10,6 +10,7 @@ import createHeaders from "@/utils/getAccessToken";
 import { getProfile } from "@/utils/api";
 import { Artist } from "@/types/Artist";
 import Loading from "@/app/loading";
+import { authenticatorStylesComponents } from "../aws-authenticator-styles/aws-authenticator-styles";
 
 const EditProfilePage = () => {
   const { user } = useAuthenticator((context) => [context.user]);
@@ -32,7 +33,10 @@ const EditProfilePage = () => {
   }, [user]);
 
 return (
-  <Authenticator className={style.auth}>
+  <Authenticator
+    className={style.auth}
+    components={authenticatorStylesComponents}
+  >
     {isFetching
       ? <Loading />
       : (

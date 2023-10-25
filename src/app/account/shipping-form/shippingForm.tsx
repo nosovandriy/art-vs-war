@@ -1,9 +1,8 @@
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useFormContext } from "react-hook-form";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { Option } from 'react-google-places-autocomplete/build/types';
 
 import style from '../account.module.scss';
 
@@ -13,7 +12,7 @@ import { AccountData } from "@/types/Account";
 import { getAddressPieces } from "@/utils/account";
 import createHeaders from "@/utils/getAccessToken";
 import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
-import { ShippingFormData, ShippingFormTypes } from "@/types/ShippingForm";
+import { OptionDetails, ShippingFormData, ShippingFormTypes } from "@/types/ShippingForm";
 import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
 
 type Props = {
@@ -36,9 +35,12 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
 
   const [isOpened, setIsOpened] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<Option>({
+  const [selectedPlace, setSelectedPlace] = useState<OptionDetails>({
     value: { terms: [{value: ''}, {value: ''}]},
     label: address?.addressLine1?.label || 'Enter you adress (street, building)',
+    postalCode: address?.postalCode || '',
+    state: address?.state || '',
+    city: address?.city || '',
   });
 
   const {
@@ -92,6 +94,23 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     setIsOpenForm(false);
   };
 
+  const formValues = shippingControl._defaultValues;
+
+  useEffect(() => {
+    if (
+      selectedPlace.state !== formValues.state ||
+      selectedPlace.city !== formValues.city ||
+      selectedPlace.postalCode !== formValues.postalCode
+    ) {
+      setValue('state', selectedPlace.state || '');
+      setValue('city', selectedPlace.city || '');
+      setValue('postalCode', selectedPlace.postalCode || '');
+    }
+  }, [selectedPlace, setValue, formValues]);
+
+
+
+
   return (
     <Accordion>
       <AccordionItem
@@ -127,10 +146,10 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
                       }}
                       render={({ field, fieldState }) => (
                         <GooglePlacesComponent
-                        field={field}
-                        value={selectedPlace}
-                        error={fieldState.error}
-                        setSelectedPlace={setSelectedPlace}
+                          field={field}
+                          value={selectedPlace}
+                          error={fieldState.error}
+                          setSelectedPlace={setSelectedPlace}
                         />
                       )}
                     />
@@ -139,8 +158,9 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
 
                 <label className={style.label}>
                   <div>
-                    Address
+                    Address 2
                   </div>
+
                   <div className={style.input}>
                     <input
                       type="text"
@@ -220,6 +240,7 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
                         <input
                           type="number"
                           className={style.text}
+                          value={selectedPlace.postalCode}
                           placeholder="Enter your postcode"
                           {...registerShipping("postalCode", { required: 'This field is required!' })}
                         />

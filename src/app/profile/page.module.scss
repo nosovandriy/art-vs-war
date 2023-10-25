@@ -1,11 +1,16 @@
 @import "@styles/vars.scss";
+@import "@styles/mixins.scss";
 
 .auth {
   height: 100%;
   background-color: $gray-100;
+
+  @include desktop {
+    padding: 48px 0 200px 48px;
+    // display: block;
+  }
 }
 
 .profile {
   margin: 0 auto;
-  padding-bottom: 200px;
 }

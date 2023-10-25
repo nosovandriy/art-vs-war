@@ -47,3 +47,11 @@ export interface MessageFormTypes {
   email: string;
   message: string;
 }
+
+export interface OptionDetails {
+  value: any;
+  city: string;
+  label: string;
+  state: string,
+  postalCode: string,
+}

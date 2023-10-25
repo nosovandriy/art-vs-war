@@ -20,7 +20,6 @@ import { useAppDispatch } from "@/types/ReduxHooks";
 import { getUserRole } from "@/utils/account";
 import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
-import EditProfile from "./edit-profile/profile-form/editProfile";
 
 import {
   getAllPaintingsByArtist,

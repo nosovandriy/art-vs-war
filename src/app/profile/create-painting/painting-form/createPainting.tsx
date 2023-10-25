@@ -20,16 +20,20 @@ import {
   PaintingForm,
   UploadedPaintingData,
 } from "@/types/Painting";
+import { Statuses } from "@/types/Profile";
+import Link from "next/link";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
 
 type Props = {
+  statuses: Statuses | null;
   setNextStep: Dispatch<SetStateAction<boolean>>;
   setUploaded: Dispatch<SetStateAction<UploadedPaintingData | null>>;
 };
 
 const CreatePainting: FC<Props> = ({
+  statuses,
   setNextStep,
   setUploaded,
 }) => {
@@ -155,6 +159,16 @@ const CreatePainting: FC<Props> = ({
 
         <div className={style.page}>Additional information</div>
       </div>
+
+      {(statuses && Object.values(statuses).includes(false)) && (
+        <div className={style.titleContainer}>
+          <span className={style.title}>To sell your paintings you need to create a </span>
+          <Link href="" className={style.titleLink}>Stripe account </Link>
+          <span className={style.title}>and fill in </span>
+          <Link href="" className={style.titleLink}>address data</Link>
+        </div>
+      )}
+
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.topContainer}>
