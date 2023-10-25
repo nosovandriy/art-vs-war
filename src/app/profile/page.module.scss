@@ -4,14 +4,13 @@
 .auth {
   height: 100%;
   background-color: $gray-100;
-}
-
-.profile {
-  margin: 0 auto;
-  padding: 32px 16px;
 
   @include desktop {
     padding: 48px 0 200px 48px;
     // display: block;
   }
+}
+
+.profile {
+  margin: 0 auto;
 }
