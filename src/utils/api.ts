@@ -486,3 +486,19 @@ export async function saveAddress(
 
   return data;
 }
+
+export async function checkStatus(
+  headers: Headers,
+) {
+  const { data } = await axios.get(
+    `${BASE_URL}authors/check`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+}
