@@ -2,9 +2,9 @@
 @import "@styles/mixins.scss";
 
 .form {
-  @include set-flex(column);
+  // @include set-flex(column);
 
-  width: 100%;
+  // width: 100%;
 }
 
 .label {
@@ -55,8 +55,8 @@
     transition-duration: 0.3s;
   }
 
-  &__error {
-    border: 1px solid $system-error !important;
+  div &__error {
+    border: 1px solid $system-error;
   }
 }
 

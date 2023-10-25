@@ -47,7 +47,7 @@ const EditProfile: FC<Props> = ({
       aboutMe: author?.aboutMe || '',
       image: [],
     },
-    mode: "onBlur",
+    mode: "onTouched",
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);

@@ -36,7 +36,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
     formState: { errors: errors1 },
     reset: resetAccountForm,
   } = useForm<AccountFormData>({
-    mode: "onBlur",
+    mode: "onTouched",
     values: {
       firstName: account?.firstName || '',
       lastName: account?.lastName || '',
