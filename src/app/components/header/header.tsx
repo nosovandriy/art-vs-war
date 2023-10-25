@@ -41,6 +41,7 @@ const Header = () => {
   const [showProfileMobileMenu, setShowProfileMobileMenu] = useState(false);
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user, signOut } = useAuthenticator((context) => [context.route]);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
 
   const menuRef = useRef<HTMLInputElement>(null);
   const headers = createHeaders(user);
@@ -48,6 +49,7 @@ const Header = () => {
   const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
   const isHeaders = Object.keys(headers).length !== 0;
+  const authenticated = authStatus === "authenticated";
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -175,7 +177,7 @@ const Header = () => {
               <div className={style.price__amount}>{`€ ${totalPrice}`}</div>
             </Link>
           </div>
-          {user && (
+          {authenticated ? (
             <div className={style.profileWrapper} ref={menuRef}>
               <button
                 title="Account"
@@ -213,8 +215,7 @@ const Header = () => {
                 </div>
               )}
             </div>
-          )}
-          {!user && (
+          ) : (
             <Link href={`/account`}>
               <LoginButton className={style.loginDesktop} />
             </Link>
@@ -231,11 +232,7 @@ const Header = () => {
         }`}
       >
         <div>
-          {!user ? (
-            <Link href={`/profile`} onClick={handleCloseMobileMenu}>
-              <LoginButton className={style.loginMobile} />
-            </Link>
-          ) : (
+          {authenticated ? (
             <>
               <div
                 className={style.profileButton}
@@ -269,6 +266,10 @@ const Header = () => {
                 </div>
               )}
             </>
+          ) : (
+            <Link href={`/profile`} onClick={handleCloseMobileMenu}>
+              <LoginButton className={style.loginMobile} />
+            </Link>
           )}
 
           <MenuItems

@@ -51,7 +51,7 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     reset: resetShippingform,
     setValue,
   } = useForm<ShippingFormData>({
-    mode: "onBlur",
+    mode: "onTouched",
     values: {
       state: address?.state,
       postalCode: address?.postalCode || '',

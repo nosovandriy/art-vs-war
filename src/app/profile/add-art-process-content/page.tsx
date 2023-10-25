@@ -41,7 +41,7 @@ const AddArtProcessContent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: "onTouched",
     resolver: yupResolver(validation),
   });
 
@@ -69,7 +69,7 @@ const AddArtProcessContent = () => {
     formData.append("upload_preset", upload_preset);
     formData.append("api_key", cloudinaryApiKey);
 
-    const { public_id, version, signature } = await uploadImage(
+    const { public_id, version, signature, width, height } = await uploadImage(
       formData,
       cloudName
     );
@@ -81,6 +81,8 @@ const AddArtProcessContent = () => {
         moderationStatus: "APPROVED",
         version,
         signature,
+        width,
+        height,
       },
     };
 
