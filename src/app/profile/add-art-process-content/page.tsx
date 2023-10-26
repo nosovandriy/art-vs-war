@@ -1,36 +1,31 @@
-"use client";
+'use client';
 
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-import ButtonLoader from "@/app/components/button-loader/button-loader";
-import { AddIcon } from "@/app/icons/icon-add";
-import { ArrowLeft } from "@/app/icons/icon-arrow-left";
-import { ArtProcessData } from "@/types/Painting";
-import {
-  createArtProcess,
-  getSignature,
-  uploadImage,
-  validateData,
-} from "@/utils/api";
-import createHeaders from "@/utils/getAccessToken";
-import { validation } from "./form";
+import ButtonLoader from '@/app/components/button-loader/button-loader';
+import { AddIcon } from '@/app/icons/icon-add';
+import { ArrowLeft } from '@/app/icons/icon-arrow-left';
+import { ArtProcessData } from '@/types/Painting';
+import { createArtProcess, getSignature, uploadImage, validateData } from '@/utils/api';
+import createHeaders from '@/utils/getAccessToken';
+import { validation } from './form';
 
-import style from "./page.module.scss";
+import style from './page.module.scss';
 
 const AddArtProcessContent = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { user, route } = useAuthenticator((context) => [context.route]);
-  const isAuthenticated = route === "authenticated";
+  const isAuthenticated = route === 'authenticated';
   const headers = createHeaders(user);
-  const URL = "artProcess/getFolder";
+  const URL = 'artProcess/getFolder';
 
   const upload_preset = process.env.NEXT_APP_CLOUDINARY_UPLOAD_PRESET!;
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
@@ -41,7 +36,7 @@ const AddArtProcessContent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode: "onTouched",
+    mode: 'onTouched',
     resolver: yupResolver(validation),
   });
 
@@ -62,23 +57,20 @@ const AddArtProcessContent = () => {
     const cloudinaryResponse = await getSignature(cloudinaryParams, headers);
 
     const formData = new FormData();
-    formData.append("file", data.image);
-    formData.append("folder", folder);
-    formData.append("signature", cloudinaryResponse.signature);
-    formData.append("timestamp", cloudinaryResponse.timestamp);
-    formData.append("upload_preset", upload_preset);
-    formData.append("api_key", cloudinaryApiKey);
+    formData.append('file', data.image);
+    formData.append('folder', folder);
+    formData.append('signature', cloudinaryResponse.signature);
+    formData.append('timestamp', cloudinaryResponse.timestamp);
+    formData.append('upload_preset', upload_preset);
+    formData.append('api_key', cloudinaryApiKey);
 
-    const { public_id, version, signature, width, height } = await uploadImage(
-      formData,
-      cloudName
-    );
+    const { public_id, version, signature, width, height } = await uploadImage(formData, cloudName);
 
     const artProcessData = {
       description: data.description,
       image: {
         publicId: public_id,
-        moderationStatus: "APPROVED",
+        moderationStatus: 'APPROVED',
         version,
         signature,
         width,
@@ -89,29 +81,29 @@ const AddArtProcessContent = () => {
     toast.promise(
       createArtProcess(artProcessData, headers)
         .then(() => {
-          router.push("/profile");
+          router.push('/profile');
         })
         .catch((error) => {
-          console.error("Error creating the painting:", error);
+          console.error('Error creating the painting:', error);
           throw error;
         })
         .finally(() => {
           setIsLoading(false);
         }),
       {
-        loading: "Creating...",
+        loading: 'Creating...',
         success: <b>The image has been uploaded!</b>,
         error: <b>Could not upload image.</b>,
       },
       {
         style: {
-          borderRadius: "10px",
-          background: "#262728",
-          padding: "10px",
-          color: "#eff0f1",
-          border: "1px solid #b3b4b5",
+          borderRadius: '10px',
+          background: '#262728',
+          padding: '10px',
+          color: '#eff0f1',
+          border: '1px solid #b3b4b5',
         },
-      }
+      },
     );
   };
 
@@ -147,10 +139,7 @@ const AddArtProcessContent = () => {
   return (
     <section className={style.section}>
       <div className={style.titleWrapper}>
-        <div
-          onClick={() => router.back()}
-          className={style.titleWrapper__arrow}
-        >
+        <div onClick={() => router.back()} className={style.titleWrapper__arrow}>
           <ArrowLeft />
         </div>
         <h1 className={style.title}>Art Process</h1>
@@ -168,7 +157,7 @@ const AddArtProcessContent = () => {
               type="file"
               className={style.uploadSection__input}
               accept="image/*"
-              {...register("image", {
+              {...register('image', {
                 onChange: handleFileChange,
               })}
             />
@@ -195,16 +184,14 @@ const AddArtProcessContent = () => {
 
         <div className={style.formAction}>
           <label className={style.label}>
-            <p className={style.label__text}>
-              Description<span className={style.star}> *</span>
-            </p>
+            <p className={style.label__text}>Description</p>
             <div className={style.input}>
               <textarea
                 className={`${style.inputText} ${style.inputTextArea} ${
                   errors?.description?.message && style.inputText__error
                 }`}
                 placeholder="Add image description"
-                {...register("description")}
+                {...register('description')}
               />
               {errors?.description?.message && (
                 <div className={style.error}>{errors.description?.message}</div>
@@ -212,10 +199,7 @@ const AddArtProcessContent = () => {
             </div>
           </label>
           <div className={style.buttons}>
-            <button
-              type="submit"
-              className={`${style.button} ${style.button__save}`}
-            >
+            <button type="submit" className={`${style.button} ${style.button__save}`}>
               {isLoading ? (
                 <div className={style.buttonLoader}>
                   <span> Saving...</span>
@@ -225,7 +209,11 @@ const AddArtProcessContent = () => {
                 <span>Save</span>
               )}
             </button>
-            <button className={`${style.button} ${style.button__cancel}`}>
+            <button
+              type="reset"
+              className={`${style.button} ${style.button__cancel}`}
+              onClick={() => router.back()}
+            >
               Cancel
             </button>
           </div>
