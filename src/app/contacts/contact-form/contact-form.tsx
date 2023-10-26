@@ -22,7 +22,7 @@ const ContactFrom = () => {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: "onTouched",
     resolver: yupResolver(validation),
     defaultValues,
   });
