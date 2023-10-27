@@ -28,6 +28,8 @@ const Account = () => {
   const [address, setAddress] = useState<ShippingFormData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
+  const hasProfile = getUserRole(user, 'ROLE_AUTHOR');
 
   const fetchData = async () => {
     const headers = createHeaders(user);
@@ -44,14 +46,13 @@ const Account = () => {
       country,
       postalCode,
       addressLine2,
-      addressLine1: { value: '', label: addressLine1 },
+      addressLine1: { value: '', label: addressLine1, postalCode: '', state: '', city: '' },
     });
 
     setIsFetching(false);
   };
 
   useEffect(() => {
-    const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
 
     if (!hasRole) {
       setAccount(null);
@@ -91,7 +92,6 @@ const Account = () => {
         src={Ornament}
         width={370}
         height={690}
-        style={{ position: 'absolute', top: '18%', right: 0 }}
       />
       {isFetching
         ? <Loading />
@@ -120,7 +120,7 @@ const Account = () => {
                 </h2>
               </div>
 
-              {(account) && (
+              {(account && !hasProfile) && (
                 <div className={style.subtitle}>
                   <>
                     <Link href="/profile" className={style.login}>Click here</Link>

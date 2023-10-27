@@ -35,7 +35,7 @@ export interface ShippingFormData {
   state?: string,
   country: string,
   postalCode: string,
-  addressLine1: Option,
+  addressLine1: any,
   addressLine2?: string,
 }
 
@@ -46,4 +46,12 @@ export interface ShippingResponseData extends ShippingFormTypes {
 export interface MessageFormTypes {
   email: string;
   message: string;
+}
+
+export interface OptionDetails {
+  value: any;
+  city: string;
+  label: string;
+  state: string,
+  postalCode: string,
 }

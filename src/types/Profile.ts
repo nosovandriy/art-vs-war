@@ -52,3 +52,8 @@ export interface AuthorData {
   id: string,
   prettyId: string,
 }
+
+export interface Statuses {
+  hasAddress: boolean,
+  hasStripeProfile: boolean,
+};

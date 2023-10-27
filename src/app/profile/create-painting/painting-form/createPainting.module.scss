@@ -60,6 +60,26 @@
   }
 }
 
+.titleContainer {
+  margin-bottom: 32px;
+
+
+  .title {
+    color: $gray-0;
+    font-family: $font-text;
+    font-size: $font-size-base;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-base;
+    cursor: default;
+  }
+
+  .titleLink {
+    color: $system-info;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
 .error {
   position: absolute;
   margin-top: 2px;
@@ -163,6 +183,7 @@
   line-height: $line-height-base;
   font-weight: $font-weight-regular;
   text-align: start;
+  outline: none;
 
   &:hover {
     cursor: pointer;
