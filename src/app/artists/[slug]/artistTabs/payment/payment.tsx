@@ -57,6 +57,8 @@ const Payment = () => {
       router.push(stripeActivatePage);
     } catch (error: any) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,9 +66,11 @@ const Payment = () => {
     try {
       setIsLoading(true);
       const stripeDashboardURL = await getStripeDashboard(headers);
-      router.push(stripeDashboardURL);
+      window.open(stripeDashboardURL, '_blank');
     } catch (error: any) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
