@@ -74,7 +74,6 @@ const Payment = () => {
     try {
       const paintings = await getRecentlySoldPaintings(headers);
       setArtistPaintings(paintings.content);
-      console.log(paintings);
     } catch (error: any) {
       console.log(error);
     }
