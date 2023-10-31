@@ -1,14 +1,17 @@
-import * as yup from "yup";
+import * as yup from 'yup';
 
 export const defaultValues = {
-  email: "",
-  message: "",
+  email: '',
+  message: '',
 };
 
+const emailRegExp = /^[\w\.-]+@[\w\.-]+\.\w+$/;
+
 export const validation = yup.object({
-  email: yup.string().required("This field is required!").email("Email is not valid"),
-  message: yup
+  email: yup
     .string()
-    .required("This field is required!")
-    .min(20, "Min 20 characters"),
+    .required('This field is required!')
+    .matches(emailRegExp, 'Email is not valid'),
+
+  message: yup.string().required('This field is required!').min(20, 'Min 20 characters'),
 });
