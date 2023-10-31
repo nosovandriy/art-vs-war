@@ -1,0 +1,190 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.loadingWrapper {
+  @include set-flex(row, center, center);
+  min-height: 290px;
+}
+
+.button {
+  @include set-flex(row, center, center);
+
+  margin-top: 32px;
+  height: 48px;
+  width: 100%;
+  border-radius: 24px;
+  background-color: $gray-5;
+  font-size: $font-size-base;
+  transition-duration: 0.3s;
+  color: $gray-100;
+  cursor: pointer;
+
+  @include tablet {
+    width: 288px;
+    margin-top: 48px;
+  }
+
+  @include desktop {
+    @include set-square(208px);
+
+    margin-top: 0;
+    border-radius: 50%;
+    font-size: $font-size-lg;
+  }
+
+  &:hover {
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+}
+
+.balance {
+  margin-top: 24px;
+
+  @include laptop {
+    @include set-flex(row, center, center);
+
+    gap: 250px;
+  }
+
+  &__wrapper {
+    @include tablet {
+      @include set-flex(row, space-between, center);
+
+      max-width: 65%;
+    }
+
+    @include laptop {
+      @include set-flex(column, flex-start, flex-start);
+
+      max-width: 65%;
+      margin-bottom: 48px;
+    }
+  }
+
+  &__total {
+    margin-top: 24px;
+    font-size: $font-size-xxxl;
+    color: $gray-5;
+    font-family: $font-title;
+  }
+
+  &__text {
+    color: $gray-10;
+  }
+
+  &__button {
+    margin-top: 24px;
+
+    @include tablet {
+      max-width: 392px;
+    }
+
+    @include laptop {
+      @include set-square(170px);
+
+      margin-top: 0;
+      border-radius: 50%;
+      font-size: $font-size-lg;
+    }
+
+    @include desktop {
+      @include set-square(208px);
+    }
+  }
+}
+
+.payment {
+  margin-top: 32px;
+
+  @include laptop {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+
+  @include desktop {
+    @include set-flex(row, center, center);
+
+    gap: 50px;
+    margin: 50px auto;
+    max-width: 880px;
+  }
+}
+
+.textWrapper {
+  flex: 1;
+}
+
+.title {
+  color: $gray-5;
+  font-size: $font-size-lg;
+
+  @include tablet {
+    font-size: $font-size-xxl;
+  }
+
+  @include desktop {
+    font-size: $font-size-xxxl;
+    max-width: 550px;
+  }
+}
+
+.subtitle {
+  margin-top: 24px;
+  color: $gray-10;
+}
+
+.guide {
+  @include set-flex(row, center, center);
+
+  gap: 16px;
+  margin-top: 24px;
+
+  &__title {
+    flex: 1;
+    color: $gray-0;
+  }
+
+  &__stepDesktop {
+    display: none;
+    color: $system-info;
+    cursor: pointer;
+
+    @include laptop {
+      display: inline;
+    }
+  }
+
+  &__stepMobile {
+    color: $system-info;
+    cursor: pointer;
+
+    @include laptop {
+      display: none;
+    }
+  }
+}
+
+.line {
+  @include set-size(100%, 1px);
+
+  display: block;
+  margin: 30px 0;
+  background-color: $gray-50;
+}
+
+.recentSelling {
+  font-size: $font-size-xl;
+  color: $gray-5;
+  margin: 20px 0;
+  text-transform: uppercase;
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
+}
