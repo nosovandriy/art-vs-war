@@ -1,8 +1,12 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .cart {
+  @include set-flex(column);
+
   padding: 24px 22px 48px 24px;
+  position: relative;
+  min-height: inherit;
 }
 
 .titleWrapper {
