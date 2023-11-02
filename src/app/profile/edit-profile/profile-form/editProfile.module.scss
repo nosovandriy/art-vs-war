@@ -178,20 +178,23 @@
   height: 48px;
   padding: 12px 16px;
   background-color: $gray-90;
-  color: $gray-30;
+  color: #fff;
   font-family: $font-text;
   font-size: $font-size-base;
   line-height: $line-height-base;
   font-weight: $font-weight-regular;
   text-align: start;
+  outline: none;
+  cursor: text;
 
-  &:hover {
-    cursor: pointer;
+  &::placeholder {
+    color: $gray-30;
   }
 }
 
 .select {
   width: 100%;
+  // cursor: pointer;
 }
 
 .about {
@@ -199,15 +202,17 @@
   height: 180px;
   padding: 12px 16px 0;
   background-color: $gray-90;
-  color: $gray-30;
+  color: #fff;
   font-family: $font-text;
   font-size: $font-size-base;
   line-height: $line-height-base;
   font-weight: $font-weight-regular;
   resize: none;
+  outline: none;
+  cursor: text;
 
-  &:hover {
-    cursor: pointer;
+  &::placeholder {
+    color: $gray-30;
   }
 }
 

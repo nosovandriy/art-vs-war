@@ -86,13 +86,15 @@ const Account = () => {
 
   return (
     <section className={style.account}>
-      <Image
-        alt="ornament"
-        className={style.ornament}
-        src={Ornament}
-        width={370}
-        height={690}
-      />
+      <div className={style.ornamentWrapper}>
+        <Image
+          alt="ornament"
+          className={style.ornament}
+          src={Ornament}
+          width={370}
+          height={690}
+        />
+      </div>
       {isFetching
         ? <Loading />
         : (

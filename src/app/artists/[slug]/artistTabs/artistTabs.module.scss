@@ -129,6 +129,7 @@
 
   @include laptop {
     display: block;
+    margin-bottom: 200px;
     padding: 24px;
   }
 
@@ -142,6 +143,10 @@
   padding: 0 14px;
   width: 100%;
   cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 200px;
+  }
 
   @include laptop {
     display: none;
@@ -159,6 +164,7 @@
 
 .content {
   height: 100%;
+  padding: 20px 0;
 }
 
 

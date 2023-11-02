@@ -50,7 +50,7 @@ export interface UploadedPainting extends Painting {
 }
 
 export interface PaintingData extends Painting {
-  image?: File;
+  image?: FileList | { publicId: string } | ImageData;
 }
 
 export interface ArtProcessData {
@@ -59,7 +59,7 @@ export interface ArtProcessData {
 }
 
 export interface PaintingForm extends Painting {
-  image: FileList;
+  image: FileList | { publicId: string };
   weight: number;
   styleIds: number[];
   mediumIds: number[];
@@ -70,13 +70,14 @@ export interface PaintingForm extends Painting {
 }
 
 export interface PaintingDataToSave extends Painting {
-  image: ImageData;
+  image: ImageData | { publicId: string };
 }
 
 export interface ResponseImage {
   imageModerationStatus: string;
   imagePublicId: string;
   imageUrl: string;
+  views?: string[];
 }
 
 export interface UploadedPaintingData {
@@ -92,10 +93,10 @@ export interface UploadedPaintingData {
   height: number;
   depth: number;
   price: number;
-  styles: string[];
-  mediums: string[];
-  supports: string[];
-  subjects: string[];
+  styles: { id: number, value: string }[];
+  mediums: { id: number, value: string }[];
+  supports: { id: number, value: string }[];
+  subjects: { id: number, value: string }[];
   description: string;
   addedToDataBase: { addedToDataBase: string };
 }

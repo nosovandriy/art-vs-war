@@ -25,7 +25,10 @@ const MasonryGallery: React.FC<Props> = ({ paintingsList }) => {
       columnClassName="my-masonry-grid_column"
     >
       {paintingsList.map((painting: Painting) => (
-        <CardPreview paintingDetails={painting} key={painting.id} />
+        <CardPreview
+          key={painting.id}
+          paintingDetails={painting}
+        />
       ))}
     </Masonry>
   );

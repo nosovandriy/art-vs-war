@@ -1,12 +1,12 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { FC, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { AddIcon } from "@/app/icons/icon-add";
-import { UploadedPaintingData } from "@/types/Painting";
-import { saveAdditionalPhotos } from "@/utils/api";
+import { ResponseImage, UploadedPaintingData } from "@/types/Painting";
+import { getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import { uploadAdditionalImages } from "@/utils/profile";
 
@@ -21,6 +21,9 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   const [images, setImages] = useState<File[]>([]);
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
+  const pathname = usePathname();
+
+  console.log('uploaded', uploaded)
 
   const {
     id,
@@ -62,7 +65,12 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
   const resetFileInputs = () => {
     setImagePreviews([null, null, null]);
-    router.replace(`/gallery/${prettyId}`);
+
+    if (pathname.includes('profile')) {
+      router.replace(`/profile/${prettyId}`);
+    } else {
+      router.replace(`/gallery/${prettyId}`);
+    }
   };
 
   const handleSaveImages = async (
@@ -91,13 +99,38 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     );
   }
 
+  const getImagesFromServer = async () => {
+    const headers = createHeaders(user);
+
+    try {
+      const fetchedImages = await getAdditionalImages(headers, prettyId);
+      console.log(fetchedImages);
+
+      if (fetchedImages.length) {
+        const updatedPreviews = fetchedImages.map((image: ResponseImage) => image.imageUrl)
+        setImagePreviews([updatedPreviews[0], updatedPreviews[1] || null, updatedPreviews[2] || null])
+      }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
 
   const onSubmit = async () => {
     const headers = createHeaders(user);
 
     await handleSaveImages(images, headers, id);
-    router.replace(`/gallery/${prettyId}`);
+
+    if (pathname.includes('profile')) {
+      router.replace(`/profile/${prettyId}`);
+    } else {
+      router.replace(`/gallery/${prettyId}`);
+    }
   };
+
+  useEffect(() => {
+    getImagesFromServer();
+  }, []);
 
   return (
     <section className={style.additionalInfo}>

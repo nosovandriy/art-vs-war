@@ -85,6 +85,24 @@ export async function getPainting(id: string) {
   return data;
 }
 
+export async function getProfilePainting(id: string, headers: HeadersInit) {
+  const response = await fetch(`${BASE_URL}paintings/profile/${id}`, {
+    cache: "no-store",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  });
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function getArtists(params: string = "") {
   const response = await fetch(`${BASE_URL}authors${params}`, {
     cache: "no-store",
@@ -297,6 +315,18 @@ export async function saveAdditionalPhotos(
   return data;
 }
 
+export async function getAdditionalImages(
+  headers: { Authorization?: string },
+  paintingId: string
+) {
+  const { data } = await axios.get(
+    BASE_URL + `paintings/additionalImages/${paintingId}`,
+    { headers },
+  );
+
+  return data;
+}
+
 export async function createProfile(userData: UserDataToSave, headers: object) {
   const { data } = await axios.post(BASE_URL + "authors/", userData, {
     headers,
@@ -492,6 +522,57 @@ export async function checkStatus(
 ) {
   const { data } = await axios.get(
     `${BASE_URL}authors/check`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+}
+
+export async function getAuthorPaintingById(
+  headers: Headers,
+  id: string,
+) {
+  const { data } = await axios.get(
+    `${BASE_URL}paintings/profile/${id}`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+}
+
+export async function updatePaintingById(
+  headers: Headers,
+  id: string,
+) {
+  const { data } = await axios.post(
+    `${BASE_URL}paintings/${id}`,
+    {
+      headers: {
+        ...headers,
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    }
+  );
+
+  return data;
+}
+
+export async function deletePaintingById(
+  headers: Headers,
+  id: string,
+) {
+  const { data } = await axios.delete(
+    `${BASE_URL}paintings/${id}`,
     {
       headers: {
         ...headers,

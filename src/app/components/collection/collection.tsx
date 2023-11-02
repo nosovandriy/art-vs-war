@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import style from "./collection.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AddIcon } from "@/app/icons/icon-add";
 
 type Props = {
   title: string;
@@ -19,7 +20,13 @@ const Collection: FC<Props> = ({ title, isArtsTab }) => {
             </div>
 
             {(isArtsTab && isProfile) && (
-              <Link href="/profile/create-painting" className={style.button}>Add arts</Link>
+              <>
+                <p className={style.subtitle}>You can create your first Artwork</p>
+                <Link href="/profile/create-painting" className={style.button}>
+                  <AddIcon className={style.button__icon} />
+                  <span>Add arts</span>
+                </Link>
+              </>
             )}
         </div>
     );
