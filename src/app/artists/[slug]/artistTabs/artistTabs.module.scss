@@ -145,7 +145,7 @@
   cursor: pointer;
 
   &:last-child {
-    margin-bottom: 200px;
+    margin-bottom: 100px;
   }
 
   @include laptop {
@@ -169,6 +169,7 @@
 
 
 .accordionTitle {
+  padding: 0;
   font-family: $font-text;
   color: $gray-5;
   font-size: 16px;
