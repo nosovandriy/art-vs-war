@@ -14,7 +14,7 @@ const ArtistPaintings = () => {
         <MoreArtistPaintingsAutoFetch />
       </>
     ) : (
-      <Collection isArtsTab title="There are no paintings yet" />
+      <Collection isArtsTab title="There are no paintings created yet" />
     )
   )
 };
