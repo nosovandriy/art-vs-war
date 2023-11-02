@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Controller, useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ import {
   PaintingForm,
   UploadedPaintingData,
 } from "@/types/Painting";
-import { Statuses } from "@/types/Profile";
+import { ImageData, Statuses } from "@/types/Profile";
 import Link from "next/link";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -28,11 +28,13 @@ const URL = "paintings/checkInputAndGet";
 
 type Props = {
   statuses: Statuses | null;
+  initial: UploadedPaintingData | null;
   setNextStep: Dispatch<SetStateAction<boolean>>;
   setUploaded: Dispatch<SetStateAction<UploadedPaintingData | null>>;
 };
 
 const CreatePainting: FC<Props> = ({
+  initial,
   statuses,
   setNextStep,
   setUploaded,
@@ -42,6 +44,7 @@ const CreatePainting: FC<Props> = ({
     register,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<PaintingForm>({
     defaultValues: {
@@ -62,6 +65,30 @@ const CreatePainting: FC<Props> = ({
   const isAuthenticated = route === "authenticated";
   const headers = createHeaders(user);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!initial) return;
+
+    const getInitialIds = (data: {id: number, value: string }[]) => (
+      data.map(item => item.id)
+    );
+
+    setImagePreview(initial.image.imageUrl);
+
+    setValue('title', initial.title)
+    setValue('depth', initial.depth)
+    setValue('price', initial.price)
+    setValue('width', initial.width)
+    setValue('height', initial.height)
+    setValue('weight', initial.weight)
+    setValue('description',initial.description)
+    setValue('yearOfCreation', initial.yearOfCreation)
+    setValue('styleIds', getInitialIds(initial.styles))
+    setValue('mediumIds', getInitialIds(initial.mediums))
+    setValue('subjectIds', getInitialIds(initial.subjects))
+    setValue('supportIds', getInitialIds(initial.supports))
+    setValue('image', { publicId: initial.image.imagePublicId })
+  }, [initial]);
 
   const checkOptions = (options: SubjectType[]) => {
     if (options.length === 3) {
@@ -91,7 +118,6 @@ const CreatePainting: FC<Props> = ({
         toast.promise(
           axios.post(BASE_URL + "paintings", paintingData, { headers })
           .then(({ data }) => {
-            console.log('saved image data:', data);
             setUploaded(data);
             setNextStep(true);
           })
@@ -115,6 +141,51 @@ const CreatePainting: FC<Props> = ({
     }
   };
 
+  const updatePaintingOnServer = (paintingData: PaintingData) => {
+    toast.promise(
+      axios.put(`${BASE_URL}paintings/${initial?.prettyId}`, paintingData, { headers })
+      .then(({ data }) => {
+        setUploaded(data);
+        setNextStep(true);
+      })
+      .finally(() => {
+        onReset();
+      }),
+      {
+        loading: "Updating...",
+        success: <b>Painting updated!</b>,
+        error: <b>Could not update.</b>,
+      },
+      {
+        style: {
+          borderRadius: "10px",
+          background: "#1c1d1d",
+          color: "#b3b4b5",
+        },
+      }
+    );
+  }
+
+  const updatePaintingWithImageUpload = async (data: PaintingData) => {
+    await uploadImageToServer(data, URL, headers).then((imageData: ImageData) => {
+      const paintingData: PaintingDataToSave = {
+        ...data,
+        image: imageData,
+      };
+
+      updatePaintingOnServer(paintingData);
+    })
+  }
+
+  const handleUpdatePainting = (data: PaintingData) => {
+    if (data.image instanceof File) {
+      updatePaintingWithImageUpload(data)
+    }
+    else {
+      updatePaintingOnServer(data)
+    }
+  }
+
   const onSubmit = (data: PaintingForm | any) => {
     if (!data || !isAuthenticated) {
       return;
@@ -122,16 +193,17 @@ const CreatePainting: FC<Props> = ({
 
     const dataToUpload: PaintingData = {
       ...data,
-      image: data.image[0],
+      image: data.image instanceof FileList ? data.image[0] : data.image,
       weight: +data.weight,
       width: +data.width,
       height: +data.height,
       depth: +data.depth,
       price: +data.price,
+      paymentStatus: 'AVAILABLE',
       yearOfCreation: +data.yearOfCreation,
     };
 
-    handleCreatePainting(dataToUpload);
+    initial ? handleUpdatePainting(dataToUpload) : handleCreatePainting(dataToUpload);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +249,15 @@ const CreatePainting: FC<Props> = ({
               type="file"
               className={style.file__input}
               {...register("image", {
-                required: "Image is required!",
+                validate: (inputValue) => {
+                  if (inputValue.hasOwnProperty('publicId')) {
+                    return true;
+                  } else if (inputValue instanceof FileList) {
+                    return true;
+                  }
+
+                  return false;
+                },
                 onChange: handleFileChange,
               })}
             />

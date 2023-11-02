@@ -15,6 +15,7 @@ import { setDataToLocalStorage } from "@/utils/localStorageData";
 
 import "@styles/globals.scss";
 import style from "./card-preview.module.scss";
+import { usePathname } from "next/navigation";
 
 type Props = {
   paintingDetails: Painting;
@@ -27,6 +28,9 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
   const { paintingsShippingInfo } = useAppSelector((state) => state.shipping);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
+
+  const pathName = usePathname();
+  const isProfile = pathName.includes('profile');
 
   const isPaintingSelected = paintings.some(
     (painting) => painting.prettyId === paintingDetails.prettyId
@@ -79,7 +83,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
   return (
     <div className={`${style.card}`}>
-      <Link href={`/gallery/${prettyId}`}>
+      <Link href={isProfile ? `/profile/${prettyId}` :`/gallery/${prettyId}`}>
         <Image
           src={imageUrl}
           alt={`${authorFullName} - ${title}`}
@@ -90,7 +94,10 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
           onLoadingComplete={(img) => (img.style.opacity = "1")}
         />
       </Link>
-      <Link href={`/gallery/${prettyId}`} className={style.title}>
+      <Link
+        href={isProfile ? `/profile/${prettyId}` :`/gallery/${prettyId}`}
+        className={style.title}
+      >
         {title}
       </Link>
       <Link href={`/artists/${authorPrettyId}`} className={style.artist}>
@@ -102,23 +109,25 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
       <div className={style.buy}>
         <p className={style.buy__price}>{`€ ${price}`}</p>
-        {isSoldPainting ? (
-          <div className={style.buy__iconSold}>SOLD</div>
-        ) : (
-          <>
-            {isPaintingSelected ? (
-              <div className={style.buy__icon}>
-                <CheckProduct />
-              </div>
-            ) : (
-              <div
-                className={style.buy__icon}
-                onClick={handleAddPaintingToCart}
-              >
-                <Cart />
-              </div>
-            )}
-          </>
+        {!isProfile && (
+          isSoldPainting ? (
+            <div className={style.buy__iconSold}>SOLD</div>
+          ) : (
+            <>
+              {isPaintingSelected ? (
+                <div className={style.buy__icon}>
+                  <CheckProduct />
+                </div>
+              ) : (
+                <div
+                  className={style.buy__icon}
+                  onClick={handleAddPaintingToCart}
+                >
+                  <Cart />
+                </div>
+              )}
+            </>
+          )
         )}
       </div>
     </div>

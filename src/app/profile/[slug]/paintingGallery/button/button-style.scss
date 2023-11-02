@@ -1,0 +1,134 @@
+@import "@styles/vars.scss";
+@import "@styles/mixins.scss";
+
+.cart-button {
+  @include set-size(100%, 48px);
+
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s ease;
+  border-radius: 24px;
+  background-color: $gray-5;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $gray-100;
+  transition-duration: 0.3s;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+
+  &:hover {
+    background-color: $gray-0;
+  }
+}
+
+.cart-button:active {
+  transform: scale(0.9);
+}
+
+.cart-button .fa-shopping-cart {
+  color: $gray-100;
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  transform: translate(-50%, -40%);
+  z-index: 2;
+  font-size: 2rem;
+}
+
+.cart-button .fa-box {
+  position: absolute;
+  color: $gray-100;
+  top: -20%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  font-size: 1.2rem;
+}
+
+.cart-button .add-to-cart,
+.cart-button .added {
+  margin-left: 3px;
+  display: flex;
+  gap: 3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cart-button .added {
+  opacity: 0;
+}
+
+.cart-button.clicked .fa-shopping-cart {
+  animation: cart 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .fa-box {
+  animation: box 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .add-to-cart {
+  animation: text1 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked .added {
+  animation: text2 0.5s ease-in-out forwards;
+}
+
+@keyframes cart {
+  0% {
+    left: -10%;
+  }
+
+  40%,
+  60% {
+    left: 51%;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+@keyframes box {
+  0%,
+  40% {
+    top: -20%;
+  }
+
+  60% {
+    top: 40%;
+    left: 52%;
+  }
+
+  100% {
+    top: 40%;
+    left: 112%;
+  }
+}
+
+@keyframes text1 {
+  0% {
+    opacity: 1;
+  }
+
+  20%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes text2 {
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

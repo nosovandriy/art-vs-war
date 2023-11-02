@@ -1,7 +1,8 @@
-import { ArtistTabOptions } from '@/types/ArtistTabOptions';
-import ArtProcess from '../app/artists/[slug]/artistTabs/artProcess/artProcess';
-import ArtistPaintings from '../app/artists/[slug]/artistTabs/artistPaintings/artistPaintings';
-import Collection from '@/app/components/collection/collection';
+import { ArtistTabOptions } from "@/types/ArtistTabOptions";
+import ArtProcess from "../app/artists/[slug]/artistTabs/artProcess/artProcess";
+import ArtistPaintings from "../app/artists/[slug]/artistTabs/artistPaintings/artistPaintings";
+import Collection from "@/app/components/collection/collection";
+import Delivery from "@/app/artists/[slug]/artistTabs/delivery/delivery";
 import Payment from '@/app/artists/[slug]/artistTabs/payment/payment';
 
 export const tabs = [
@@ -19,7 +20,7 @@ export const tabs = [
   },
   {
     option: ArtistTabOptions.delivery,
-    component: <Collection title="This feature is under development now!" />,
+    component: <Delivery />,
   },
   {
     option: ArtistTabOptions.payment,
@@ -39,7 +40,7 @@ export const renderItem = (selectedTab: ArtistTabOptions) => {
       return <ArtProcess />;
 
     case ArtistTabOptions.delivery:
-      return <Collection title="This feature is under development now!" />;
+    return <Delivery />;
 
     case ArtistTabOptions.payment:
       return <Payment />;

@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react
 import toast from "react-hot-toast";
 import { Controller, useForm, useFormContext } from "react-hook-form";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 import style from '../account.module.scss';
 
@@ -18,7 +18,7 @@ import GooglePlacesComponent from "@/app/components/google-places/googlePlacesCo
 type Props = {
   account: AccountData | null;
   address: ShippingFormData | null;
-  setAccount: Dispatch<SetStateAction<AccountData | null>>;
+  setAccount: Dispatch<SetStateAction<AccountData | null>> | null;
 }
 
 const accordionStyles = {
@@ -32,8 +32,6 @@ const accordionStyles = {
 const ShippingForm: FC<Props> = ({ account, address }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
-
-  const [isOpened, setIsOpened] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<OptionDetails>({
     value: { terms: [{value: ''}, {value: ''}]},
@@ -108,9 +106,6 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     }
   }, [selectedPlace, setValue, formValues]);
 
-
-
-
   return (
     <Accordion>
       <AccordionItem
@@ -118,8 +113,7 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
         aria-label="Shipping Address"
         title="Shipping Address"
         classNames={accordionStyles}
-        indicator={<ArrowDownIcon isRotated={isOpened} />}
-        onPressStart={() => setIsOpened(current => !current)}
+        indicator={<ArrowDownIcon />}
       >
         {address && !isOpenForm
           ? <ShippingData address={address} setIsOpenForm={setIsOpenForm} />

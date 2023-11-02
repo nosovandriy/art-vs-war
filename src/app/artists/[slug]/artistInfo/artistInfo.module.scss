@@ -111,18 +111,6 @@
         }
       }
 
-      @include laptop {
-        // padding: 12px 20px;
-        // border-radius: 100px;
-        // border: 1px solid $gray-0;
-
-        // &__title {
-        //   @include laptop {
-        //     display: none;
-        //   }
-        // }
-      }
-
       &__mobile {
         @include laptop {
           display: none;

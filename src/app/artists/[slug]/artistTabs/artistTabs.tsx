@@ -1,16 +1,17 @@
 'use client';
 
-import { Accordion, AccordionItem } from '@nextui-org/accordion';
-import Link from 'next/link';
+import React, { useEffect, useState } from "react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useWindowSize } from "react-use";
+
+import style from './artistTabs.module.scss';
 
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
 import { ArtistTabOptions } from '@/types/ArtistTabOptions';
 import { renderItem, tabs } from '@/utils/artistTabs';
-
-import style from './artistTabs.module.scss';
 
 const accordionStyles = {
   base: style.accordion,
@@ -23,6 +24,7 @@ const accordionStyles = {
 const ArtistTabs = () => {
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
   const [openTab, setOpenTab] = useState<ArtistTabOptions | null>(null);
+  const { width } = useWindowSize();
   const pathname = usePathname();
   const isProfile = pathname === '/profile';
 
@@ -55,20 +57,21 @@ const ArtistTabs = () => {
   return (
     <>
       <div className={style.tabs}>
-        <Accordion className={style.accordion}>
-          {renderTabs.map(({ option, component }) => (
-            <AccordionItem
-              key={option}
-              aria-label={option}
-              title={option}
-              classNames={accordionStyles}
-              indicator={<ArrowDownIcon isRotated={option === openTab} />}
-              onPressStart={() => onTabSelect(option)}
-            >
-              {component}
-            </AccordionItem>
-          ))}
-        </Accordion>
+        {width < 1024 && (
+          <Accordion>
+            {renderTabs.map(({ option, component }) => (
+              <AccordionItem
+                key={option}
+                aria-label={option}
+                title={option}
+                classNames={accordionStyles}
+                indicator={<ArrowDownIcon />}
+              >
+                {component}
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
 
         <div className={style.container}>
           {renderTabs.map(({ option }) => (
