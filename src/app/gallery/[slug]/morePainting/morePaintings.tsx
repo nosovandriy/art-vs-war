@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { Painting } from "@/types/Painting";
-import { getMorePaintings } from "@/utils/api";
-import CardPreview from "@components/card-preview/card-preview";
+import { Painting } from '@/types/Painting';
+import { getMorePaintings } from '@/utils/api';
+import CardPreview from '@components/card-preview/card-preview';
 
-import style from "./morePaintings.module.scss";
+import style from './morePaintings.module.scss';
 
 type Props = {
   prettyId: string;
@@ -14,9 +14,7 @@ type Props = {
 
 const MorePaintings: React.FC<Props> = ({ prettyId }) => {
   const [paintings, setPaintings] = useState<Painting[]>([]);
-  const [paintingsQuantity, setPaintingsQuantity] = useState<number | null>(
-    null
-  );
+  const [paintingsQuantity, setPaintingsQuantity] = useState<number | null>(null);
 
   const getMorePaintingsFromArtist = async (id: string, size: number) => {
     const paintings = await getMorePaintings(id, size);
@@ -37,10 +35,10 @@ const MorePaintings: React.FC<Props> = ({ prettyId }) => {
   };
 
   useEffect(() => {
-    window.addEventListener("resize", handleChangeCardQuantity);
+    window.addEventListener('resize', handleChangeCardQuantity);
 
     return () => {
-      window.removeEventListener("resize", handleChangeCardQuantity);
+      window.removeEventListener('resize', handleChangeCardQuantity);
     };
   }, []);
 
@@ -54,13 +52,13 @@ const MorePaintings: React.FC<Props> = ({ prettyId }) => {
 
   return (
     <div className={style.more__painting}>
-      {paintings.map((painting: Painting) => (
-        <CardPreview
-          paintingDetails={painting}
-          key={painting.id}
-          className={style.cardPreview}
-        />
-      ))}
+      {paintings.length > 0 ? (
+        paintings.map((painting: Painting) => (
+          <CardPreview paintingDetails={painting} key={painting.id} className={style.cardPreview} />
+        ))
+      ) : (
+        <p>At the moment, the artist has no other uploaded paintings</p>
+      )}
     </div>
   );
 };
