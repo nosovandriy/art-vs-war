@@ -35,7 +35,7 @@ export interface ShippingFormData {
   state?: string,
   country: string,
   postalCode: string,
-  addressLine1: Option,
+  addressLine1: any,
   addressLine2?: string,
 }
 

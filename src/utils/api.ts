@@ -1,30 +1,24 @@
-import axios from "axios";
-import { notFound } from "next/navigation";
+import axios from 'axios';
+import { notFound } from 'next/navigation';
 
-import { ArtProcessData, PaintingData } from "@/types/Painting";
-import {
-  Headers,
-  ImageData,
-  RequestParams,
-  UserData,
-  UserDataToSave,
-} from "@/types/Profile";
+import { ArtProcessData, PaintingData } from '@/types/Painting';
+import { Headers, ImageData, RequestParams, UserData, UserDataToSave } from '@/types/Profile';
 import {
   MessageFormTypes,
   ShippingFormTypes,
   ShippingInfo,
   ShippingResponseData,
-} from "@/types/ShippingForm";
-import { AccountData } from "@/types/Account";
+} from '@/types/ShippingForm';
+import { AccountData } from '@/types/Account';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function getHeroPaintings() {
   const response = await fetch(`${BASE_URL}paintings/mainPage`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -34,10 +28,10 @@ export async function getHeroPaintings() {
 
 export async function getGeneralProjectData() {
   const response = await fetch(`${BASE_URL}mainPage/data`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -45,12 +39,12 @@ export async function getGeneralProjectData() {
   return data;
 }
 
-export async function getPaintings(params: string = "") {
+export async function getPaintings(params: string = '') {
   const response = await fetch(`${BASE_URL}paintings/search?${params}`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -60,10 +54,10 @@ export async function getPaintings(params: string = "") {
 
 export async function getFiltersData() {
   const response = await fetch(`${BASE_URL}paintings/params`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -73,7 +67,7 @@ export async function getFiltersData() {
 
 export async function getPainting(id: string) {
   const response = await fetch(`${BASE_URL}paintings/v2/${id}`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!response.ok) {
@@ -105,11 +99,11 @@ export async function getProfilePainting(id: string, headers: HeadersInit) {
 
 export async function getArtists(params: string = "") {
   const response = await fetch(`${BASE_URL}authors${params}`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -119,7 +113,7 @@ export async function getArtists(params: string = "") {
 
 export async function getArtist(id: string) {
   const response = await fetch(`${BASE_URL}authors/v2/${id}`, {
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!response.ok) {
@@ -132,15 +126,12 @@ export async function getArtist(id: string) {
 }
 
 export async function getPaintingsByArtist(id: string, page: number = 0) {
-  const response = await fetch(
-    `${BASE_URL}paintings/author/${id}?page=${page}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(`${BASE_URL}paintings/author/${id}?page=${page}`, {
+    cache: 'no-store',
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -148,14 +139,14 @@ export async function getPaintingsByArtist(id: string, page: number = 0) {
   return data;
 }
 
-export async function getArtProcess(id: string = "", headers?: HeadersInit) {
+export async function getArtProcess(id: string = '', headers?: HeadersInit) {
   const response = await fetch(`${BASE_URL}artProcess/all/${id}`, {
-    cache: "no-store",
+    cache: 'no-store',
     headers,
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -166,11 +157,11 @@ export async function getArtProcess(id: string = "", headers?: HeadersInit) {
 export async function getMorePaintings(id: string, size: number) {
   const response = await fetch(
     `${BASE_URL}paintings/additional?paintingPrettyId=${id}&size=${size}`,
-    { cache: "no-store" }
+    { cache: 'no-store' },
   );
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -179,13 +170,12 @@ export async function getMorePaintings(id: string, size: number) {
 }
 
 export async function getMightLikePaintings(id: string, size: number) {
-  const response = await fetch(
-    `${BASE_URL}paintings/recommend?prettyIds=${id}&size=${size}`,
-    { cache: "no-store" }
-  );
+  const response = await fetch(`${BASE_URL}paintings/recommend?prettyIds=${id}&size=${size}`, {
+    cache: 'no-store',
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -195,12 +185,12 @@ export async function getMightLikePaintings(id: string, size: number) {
 
 export async function getAllPaintingsByArtist(headers: HeadersInit) {
   const response = await fetch(`${BASE_URL}paintings/author/all?&page=0`, {
-    cache: "no-store",
+    cache: 'no-store',
     headers,
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -209,7 +199,7 @@ export async function getAllPaintingsByArtist(headers: HeadersInit) {
 }
 
 export async function getProfile(headers: object) {
-  const { data } = await axios.get(BASE_URL + "authors/profile", { headers });
+  const { data } = await axios.get(BASE_URL + 'authors/profile', { headers });
 
   return data;
 }
@@ -217,19 +207,19 @@ export async function getProfile(headers: object) {
 export async function validateData(
   url: string,
   inputsData: UserData | PaintingData | ArtProcessData,
-  headers: HeadersInit
+  headers: HeadersInit,
 ) {
   const response = await fetch(BASE_URL + url, {
-    method: "POST",
+    method: 'POST',
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(inputsData),
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -237,21 +227,18 @@ export async function validateData(
   return data;
 }
 
-export async function getSignature(
-  requestParams: RequestParams,
-  headers: HeadersInit
-) {
-  const response = await fetch(BASE_URL + "images/getSignature", {
-    method: "POST",
+export async function getSignature(requestParams: RequestParams, headers: HeadersInit) {
+  const response = await fetch(BASE_URL + 'images/getSignature', {
+    method: 'POST',
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(requestParams),
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -259,10 +246,7 @@ export async function getSignature(
   return data;
 }
 
-export async function createArtProcess(
-  artProcess: any,
-  headers: object
-) {
+export async function createArtProcess(artProcess: any, headers: object) {
   const { data } = await axios.post(`${BASE_URL}artProcess`, artProcess, {
     headers,
   });
@@ -271,19 +255,16 @@ export async function createArtProcess(
 }
 
 export async function createFolder(headers: HeadersInit, paintingId: number) {
-  const response = await fetch(
-    BASE_URL + `additionalPaintingImage/folder/${paintingId}`,
-    {
-      method: "GET",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+  const response = await fetch(BASE_URL + `additionalPaintingImage/folder/${paintingId}`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const { folder } = await response.json();
@@ -295,7 +276,7 @@ export async function uploadImage(formData: FormData, cloudName: string) {
   const { data } = await axios.post(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     formData,
-    { headers: { "Content-Type": "multipart/form-data" } }
+    { headers: { 'Content-Type': 'multipart/form-data' } },
   );
 
   return data;
@@ -304,13 +285,11 @@ export async function uploadImage(formData: FormData, cloudName: string) {
 export async function saveAdditionalPhotos(
   images: ImageData[],
   headers: { Authorization?: string },
-  paintingId: number
+  paintingId: number,
 ) {
-  const { data } = await axios.post(
-    BASE_URL + `additionalPaintingImage/${paintingId}`,
-    images,
-    { headers }
-  );
+  const { data } = await axios.post(BASE_URL + `additionalPaintingImage/${paintingId}`, images, {
+    headers,
+  });
 
   return data;
 }
@@ -328,7 +307,7 @@ export async function getAdditionalImages(
 }
 
 export async function createProfile(userData: UserDataToSave, headers: object) {
-  const { data } = await axios.post(BASE_URL + "authors/", userData, {
+  const { data } = await axios.post(BASE_URL + 'authors/', userData, {
     headers,
   });
 
@@ -336,7 +315,7 @@ export async function createProfile(userData: UserDataToSave, headers: object) {
 }
 
 export async function updateProfile(userData: UserDataToSave, headers: object) {
-  const { data } = await axios.put(BASE_URL + "authors/", userData, {
+  const { data } = await axios.put(BASE_URL + 'authors/', userData, {
     headers,
   });
 
@@ -349,7 +328,7 @@ export async function saveOrderPaintingToServer(id: number, headers: object) {
     {},
     {
       headers,
-    }
+    },
   );
 
   return data;
@@ -361,16 +340,13 @@ export async function saveOrderPaintingsToServer(ids: string, headers: object) {
     {},
     {
       headers,
-    }
+    },
   );
 
   return data;
 }
 
-export async function removeOrderPaintingFromServer(
-  id: number,
-  headers: object
-) {
+export async function removeOrderPaintingFromServer(id: number, headers: object) {
   const { data } = await axios.delete(`${BASE_URL}cart/${id}`, {
     headers,
   });
@@ -389,22 +365,19 @@ export async function getOrderDataFromServer(headers: object) {
 export async function getShippingInfo(
   ids: string,
   shippingFormData: ShippingFormTypes,
-  headers: object
+  headers: object,
 ) {
-  const response = await fetch(
-    `${BASE_URL}shipping/getRates?paintingIds=${ids}`,
-    {
-      method: "POST",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(shippingFormData),
-    }
-  );
+  const response = await fetch(`${BASE_URL}shipping/getRates?paintingIds=${ids}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(shippingFormData),
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   const data = await response.json();
@@ -413,33 +386,84 @@ export async function getShippingInfo(
 
 export async function sendContactUsMessage(message: MessageFormTypes) {
   const response = await fetch(`${BASE_URL}email/contactUs`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(message),
   });
 
   if (response.ok) {
-    return "Email has been sent";
+    return 'Email has been sent';
   }
 }
 
-export async function getStripeLink(
-  ids: string,
-  shippingFormData: ShippingInfo,
-  headers: object
-) {
+export async function getStripeLink(ids: string, shippingFormData: ShippingInfo, headers: object) {
   const response = await axios.post(
     `${BASE_URL}stripe/checkout?paintingIds=${ids}`,
     shippingFormData,
     {
       headers: {
         ...headers,
-        "Content-Type": "application/json;charset=utf-8",
+        'Content-Type': 'application/json;charset=utf-8',
       },
-    }
+    },
   );
+
+  return response.data;
+}
+
+export async function getActivateStripe(headers: object) {
+  const response = await axios.get(`${BASE_URL}stripe/onboarding`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return response.data;
+}
+
+export async function checkStripeAccount(headers: object) {
+  const response = await axios.get(`${BASE_URL}stripeAccount/check`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return response.data;
+}
+
+export async function balanceStripeAccount(headers: object) {
+  const response = await axios.get(`${BASE_URL}stripe`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return response.data;
+}
+
+export async function getStripeDashboard(headers: object) {
+  const response = await axios.get(`${BASE_URL}stripe/dashboard`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return response.data;
+}
+
+export async function getRecentlySoldPaintings(headers: object) {
+  const response = await axios.get(`${BASE_URL}paintings/recentSelling`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return response.data;
 }
@@ -448,87 +472,64 @@ export async function getAccount(headers: Headers) {
   const { data } = await axios.get(`${BASE_URL}account`, {
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
   });
 
   return data;
 }
 
-export async function createAccount(
-  headers: Headers,
-  accountData: AccountData
-) {
+export async function createAccount(headers: Headers, accountData: AccountData) {
   const { data } = await axios.post(`${BASE_URL}account`, accountData, {
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
   });
 
   return data;
 }
 
-export async function updateAccount(
-  headers: Headers,
-  accountData: AccountData
-) {
+export async function updateAccount(headers: Headers, accountData: AccountData) {
   const { data } = await axios.put(`${BASE_URL}account`, accountData, {
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
   });
 
   return data;
 }
 
-export async function getAddress(
-  headers: Headers,
-) {
-  const { data } = await axios.get(
-    `${BASE_URL}account/addresses`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function getAddress(headers: Headers) {
+  const { data } = await axios.get(`${BASE_URL}account/addresses`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data as ShippingResponseData[];
 }
 
-export async function saveAddress(
-  headers: Headers,
-  accountData: ShippingFormTypes
-) {
-  const { data } = await axios.post(
-    `${BASE_URL}account/addresses`,
-    [accountData],
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function saveAddress(headers: Headers, accountData: ShippingFormTypes) {
+  const { data } = await axios.post(`${BASE_URL}account/addresses`, [accountData], {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data;
 }
 
-export async function checkStatus(
-  headers: Headers,
-) {
-  const { data } = await axios.get(
-    `${BASE_URL}authors/check`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function checkStatus(headers: Headers) {
+  const { data } = await axios.get(`${BASE_URL}authors/check`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data;
 }
