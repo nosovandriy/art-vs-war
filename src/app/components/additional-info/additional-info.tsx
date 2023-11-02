@@ -23,8 +23,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log('uploaded', uploaded)
-
   const {
     id,
     image,
@@ -104,7 +102,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
     try {
       const fetchedImages = await getAdditionalImages(headers, prettyId);
-      console.log(fetchedImages);
 
       if (fetchedImages.length) {
         const updatedPreviews = fetchedImages.map((image: ResponseImage) => image.imageUrl)
