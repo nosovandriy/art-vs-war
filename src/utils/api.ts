@@ -81,10 +81,10 @@ export async function getPainting(id: string) {
 
 export async function getProfilePainting(id: string, headers: HeadersInit) {
   const response = await fetch(`${BASE_URL}paintings/profile/${id}`, {
-    cache: "no-store",
+    cache: 'no-store',
     headers: {
       ...headers,
-      "Content-Type": "application/json;charset=utf-8",
+      'Content-Type': 'application/json;charset=utf-8',
     },
   });
 
@@ -97,7 +97,7 @@ export async function getProfilePainting(id: string, headers: HeadersInit) {
   return data;
 }
 
-export async function getArtists(params: string = "") {
+export async function getArtists(params: string = '') {
   const response = await fetch(`${BASE_URL}authors${params}`, {
     cache: 'no-store',
   });
@@ -152,6 +152,20 @@ export async function getArtProcess(id: string = '', headers?: HeadersInit) {
   const data = await response.json();
 
   return data;
+}
+
+export async function deleteArtProcessItem(id: string, headers?: HeadersInit) {
+  const response = await fetch(`${BASE_URL}artProcess?id=${id}`, {
+    method: 'DELETE',
+    cache: 'no-store',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  } else {
+    return response;
+  }
 }
 
 export async function getMorePaintings(id: string, size: number) {
@@ -294,14 +308,10 @@ export async function saveAdditionalPhotos(
   return data;
 }
 
-export async function getAdditionalImages(
-  headers: { Authorization?: string },
-  paintingId: string
-) {
-  const { data } = await axios.get(
-    BASE_URL + `paintings/additionalImages/${paintingId}`,
-    { headers },
-  );
+export async function getAdditionalImages(headers: { Authorization?: string }, paintingId: string) {
+  const { data } = await axios.get(BASE_URL + `paintings/additionalImages/${paintingId}`, {
+    headers,
+  });
 
   return data;
 }
@@ -534,53 +544,52 @@ export async function checkStatus(headers: Headers) {
   return data;
 }
 
-export async function getAuthorPaintingById(
-  headers: Headers,
-  id: string,
-) {
-  const { data } = await axios.get(
-    `${BASE_URL}paintings/profile/${id}`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function getAuthorPaintingById(headers: Headers, id: string) {
+  const { data } = await axios.get(`${BASE_URL}paintings/profile/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data;
 }
 
-export async function updatePaintingById(
-  headers: Headers,
-  id: string,
-) {
-  const { data } = await axios.post(
-    `${BASE_URL}paintings/${id}`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function updatePaintingById(headers: Headers, id: string) {
+  const { data } = await axios.post(`${BASE_URL}paintings/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data;
 }
 
-export async function deletePaintingById(
-  headers: Headers,
-  id: string,
-) {
-  const { data } = await axios.delete(
-    `${BASE_URL}paintings/${id}`,
-    {
-      headers: {
-        ...headers,
-        "Content-Type": "application/json;charset=utf-8",
-      },
-    }
-  );
+export async function deletePaintingById(headers: Headers, id: string) {
+  const { data } = await axios.delete(`${BASE_URL}paintings/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
   return data;
+}
+
+export async function emailUnsubscribe(unsubscribe: any, headers: object) {
+  const response = await fetch(`${BASE_URL}account/unsubscribe`, {
+    method: 'PATCH',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(unsubscribe),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return response;
 }

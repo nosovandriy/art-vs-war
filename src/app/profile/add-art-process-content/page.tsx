@@ -81,7 +81,7 @@ const AddArtProcessContent = () => {
     toast.promise(
       createArtProcess(artProcessData, headers)
         .then(() => {
-          router.push('/profile');
+          router.push('/profile?tab=Art+Process');
         })
         .catch((error) => {
           console.error('Error creating the painting:', error);

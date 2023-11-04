@@ -1,38 +1,29 @@
-import { FC } from "react";
-import {
-  Modal,
-  Button,
-  ModalContent,
-  ModalBody,
-  ModalFooter,
-} from "@nextui-org/react";
+import { FC } from 'react';
+import { Modal, Button, ModalContent, ModalBody, ModalFooter } from '@nextui-org/react';
 
 type Props = {
   isOpen: boolean;
+  content: string;
   onAction: () => void;
   onOpenChange: () => void;
 };
 
-const ModalComponent: FC<Props> = ({ isOpen, onOpenChange, onAction }) => {
+const ModalComponent: FC<Props> = ({ isOpen, content, onOpenChange, onAction }) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      placement="center"
-      onOpenChange={onOpenChange}
-    >
+    <Modal isOpen={isOpen} placement="center" onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalBody style={{
-              textAlign: 'center',
-              color: '#262728',
-              fontSize: 32,
-              fontWeight: 400,
-              lineHeight: 40,
-            }}>
-              <p>
-                Are you sure you want to delete this artwork?
-              </p>
+            <ModalBody
+              style={{
+                textAlign: 'center',
+                color: '#262728',
+                fontSize: 32,
+                fontWeight: 400,
+                lineHeight: 40,
+              }}
+            >
+              <p>{content}</p>
             </ModalBody>
             <ModalFooter style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <Button
