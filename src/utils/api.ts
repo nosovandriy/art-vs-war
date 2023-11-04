@@ -576,3 +576,20 @@ export async function deletePaintingById(headers: Headers, id: string) {
 
   return data;
 }
+
+export async function emailUnsubscribe(unsubscribe: any, headers: object) {
+  const response = await fetch(`${BASE_URL}account/unsubscribe`, {
+    method: 'PATCH',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(unsubscribe),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return response;
+}
