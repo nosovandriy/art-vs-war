@@ -25,6 +25,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
 
   const getPaintingFromServer = async () => {
     const fetched = await getAuthorPaintingById(headers, params.slug);
+    console.log('painting from server', fetched)
 
     setPainting(fetched);
   }
