@@ -1,0 +1,89 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.unsubscribe {
+  @include set-flex(column, center, center);
+
+  height: calc(100vh - 56px);
+  margin: 0 auto;
+
+  @include laptop {
+    height: calc(100vh - 96px);
+  }
+}
+
+.container {
+  @include set-flex(column, center, center);
+
+  height: 270px;
+  background-color: $gray-80;
+  width: 100%;
+  padding: 32px;
+
+  @include tablet {
+    @include set-size(392px, 244px);
+  }
+
+  @include tabletXL {
+    @include set-size(456px, 288px);
+  }
+
+  @include laptop {
+    @include set-size(648px, 312px);
+
+    height: calc(100vh - 96px);
+  }
+  @include desktop {
+    @include set-size(656px, 360px);
+  }
+
+  @include desktopHD {
+    @include set-size(752px, 360px);
+  }
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-xxl;
+
+  @include tablet {
+    font-size: $font-size-4xl;
+  }
+
+  @include desktop {
+    font-size: $font-size-huge;
+  }
+}
+
+.subTitle {
+  color: $gray-5;
+  margin-top: 24px;
+  text-align: center;
+  font-size: $font-size-lg;
+
+  @include laptop {
+    font-size: $font-size-xxl;
+  }
+}
+
+.subscribe {
+  @include set-flex(row, center, center);
+
+  gap: 14px;
+
+  color: $gray-5;
+  margin-top: 32px;
+  font-size: $font-size-md;
+
+  @include tablet {
+    font-size: $font-size-base;
+  }
+
+  &__link {
+    color: $system-info;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

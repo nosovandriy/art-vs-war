@@ -1,24 +1,21 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { CartItem } from "@/types/CartItem";
-import { getPainting } from "@/utils/api";
-import MorePaintings from "./morePainting/morePaintings";
-import AddToCartButton from "./paintingGallery/button/button";
-import PaintingGallery from "./paintingGallery/paintingGallery";
+import { CartItem } from '@/types/CartItem';
+import { getPainting } from '@/utils/api';
+import MorePaintings from './morePainting/morePaintings';
+import AddToCartButton from './paintingGallery/button/button';
+import PaintingGallery from './paintingGallery/paintingGallery';
+import { ArrowBackIcon } from '@/app/icons/icon-arrow-back';
 
-import style from "./page.module.scss";
+import style from './page.module.scss';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {
     const paintingsList = await getPainting(params.slug);
     if (!paintingsList) {
       return {
-        title: "Not Found",
-        description: "The page you are looking for does not exist",
+        title: 'Not Found',
+        description: 'The page you are looking for does not exist',
       };
     }
     return {
@@ -31,19 +28,19 @@ export async function generateMetadata({
         title: `${paintingsList.title} by ${paintingsList.author.fullName}`,
         description: paintingsList.description,
         url: `https://artvswar.gallery/gallery/${paintingsList.prettyId}`,
-        siteName: "Art vs War GALLERY",
+        siteName: 'Art vs War GALLERY',
         images: [
           {
             url: `${paintingsList.image.imageUrl}`,
           },
         ],
-        type: "website",
+        type: 'website',
       },
     };
   } catch (error) {
     return {
-      title: "Not Found",
-      description: "The page you are looking for does not exist",
+      title: 'Not Found',
+      description: 'The page you are looking for does not exist',
     };
   }
 }
@@ -84,19 +81,22 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
     depth: depth,
   };
 
-  const isSoldPainting = paymentStatus === "SOLD";
+  const isSoldPainting = paymentStatus === 'SOLD';
 
   return (
     <section className={style.card}>
-      <h1 className={style.paintingTitle}>{title}</h1>
+      <div className={style.titleWrapper}>
+        <Link href={`/gallery`}>
+          <div className={style.arrowBack}>
+            <ArrowBackIcon />
+          </div>
+        </Link>
+        <h1 className={style.paintingTitle}>{title}</h1>
+      </div>
 
       <div className={style.gallery}>
         <div className={style.gallery__slider}>
-          <PaintingGallery
-            paintings={image.views}
-            title={title}
-            author={author.fullName}
-          />
+          <PaintingGallery paintings={image.views} title={title} author={author.fullName} />
         </div>
 
         <div className={style.paintingInfo}>
@@ -104,10 +104,7 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
             <div className={style.description__block}>
               <p>Artist:</p>
               <p className={style.info}>
-                <Link
-                  href={`/artists/${author.prettyId}`}
-                  className={style.link}
-                >
+                <Link href={`/artists/${author.prettyId}`} className={style.link}>
                   {author.fullName}
                 </Link>
               </p>
@@ -166,9 +163,7 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
             </div>
             <div className={style.description__block}>
               <p>Size:</p>
-              <p
-                className={style.info}
-              >{`${width} W x ${height} H x ${depth} D cm`}</p>
+              <p className={style.info}>{`${width} W x ${height} H x ${depth} D cm`}</p>
             </div>
             <div className={style.description__block}>
               <p>Price:</p>
@@ -219,22 +214,18 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
           <div className={style.shipping__info}>
             <p>Delivery Time:</p>
             <p>
-              Typically 5-7 business days for domestic shipments, 10-14 business
-              days for international shipments.
+              Typically 5-7 business days for domestic shipments, 10-14 business days for
+              international shipments.
             </p>
           </div>
           <div className={style.shipping__info}>
             <p>Delivery Cost:</p>
-            <p>
-              Shipping is not included and will depend on chosen option of
-              delivery.
-            </p>
+            <p>Shipping is not included and will depend on chosen option of delivery.</p>
           </div>
           <div className={style.shipping__info}>
             <p>Handling:</p>
             <p>
-              Artists are responsible for packaging and adhering to “Art vs War”
-              packing guidelines.
+              Artists are responsible for packaging and adhering to “Art vs War” packing guidelines.
             </p>
           </div>
         </div>
@@ -243,15 +234,13 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
       <hr className={style.line} />
 
       <div className={style.question}>
-        <p className={`${style.question__title} ${style.title}`}>
-          HAVE ADDITIONAL QUESTION?
-        </p>
+        <p className={`${style.question__title} ${style.title}`}>HAVE ADDITIONAL QUESTION?</p>
         <p className={style.question__info}>
-          Please visit our{" "}
+          Please visit our{' '}
           <Link href="/contacts" className={style.question__help}>
             help section
-          </Link>{" "}
-          or{" "}
+          </Link>{' '}
+          or{' '}
           <Link href="/contacts" className={style.question__help}>
             contact us
           </Link>

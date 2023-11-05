@@ -1,24 +1,24 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import Link from "next/link";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useDisclosure } from '@nextui-org/modal';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { deletePaintingById, getAuthorPaintingById } from "@/utils/api";
-import PaintingGallery from "./paintingGallery/paintingGallery";
+import NextUiProvider from '@/app/nextui/nextuiProvider';
+import { UploadedPaintingData } from '@/types/Painting';
+import { deletePaintingById, getAuthorPaintingById } from '@/utils/api';
+import createHeaders from '@/utils/getAccessToken';
+import ModalComponent from './modal/modal';
+import PaintingGallery from './paintingGallery/paintingGallery';
 
-import style from "./page.module.scss";
-import createHeaders from "@/utils/getAccessToken";
-import { UploadedPaintingData } from "@/types/Painting";
-import NextUiProvider from "@/app/nextui/nextuiProvider";
-import ModalComponent from "./modal/modal";
-import { useDisclosure } from "@nextui-org/modal";
+import style from './page.module.scss';
 
 const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
   const { user } = useAuthenticator((context) => [context.user]);
-  const {isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [painting, setPainting] = useState<UploadedPaintingData | null>(null);
   const headers = createHeaders(user);
   const router = useRouter();
@@ -28,28 +28,27 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
     console.log('painting from server', fetched)
 
     setPainting(fetched);
-  }
+  };
 
   const handleDeletePainting = () => {
     onClose();
 
     toast.promise(
-      deletePaintingById(headers, params.slug)
-      .finally(() => {
+      deletePaintingById(headers, params.slug).finally(() => {
         router.replace('/profile');
       }),
       {
-        loading: "Deleting...",
+        loading: 'Deleting...',
         success: <b>Painting deleted!</b>,
         error: <b>Could not delete.</b>,
       },
       {
         style: {
-          borderRadius: "10px",
-          background: "#1c1d1d",
-          color: "#b3b4b5",
+          borderRadius: '10px',
+          background: '#1c1d1d',
+          color: '#b3b4b5',
         },
-      }
+      },
     );
   };
 
@@ -64,6 +63,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
   return (
     <section className={style.card}>
       <ModalComponent
+        content="Are you sure you want to delete this artwork?"
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onAction={handleDeletePainting}
@@ -87,10 +87,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             <div className={style.description__block}>
               <p>Artist:</p>
               <p className={style.info}>
-                <Link
-                  href={`/artists/${painting?.author.prettyId}`}
-                  className={style.link}
-                >
+                <Link href={`/artists/${painting?.author.prettyId}`} className={style.link}>
                   {painting?.author.fullName}
                 </Link>
               </p>
@@ -102,18 +99,19 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             <div className={style.description__block}>
               <p>Subject:</p>
               <div>
-                {painting && painting?.subjects.map(({ id, value}, index) => (
-                  <span key={id}>
-                    {value}
-                    {index !== painting?.subjects.length - 1 && `,  `}
-                  </span>
-                ))}
+                {painting &&
+                  painting?.subjects.map(({ id, value }, index) => (
+                    <span key={id}>
+                      {value}
+                      {index !== painting?.subjects.length - 1 && `,  `}
+                    </span>
+                  ))}
               </div>
             </div>
             <div className={style.description__block}>
               <p>Style:</p>
               <div>
-                {painting?.styles.map(({ id, value}, index) => (
+                {painting?.styles.map(({ id, value }, index) => (
                   <span key={id}>
                     {value}
                     {index !== painting?.styles.length - 1 && `,  `}
@@ -124,7 +122,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             <div className={style.description__block}>
               <p>Medium:</p>
               <div>
-                {painting?.mediums.map(({ id, value}, index) => (
+                {painting?.mediums.map(({ id, value }, index) => (
                   <span key={id}>
                     {value}
                     {index !== painting?.mediums.length - 1 && `,  `}
@@ -135,7 +133,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             <div className={style.description__block}>
               <p>Support:</p>
               <div>
-                {painting?.supports.map(({ id, value}, index) => (
+                {painting?.supports.map(({ id, value }, index) => (
                   <span key={id}>
                     {value}
                     {index !== painting?.supports.length - 1 && `,  `}
@@ -169,10 +167,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
               Delete
             </button>
 
-            <Link
-              href={`/profile/${painting?.prettyId}/edit`}
-              className={style.buttonEdit}
-            >
+            <Link href={`/profile/${painting?.prettyId}/edit`} className={style.buttonEdit}>
               Edit
             </Link>
           </div>
@@ -258,9 +253,9 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
 const ProfilePaintingPage = ({ params }: { params: { slug: string } }) => {
   return (
     <NextUiProvider>
-      <ProfilePaintingCard params={{ slug: params.slug}} />
+      <ProfilePaintingCard params={{ slug: params.slug }} />
     </NextUiProvider>
-  )
-}
+  );
+};
 
 export default ProfilePaintingPage;

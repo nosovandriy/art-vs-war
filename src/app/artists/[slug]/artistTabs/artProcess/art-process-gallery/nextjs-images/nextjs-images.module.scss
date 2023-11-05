@@ -1,0 +1,20 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.trashIcon {
+  @include set-flex(row, center, center);
+  @include set-square(40px);
+
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  background-color: $gray-50;
+  border-radius: 50%;
+  transition-duration: 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+    transition-duration: 0.3s;
+    background-color: $gray-90;
+  }
+}
