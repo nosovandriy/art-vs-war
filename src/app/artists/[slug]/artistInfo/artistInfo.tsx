@@ -27,12 +27,12 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
         </div>
       )}
 
-      {(statuses && Object.values(statuses).includes(false)) && (
+      {(isProfile &&statuses && Object.values(statuses).includes(false)) && (
         <div className={style.subtitleContainer}>
           <span className={style.subtitle}>To sell your paintings you need to create a </span>
-          <Link href="" className={style.subtitleLink}>Stripe account </Link>
+          <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
           <span className={style.subtitle}>and fill in </span>
-          <Link href="" className={style.subtitleLink}>address data</Link>
+          <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
         </div>
       )}
 

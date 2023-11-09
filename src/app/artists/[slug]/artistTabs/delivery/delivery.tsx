@@ -55,6 +55,7 @@ const Delivery: FC = () => {
   const fetchData = async () => {
     try {
       const fetchedAddress: AuthorShippingResponseData = await getShippingAddress(headers)
+      console.log(fetchedAddress)
 
       const {
         city,
@@ -128,7 +129,7 @@ const Delivery: FC = () => {
     setValue('country', address?.country)
     setValue('postalCode', address?.postalCode);
     setValue('addressLine2', address?.addressLine2)
-    setValue('addressLine1.label', address?.addressLine1?.label);
+    setValue('addressLine1', address?.addressLine1);
   }, [address]);
 
   useEffect(() => {
