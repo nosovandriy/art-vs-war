@@ -1,32 +1,25 @@
-"use client";
+'use client';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import {
-  Controller,
-  SubmitErrorHandler,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
-import ButtonLoader from "@/app/components/button-loader/button-loader";
-import {
-  setPaintingsShippingInfo,
-  setShippingAddress,
-} from "@/app/redux/slices/shippingSlice";
-import { useAppSelector } from "@/types/ReduxHooks";
-import { ShippingFormTypes } from "@/types/ShippingForm";
-import { CartSteps } from "@/types/cartSteps";
-import { getShippingInfo } from "@/utils/api";
-import { defaultValues, validation } from "./form";
-import { PhoneNumber } from "./phone-number/phone-number";
+import ButtonLoader from '@/app/components/button-loader/button-loader';
+import { setPaintingsShippingInfo, setShippingAddress } from '@/app/redux/slices/shippingSlice';
+import { useAppSelector } from '@/types/ReduxHooks';
+import { ShippingFormTypes } from '@/types/ShippingForm';
+import { CartSteps } from '@/types/cartSteps';
+import { getShippingInfo } from '@/utils/api';
+import { validation } from './form';
+import { PhoneNumber } from './phone-number/phone-number';
 
-import style from "./shipping-form.module.scss";
+import style from './shipping-form.module.scss';
 
 type Props = {
   headers: object;
   isVisible: boolean;
+  defaultValues: ShippingFormTypes;
   handleSectionClick: (string: CartSteps | null) => void;
 };
 
@@ -34,6 +27,7 @@ const ShippingForm: React.FC<Props> = ({
   headers,
   isVisible,
   handleSectionClick,
+  defaultValues,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { paintings } = useAppSelector((state) => state.cart);
@@ -45,7 +39,7 @@ const ShippingForm: React.FC<Props> = ({
     control,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(validation),
     defaultValues,
   });
@@ -55,7 +49,7 @@ const ShippingForm: React.FC<Props> = ({
       handleSectionClick(null);
     }
 
-    const orderIds = paintings.map((painting) => painting.id).join(",");
+    const orderIds = paintings.map((painting) => painting.id).join(',');
 
     try {
       setIsLoading(true);
@@ -63,7 +57,7 @@ const ShippingForm: React.FC<Props> = ({
       dispatch(setPaintingsShippingInfo(shippingInfo));
       dispatch(setShippingAddress(data));
     } catch (error: any) {
-      console.log("error", error);
+      console.log('error', error);
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +85,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.firstName?.message && style.inputText__error
                   }`}
                   placeholder="Enter your first name"
-                  {...register("firstName")}
+                  {...register('firstName')}
                 />
                 <div className={style.error}>{errors.firstName?.message}</div>
               </div>
@@ -107,7 +101,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.lastName?.message && style.inputText__error
                   }`}
                   placeholder="Enter your last name"
-                  {...register("lastName")}
+                  {...register('lastName')}
                 />
                 <div className={style.error}>{errors.lastName?.message}</div>
               </div>
@@ -125,7 +119,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.country?.message && style.inputText__error
                   }`}
                   placeholder="Enter the country"
-                  {...register("country")}
+                  {...register('country')}
                 />
                 <div className={style.error}>{errors.country?.message}</div>
               </div>
@@ -139,7 +133,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.state?.message && style.inputText__error
                   }`}
                   placeholder="Enter state/region name"
-                  {...register("state")}
+                  {...register('state')}
                 />
                 <div className={style.error}>{errors.state?.message}</div>
               </div>
@@ -157,7 +151,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.city?.message && style.inputText__error
                   }`}
                   placeholder="Enter the city name"
-                  {...register("city")}
+                  {...register('city')}
                 />
                 <div className={style.error}>{errors.city?.message}</div>
               </div>
@@ -173,7 +167,7 @@ const ShippingForm: React.FC<Props> = ({
                     errors?.postalCode?.message && style.inputText__error
                   }`}
                   placeholder="Enter your postcode"
-                  {...register("postalCode")}
+                  {...register('postalCode')}
                 />
                 <div className={style.error}>{errors.postalCode?.message}</div>
               </div>
@@ -190,18 +184,16 @@ const ShippingForm: React.FC<Props> = ({
                   errors?.addressLine1?.message && style.inputText__error
                 }`}
                 placeholder="Enter your street, apartment, №..."
-                {...register("addressLine1")}
+                {...register('addressLine1')}
               />
               {errors?.addressLine1?.message && (
-                <div className={style.error}>
-                  {errors.addressLine1?.message}
-                </div>
+                <div className={style.error}>{errors.addressLine1?.message}</div>
               )}
               <input
                 type="text"
                 className={style.inputText}
                 placeholder="Enter your street, apartment, №..."
-                {...register("addressLine2")}
+                {...register('addressLine2')}
               />
             </div>
           </label>
@@ -214,19 +206,10 @@ const ShippingForm: React.FC<Props> = ({
                 control={control}
                 name="phone"
                 defaultValue=""
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <>
-                    <PhoneNumber
-                      value={value}
-                      onChange={onChange}
-                      error={error}
-                    />
-                    {error && (
-                      <div className={style.error}>{errors.phone?.message}</div>
-                    )}
+                    <PhoneNumber value={value} onChange={onChange} error={error} />
+                    {error && <div className={style.error}>{errors.phone?.message}</div>}
                   </>
                 )}
               />
