@@ -1,17 +1,5 @@
 import * as yup from "yup";
 
-export const defaultValues = {
-  firstName: "",
-  lastName: "",
-  country: "",
-  city: "",
-  state: "",
-  postalCode: "",
-  addressLine1: "",
-  addressLine2: "",
-  phone: "",
-};
-
 export const validation = yup.object({
   firstName: yup
     .string()
@@ -51,7 +39,7 @@ export const validation = yup.object({
   addressLine1: yup
     .string()
     .required("This field is required!")
-    .max(50, "Max 50 characters"),
+    .max(100, "Max 100 characters"),
   addressLine2: yup.string(),
   phone: yup
     .string()
