@@ -1,6 +1,6 @@
-import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 
@@ -33,13 +33,13 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
   const [isOpenForm, setIsOpenForm] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState<OptionDetails>({
-    value: { terms: [{value: ''}, {value: ''}]},
-    label: address?.addressLine1?.label || 'Enter you adress (street, building)',
-    postalCode: address?.postalCode || '',
-    state: address?.state || '',
-    city: address?.city || '',
-  });
+  // const [selectedPlace, setSelectedPlace] = useState<OptionDetails>({
+  //   value: { terms: [{value: ''}, {value: ''}]},
+  //   label: address?.addressLine1?.label || 'Enter you adress (street, building)',
+  //   postalCode: address?.postalCode || '',
+  //   state: address?.state || '',
+  //   city: address?.city || '',
+  // });
 
   const {
     control: shippingControl,
@@ -48,17 +48,20 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     formState: { errors: errors2 },
     reset: resetShippingform,
     setValue,
+    watch,
   } = useForm<ShippingFormData>({
     mode: "onTouched",
-    values: {
-      state: address?.state,
+    defaultValues: {
+      state: address?.state || '',
       postalCode: address?.postalCode || '',
       addressLine2: address?.addressLine2 || '',
-      city: address?.city || getAddressPieces(selectedPlace.value)[0],
-      country: address?.country || getAddressPieces(selectedPlace.value)[1],
-      addressLine1: selectedPlace,
+      city: address?.city || '',
+      country: address?.country || '',
+      addressLine1: address?.addressLine1 || '',
     },
   });
+
+  const watchAddress = watch('addressLine1');
 
   const handleSaveAddress = async (shippingData: ShippingFormTypes) => {
     await saveAddress(headers, shippingData);
@@ -92,19 +95,30 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     setIsOpenForm(false);
   };
 
-  const formValues = shippingControl._defaultValues;
+  useEffect(() => {
+    const formValues = shippingControl._defaultValues;
+
+    if (
+      watchAddress.state !== formValues.state ||
+      watchAddress.city !== formValues.city ||
+      watchAddress.postalCode !== formValues.postalCode
+    ) {
+      setValue('city', watchAddress?.city)
+      setValue('state', watchAddress?.state)
+      setValue('postalCode', watchAddress?.postalCode);
+    }
+  }, [watchAddress]);
 
   useEffect(() => {
-    if (
-      selectedPlace.state !== formValues.state ||
-      selectedPlace.city !== formValues.city ||
-      selectedPlace.postalCode !== formValues.postalCode
-    ) {
-      setValue('state', selectedPlace.state || '');
-      setValue('city', selectedPlace.city || '');
-      setValue('postalCode', selectedPlace.postalCode || '');
-    }
-  }, [selectedPlace, setValue, formValues]);
+    if (!address) return;
+
+    setValue('city', address?.city)
+    setValue('state', address?.state)
+    setValue('country', address?.country)
+    setValue('postalCode', address?.postalCode);
+    setValue('addressLine2', address?.addressLine2)
+    setValue('addressLine1.label', address?.addressLine1?.label);
+  }, [address]);
 
   return (
     <Accordion>
@@ -138,12 +152,12 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
                       rules={{
                         required: "This is a required field"
                       }}
-                      render={({ field, fieldState }) => (
+                      render={({ field: { value, onChange, onBlur}, fieldState }) => (
                         <GooglePlacesComponent
-                          field={field}
-                          value={selectedPlace}
+                          value={value}
+                          onBlur={onBlur}
+                          onChange={onChange}
                           error={fieldState.error}
-                          setSelectedPlace={setSelectedPlace}
                         />
                       )}
                     />
@@ -232,9 +246,9 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
                       </div>
                       <div className={style.input}>
                         <input
-                          type="number"
+                          type="text"
                           className={style.text}
-                          value={selectedPlace.postalCode}
+
                           placeholder="Enter your postcode"
                           {...registerShipping("postalCode", { required: 'This field is required!' })}
                         />

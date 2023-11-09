@@ -97,6 +97,7 @@ export interface UploadedPaintingData {
   mediums: { id: number, value: string }[];
   supports: { id: number, value: string }[];
   subjects: { id: number, value: string }[];
-  description: string;
   addedToDataBase: { addedToDataBase: string };
+  description: string;
+  paymentStatus: string;
 }

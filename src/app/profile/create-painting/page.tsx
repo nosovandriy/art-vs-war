@@ -8,7 +8,7 @@ import style from "../page.module.scss";
 import { UploadedPaintingData } from "@/types/Painting";
 import CreatePainting from "./painting-form/createPainting";
 import AdditionalInfo from "@/app/components/additional-info/additional-info";
-import { checkStatus, getPainting, getProfilePainting } from "@/utils/api";
+import { getProfilePainting } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import Loading from "@/app/loading";
 import { Statuses } from "@/types/Profile";
@@ -19,7 +19,6 @@ const CreatePaintingPage = () => {
   const [isNextStepVisible, setIsNextStepVisible] = useState(false);
   const [uploaded, setUploaded] = useState<UploadedPaintingData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [statuses, setStatuses] = useState<Statuses | null>(null);
   const [painting, setPainting] = useState<UploadedPaintingData | null>(null);
 
   const params = useParams();
@@ -28,7 +27,6 @@ const CreatePaintingPage = () => {
   useEffect(() => {
     const fetchData = async () => {
     const headers = createHeaders(user);
-    const fetchedStatuses = await checkStatus(headers);
 
     if (typeof params.slug === 'string' && pathName.includes(params.slug)) {
       const fetched = await getProfilePainting(params.slug, headers);
@@ -36,7 +34,6 @@ const CreatePaintingPage = () => {
       setPainting(fetched);
     }
 
-    setStatuses(fetchedStatuses);
     setIsFetching(false);
     };
 
@@ -54,7 +51,6 @@ const CreatePaintingPage = () => {
           <CreatePainting
             setNextStep={setIsNextStepVisible}
             setUploaded={setUploaded}
-            statuses={statuses}
             initial={painting || null}
           />
       )}
