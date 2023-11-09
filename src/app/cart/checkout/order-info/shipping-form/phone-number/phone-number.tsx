@@ -6,7 +6,7 @@ import "./phone-number.scss";
 
 type Props = {
   error: FieldError | undefined;
-  value: string;
+  value?: string;
   onChange: (phoneNumber: string) => void;
 };
 

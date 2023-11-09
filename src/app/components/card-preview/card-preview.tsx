@@ -109,7 +109,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
 
       <div className={style.buy}>
         <p className={style.buy__price}>{`€ ${price}`}</p>
-        {!isProfile && (
+        {!isProfile ? (
           isSoldPainting ? (
             <div className={style.buy__iconSold}>SOLD</div>
           ) : (
@@ -128,6 +128,10 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
               )}
             </>
           )
+        ) : (
+          isSoldPainting ? (
+            <div className={style.buy__iconSold}>SOLD</div>
+          ) : null
         )}
       </div>
     </div>

@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { ArtProcessData, PaintingData } from '@/types/Painting';
 import { Headers, ImageData, RequestParams, UserData, UserDataToSave } from '@/types/Profile';
 import {
+  AuthorShippingFormData,
+  AuthorShippingResponseData,
   MessageFormTypes,
   ShippingFormTypes,
   ShippingInfo,
@@ -592,4 +594,29 @@ export async function emailUnsubscribe(unsubscribe: any, headers: object) {
   }
 
   return response;
+}
+
+export async function getShippingAddress(headers: Headers) {
+  const { data } = await axios.get(`${BASE_URL}address/author`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
+}
+
+export async function saveShippingAddress(
+  headers: Headers,
+  shippingAddress: AuthorShippingFormData,
+) {
+  const { data } = await axios.post(`${BASE_URL}address/author`, shippingAddress, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
 }

@@ -23,6 +23,8 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
   const headers = createHeaders(user);
   const router = useRouter();
 
+  const isSoldPainting = painting?.paymentStatus === "SOLD";
+
   const getPaintingFromServer = async () => {
     const fetched = await getAuthorPaintingById(headers, params.slug);
 
@@ -156,20 +158,21 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
 
-          <div className={style.buttonContainer}>
-            <button
-              type="button"
-              className={style.buttonDelete}
-              onClick={onOpen}
-              // onClick={() => painting && handleDeletePainting(painting.prettyId)}
-            >
-              Delete
-            </button>
+          {!isSoldPainting && (
+            <div className={style.buttonContainer}>
+              <button
+                type="button"
+                className={style.buttonDelete}
+                onClick={onOpen}
+              >
+                Delete
+              </button>
 
-            <Link href={`/profile/${painting?.prettyId}/edit`} className={style.buttonEdit}>
-              Edit
-            </Link>
-          </div>
+              <Link href={`/profile/${painting?.prettyId}/edit`} className={style.buttonEdit}>
+                Edit
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -179,72 +182,6 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
         <p className={style.title}>ABOUT</p>
         <p className={style.about__description}>{painting?.description}</p>
       </div>
-
-      {/* <hr className={style.line} />
-
-      <div className={style.more}>
-        <p className={style.title}>
-          {`MORE FROM `}
-          <span>
-            <Link href={`/artists/${painting?.author.prettyId}`} className={style.link}>
-              {`${painting?.author.fullName}`}
-            </Link>
-          </span>
-        </p>
-
-        <MorePaintings prettyId={paintingsList?.prettyId} />
-      </div>
-
-      <hr className={style.line} />
-
-      <Link href={`/artists/${painting?.author.prettyId}`}>
-        <button className={style.buttonExplore}>Explore</button>
-      </Link>
-
-      <div className={style.shipping}>
-        <p className={style.title}>SHIPPING</p>
-        <div className={style.shipping__wrapper}>
-          <div className={style.shipping__info}>
-            <p>Delivery Time:</p>
-            <p>
-              Typically 5-7 business days for domestic shipments, 10-14 business
-              days for international shipments.
-            </p>
-          </div>
-          <div className={style.shipping__info}>
-            <p>Delivery Cost:</p>
-            <p>
-              Shipping is not included and will depend on chosen option of
-              delivery.
-            </p>
-          </div>
-          <div className={style.shipping__info}>
-            <p>Handling:</p>
-            <p>
-              Artists are responsible for packaging and adhering to “Art vs War”
-              packing guidelines.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <hr className={style.line} />
-
-      <div className={style.question}>
-        <p className={`${style.question__title} ${style.title}`}>
-          HAVE ADDITIONAL QUESTION?
-        </p>
-        <p className={style.question__info}>
-          Please visit our{" "}
-          <Link href="/contacts" className={style.question__help}>
-            help section
-          </Link>{" "}
-          or{" "}
-          <Link href="/contacts" className={style.question__help}>
-            contact us
-          </Link>
-        </p>
-      </div> */}
     </section>
   );
 };

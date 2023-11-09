@@ -33,27 +33,42 @@ const Account = () => {
 
   const fetchData = async () => {
     const headers = createHeaders(user);
-    const fetchedUser: CreatedAccountResponse = await getAccount(headers);
-    const fetchedAddress: ShippingResponseData[] = await getAddress(headers)
 
-    const { email, phone, firstName, lastName } = fetchedUser;
-    const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
+    try {
+      const fetchedUser: CreatedAccountResponse = await getAccount(headers);
+      const fetchedAddress: ShippingResponseData[] = await getAddress(headers);
+      const { email, phone, firstName, lastName } = fetchedUser;
 
-    setAccount({ email, phone, firstName, lastName });
-    setAddress({
-      city,
-      state,
-      country,
-      postalCode,
-      addressLine2,
-      addressLine1: { value: '', label: addressLine1, postalCode: '', state: '', city: '' },
-    });
+      setAccount({ email, phone, firstName, lastName });
 
-    setIsFetching(false);
+      if (fetchedAddress?.length) {
+        const {
+          city,
+          state,
+          country,
+          postalCode,
+          addressLine1,
+          addressLine2,
+        } = fetchedAddress[0];
+
+        setAddress({
+          city,
+          state,
+          country,
+          postalCode,
+          addressLine2,
+          addressLine1: { value: '', label: addressLine1, postalCode: '', state: '', city: '' },
+        });
+      }
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   useEffect(() => {
-
     if (!hasRole) {
       setAccount(null);
       setIsFetching(false);

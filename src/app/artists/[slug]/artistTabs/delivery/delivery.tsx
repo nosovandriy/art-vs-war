@@ -1,86 +1,96 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import ShippingForm from "@/app/account/shipping-form/shippingForm";
-import { AccountData, CreatedAccountResponse } from "@/types/Account";
+import { FC, useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import toast from "react-hot-toast";
 
 import style from './delivery.module.scss';
-import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
-import { OptionDetails, ShippingFormData, ShippingFormTypes, ShippingResponseData } from "@/types/ShippingForm";
-import { getAddressPieces } from "@/utils/account";
-import { getAccount, getAddress, saveAddress } from "@/utils/api";
-import { useForm, Controller } from "react-hook-form";
-import toast from "react-hot-toast";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+
+import {
+  AuthorShippingFormData,
+  AuthorShippingResponseData,
+} from "@/types/ShippingForm";
+
 import createHeaders from "@/utils/getAccessToken";
+import { getShippingAddress, saveShippingAddress } from "@/utils/api";
+import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
+import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
 
 const defaultPlaceState = {
-  value: { terms: [{value: ''}, {value: ''}]},
+  city: '',
+  state: '',
   label: '',
   postalCode: '',
-  state: '',
-  city: '',
+  value: { terms: [{value: ''}, {value: ''}]},
 };
 
 const Delivery: FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
 
-  const [account, setAccount] = useState<AccountData | null>(null);
-  const [address, setAddress] = useState<ShippingFormData | null>(null);
-  const [selectedPlace, setSelectedPlace] = useState<OptionDetails>(defaultPlaceState);
+  const [address, setAddress] = useState<AuthorShippingFormData | null>(null);
 
   const {
-    control: shippingControl,
-    handleSubmit: handleSubmitShipping,
-    register: registerShipping,
-    formState: { errors: errors2 },
-    reset: resetShippingform,
+    reset,
+    control,
+    register,
     setValue,
+    handleSubmit,
+    formState: { errors: errors2 },
     watch,
-  } = useForm<ShippingFormData>({
+  } = useForm<AuthorShippingFormData>({
     mode: "onTouched",
-    values: {
-      state: address?.state,
-      postalCode: address?.postalCode || '',
-      addressLine2: address?.addressLine2 || '',
-      city: address?.city || getAddressPieces(selectedPlace?.value)[0],
-      country: address?.country || getAddressPieces(selectedPlace?.value)[1],
-      addressLine1: selectedPlace || defaultPlaceState,
+    defaultValues: {
+      state: '',
+      phone: '',
+      postalCode: '',
+      addressLine2: '',
+      city: '',
+      country: '',
+      addressLine1: '',
     },
   });
 
+  const watchAddress = watch('addressLine1');
+
   const fetchData = async () => {
-    const fetchedUser: CreatedAccountResponse = await getAccount(headers);
-    const fetchedAddress: ShippingResponseData[] = await getAddress(headers)
+    try {
+      const fetchedAddress: AuthorShippingResponseData = await getShippingAddress(headers)
+      console.log(fetchedAddress)
 
-    const { email, phone, firstName, lastName } = fetchedUser;
-    const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
+      const {
+        city,
+        state,
+        phone,
+        postalCode,
+        countryCode,
+        addressLine1,
+        addressLine2,
+      } = fetchedAddress;
 
-    setAccount({ email, phone, firstName, lastName });
-    setAddress({
-      city,
-      state,
-      country,
-      postalCode,
-      addressLine2,
-      addressLine1: {
-        value: '',
-        label: addressLine1,
-        postalCode: '',
-        state: '',
-        city: '' },
-    });
-
-    setSelectedPlace(prev => ({ ...prev, label: addressLine1 }))
+      setAddress({
+        city,
+        state,
+        phone,
+        postalCode,
+        addressLine2,
+        country: countryCode,
+        addressLine1: {
+          ...defaultPlaceState,
+          label: addressLine1,
+        },
+      });
+    } catch (error) {
+      console.log('address error:', error)
+    }
   };
 
-  const handleSaveAddress = async (shippingData: ShippingFormTypes) => {
-    await saveAddress(headers, shippingData);
+  const handleSaveAddress = async (shippingData: AuthorShippingFormData) => {
+    await saveShippingAddress(headers, shippingData);
   }
 
-  const onSubmitShipping = (data: ShippingFormData) => {
-    const shippingDataTosave = account && {
+  const onSubmitShipping = (data: AuthorShippingFormData) => {
+    const shippingDataTosave = {
       ...data,
-      ...account,
       addressLine1: data.addressLine1.label,
     };
 
@@ -101,7 +111,7 @@ const Delivery: FC = () => {
   };
 
   const onReset = () => {
-    resetShippingform();
+    reset();
   };
 
   useEffect(() => {
@@ -115,26 +125,29 @@ const Delivery: FC = () => {
 
     setValue('city', address?.city)
     setValue('state', address?.state)
+    setValue('phone', address?.phone)
     setValue('country', address?.country)
     setValue('postalCode', address?.postalCode);
     setValue('addressLine2', address?.addressLine2)
-    setValue('addressLine1.label', address?.addressLine1?.label);
+    setValue('addressLine1', address?.addressLine1);
   }, [address]);
 
-  const formValues = shippingControl._defaultValues;
-
   useEffect(() => {
-    if(selectedPlace.label === formValues.addressLine1?.label) return;
+    const formValues = control._defaultValues;
+
+    if(watchAddress.label === formValues.addressLine1?.label) return;
+
     if (
-      selectedPlace.state !== formValues.state ||
-      selectedPlace.city !== formValues.city ||
-      selectedPlace.postalCode !== formValues.postalCode
+      watchAddress.state !== formValues.state ||
+      watchAddress.city !== formValues.city ||
+      watchAddress.postalCode !== formValues.postalCode
     ) {
-      setValue('state', selectedPlace.state || '');
-      setValue('city', selectedPlace.city || '');
-      setValue('postalCode', selectedPlace.postalCode || '');
+      setValue('state', watchAddress.state);
+      setValue('city', watchAddress.city);
+      setValue('postalCode', watchAddress.postalCode);
     }
-  }, [selectedPlace, setValue, formValues]);
+  }, [watchAddress]);
+
   return (
     <div>
       <div className={style.titleContainer}>
@@ -148,7 +161,7 @@ const Delivery: FC = () => {
         noValidate
         autoComplete="off"
         className={style.form}
-        onSubmit={handleSubmitShipping(onSubmitShipping)}
+        onSubmit={handleSubmit(onSubmitShipping)}
       >
         <div className={style.container}>
           <div className={`${style.label} ${style.address}`}>
@@ -160,16 +173,16 @@ const Delivery: FC = () => {
             <div className={style.input}>
               <Controller
                 name="addressLine1"
-                control={shippingControl}
+                control={control}
                 rules={{
                   required: "This is a required field"
                 }}
-                render={({ field, fieldState }) => (
+                render={({ field: { value, onBlur, onChange}, fieldState }) => (
                   <GooglePlacesComponent
-                    field={field}
-                    value={selectedPlace}
+                    value={value}
+                    onBlur={onBlur}
+                    onChange={onChange}
                     error={fieldState.error}
-                    setSelectedPlace={setSelectedPlace}
                   />
                 )}
               />
@@ -186,13 +199,37 @@ const Delivery: FC = () => {
                 type="text"
                 className={style.text}
                 placeholder="Enter your address"
-                {...registerShipping("addressLine2")}
+                {...register("addressLine2")}
               />
               {typeof errors2?.addressLine2?.message === 'string' && (
                 <div className={style.error}>{errors2.addressLine2.message}</div>
               )}
             </div>
           </label>
+
+          <label className={style.label}>
+          <div>
+            Phone number
+            <span className={style.star}>*</span>
+          </div>
+          <div className={style.input}>
+            <Controller
+              control={control}
+              name="phone"
+              defaultValue=""
+              render={({
+                field: { onChange, value },
+              }) => (
+                <>
+                  <PhoneNumber value={value} onChange={onChange} error={errors2?.phone} />
+                  {typeof errors2?.phone?.message === 'string' && (
+                    <div className={style.error}>{errors2?.phone.message}</div>
+                  )}
+                </>
+              )}
+            />
+          </div>
+        </label>
 
           <div className={style.addressContainer}>
             <div className={style.inputsContainer}>
@@ -206,7 +243,7 @@ const Delivery: FC = () => {
                     type="text"
                     className={style.text}
                     placeholder="Choose country"
-                    {...registerShipping("country", { required: 'This field is required!' })}
+                    {...register("country", { required: 'This field is required!' })}
                   />
                   {typeof errors2?.country?.message === 'string' && (
                     <div className={style.error}>{errors2.country.message}</div>
@@ -223,7 +260,7 @@ const Delivery: FC = () => {
                     type="text"
                     className={style.text}
                     placeholder="Enter state/region name"
-                    {...registerShipping("state")}
+                    {...register("state")}
                   />
                   {typeof errors2?.state?.message === 'string' && (
                     <div className={style.error}>{errors2.state.message}</div>
@@ -243,7 +280,7 @@ const Delivery: FC = () => {
                     type="text"
                     className={style.text}
                     placeholder="Enter the city name"
-                    {...registerShipping("city", { required: 'This field is required!' })}
+                    {...register("city", { required: 'This field is required!' })}
                   />
                   {typeof errors2?.city?.message === 'string' && (
                     <div className={style.error}>{errors2.city.message}</div>
@@ -258,11 +295,10 @@ const Delivery: FC = () => {
                 </div>
                 <div className={style.input}>
                   <input
-                    type="number"
+                    type="text"
                     className={style.text}
-                    value={selectedPlace.postalCode}
                     placeholder="Enter your postcode"
-                    {...registerShipping("postalCode", { required: 'This field is required!' })}
+                    {...register("postalCode", { required: 'This field is required!' })}
                   />
                   {typeof errors2?.postalCode?.message === 'string' && (
                     <div className={style.error}>{errors2.postalCode.message}</div>

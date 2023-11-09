@@ -8,13 +8,15 @@ import { MapPointIcon } from "@/app/icons/icon-map-point";
 import { Artist } from "@/types/Artist";
 
 import style from "./artistInfo.module.scss";
+import { Statuses } from "@/types/Profile";
 
 type Props = {
   artistInfo: Artist;
   isProfile?: boolean;
+  statuses?: Statuses | null;
 };
 
-const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo }) => {
+const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
   const { fullName, country, city, aboutMe, imageUrl, styles } = artistInfo;
 
   return (
@@ -22,6 +24,15 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo }) => {
       {isProfile && (
         <div className={style.titleContainer}>
           <h2 className={style.title}>Artist Profile</h2>
+        </div>
+      )}
+
+      {(isProfile &&statuses && Object.values(statuses).includes(false)) && (
+        <div className={style.subtitleContainer}>
+          <span className={style.subtitle}>To sell your paintings you need to create a </span>
+          <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
+          <span className={style.subtitle}>and fill in </span>
+          <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
         </div>
       )}
 
