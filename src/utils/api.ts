@@ -620,3 +620,30 @@ export async function saveShippingAddress(
 
   return data as AuthorShippingResponseData;
 }
+
+export async function getOrders(
+  headers: Headers,
+) {
+  const { data } = await axios.get(`${BASE_URL}orders`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function getOrderById(
+  headers: Headers,
+  id: string,
+) {
+  const { data } = await axios.get(`${BASE_URL}orders/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
