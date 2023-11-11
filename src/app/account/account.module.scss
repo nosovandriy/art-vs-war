@@ -360,11 +360,7 @@
 
 .content {
   height: 100%;
-  padding: 0;
-
-  @include laptop {
-    padding: 22px 0 0;
-  }
+  padding: 24px 0 0;
 }
 
 .accordionTitle {

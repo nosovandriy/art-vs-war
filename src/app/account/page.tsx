@@ -2,24 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Accordion, AccordionItem } from '@nextui-org/react';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import style from './account.module.scss';
-import { authenticatorStylesComponents } from '../profile/aws-authenticator-styles/aws-authenticator-styles';
 
-import { ArrowLeft } from '../icons/icon-arrow-left';
+import Loading from '../loading';
+import OrdersList from './orders/ordersList';
+import Ornament from "./account_ornament.png";
 import createHeaders from '@/utils/getAccessToken';
-import { AccountData, CreatedAccountResponse } from '@/types/Account';
 import RegistersForm from './registers-form/registersForm';
 import ShippingForm from './shipping-form/shippingForm';
-import { getUserRole } from '@/utils/account';
-import { getAccount, getAddress } from '@/utils/api';
-import Loading from '../loading';
-import Link from 'next/link';
-import { ShippingFormData, ShippingResponseData } from '@/types/ShippingForm';
 import RegistersData from './registers-form/registersData';
-import Image from 'next/image';
-import Ornament from "./account_ornament.png";
+import { getUserRole } from '@/utils/account';
+import { ArrowLeft } from '../icons/icon-arrow-left';
+import { getAccount, getAddress, getOrders } from '@/utils/api';
+import { AccountData, CreatedAccountResponse } from '@/types/Account';
+import { ArrowDownIcon } from '../icons/iconArrowUp/icon-arrow-down';
+import { ShippingFormData, ShippingResponseData } from '@/types/ShippingForm';
+import { authenticatorStylesComponents } from '../profile/aws-authenticator-styles/aws-authenticator-styles';
+import Shipping from './shipping-form/shipping';
+
+const accordionStyles = {
+  base: style.accordion,
+  title: style.accordionTitle,
+  trigger: style.accordionItem,
+  content: [style.accordionTitle, style.content],
+  indicator: style.indicator,
+};
 
 const Account = () => {
   const router = useRouter();
@@ -28,6 +40,7 @@ const Account = () => {
   const [address, setAddress] = useState<ShippingFormData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
+  const [orders, setOrders] = useState([]);
   const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
   const hasProfile = getUserRole(user, 'ROLE_AUTHOR');
 
@@ -37,9 +50,12 @@ const Account = () => {
     try {
       const fetchedUser: CreatedAccountResponse = await getAccount(headers);
       const fetchedAddress: ShippingResponseData[] = await getAddress(headers);
+      const fetchedOrders: any = await getOrders(headers);
+
       const { email, phone, firstName, lastName } = fetchedUser;
 
       setAccount({ email, phone, firstName, lastName });
+      setOrders(fetchedOrders.content);
 
       if (fetchedAddress?.length) {
         const {
@@ -149,11 +165,20 @@ const Account = () => {
               {getContent()}
 
               {account && (
-                <ShippingForm
-                  account={account}
-                  address={address}
-                  setAccount={setAccount}
-                />
+                <>
+                  <Shipping
+                    account={account}
+                    address={address}
+                    setAccount={setAccount}
+                  />
+
+                  {orders.length && (
+                    <OrdersList
+                      user={user}
+                      orders={orders}
+                    />
+                  )}
+                </>
               )}
             </div>
           </>
