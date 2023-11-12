@@ -6,6 +6,11 @@
 
   height: calc(100vh - 56px);
   margin: 0 auto;
+  max-width: 316px;
+
+  @include tablet {
+    max-width: 392px;
+  }
 
   @include laptop {
     height: calc(100vh - 96px);
@@ -15,36 +20,49 @@
 .container {
   @include set-flex(column, center, center);
 
-  height: 270px;
-  background-color: $gray-80;
   width: 100%;
-  padding: 32px;
+  padding: 32px 0;
+
+  @include laptop {
+    @include set-size(648px, 485px);
+
+    background-color: $gray-80;
+  }
+  @include desktop {
+    @include set-size(880px, 557px);
+  }
+}
+
+.containerSubscribe {
+  @include set-flex(column, center, center);
+
+  width: 100%;
+  max-width: 316px;
+  padding: 32px 0;
 
   @include tablet {
-    @include set-size(392px, 244px);
-  }
-
-  @include tabletXL {
-    @include set-size(456px, 288px);
+    max-width: 345px;
   }
 
   @include laptop {
     @include set-size(648px, 312px);
 
-    height: calc(100vh - 96px);
-  }
-  @include desktop {
-    @include set-size(656px, 360px);
+    max-width: 648px;
+    padding: 40px;
+    background-color: $gray-80;
   }
 
-  @include desktopHD {
-    @include set-size(752px, 360px);
+  @include desktop {
+    @include set-size(656px, 360px);
+
+    max-width: 656px;
   }
 }
 
 .title {
   color: $gray-0;
   font-size: $font-size-xxl;
+  text-align: center;
 
   @include tablet {
     font-size: $font-size-4xl;
@@ -59,11 +77,29 @@
   color: $gray-5;
   margin-top: 24px;
   text-align: center;
-  font-size: $font-size-lg;
 
   @include laptop {
     font-size: $font-size-xxl;
   }
+}
+
+.email {
+  color: $gray-0;
+  font-weight: $font-weight-semibold;
+}
+
+.receiveEmail {
+  text-align: center;
+  margin-top: 24px;
+  color: $gray-0;
+
+  @include laptop {
+    font-size: $font-size-lg;
+  }
+}
+
+.artVsWarEmail {
+  color: $system-info;
 }
 
 .subscribe {
@@ -79,11 +115,47 @@
     font-size: $font-size-base;
   }
 
+  @include laptop {
+    gap: 64px;
+  }
+
   &__link {
     color: $system-info;
 
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.button {
+  @include set-flex(row, center, center);
+
+  margin-top: 24px;
+  width: 328px;
+  height: 48px;
+  border-radius: 24px;
+  background-color: $gray-5;
+  border: 1px solid $gray-5;
+  color: $gray-100;
+  cursor: pointer;
+  transition-duration: 0.3s;
+
+  @include laptop {
+    @include set-square(144px);
+
+    margin-top: 32px;
+    font-size: $font-size-lg;
+    border-radius: 50%;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
+  }
+
+  &__cancel {
+    background-color: $gray-100;
+    color: $gray-0;
   }
 }
