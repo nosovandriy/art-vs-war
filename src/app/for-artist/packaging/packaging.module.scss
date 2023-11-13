@@ -1,0 +1,67 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.packaging {
+  padding: 16px 22px 200px;
+
+  @include desktop {
+    padding: 16px 130px 200px;
+  }
+
+  @include desktop {
+    padding: 40px 168px 200px;
+  }
+}
+
+.video {
+  @include set-flex(row, center, center);
+
+  color: $system-info;
+  cursor: pointer;
+  width: 198px;
+  height: 48px;
+  font-size: $font-size-lg;
+  border-bottom: 1px solid $system-info;
+}
+
+.iframe {
+  margin-top: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.accordionWrapper {
+  margin-top: 16px;
+}
+
+.accordion {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.accordionItem {
+  @include set-flex(row, space-between, center);
+  width: 100%;
+  height: 64px;
+  background-color: $gray-100;
+  border-bottom: 1px solid $gray-0;
+  outline: none;
+}
+
+.content {
+  height: 100%;
+  padding: 24px 0 0;
+}
+
+.accordionTitle {
+  font-family: $font-text;
+  color: $gray-5;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+}
+
+.indicator {
+  color: $gray-5;
+}
