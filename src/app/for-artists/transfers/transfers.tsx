@@ -6,8 +6,16 @@ const Transfers = () => {
     <div className={style.transfers}>
       <p className={style.text}>
         Art vs War has partnered with Stripe to offer you fast, convenient and reliable payments
-        using <span className={style.link}>Stripe Connect</span>. It facilitates the automation of
-        payouts to your account on a regular basis.
+        using{' '}
+        <Link
+          className={style.link}
+          href="https://stripe.com/en-be/connect"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Stripe Connect
+        </Link>
+        . It facilitates the automation of payouts to your account on a regular basis.
         <br />
         <br />
         Art vs War collects all payment for artworks upfront to be disbursed to artists once an
