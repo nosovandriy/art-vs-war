@@ -1,0 +1,78 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.packaging {
+  padding: 16px 22px 200px;
+
+  @include laptop {
+    max-width: 708px;
+  }
+
+  @include desktop {
+    padding: 16px 0 200px 130px;
+    max-width: 801px;
+  }
+
+  @include desktopHD {
+    padding: 40px 0 200px 168px;
+    max-width: 936px;
+  }
+}
+
+.video {
+  padding: 16px;
+  color: $system-info;
+  cursor: pointer;
+  font-size: $font-size-lg;
+  border-bottom: 1px solid $system-info;
+}
+
+.iframe {
+  margin-top: 24px;
+  width: 100%;
+  height: 315px;
+
+  @include tabletXL {
+    height: 415px;
+  }
+}
+
+.accordionWrapper {
+  margin-top: 16px;
+}
+
+.accordion {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.accordionItem {
+  @include set-flex(row, space-between, center);
+
+  width: 100%;
+  height: 64px;
+  background-color: $gray-100;
+  border-bottom: 1px solid $gray-0;
+  outline: none;
+}
+
+.content {
+  height: 100%;
+}
+
+.accordionTitle {
+  font-family: $font-title;
+  color: $gray-5;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-regular;
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
+}
+
+.indicator {
+  color: $gray-5;
+}
