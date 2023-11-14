@@ -3,8 +3,10 @@
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import { useState } from 'react';
 
-import style from './packaging.module.scss';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
+import { Part1, Part2, Part3 } from './parts/parts';
+
+import style from './packaging.module.scss';
 
 const accordionStyles = {
   base: style.accordion,
@@ -14,29 +16,29 @@ const accordionStyles = {
   indicator: style.indicator,
 };
 
-const parts = [
-  {
-    option: 'Part 1',
-    component: '<Transfers />',
-  },
-  {
-    option: 'Part 2',
-    component: '<Transfers />',
-  },
-  {
-    option: 'Part 3',
-    component: '<Transfers />',
-  },
-];
-
 const Packaging = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const parts = [
+    {
+      option: 'Part I',
+      component: <Part1 />,
+    },
+    {
+      option: 'Part II',
+      component: <Part2 />,
+    },
+    {
+      option: 'Part III',
+      component: <Part3 />,
+    },
+  ];
+
   return (
     <div className={style.packaging}>
-      <p className={style.video} onClick={() => setIsOpen(!isOpen)}>
+      <span className={style.video} onClick={() => setIsOpen(!isOpen)}>
         Video instruction
-      </p>
+      </span>
       {isOpen && (
         <iframe
           className={style.iframe}

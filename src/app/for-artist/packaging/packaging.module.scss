@@ -4,22 +4,25 @@
 .packaging {
   padding: 16px 22px 200px;
 
-  @include desktop {
-    padding: 16px 130px 200px;
+  @include laptop {
+    max-width: 708px;
   }
 
   @include desktop {
-    padding: 40px 168px 200px;
+    padding: 16px 0 200px 130px;
+    max-width: 801px;
+  }
+
+  @include desktopHD {
+    padding: 40px 0 200px 168px;
+    max-width: 936px;
   }
 }
 
 .video {
-  @include set-flex(row, center, center);
-
+  padding: 16px;
   color: $system-info;
   cursor: pointer;
-  width: 198px;
-  height: 48px;
   font-size: $font-size-lg;
   border-bottom: 1px solid $system-info;
 }
@@ -27,7 +30,11 @@
 .iframe {
   margin-top: 24px;
   width: 100%;
-  height: 100%;
+  height: 315px;
+
+  @include tabletXL {
+    height: 415px;
+  }
 }
 
 .accordionWrapper {
@@ -43,6 +50,7 @@
 
 .accordionItem {
   @include set-flex(row, space-between, center);
+
   width: 100%;
   height: 64px;
   background-color: $gray-100;
@@ -52,14 +60,17 @@
 
 .content {
   height: 100%;
-  padding: 24px 0 0;
 }
 
 .accordionTitle {
-  font-family: $font-text;
+  font-family: $font-title;
   color: $gray-5;
-  font-size: 16px;
+  font-size: $font-size-lg;
   font-weight: $font-weight-regular;
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
 }
 
 .indicator {
