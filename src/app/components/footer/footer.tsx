@@ -27,7 +27,7 @@ const Footer = () => {
               <Link href={"/under-development"}>
                 <li className={style.list__desktop}>For collectors</li>
               </Link>
-              <Link href={"/for-artist"}>
+              <Link href={"/for-artists"}>
                 <li className={style.list__desktop}>For artists</li>
               </Link>
               <Link href={"/under-development"}>
