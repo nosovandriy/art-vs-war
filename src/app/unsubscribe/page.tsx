@@ -27,7 +27,7 @@ const Unsubscribe = () => {
 
       const response = await emailUnsubscribe(statusValue, headers);
       if (response.ok) {
-        if (statusValue.unsubscribe === false) {
+        if (statusValue.unsubscribe) {
           setSubStatus('subscribe');
         } else {
           setSubStatus('subscribed');
@@ -50,11 +50,12 @@ const Unsubscribe = () => {
         <div className={style.unsubscribe}>
           <div className={style.container}>
             <h2 className={style.title}>Unsubscribe</h2>
-            <p className={style.subTitle}>Your Email address</p>
+            <p className={style.subTitle}>Your email address</p>
             <p className={style.email}>{email}</p>
-            <p className={style.receiveEmail}>You won&apos;t receive any more Emails from</p>
-            <span className={style.artVsWarEmail}>artvswar@gmail.com</span>
-            <button className={style.button} onClick={() => getEmailUnsubscribe(false)}>
+            <p className={style.receiveEmail}>
+              You won&apos;t receive any more Emails from Art vs War
+            </p>
+            <button className={style.button} onClick={() => getEmailUnsubscribe(true)}>
               Unsubscribe
             </button>
           </div>
@@ -70,7 +71,7 @@ const Unsubscribe = () => {
 
             <div className={style.subscribe}>
               <p className={style.subscribe__text}>Unsubscribed by accident?</p>
-              <button onClick={() => getEmailUnsubscribe(true)} className={style.subscribe__link}>
+              <button onClick={() => getEmailUnsubscribe(false)} className={style.subscribe__link}>
                 Subscribe again
               </button>
             </div>
