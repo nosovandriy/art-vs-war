@@ -20,8 +20,20 @@ import ShippingForm from './shipping-form/shipping-form';
 import style from './order-info.module.scss';
 
 const OrderInfo = () => {
+  const formDefaultValue: ShippingFormTypes = {
+    firstName: '',
+    lastName: '',
+    country: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    addressLine1: '',
+    addressLine2: '',
+    phone: '',
+  };
+
   const [activeSection, setActiveSection] = useState<CartSteps | null>(CartSteps.secondStep);
-  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>();
+  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>(formDefaultValue);
 
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useAuthenticator((context) => [context.route]);
