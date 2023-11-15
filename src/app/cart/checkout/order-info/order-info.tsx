@@ -20,20 +20,8 @@ import ShippingForm from './shipping-form/shipping-form';
 import style from './order-info.module.scss';
 
 const OrderInfo = () => {
-  const formDefaultValue: ShippingFormTypes = {
-    firstName: '',
-    lastName: '',
-    country: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    addressLine1: '',
-    addressLine2: '',
-    phone: '',
-  };
-
   const [activeSection, setActiveSection] = useState<CartSteps | null>(CartSteps.secondStep);
-  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>(formDefaultValue);
+  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>();
 
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useAuthenticator((context) => [context.route]);
@@ -55,20 +43,36 @@ const OrderInfo = () => {
     const fetchedAddress: ShippingResponseData[] = await getAddress(headers);
 
     const { phone, firstName, lastName } = fetchedUser;
-    const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
+    if (fetchedAddress[0]) {
+      const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
 
-    const accountInfo = {
-      firstName,
-      lastName,
-      country,
-      city,
-      state,
-      postalCode,
-      addressLine1,
-      addressLine2,
-      phone,
-    };
-    setDefaultValues(accountInfo);
+      const accountInfo = {
+        firstName,
+        lastName,
+        country,
+        city,
+        state,
+        postalCode,
+        addressLine1,
+        addressLine2,
+        phone,
+      };
+      setDefaultValues(accountInfo);
+    } else {
+      const formDefaultValue: ShippingFormTypes = {
+        firstName: '',
+        lastName: '',
+        country: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        addressLine1: '',
+        addressLine2: '',
+        phone: '',
+      };
+
+      setDefaultValues(formDefaultValue);
+    }
   };
 
   useEffect(() => {
