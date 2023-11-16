@@ -24,7 +24,7 @@ const Footer = () => {
           <MenuItems className={style.menuItems} />
           <div>
             <ul className={style.list}>
-              <Link href={'/for-artist'}>
+              <Link href={'/for-artists'}>
                 <li>For artists</li>
               </Link>
               <Link href={'/payment'}>
