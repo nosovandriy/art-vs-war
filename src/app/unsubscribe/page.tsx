@@ -85,7 +85,7 @@ const Unsubscribe = () => {
               Thank You<br></br> for subscribing
             </h2>
             <p className={style.receiveEmail}>
-              You have subscribed again and Your Email<br></br> {email}
+              You have subscribed again and your email<br></br> {email}
               <br></br> has been added to the mailing list
             </p>
 
