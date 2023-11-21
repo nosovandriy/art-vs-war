@@ -43,20 +43,36 @@ const OrderInfo = () => {
     const fetchedAddress: ShippingResponseData[] = await getAddress(headers);
 
     const { phone, firstName, lastName } = fetchedUser;
-    const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
+    if (fetchedAddress[0]) {
+      const { addressLine1, addressLine2, city, country, state, postalCode } = fetchedAddress[0];
 
-    const accountInfo = {
-      firstName,
-      lastName,
-      country,
-      city,
-      state,
-      postalCode,
-      addressLine1,
-      addressLine2,
-      phone,
-    };
-    setDefaultValues(accountInfo);
+      const accountInfo = {
+        firstName,
+        lastName,
+        country,
+        city,
+        state,
+        postalCode,
+        addressLine1,
+        addressLine2,
+        phone,
+      };
+      setDefaultValues(accountInfo);
+    } else {
+      const formDefaultValue: ShippingFormTypes = {
+        firstName: '',
+        lastName: '',
+        country: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        addressLine1: '',
+        addressLine2: '',
+        phone: '',
+      };
+
+      setDefaultValues(formDefaultValue);
+    }
   };
 
   useEffect(() => {

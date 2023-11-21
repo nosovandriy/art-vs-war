@@ -1,0 +1,79 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.transfers {
+  padding: 16px 22px 200px;
+
+  @include laptop {
+    @include set-flex(row);
+
+    gap: 180px;
+  }
+
+  @include desktop {
+    @include set-flex(row, center);
+
+    padding: 16px 130px 200px;
+    gap: 128px;
+  }
+
+  @include desktop {
+    padding: 40px 168px 200px;
+    gap: 144px;
+  }
+}
+
+.text {
+  color: $gray-10;
+}
+
+.link {
+  color: $system-info;
+  cursor: pointer;
+}
+
+.activationWrapper {
+  @include laptop {
+    max-width: 316px;
+  }
+
+  @include desktop {
+    max-width: 429px;
+  }
+
+  @include desktopHD {
+    max-width: 496px;
+  }
+}
+
+.activation {
+  margin-top: 24px;
+  font-weight: $font-weight-semibold;
+  color: $gray-5;
+
+  @include laptop {
+    margin-top: 0;
+  }
+}
+
+.note {
+  color: $system-warning;
+}
+
+.guide {
+  &__stepDesktop {
+    display: none;
+
+    @include laptop {
+      display: inline;
+    }
+  }
+
+  &__stepMobile {
+    cursor: pointer;
+
+    @include laptop {
+      display: none;
+    }
+  }
+}

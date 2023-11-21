@@ -1,5 +1,5 @@
-@import "@styles/mixins.scss";
-@import "@styles/vars.scss";
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
 
 .lines {
   @include set-flex(column);
@@ -154,7 +154,16 @@
 }
 
 .list {
-  display: none;
+  @include set-flex(row, center);
+  flex-wrap: wrap;
+  max-width: 328px;
+  gap: 20px;
+  margin-top: 32px;
+
+  & > :hover {
+    font-weight: $font-weight-base;
+    text-decoration: underline;
+  }
 
   @include tablet {
     @include set-flex(column, flex-end, flex-end);
@@ -169,14 +178,6 @@
 
   @include desktop {
     min-width: 301px;
-  }
-
-  &__desktop {
-    display: none;
-
-    @include laptop {
-      display: block;
-    }
   }
 }
 
