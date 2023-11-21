@@ -373,3 +373,50 @@
 .indicator {
   color: $gray-5;
 }
+
+.containerPhone {
+  border: none !important;
+  cursor: default !important;
+  background-color: transparent !important;
+}
+
+.inputPhone {
+  height: 48px !important;
+  width: 100% !important;
+  background: #161717 !important;
+  border: none !important;
+  cursor: default !important;
+  color: $gray-0 !important;
+  font-family: $font-text !important;
+  font-size: $font-size-base !important;
+  line-height: $line-height-base !important;
+  font-weight: $font-weight-regular !important;
+  text-align: start;
+  outline: none;
+}
+
+// .buttonPhone {
+//   border: none !important;
+//   outline: none !important;
+
+//   &:hover {
+//     cursor: default !important;
+//   }
+// }
+
+.buttonPhone {
+  pointer-events: none;
+  background: #161717 !important;
+  background-color: #161717 !important;
+  border: none !important;
+  outline: none !important;
+  cursor: default !important;
+
+  &:last-child {
+    background: #161717 !important;
+    background-color: #161717 !important;
+    border: none !important;
+    outline: none !important;
+    cursor: default !important;
+  }
+}

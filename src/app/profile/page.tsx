@@ -28,6 +28,7 @@ import {
   getProfile,
 } from "@/utils/api";
 import { Statuses } from "@/types/Profile";
+import EditProfile from "./edit-profile/profile-form/editProfile";
 
 const Profile = () => {
   const { user } = useAuthenticator((context) => [context.user]);
@@ -103,7 +104,7 @@ const Profile = () => {
       >
         {isFetching && <Loading />}
 
-        {author && (
+        {author ? (
           <>
             <ArtistInfo
               isProfile
@@ -112,6 +113,8 @@ const Profile = () => {
             />
             <ArtistTabs />
           </>
+        ) : (
+          <EditProfile author={author} setAuthor={setAuthor} />
         )}
       </Authenticator>
     </section>

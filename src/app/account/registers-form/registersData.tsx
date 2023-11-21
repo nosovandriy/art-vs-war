@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
+import './registers.scss'
 import style from '../account.module.scss'
 
 import { AccountData } from '@/types/Account';
-// import { LogoutIcon } from '@/app/icons/icon-logout';
+import PhoneInput from 'react-phone-input-2';
 
 type Props = {
   account: AccountData;
@@ -37,9 +38,19 @@ const RegistersData: FC<Props> = ({ account, setIsOpenForm }) => {
         <div className={style.dataContainer}>
           <div>Phone number</div>
           <div className={style.input}>
-            <div className={style.inputData}>
+              <PhoneInput
+                value={phone}
+                excludeCountries={["ru", "by"]}
+                country={"ua"}
+                disabled
+                disableDropdown
+                containerClass={style.containerPhone}
+                buttonClass={style.buttonPhone}
+                inputClass={style.inputPhone}
+              />
+            {/* <div className={style.inputData}>
               {phone}
-            </div>
+            </div> */}
           </div>
         </div>
 
