@@ -245,7 +245,10 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>Submit</button>
-          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+
+          {address && (
+            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+          )}
         </div>
       </div>
     </form>
