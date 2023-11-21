@@ -24,7 +24,7 @@ type Props = {
 }
 
 const Shipping: FC<Props> = ({ account, setAccount, address }) => {
-  const [isOpenForm, setIsOpenForm] = useState(false);
+  const [isOpenForm, setIsOpenForm] = useState(true);
 
   return (
     <Accordion>
@@ -35,10 +35,18 @@ const Shipping: FC<Props> = ({ account, setAccount, address }) => {
         classNames={accordionStyles}
         indicator={<ArrowDownIcon />}
       >
-        {(address && !isOpenForm)
-          ? <ShippingData address={address} setIsOpenForm={setIsOpenForm} />
-          : <ShippingForm address={address} account={account} setAccount={setAccount} />
-        }
+        {(address && !isOpenForm) && (
+          <ShippingData address={address} setIsOpenForm={setIsOpenForm} />
+        )}
+
+        {isOpenForm && (
+            <ShippingForm
+              address={address}
+              account={account}
+              setAccount={setAccount}
+              setIsOpenForm={setIsOpenForm}
+            />
+        )}
       </AccordionItem>
     </Accordion>
 )};

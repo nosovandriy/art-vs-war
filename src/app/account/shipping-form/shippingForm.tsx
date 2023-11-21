@@ -22,13 +22,14 @@ const defaultPlaceState = {
 type Props = {
   account: AccountData | null;
   address: ShippingFormData | null;
+  setIsOpenForm: Dispatch<SetStateAction<boolean>>;
   setAccount: Dispatch<SetStateAction<AccountData | null>> | null;
 }
 
-const ShippingForm: FC<Props> = ({ account, address }) => {
+const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
-  const [isOpenForm, setIsOpenForm] = useState(false);
+  // const [isOpenForm, setIsOpenForm] = useState(false);
 
   const {
     control: shippingControl,
@@ -40,14 +41,14 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
     watch,
   } = useForm<ShippingFormData>({
     mode: "onTouched",
-    defaultValues: {
-      addressLine1: defaultPlaceState,
-      addressLine2: '',
-      city: '',
-      state: '',
-      country: '',
-      postalCode: '',
-    },
+    // defaultValues: {
+    //   addressLine1: defaultPlaceState,
+    //   addressLine2: '',
+    //   city: '',
+    //   state: '',
+    //   country: '',
+    //   postalCode: '',
+    // },
   });
 
   const watchAddress = watch('addressLine1');
@@ -98,20 +99,22 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
   useEffect(() => {
     const formValues = shippingControl._defaultValues;
 
-    if(watchAddress.label === formValues.addressLine1?.label) return;
+    if(watchAddress?.label === formValues?.addressLine1?.label) return;
 
     if (
-      watchAddress.state !== formValues.state ||
       watchAddress.city !== formValues.city ||
+      watchAddress.state !== formValues.state ||
+      watchAddress.country !== formValues.country ||
       watchAddress.postalCode !== formValues.postalCode
     ) {
-      setValue('state', watchAddress.state);
       setValue('city', watchAddress.city);
+      setValue('state', watchAddress.state);
+      setValue('country', watchAddress.country)
       setValue('postalCode', watchAddress.postalCode);
     }
   }, [watchAddress]);
 
-  return (address && !isOpenForm) && (
+  return (
     <form
       noValidate
       autoComplete="off"
@@ -242,7 +245,10 @@ const ShippingForm: FC<Props> = ({ account, address }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>Submit</button>
-          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+
+          {address && (
+            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+          )}
         </div>
       </div>
     </form>

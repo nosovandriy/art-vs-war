@@ -171,7 +171,10 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>{account ? 'Update' : 'Submit'}</button>
-          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+
+          {account && (
+            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+          )}
         </div>
       </div>
     </form>

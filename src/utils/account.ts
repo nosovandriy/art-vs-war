@@ -34,8 +34,8 @@ export const getUserRole = (user: any, role: string) => {
 
   const decoded: any = token && jwt_decode(token)
   const roles = 'cognito:groups';
-  const hasUserRoles = decoded.hasOwnProperty(roles);
-  const hasRole = hasUserRoles && decoded[roles].includes(role);
+  const hasUserRoles = decoded?.hasOwnProperty(roles);
+  const hasRole = hasUserRoles && decoded[roles]?.includes(role);
 
   return hasRole;
 }
@@ -53,7 +53,14 @@ export function getRegistrationLink(user: AmplifyUser) {
   }
 }
 
-export const getPlaceDetails = (placeId: string): Promise<{ postalCode: string | undefined, state: string | undefined, city: string | undefined }> => {
+interface PlaceDetails {
+  postalCode: string | undefined,
+  state: string | undefined,
+  city: string | undefined,
+  country: string | undefined,
+}
+
+export const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
   return new Promise((resolve) => {
     const service = new google.maps.places.PlacesService(document.createElement("div"));
 
@@ -71,15 +78,18 @@ export const getPlaceDetails = (placeId: string): Promise<{ postalCode: string |
             (component) => component.types.includes("administrative_area_level_1")
           )?.long_name;
 
-          // Prioritize locality for city information
           const city = place?.address_components?.find(
             (component) => component.types.includes("locality")
           )?.long_name || place?.name;
 
-          resolve({ postalCode, state, city });
+          const country = place?.address_components?.find(
+            (component) => component.types.includes("country")
+          )?.long_name || place?.name;
+
+          resolve({ postalCode, state, city, country });
         } else {
           console.error("Error fetching place details:", status);
-          resolve({ postalCode: undefined, state: undefined, city: undefined });
+          resolve({ postalCode: undefined, state: undefined, city: undefined, country: undefined });
         }
       }
     );

@@ -55,7 +55,6 @@ const Delivery: FC = () => {
   const fetchData = async () => {
     try {
       const fetchedAddress: AuthorShippingResponseData = await getShippingAddress(headers)
-      console.log(fetchedAddress)
 
       const {
         city,
@@ -138,12 +137,14 @@ const Delivery: FC = () => {
     if(watchAddress.label === formValues.addressLine1?.label) return;
 
     if (
-      watchAddress.state !== formValues.state ||
       watchAddress.city !== formValues.city ||
+      watchAddress.state !== formValues.state ||
+      watchAddress.country !== formValues.country ||
       watchAddress.postalCode !== formValues.postalCode
     ) {
-      setValue('state', watchAddress.state);
       setValue('city', watchAddress.city);
+      setValue('state', watchAddress.state);
+      setValue('country', watchAddress.country);
       setValue('postalCode', watchAddress.postalCode);
     }
   }, [watchAddress]);
