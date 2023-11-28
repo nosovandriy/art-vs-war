@@ -29,7 +29,6 @@ type Props = {
 const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
-  // const [isOpenForm, setIsOpenForm] = useState(false);
 
   const {
     control: shippingControl,
@@ -41,14 +40,14 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
     watch,
   } = useForm<ShippingFormData>({
     mode: "onTouched",
-    // defaultValues: {
-    //   addressLine1: defaultPlaceState,
-    //   addressLine2: '',
-    //   city: '',
-    //   state: '',
-    //   country: '',
-    //   postalCode: '',
-    // },
+    defaultValues: {
+      addressLine1: address?.addressLine1 || defaultPlaceState,
+      addressLine2: address?.addressLine2 || '',
+      city: address?.city || '',
+      state: address?.state || '',
+      country: address?.country || '',
+      postalCode: address?.postalCode || '',
+    },
   });
 
   const watchAddress = watch('addressLine1');
@@ -89,32 +88,12 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
   };
 
   useEffect(() => {
-    if (!address) return;
+    if(!watchAddress?.city) return;
 
-    setValue('city', address.city)
-    setValue('state', address.state)
-    setValue('country', address.country)
-    setValue('postalCode', address.postalCode);
-    setValue('addressLine2', address.addressLine2)
-    setValue('addressLine1', { ...watchAddress, label: address.addressLine1.label });
-  }, [address]);
-
-  useEffect(() => {
-    const formValues = shippingControl._defaultValues;
-
-    if(watchAddress?.label === formValues?.addressLine1?.label) return;
-
-    if (
-      watchAddress.city !== formValues.city ||
-      watchAddress.state !== formValues.state ||
-      watchAddress.country !== formValues.country ||
-      watchAddress.postalCode !== formValues.postalCode
-    ) {
-      setValue('city', watchAddress.city);
-      setValue('state', watchAddress.state);
-      setValue('country', watchAddress.country)
-      setValue('postalCode', watchAddress.postalCode);
-    }
+    setValue('city', watchAddress.city);
+    setValue('state', watchAddress.state);
+    setValue('country', watchAddress.country);
+    setValue('postalCode', watchAddress.postalCode);
   }, [watchAddress]);
 
   return (

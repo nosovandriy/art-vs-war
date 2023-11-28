@@ -29,8 +29,6 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
     if (newValue) {
       const details = await getPlaceDetails(newValue?.value?.place_id);
 
-      console.log('details', details)
-
       const foundAddress = {
         value: newValue?.value,
         label: getSlicedAdress(newValue.label) || '',
@@ -40,7 +38,7 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
         city: details?.city || '',
       }
 
-      onChange(foundAddress);
+      onChange(foundAddress)
     }
   }
 
