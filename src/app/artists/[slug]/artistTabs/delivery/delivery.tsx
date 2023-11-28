@@ -152,7 +152,7 @@ const Delivery: FC = () => {
               <span className={style.star}>*</span>
             </div>
 
-            <div className={style.input}>
+            <div className={`${style.input} ${errors2?.addressLine1 ? style.inputError : ""}`}>
               <Controller
                 name="addressLine1"
                 control={control}
@@ -164,10 +164,13 @@ const Delivery: FC = () => {
                     value={value}
                     onBlur={onBlur}
                     onChange={onChange}
-                    error={fieldState.error}
                   />
                 )}
               />
+
+              {typeof errors2?.addressLine1?.message === 'string' && (
+                <div className={style.error}>{errors2.addressLine1.message}</div>
+              )}
             </div>
           </div>
 
@@ -199,6 +202,7 @@ const Delivery: FC = () => {
               control={control}
               name="phone"
               defaultValue=""
+              rules={{ required: "This field is required!" }}
               render={({
                 field: { onChange, value },
               }) => (
@@ -220,7 +224,7 @@ const Delivery: FC = () => {
                   Country
                   <span className={style.star}>*</span>
                 </div>
-                <div className={style.input}>
+                <div className={`${style.input} ${errors2?.country ? style.inputError : ""}`}>
                   <input
                     type="text"
                     className={style.text}
@@ -257,7 +261,7 @@ const Delivery: FC = () => {
                   City
                   <span className={style.star}>*</span>
                 </div>
-                <div className={style.input}>
+                <div className={`${style.input} ${errors2?.city ? style.inputError : ""}`}>
                   <input
                     type="text"
                     className={style.text}
@@ -275,7 +279,7 @@ const Delivery: FC = () => {
                   Postcode
                   <span className={style.star}>*</span>
                 </div>
-                <div className={style.input}>
+                <div className={`${style.input} ${errors2?.postalCode ? style.inputError : ""}`}>
                   <input
                     type="text"
                     className={style.text}

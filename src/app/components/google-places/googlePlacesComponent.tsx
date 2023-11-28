@@ -10,7 +10,7 @@ import { Option } from "react-google-places-autocomplete/build/types";
 import { getPlaceDetails } from "@/utils/account";
 
 interface GooglePlacesComponentProps {
-  error: FieldError | undefined;
+  error?: FieldError | undefined;
   value: OptionDetails;
   onBlur: Noop;
   onChange:  Dispatch<SetStateAction<OptionDetails>>;
@@ -67,7 +67,7 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
           },
         }}
       />
-      {error && <div style={{ color: "red" }}>{error.message}</div>}
+      {error && <div style={{ color: "#d32b10", fontSize: 10 }}>{error.message}</div>}
     </div>
   )
 };
