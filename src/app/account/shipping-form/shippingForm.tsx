@@ -67,8 +67,8 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
     shippingDataTosave && toast.promise(
       handleSaveAddress(shippingDataTosave),
       {
-        loading: 'Creating account...',
-        success: <b>Account created!</b>,
+        loading: 'Creating address...',
+        success: <b>Address created!</b>,
         error: <b>Could not create.</b>,
       }, {
         style: {
@@ -82,7 +82,10 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
 
   const onReset = () => {
     resetShippingform();
-    setIsOpenForm(false);
+
+    if (address) {
+      setIsOpenForm(false);
+    };
   };
 
   useEffect(() => {
@@ -157,7 +160,16 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
               type="text"
               className={style.text}
               placeholder="Enter your address"
-              {...registerShipping("addressLine2")}
+              {...registerShipping("addressLine2", {
+                pattern: {
+                  value: /^[A-Za-z0-9\s/'-]+$/,
+                  message: "Should contain only Latin letters, digits, spaces, /, -, '",
+                },
+                maxLength: {
+                  value: 40,
+                  message: "Must be at most 40 characters",
+                },
+              })}
             />
             {typeof errors2?.addressLine2?.message === 'string' && (
               <div className={style.error}>{errors2.addressLine2.message}</div>
@@ -177,7 +189,21 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
                   type="text"
                   className={style.text}
                   placeholder="Choose country"
-                  {...registerShipping("country", { required: 'This field is required!' })}
+                  {...registerShipping("country", {
+                    required: "This field is required!",
+                    minLength: {
+                      value: 1,
+                      message: "Must be at least 1 character",
+                    },
+                    maxLength: {
+                      value: 56,
+                      message: "Must be at most 56 characters",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z\s/'-]+$/,
+                      message: "Should contain only Latin letters, space, /, -, '",
+                    },
+                  })}
                 />
                 {typeof errors2?.country?.message === 'string' && (
                   <div className={style.error}>{errors2.country.message}</div>
@@ -194,7 +220,20 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
                   type="text"
                   className={style.text}
                   placeholder="Enter state/region name"
-                  {...registerShipping("state")}
+                  {...registerShipping("state", {
+                    minLength: {
+                      value: 1,
+                      message: "Must be at least 1 character",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Must be at most 50 characters",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z\s/'-]+$/,
+                      message: "Should contain only Latin letters, space, /, -, '",
+                    },
+                  })}
                 />
                 {typeof errors2?.state?.message === 'string' && (
                   <div className={style.error}>{errors2.state.message}</div>
@@ -214,7 +253,21 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
                   type="text"
                   className={style.text}
                   placeholder="Enter the city name"
-                  {...registerShipping("city", { required: 'This field is required!' })}
+                  {...registerShipping("city", {
+                    required: "This field is required!",
+                    minLength: {
+                      value: 1,
+                      message: "Must be at least 1 character",
+                    },
+                    maxLength: {
+                      value: 40,
+                      message: "Must be at most 56 characters",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z\s/'-]+$/,
+                      message: "Should contain only Latin letters, space, /, -, '",
+                    },
+                  })}
                 />
                 {typeof errors2?.city?.message === 'string' && (
                   <div className={style.error}>{errors2.city.message}</div>
@@ -233,7 +286,21 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
                   className={style.text}
 
                   placeholder="Enter your postcode"
-                  {...registerShipping("postalCode", { required: 'This field is required!' })}
+                  {...registerShipping("postalCode", {
+                    required: "This field is required!",
+                    pattern: {
+                      value: /^[A-Za-z0-9\s-]+$/,
+                      message: "Should contain only Latin letters, digits, space, -",
+                    },
+                    minLength: {
+                      value: 4,
+                      message: "Must be at least 4 characters",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Must be at most 10 characters",
+                    },
+                  })}
                 />
                 {typeof errors2?.postalCode?.message === 'string' && (
                   <div className={style.error}>{errors2.postalCode.message}</div>
@@ -245,10 +312,7 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>Submit</button>
-
-          {address && (
-            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
-          )}
+          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
         </div>
       </div>
     </form>

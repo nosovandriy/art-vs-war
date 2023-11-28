@@ -12,15 +12,16 @@
 }
 
 .title {
-	margin-bottom: 20px;
 	color: $gray-0;
-  font-size: $font-size-xxl;
-  line-height: $line-height-xxl;
+  font-size: $font-size-lg;
   font-family: $font-title;
 
+  @include tablet{
+    font-size: $font-size-xl;
+  }
+
   @include laptop {
-    font-size: $font-size-huge;
-    line-height: $line-height-huge;
+    font-size: $font-size-4xl;
   }
 }
 

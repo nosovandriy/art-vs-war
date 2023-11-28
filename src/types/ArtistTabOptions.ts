@@ -1,6 +1,6 @@
 export enum ArtistTabOptions {
   artworks = "Artworks",
-  // collections = "Collections",
+  collections = "Collections",
   artProcess = "Art Process",
   delivery = "Delivery",
   payment = "Payment",

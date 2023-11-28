@@ -11,7 +11,7 @@ import {
 } from "@/types/ShippingForm";
 
 import createHeaders from "@/utils/getAccessToken";
-import { getShippingAddress, saveShippingAddress } from "@/utils/api";
+import { getShippingAddress, saveShippingAddress, updateShippingAddress } from "@/utils/api";
 import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
 import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
 
@@ -26,7 +26,6 @@ const defaultPlaceState = {
 const Delivery: FC = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
-
   const [address, setAddress] = useState<AuthorShippingFormData | null>(null);
 
   const {
@@ -61,23 +60,20 @@ const Delivery: FC = () => {
         state,
         phone,
         postalCode,
-        countryCode,
+        authorCountry,
         addressLine1,
         addressLine2,
       } = fetchedAddress;
 
-      setAddress({
-        city,
-        state,
-        phone,
-        postalCode,
-        addressLine2,
-        country: countryCode,
-        addressLine1: {
-          ...defaultPlaceState,
-          label: addressLine1,
-        },
-      });
+        setValue('city', city)
+        setValue('state', state)
+        setValue('phone', phone)
+        setValue('country', authorCountry)
+        setValue('postalCode', postalCode);
+        setValue('addressLine2', addressLine2)
+        setValue('addressLine1', { ...defaultPlaceState, label: addressLine1 });
+
+        setAddress({ ...fetchedAddress, country: authorCountry });
     } catch (error) {
       console.log('address error:', error)
     }
@@ -85,7 +81,11 @@ const Delivery: FC = () => {
 
   const handleSaveAddress = async (shippingData: AuthorShippingFormData) => {
     await saveShippingAddress(headers, shippingData);
-  }
+  };
+
+  const handleUpdateAddress = async (shippingData: AuthorShippingFormData) => {
+    await updateShippingAddress(headers, shippingData);
+  };
 
   const onSubmitShipping = (data: AuthorShippingFormData) => {
     const shippingDataTosave = {
@@ -94,11 +94,13 @@ const Delivery: FC = () => {
     };
 
     shippingDataTosave && toast.promise(
-      handleSaveAddress(shippingDataTosave),
+      address
+        ? handleUpdateAddress(shippingDataTosave)
+        : handleSaveAddress(shippingDataTosave),
       {
-        loading: 'Creating account...',
-        success: <b>Account created!</b>,
-        error: <b>Could not create.</b>,
+        loading: address ? 'Updating address...' : 'Creating address...',
+        success: address ? <b>Address updated!</b> : <b>Address created!</b>,
+        error: address ? <b>Could not udpate.</b> : <b>Could not create.</b>,
       }, {
         style: {
           borderRadius: '10px',
@@ -120,33 +122,12 @@ const Delivery: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!address) return;
+    if(!watchAddress.city) return;
 
-    setValue('city', address?.city)
-    setValue('state', address?.state)
-    setValue('phone', address?.phone)
-    setValue('country', address?.country)
-    setValue('postalCode', address?.postalCode);
-    setValue('addressLine2', address?.addressLine2)
-    setValue('addressLine1', address?.addressLine1);
-  }, [address]);
-
-  useEffect(() => {
-    const formValues = control._defaultValues;
-
-    if(watchAddress.label === formValues.addressLine1?.label) return;
-
-    if (
-      watchAddress.city !== formValues.city ||
-      watchAddress.state !== formValues.state ||
-      watchAddress.country !== formValues.country ||
-      watchAddress.postalCode !== formValues.postalCode
-    ) {
-      setValue('city', watchAddress.city);
-      setValue('state', watchAddress.state);
-      setValue('country', watchAddress.country);
-      setValue('postalCode', watchAddress.postalCode);
-    }
+    setValue('city', watchAddress.city);
+    setValue('state', watchAddress.state);
+    setValue('country', watchAddress.country);
+    setValue('postalCode', watchAddress.postalCode);
   }, [watchAddress]);
 
   return (

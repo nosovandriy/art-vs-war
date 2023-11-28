@@ -27,12 +27,30 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
         </div>
       )}
 
-      {(isProfile &&statuses && Object.values(statuses).includes(false)) && (
+      {(isProfile && statuses) && (
         <div className={style.subtitleContainer}>
-          <span className={style.subtitle}>To sell your paintings you need to create a </span>
-          <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
-          <span className={style.subtitle}>and fill in </span>
-          <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
+          {(!statuses.hasStripeProfile && !statuses.hasAddress) && (
+            <>
+              <span className={style.subtitle}>To sell your paintings you need to create a </span>
+              <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
+              <span className={style.subtitle}>and fill in </span>
+              <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
+            </>
+          )}
+
+          {(!statuses.hasStripeProfile && statuses.hasAddress) && (
+            <>
+              <span className={style.subtitle}>To sell your paintings you need to create a </span>
+              <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
+            </>
+          )}
+
+          {(statuses.hasStripeProfile && !statuses.hasAddress) && (
+            <>
+              <span className={style.subtitle}>To sell your paintings you need to fill in the </span>
+              <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
+            </>
+          )}
         </div>
       )}
 
