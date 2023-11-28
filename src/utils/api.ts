@@ -621,6 +621,20 @@ export async function saveShippingAddress(
   return data as AuthorShippingResponseData;
 }
 
+export async function updateShippingAddress(
+  headers: Headers,
+  shippingAddress: AuthorShippingFormData,
+) {
+  const { data } = await axios.put(`${BASE_URL}address/author`, shippingAddress, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
+}
+
 export async function getOrders(
   headers: Headers,
 ) {

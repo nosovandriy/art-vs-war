@@ -20,8 +20,7 @@ import {
   PaintingForm,
   UploadedPaintingData,
 } from "@/types/Painting";
-import { ImageData, Statuses } from "@/types/Profile";
-import Link from "next/link";
+import { ImageData } from "@/types/Profile";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
@@ -51,6 +50,7 @@ const CreatePainting: FC<Props> = ({
       supportIds: [],
       subjectIds: [],
     },
+    mode: 'onTouched',
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -237,6 +237,7 @@ const CreatePainting: FC<Props> = ({
               type="file"
               className={style.file__input}
               {...register("image", {
+                required: "Image is required!",
                 validate: (inputValue) => {
                   if (inputValue.hasOwnProperty('publicId')) {
                     return true;
@@ -282,6 +283,15 @@ const CreatePainting: FC<Props> = ({
                   placeholder="Painting title"
                   {...register("title", {
                     required: "This field is required!",
+                    maxLength: {
+                      value: 40,
+                      message: "Must be between 1 and 40 character",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z\d\s\-',!\/]+$/,
+                      message:
+                        "Title accepts only Latin, digits,  space, ', !, / and -",
+                    },
                   })}
                 />
 
@@ -306,6 +316,19 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("yearOfCreation", {
                         required: "This field is required!",
+                        min: {
+                          value: 1000,
+                          message: 'Min value for year of creation must be 1000',
+                        },
+                        pattern: {
+                          value: /^\d{4}$/,
+                          message: "Should be a 4-digit number",
+                        },
+                        validate: (value) => {
+                          const currentYear = new Date().getFullYear();
+
+                          return parseInt(value.toString()) <= currentYear || "Year cannot be greater than the current year"
+                        },
                       })}
                     />
 
@@ -330,6 +353,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("weight", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min weight is 1g",
+                        },
+                        max: {
+                          value: 99999,
+                          message: "Max weight is 10000g",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -353,6 +386,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("width", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min width is 1 cm",
+                        },
+                        max: {
+                          value: 200,
+                          message: "Max width is 200 cm",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -375,6 +418,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("height", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min height is 1 cm",
+                        },
+                        max: {
+                          value: 200,
+                          message: "Max height is 200 cm",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -398,9 +451,9 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("depth", {
                         required: "This field is required!",
-                        max: {
-                          value: 9.9,
-                          message: "Max value allowed 9.9",
+                        pattern: {
+                          value: /^[1-9]\.\d$/,
+                          message: "Should be in the format _._ and between 1.0cm and 9.9cm",
                         },
                       })}
                     />
@@ -579,6 +632,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("price", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Must be at least 1 character",
+                        },
+                        max: {
+                          value: 99999,
+                          message: "Price must have maximum 5 number of digits without cents"
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer, without cents",
                       })}
                     />
 
@@ -608,6 +671,14 @@ const CreatePainting: FC<Props> = ({
             placeholder="Write some description about the painting"
             {...register("description", {
               required: "This field is required!",
+              maxLength: {
+                value: 1000,
+                message: "Must be at most 1000 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z0-9\s!@#$%^&*(),.?":{}|<>]+$/,
+                message: "Only Latin letters, digits, and special symbols are allowed",
+              },
             })}
           />
         </label>
