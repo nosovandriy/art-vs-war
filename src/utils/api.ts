@@ -42,7 +42,7 @@ export async function getGeneralProjectData() {
 }
 
 export async function getPaintings(params: string = '') {
-  const response = await fetch(`${BASE_URL}paintings/search?${params}`, {
+  const response = await fetch(`${BASE_URL}paintings/seafrch?${params}`, {
     cache: 'no-store',
   });
   if (!response.ok) {
