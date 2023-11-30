@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import React, { useEffect, useState } from "react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useWindowSize } from "react-use";
 
-import style from "./artistTabs.module.scss";
+import style from './artistTabs.module.scss';
 
-import { AddIcon } from "@/app/icons/icon-add";
-import { ArtistTabOptions } from "@/types/ArtistTabOptions";
-import { renderItem, tabs } from "@/utils/artistTabs";
-import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
+import { AddIcon } from '@/app/icons/icon-add';
+import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
+import { ArtistTabOptions } from '@/types/ArtistTabOptions';
+import { renderItem, tabs } from '@/utils/artistTabs';
 
 const accordionStyles = {
   base: style.accordion,
@@ -23,10 +24,13 @@ const accordionStyles = {
 const ArtistTabs = () => {
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
   const [openTab, setOpenTab] = useState<ArtistTabOptions | null>(null);
+  const { width } = useWindowSize();
   const pathname = usePathname();
-  const isProfile = pathname === "/profile";
+  const isProfile = pathname === '/profile';
 
   const renderTabs = isProfile ? tabs : tabs.filter((_, index) => index <= 2);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const onTabSelect = (tab: ArtistTabOptions) => {
     if (tab === openTab) {
@@ -36,30 +40,45 @@ const ArtistTabs = () => {
     }
   };
 
+  const handleSetSelectedTab = (option: ArtistTabOptions) => {
+    setSelectedTab(option);
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', option);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab) {
+      setSelectedTab(tab as ArtistTabOptions);
+    }
+  }, []);
+
   return (
     <>
       <div className={style.tabs}>
-        <Accordion className={style.accordion}>
-          {renderTabs.map(({ option, component }) => (
-            <AccordionItem
-              key={option}
-              aria-label={option}
-              title={option}
-              classNames={accordionStyles}
-              indicator={<ArrowDownIcon isRotated={option === openTab} />}
-              onPressStart={() => onTabSelect(option)}
-            >
-              {component}
-            </AccordionItem>
-          ))}
-        </Accordion>
+        {width < 1024 && (
+          <Accordion>
+            {renderTabs.map(({ option, component }) => (
+              <AccordionItem
+                key={option}
+                aria-label={option}
+                title={option}
+                classNames={accordionStyles}
+                indicator={<ArrowDownIcon />}
+              >
+                {component}
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
 
         <div className={style.container}>
           {renderTabs.map(({ option }) => (
             <div
               key={option}
               className={option === selectedTab ? style.isActive : style.tab}
-              onClick={() => setSelectedTab(option)}
+              onClick={() => handleSetSelectedTab(option)}
             >
               {option}
             </div>

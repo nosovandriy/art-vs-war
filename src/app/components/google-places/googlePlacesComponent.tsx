@@ -1,93 +1,58 @@
-import { useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { FC, useRef, Dispatch, SetStateAction } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-import { FieldError, ControllerRenderProps } from "react-hook-form";
+import { FieldError, Noop } from "react-hook-form";
 
 import { selectStyles } from "./styles";
 
-import { OptionDetails, ShippingFormData } from "@/types/ShippingForm";
+import { OptionDetails } from "@/types/ShippingForm";
+import { SingleValue } from "react-select";
+import { Option } from "react-google-places-autocomplete/build/types";
+import { getPlaceDetails } from "@/utils/account";
 
 interface GooglePlacesComponentProps {
-  error: FieldError | undefined;
+  error?: FieldError | undefined;
   value: OptionDetails;
-  field: ControllerRenderProps<ShippingFormData, "addressLine1">;
-  setSelectedPlace:  Dispatch<SetStateAction<OptionDetails>>;
+  onBlur: Noop;
+  onChange:  Dispatch<SetStateAction<OptionDetails>>;
 }
 
-const GooglePlacesComponent: React.FC<GooglePlacesComponentProps> = ({ field, error, setSelectedPlace, value }) => {
+const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
+  error,
+  value,
+  onBlur,
+  onChange,
+}) => {
   const getSlicedAdress = (value: string) => value.split(', ').slice(0, 2).join(', ');
-   const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
-   const getPlaceDetails = (placeId: string): Promise<{ postalCode: string | undefined, state: string | undefined, city: string | undefined }> => {
-    return new Promise((resolve) => {
-      const service = new google.maps.places.PlacesService(document.createElement("div"));
+  const onChangeValue = async (newValue: SingleValue<Option>) => {
+    if (newValue) {
+      const details = await getPlaceDetails(newValue?.value?.place_id);
 
-      service.getDetails(
-        {
-          placeId,
-          fields: ["address_component", "name"],
-        },
-        (place, status) => {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            const postalCode = place?.address_components?.find(
-              (component) => component.types.includes("postal_code")
-            )?.long_name;
-            const state = place?.address_components?.find(
-              (component) => component.types.includes("administrative_area_level_1")
-            )?.long_name;
-
-            // Prioritize locality for city information
-            const city = place?.address_components?.find(
-              (component) => component.types.includes("locality")
-            )?.long_name || place?.name;
-
-            resolve({ postalCode, state, city });
-          } else {
-            console.error("Error fetching place details:", status);
-            resolve({ postalCode: undefined, state: undefined, city: undefined });
-          }
-        }
-      );
-    });
-  };
-
-   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current) {
-        const target = event.target as Node;
-        if (!ref.current.contains(target)) {
-          ref.current.blur();
-        }
+      const foundAddress = {
+        value: newValue?.value,
+        label: getSlicedAdress(newValue.label) || '',
+        postalCode: details?.postalCode || '',
+        country: details?.country || '',
+        state: details?.state || '',
+        city: details?.city || '',
       }
-    };
 
-     document.addEventListener('click', handleClickOutside);
-
-     return () => {
-       document.removeEventListener('click', handleClickOutside);
-     };
-   }, []);
+      onChange(foundAddress)
+    }
+  }
 
   return (
-    <div ref={ref}>
+    <div>
       <GooglePlacesAutocomplete
         apiKey="AIzaSyCw5RG5hV0guHJOEenpb6afKt2MGSZB_Tw"
         apiOptions={{ language: 'en' }}
         selectProps={{
-          ...field,
           value,
-          isClearable: true,
-          onChange: async (newValue) => {
-            if (newValue) {
-              const details = await getPlaceDetails(newValue?.value?.place_id);
-              setSelectedPlace({
-                value: newValue.value,
-                label: getSlicedAdress(newValue.label),
-                postalCode: details.postalCode || '',
-                state: details.state || '',
-                city: details.city || '',
-              });
-            }
-          },
+          placeholder: 'Enter your address',
+          onBlur: onBlur,
+          onChange: onChangeValue,
+          isSearchable: true,
           styles: {
             ...selectStyles,
               singleValue: (provided) => ({
@@ -95,11 +60,12 @@ const GooglePlacesComponent: React.FC<GooglePlacesComponentProps> = ({ field, er
                 color: value?.label?.length ? '#F9FAFB' : '#78797A',
                 fontSize: '16px',
                 fontFamily: 'var(--font-openSans)',
+                opacity: 1,
               }),
           },
         }}
       />
-      {error && <div style={{ color: "red" }}>{error.message}</div>}
+      {error && <div style={{ color: "#d32b10", fontSize: 10 }}>{error.message}</div>}
     </div>
   )
 };

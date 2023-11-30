@@ -34,8 +34,8 @@ export const getUserRole = (user: any, role: string) => {
 
   const decoded: any = token && jwt_decode(token)
   const roles = 'cognito:groups';
-  const hasUserRoles = decoded.hasOwnProperty(roles);
-  const hasRole = hasUserRoles && decoded[roles].includes(role);
+  const hasUserRoles = decoded?.hasOwnProperty(roles);
+  const hasRole = hasUserRoles && decoded[roles]?.includes(role);
 
   return hasRole;
 }
@@ -52,3 +52,46 @@ export function getRegistrationLink(user: AmplifyUser) {
     return "/account";
   }
 }
+
+interface PlaceDetails {
+  postalCode: string | undefined,
+  state: string | undefined,
+  city: string | undefined,
+  country: string | undefined,
+}
+
+export const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
+  return new Promise((resolve) => {
+    const service = new google.maps.places.PlacesService(document.createElement("div"));
+
+    service.getDetails(
+      {
+        placeId,
+        fields: ["address_component", "name"],
+      },
+      (place, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          const postalCode = place?.address_components?.find(
+            (component) => component.types.includes("postal_code")
+          )?.long_name;
+          const state = place?.address_components?.find(
+            (component) => component.types.includes("administrative_area_level_1")
+          )?.long_name;
+
+          const city = place?.address_components?.find(
+            (component) => component.types.includes("locality")
+          )?.long_name || place?.name;
+
+          const country = place?.address_components?.find(
+            (component) => component.types.includes("country")
+          )?.long_name || place?.name;
+
+          resolve({ postalCode, state, city, country });
+        } else {
+          console.error("Error fetching place details:", status);
+          resolve({ postalCode: undefined, state: undefined, city: undefined, country: undefined });
+        }
+      }
+    );
+  });
+};

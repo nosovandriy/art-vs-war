@@ -13,7 +13,6 @@ import createHeaders from "@/utils/getAccessToken";
 import { refreshAccessToken } from "@/utils/profile";
 import { AccountData, AccountFormData } from "@/types/Account";
 import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
-import RegistersData from "./registersData";
 
 type Props = {
   account: AccountData | null;
@@ -118,7 +117,17 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
               type="text"
               className={style.text}
               placeholder="Enter your first name"
-              {...registerAccount("firstName", { required: 'This field is required!' })}
+              {...registerAccount("firstName", {
+                required: 'This field is required!',
+                maxLength: {
+                  value: 30,
+                  message: 'The first name input is too long, max 30 characters',
+                },
+                pattern: {
+                  value: /^[A-Za-z\s'-]+$/,
+                  message: "Should contain only Latin letters, space, ' and -",
+                },
+              })}
             />
             {typeof errors1?.firstName?.message === 'string' && (
               <div className={style.error}>{errors1.firstName.message}</div>
@@ -136,7 +145,17 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
               type="text"
               className={style.text}
               placeholder="Enter your last name"
-              {...registerAccount("lastName", { required: 'This field is required!' })}
+              {...registerAccount("lastName", {
+                required: 'This field is required!',
+                maxLength: {
+                  value: 30,
+                  message: 'The last name input is too long, max 30 characters',
+                },
+                pattern: {
+                  value: /^[A-Za-z\s'-]+$/,
+                  message: "Should contain only Latin letters, space, ' and -",
+                },
+              })}
             />
             {typeof errors1?.lastName?.message === 'string' && (
               <div className={style.error}>{errors1.lastName.message}</div>
@@ -153,6 +172,21 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
             <Controller
               control={accountControl}
               name="phone"
+              rules={{
+                required: 'This field is required!',
+                pattern: {
+                  value: /^[0-9\s()+]+$/,
+                  message: 'Should contain only digits, space, (, ), +',
+                },
+                minLength: {
+                  value: 7,
+                  message: 'Must be at least 7 characters',
+                },
+                maxLength: {
+                  value: 30,
+                  message: 'Must be at most 30 characters',
+                },
+              }}
               defaultValue=""
               render={({
                 field: { onChange, value },
@@ -171,7 +205,10 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>{account ? 'Update' : 'Submit'}</button>
-          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+
+          {account && (
+            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+          )}
         </div>
       </div>
     </form>

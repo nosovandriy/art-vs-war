@@ -22,15 +22,19 @@ import ArtistInfo from "../artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "../artists/[slug]/artistTabs/artistTabs";
 
 import {
+  checkStatus,
   getAllPaintingsByArtist,
   getArtProcess,
   getProfile,
 } from "@/utils/api";
+import { Statuses } from "@/types/Profile";
+import EditProfile from "./edit-profile/profile-form/editProfile";
 
 const Profile = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const [author, setAuthor] = useState<Artist | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+  const [statuses, setStatuses] = useState<Statuses | null>(null);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -71,8 +75,17 @@ const Profile = () => {
       dispatch(setArtProcessImages(artProcessImages));
     };
 
+    const fetchStatuses = async () => {
+      const headers = createHeaders(user);
+      const fetchedStatuses = await checkStatus(headers);
+
+      setStatuses(fetchedStatuses);
+      setIsFetching(false);
+    };
+
     if (user?.username) {
       fetchData();
+      fetchStatuses();
       fetchArtProcessData();
     }
   }, []);
@@ -91,11 +104,17 @@ const Profile = () => {
       >
         {isFetching && <Loading />}
 
-        {author && (
+        {author ? (
           <>
-            <ArtistInfo artistInfo={author} isProfile />
+            <ArtistInfo
+              isProfile
+              statuses={statuses}
+              artistInfo={author}
+            />
             <ArtistTabs />
           </>
+        ) : (
+          <EditProfile author={author} setAuthor={setAuthor} />
         )}
       </Authenticator>
     </section>

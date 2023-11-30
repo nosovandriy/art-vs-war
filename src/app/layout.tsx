@@ -9,6 +9,7 @@ import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
 
 import "@styles/globals.scss";
+import NextUiProvider from "./nextui/nextuiProvider";
 
 const kyivFont = localFont({
   src: "../fonts/KyivTypeSans-Regular-.woff",

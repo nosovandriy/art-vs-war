@@ -222,7 +222,7 @@ const EditProfile: FC<Props> = ({
                   ? { onChange: handleFileChange }
                   : {
                       onChange: handleFileChange,
-                      required: "Image is required!"
+                      required: "Image is required!",
                     }
                 )}
               />
@@ -276,7 +276,17 @@ const EditProfile: FC<Props> = ({
                   type="text"
                   className={style.text}
                   placeholder="Enter your full name"
-                  {...register("fullName", { required: 'This field is required!' })}
+                  {...register("fullName", {
+                    required: 'This field is required!',
+                    maxLength: {
+                      value: 40,
+                      message: 'Full name must be between 1 and 40 characters',
+                    },
+                    pattern: {
+                      value: /^[A-Za-z ',-]+$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                    },
+                  })}
                 />
 
                 {typeof errors?.fullName?.message === 'string' && (
@@ -294,7 +304,21 @@ const EditProfile: FC<Props> = ({
                   type="text"
                   className={style.text}
                   placeholder="Enter a city of your current stay"
-                  {...register("city", { required: 'This field is required!' })}
+                  {...register("city", {
+                    required: 'This field is required!',
+                    maxLength: {
+                      value: 40,
+                      message: 'City must be between 1 and 40 characters',
+                    },
+                    pattern: {
+                      value: /^[A-Za-z ',-]+$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                    },
+                    validate: {
+                      startsWithCapital: (value) =>
+                        /^[A-Z]/.test(value) || 'City should start with a capital letter',
+                    },
+                  })}
                 />
 
                 {typeof errors?.city?.message === 'string' && (
@@ -339,7 +363,21 @@ const EditProfile: FC<Props> = ({
                 <textarea
                   className={style.about}
                   placeholder="Tell us about yourself. Don't be shy!"
-                  {...register("aboutMe", { required: 'This field is required!' })}
+                  {...register("aboutMe", {
+                    required: 'This field is required!',
+                    minLength: {
+                      value: 3,
+                      message: 'Must be between 3 and 1000 characters',
+                    },
+                    maxLength: {
+                      value: 1000,
+                      message: 'Must be between 3 and 1000 characters',
+                    },
+                    pattern: {
+                      value: /^[A-Za-z0-9\s!@#$%^&*(),.?":{}|<>]+$/,
+                      message: 'Only Latin letters, digits, and special symbols are allowed',
+                    },
+                  })}
                 />
 
                 {typeof errors?.aboutMe?.message === 'string' && (

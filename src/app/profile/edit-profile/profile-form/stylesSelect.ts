@@ -36,7 +36,7 @@ export const styles = {
   singleValue: (provided: any) => ({
     ...provided,
     backgroundColor: '#1c1d1d',
-    color: '#78797a',
+    color: '#fff',
   }),
   indicatorSeparator: () => ({
     display: 'none',

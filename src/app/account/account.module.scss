@@ -7,26 +7,22 @@
 }
 
 .account {
-  @include set-flex(row-reverse, space-between, base-line);
+  @include set-flex(row, flex-start, base-line);
   margin: 0 auto;
-  gap: 34px;
+  gap: 14px;
   padding: 32px 16px;
   width: 100%;
   height: 100%;
   cursor: default;
 
-  @include tablet {
-    gap: 68px;
-  }
-
   @include tabletXL {
     padding: 32px 22px 200px;
-    gap: 134px;
   }
 
   @include desktop {
+    @include set-flex(row-reverse, space-between, base-line);
     padding: 48px 0 200px 48px;
-    // display: block;
+    display: block;
   }
 }
 
@@ -47,6 +43,18 @@
   display: none;
 
   @include desktop {
+    position: absolute;
+    top: "20%";
+    right: 0;
+    display: block;
+  }
+}
+
+.ornamentWrapper {
+  display: none;
+
+  @include desktop {
+    position: relative;
     display: block;
   }
 }
@@ -170,6 +178,7 @@
 
 .form {
   margin-bottom: 32px;
+  padding: 0 8px;
 
   &:last-child {
     margin-bottom: 64px;
@@ -232,6 +241,10 @@
   font-weight: $font-weight-regular;
   text-align: start;
   outline: none;
+
+  &::placeholder {
+    color: $gray-30;
+  }
 }
 
 .input {
@@ -331,7 +344,7 @@
 
 .accordion {
   margin: 0 auto;
-  padding: 0 14px;
+  padding: 0;
   width: 100%;
   cursor: pointer;
 }
@@ -347,11 +360,7 @@
 
 .content {
   height: 100%;
-  padding: 16px 0 0;
-
-  @include laptop {
-    padding: 22px 0 0;
-  }
+  padding: 24px 0 0;
 }
 
 .accordionTitle {
@@ -363,4 +372,51 @@
 
 .indicator {
   color: $gray-5;
+}
+
+.containerPhone {
+  border: none !important;
+  cursor: default !important;
+  background-color: transparent !important;
+}
+
+.inputPhone {
+  height: 48px !important;
+  width: 100% !important;
+  background: #161717 !important;
+  border: none !important;
+  cursor: default !important;
+  color: $gray-0 !important;
+  font-family: $font-text !important;
+  font-size: $font-size-base !important;
+  line-height: $line-height-base !important;
+  font-weight: $font-weight-regular !important;
+  text-align: start;
+  outline: none;
+}
+
+// .buttonPhone {
+//   border: none !important;
+//   outline: none !important;
+
+//   &:hover {
+//     cursor: default !important;
+//   }
+// }
+
+.buttonPhone {
+  pointer-events: none;
+  background: #161717 !important;
+  background-color: #161717 !important;
+  border: none !important;
+  outline: none !important;
+  cursor: default !important;
+
+  &:last-child {
+    background: #161717 !important;
+    background-color: #161717 !important;
+    border: none !important;
+    outline: none !important;
+    cursor: default !important;
+  }
 }

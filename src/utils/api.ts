@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { ArtProcessData, PaintingData } from '@/types/Painting';
 import { Headers, ImageData, RequestParams, UserData, UserDataToSave } from '@/types/Profile';
 import {
+  AuthorShippingFormData,
+  AuthorShippingResponseData,
   MessageFormTypes,
   ShippingFormTypes,
   ShippingInfo,
@@ -79,6 +81,24 @@ export async function getPainting(id: string) {
   return data;
 }
 
+export async function getProfilePainting(id: string, headers: HeadersInit) {
+  const response = await fetch(`${BASE_URL}paintings/profile/${id}`, {
+    cache: 'no-store',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function getArtists(params: string = '') {
   const response = await fetch(`${BASE_URL}authors${params}`, {
     cache: 'no-store',
@@ -134,6 +154,20 @@ export async function getArtProcess(id: string = '', headers?: HeadersInit) {
   const data = await response.json();
 
   return data;
+}
+
+export async function deleteArtProcessItem(id: string, headers?: HeadersInit) {
+  const response = await fetch(`${BASE_URL}artProcess?id=${id}`, {
+    method: 'DELETE',
+    cache: 'no-store',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  } else {
+    return response;
+  }
 }
 
 export async function getMorePaintings(id: string, size: number) {
@@ -270,6 +304,14 @@ export async function saveAdditionalPhotos(
   paintingId: number,
 ) {
   const { data } = await axios.post(BASE_URL + `additionalPaintingImage/${paintingId}`, images, {
+    headers,
+  });
+
+  return data;
+}
+
+export async function getAdditionalImages(headers: { Authorization?: string }, paintingId: string) {
+  const { data } = await axios.get(BASE_URL + `paintings/additionalImages/${paintingId}`, {
     headers,
   });
 
@@ -495,6 +537,122 @@ export async function saveAddress(headers: Headers, accountData: ShippingFormTyp
 
 export async function checkStatus(headers: Headers) {
   const { data } = await axios.get(`${BASE_URL}authors/check`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function getAuthorPaintingById(headers: Headers, id: string) {
+  const { data } = await axios.get(`${BASE_URL}paintings/profile/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function updatePaintingById(headers: Headers, id: string) {
+  const { data } = await axios.post(`${BASE_URL}paintings/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function deletePaintingById(headers: Headers, id: string) {
+  const { data } = await axios.delete(`${BASE_URL}paintings/${id}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function emailUnsubscribe(unsubscribe: any, headers: object) {
+  const response = await fetch(`${BASE_URL}account/unsubscribe`, {
+    method: 'PATCH',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(unsubscribe),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return response;
+}
+
+export async function getShippingAddress(headers: Headers) {
+  const { data } = await axios.get(`${BASE_URL}address/author`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
+}
+
+export async function saveShippingAddress(
+  headers: Headers,
+  shippingAddress: AuthorShippingFormData,
+) {
+  const { data } = await axios.post(`${BASE_URL}address/author`, shippingAddress, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
+}
+
+export async function updateShippingAddress(
+  headers: Headers,
+  shippingAddress: AuthorShippingFormData,
+) {
+  const { data } = await axios.put(`${BASE_URL}address/author`, shippingAddress, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data as AuthorShippingResponseData;
+}
+
+export async function getOrders(
+  headers: Headers,
+) {
+  const { data } = await axios.get(`${BASE_URL}orders`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data;
+}
+
+export async function getOrderById(
+  headers: Headers,
+  id: string,
+) {
+  const { data } = await axios.get(`${BASE_URL}orders/${id}`, {
     headers: {
       ...headers,
       'Content-Type': 'application/json;charset=utf-8',

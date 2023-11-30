@@ -2,36 +2,43 @@
 @import "@styles/mixins.scss";
 
 .titleContainer {
-	padding: 22px;
+	padding: 20px 0;
 	width: 100%;
-	@include set-flex(column, center, center);
+	@include set-flex(column, flex-start, center);
 
 	@include tabletXL {
-			padding: 36px;
+			padding: 32px 0;
 	}
 }
 
 .title {
-	margin-bottom: 24px;
-	color: $gray-5;
-	font-family: $font-title;
-	font-weight: $font-weight-regular;
-	font-size: $font-size-xl;
-	line-height: $line-height-xxl;
+	color: $gray-0;
+  font-size: $font-size-lg;
+  font-family: $font-title;
 
-	@include tabletXL {
-		font-size: 48px;
-		line-height: 56px;
-	}
+  @include tablet{
+    font-size: $font-size-xl;
+  }
 
-	@include desktop {
-		font-size: $font-size-huge;
-		line-height: $line-height-huge;
-	}
+  @include laptop {
+    font-size: $font-size-4xl;
+  }
+}
+
+.subtitle {
+	margin-bottom: 30px;
+	color: $gray-10;
+
+  @include tablet {
+    @include set-flex(row, center, center);
+
+    font-size: $font-size-lg;
+  }
 }
 
 .button {
-	width: 316px;
+	@include set-flex(row, center, center);
+	width: 100%;
 	border-radius: 24px;
 	border: 1px solid $gray-5;
 	display: flex;
@@ -42,12 +49,17 @@
 	color: $gray-5;
 	font-size: $font-size-base;
 	cursor: pointer;
+	gap: 10px;
 
-	@include tabletXL {
-			max-width: 640px;
+	@include tablet {
+		max-width: 392px;
 	}
 
-	@include laptop {
-			max-width: 100%;
-	}
+	&__icon {
+		path {
+			fill: $gray-5;
+		}
+
+    @include set-square(24px);
+  }
 }

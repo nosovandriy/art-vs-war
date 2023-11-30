@@ -1,0 +1,29 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.part {
+  padding: 24px 0 58px;
+}
+
+.title {
+  color: $gray-0;
+  font-size: $font-size-lg;
+
+  @include tabletXL {
+    font-size: $font-size-xxl;
+  }
+}
+
+.list {
+  margin-top: 24px;
+  color: $gray-5;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-base;
+  font-family: $font-text;
+}
+
+.description {
+  margin-top: 8px;
+  color: $gray-10;
+  font-size: $font-size-base;
+}

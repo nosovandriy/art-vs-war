@@ -1,5 +1,8 @@
-@import "./vars.scss";
-@import "./mixins.scss";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './vars.scss';
+@import './mixins.scss';
 
 * {
   box-sizing: border-box;
@@ -19,7 +22,10 @@ header {
   }
 }
 
-html,
+html {
+  background-color: $gray-100 !important;
+}
+
 body {
   background-color: $gray-100;
   font-family: $font-text;
@@ -67,7 +73,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 

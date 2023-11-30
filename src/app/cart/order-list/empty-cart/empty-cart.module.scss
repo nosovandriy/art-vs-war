@@ -1,11 +1,10 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .emptyCart {
   @include set-flex(column, center, center);
 
-  position: relative;
-  min-height: 70vh;
+  margin: auto 0;
 }
 
 .emptyCart__title {
@@ -84,52 +83,12 @@
 }
 
 .imageTop {
-  right: -5%;
-  top: -10%;
-
-  @include tablet {
-    right: -3%;
-  }
-
-  @include tabletXL {
-    right: -2%;
-    top: -18%;
-  }
-
-  @include laptop {
-    right: -1%;
-  }
-
-  @include desktop {
-    top: -17%;
-    right: -10%;
-  }
+  right: 0;
+  top: 1%;
 }
 
 .imageBottom {
-  bottom: -20%;
-  left: -5%;
+  bottom: 1%;
+  left: 0;
   transform: rotate(180deg);
-
-  @include tablet {
-    left: -3%;
-  }
-
-  @include tabletXL {
-    left: -2%;
-    bottom: -12%;
-  }
-
-  @include laptop {
-    left: -1%;
-    bottom: -6%;
-  }
-
-  @include desktop {
-    left: -10%;
-  }
-
-  @include desktopHD {
-    bottom: -10%;
-  }
 }

@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { Controller, useForm } from "react-hook-form";
@@ -20,20 +20,19 @@ import {
   PaintingForm,
   UploadedPaintingData,
 } from "@/types/Painting";
-import { Statuses } from "@/types/Profile";
-import Link from "next/link";
+import { ImageData } from "@/types/Profile";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
 
 type Props = {
-  statuses: Statuses | null;
+  initial: UploadedPaintingData | null;
   setNextStep: Dispatch<SetStateAction<boolean>>;
   setUploaded: Dispatch<SetStateAction<UploadedPaintingData | null>>;
 };
 
 const CreatePainting: FC<Props> = ({
-  statuses,
+  initial,
   setNextStep,
   setUploaded,
 }) => {
@@ -42,6 +41,7 @@ const CreatePainting: FC<Props> = ({
     register,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<PaintingForm>({
     defaultValues: {
@@ -50,6 +50,7 @@ const CreatePainting: FC<Props> = ({
       supportIds: [],
       subjectIds: [],
     },
+    mode: 'onTouched',
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -62,6 +63,30 @@ const CreatePainting: FC<Props> = ({
   const isAuthenticated = route === "authenticated";
   const headers = createHeaders(user);
   const router = useRouter();
+
+  useEffect(() => {
+    if (!initial) return;
+
+    const getInitialIds = (data: {id: number, value: string }[]) => (
+      data.map(item => item.id)
+    );
+
+    setImagePreview(initial.image.imageUrl);
+
+    setValue('title', initial.title)
+    setValue('depth', initial.depth)
+    setValue('price', initial.price)
+    setValue('width', initial.width)
+    setValue('height', initial.height)
+    setValue('weight', initial.weight)
+    setValue('description',initial.description)
+    setValue('yearOfCreation', initial.yearOfCreation)
+    setValue('styleIds', getInitialIds(initial.styles))
+    setValue('mediumIds', getInitialIds(initial.mediums))
+    setValue('subjectIds', getInitialIds(initial.subjects))
+    setValue('supportIds', getInitialIds(initial.supports))
+    setValue('image', { publicId: initial.image.imagePublicId })
+  }, [initial]);
 
   const checkOptions = (options: SubjectType[]) => {
     if (options.length === 3) {
@@ -91,7 +116,6 @@ const CreatePainting: FC<Props> = ({
         toast.promise(
           axios.post(BASE_URL + "paintings", paintingData, { headers })
           .then(({ data }) => {
-            console.log('saved image data:', data);
             setUploaded(data);
             setNextStep(true);
           })
@@ -115,6 +139,51 @@ const CreatePainting: FC<Props> = ({
     }
   };
 
+  const updatePaintingOnServer = (paintingData: PaintingData) => {
+    toast.promise(
+      axios.put(`${BASE_URL}paintings/${initial?.prettyId}`, paintingData, { headers })
+      .then(({ data }) => {
+        setUploaded(data);
+        setNextStep(true);
+      })
+      .finally(() => {
+        onReset();
+      }),
+      {
+        loading: "Updating...",
+        success: <b>Painting updated!</b>,
+        error: <b>Could not update.</b>,
+      },
+      {
+        style: {
+          borderRadius: "10px",
+          background: "#1c1d1d",
+          color: "#b3b4b5",
+        },
+      }
+    );
+  }
+
+  const updatePaintingWithImageUpload = async (data: PaintingData) => {
+    await uploadImageToServer(data, URL, headers).then((imageData: ImageData) => {
+      const paintingData: PaintingDataToSave = {
+        ...data,
+        image: imageData,
+      };
+
+      updatePaintingOnServer(paintingData);
+    })
+  }
+
+  const handleUpdatePainting = (data: PaintingData) => {
+    if (data.image instanceof File) {
+      updatePaintingWithImageUpload(data)
+    }
+    else {
+      updatePaintingOnServer(data)
+    }
+  }
+
   const onSubmit = (data: PaintingForm | any) => {
     if (!data || !isAuthenticated) {
       return;
@@ -122,16 +191,17 @@ const CreatePainting: FC<Props> = ({
 
     const dataToUpload: PaintingData = {
       ...data,
-      image: data.image[0],
+      image: data.image instanceof FileList ? data.image[0] : data.image,
       weight: +data.weight,
       width: +data.width,
       height: +data.height,
       depth: +data.depth,
       price: +data.price,
+      paymentStatus: 'AVAILABLE',
       yearOfCreation: +data.yearOfCreation,
     };
 
-    handleCreatePainting(dataToUpload);
+    initial ? handleUpdatePainting(dataToUpload) : handleCreatePainting(dataToUpload);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,16 +230,6 @@ const CreatePainting: FC<Props> = ({
         <div className={style.page}>Additional information</div>
       </div>
 
-      {(statuses && Object.values(statuses).includes(false)) && (
-        <div className={style.titleContainer}>
-          <span className={style.title}>To sell your paintings you need to create a </span>
-          <Link href="" className={style.titleLink}>Stripe account </Link>
-          <span className={style.title}>and fill in </span>
-          <Link href="" className={style.titleLink}>address data</Link>
-        </div>
-      )}
-
-
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.topContainer}>
           <label className={style.file}>
@@ -178,6 +238,15 @@ const CreatePainting: FC<Props> = ({
               className={style.file__input}
               {...register("image", {
                 required: "Image is required!",
+                validate: (inputValue) => {
+                  if (inputValue.hasOwnProperty('publicId')) {
+                    return true;
+                  } else if (inputValue instanceof FileList) {
+                    return true;
+                  }
+
+                  return false;
+                },
                 onChange: handleFileChange,
               })}
             />
@@ -214,6 +283,15 @@ const CreatePainting: FC<Props> = ({
                   placeholder="Painting title"
                   {...register("title", {
                     required: "This field is required!",
+                    maxLength: {
+                      value: 40,
+                      message: "Must be between 1 and 40 character",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z\d\s\-',!\/]+$/,
+                      message:
+                        "Title accepts only Latin, digits,  space, ', !, / and -",
+                    },
                   })}
                 />
 
@@ -238,6 +316,19 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("yearOfCreation", {
                         required: "This field is required!",
+                        min: {
+                          value: 1000,
+                          message: 'Min value for year of creation must be 1000',
+                        },
+                        pattern: {
+                          value: /^\d{4}$/,
+                          message: "Should be a 4-digit number",
+                        },
+                        validate: (value) => {
+                          const currentYear = new Date().getFullYear();
+
+                          return parseInt(value.toString()) <= currentYear || "Year cannot be greater than the current year"
+                        },
                       })}
                     />
 
@@ -262,6 +353,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("weight", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min weight is 1g",
+                        },
+                        max: {
+                          value: 99999,
+                          message: "Max weight is 10000g",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -285,6 +386,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("width", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min width is 1 cm",
+                        },
+                        max: {
+                          value: 200,
+                          message: "Max width is 200 cm",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -307,6 +418,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("height", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Min height is 1 cm",
+                        },
+                        max: {
+                          value: 200,
+                          message: "Max height is 200 cm",
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer",
                       })}
                     />
 
@@ -330,9 +451,9 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("depth", {
                         required: "This field is required!",
-                        max: {
-                          value: 9.9,
-                          message: "Max value allowed 9.9",
+                        pattern: {
+                          value: /^[1-9]\.\d$/,
+                          message: "Should be in the format _._ and between 1.0cm and 9.9cm",
                         },
                       })}
                     />
@@ -511,6 +632,16 @@ const CreatePainting: FC<Props> = ({
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("price", {
                         required: "This field is required!",
+                        min: {
+                          value: 1,
+                          message: "Must be at least 1 character",
+                        },
+                        max: {
+                          value: 99999,
+                          message: "Price must have maximum 5 number of digits without cents"
+                        },
+                        validate: (value) =>
+                          Number.isInteger(Number(value)) || "Should be an integer, without cents",
                       })}
                     />
 
@@ -540,6 +671,14 @@ const CreatePainting: FC<Props> = ({
             placeholder="Write some description about the painting"
             {...register("description", {
               required: "This field is required!",
+              maxLength: {
+                value: 1000,
+                message: "Must be at most 1000 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z0-9\s!@#$%^&*(),.?":{}|<>]+$/,
+                message: "Only Latin letters, digits, and special symbols are allowed",
+              },
             })}
           />
         </label>

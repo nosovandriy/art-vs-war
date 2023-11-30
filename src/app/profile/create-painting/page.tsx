@@ -8,45 +8,53 @@ import style from "../page.module.scss";
 import { UploadedPaintingData } from "@/types/Painting";
 import CreatePainting from "./painting-form/createPainting";
 import AdditionalInfo from "@/app/components/additional-info/additional-info";
-import { checkStatus } from "@/utils/api";
+import { getProfilePainting } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import Loading from "@/app/loading";
 import { Statuses } from "@/types/Profile";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 const CreatePaintingPage = () => {
   const { user } = useAuthenticator((context) => [context.user]);
   const [isNextStepVisible, setIsNextStepVisible] = useState(false);
   const [uploaded, setUploaded] = useState<UploadedPaintingData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [statuses, setStatuses] = useState<Statuses | null>(null);
+  const [painting, setPainting] = useState<UploadedPaintingData | null>(null);
 
-useEffect(() => {
-  const fetchData = async () => {
-  const headers = createHeaders(user);
-  const fetchedStatuses = await checkStatus(headers);
+  const params = useParams();
+  const pathName = usePathname();
 
-  setStatuses(fetchedStatuses);
-  setIsFetching(false);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+    const headers = createHeaders(user);
 
-  if (user?.username) {
-  fetchData();
-  }
-}, []);
+    if (typeof params.slug === 'string' && pathName.includes(params.slug)) {
+      const fetched = await getProfilePainting(params.slug, headers);
 
-return (
-  <Authenticator className={style.auth}>
-    {isFetching && <Loading />}
-    {(isNextStepVisible && uploaded)
-      ? <AdditionalInfo uploaded={uploaded} />
-      : (
-        <CreatePainting
-          setNextStep={setIsNextStepVisible}
-          setUploaded={setUploaded}
-          statuses={statuses}
-        />
-    )}
-  </Authenticator>
+      setPainting(fetched);
+    }
+
+    setIsFetching(false);
+    };
+
+    if (user?.username) {
+    fetchData();
+    }
+  }, []);
+
+  return (
+    <Authenticator className={style.auth}>
+      {isFetching && <Loading />}
+      {(isNextStepVisible && uploaded)
+        ? <AdditionalInfo uploaded={uploaded} />
+        : (
+          <CreatePainting
+            setNextStep={setIsNextStepVisible}
+            setUploaded={setUploaded}
+            initial={painting || null}
+          />
+      )}
+    </Authenticator>
   );
 };
 

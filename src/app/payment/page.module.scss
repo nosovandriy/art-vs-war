@@ -1,0 +1,69 @@
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
+
+.payment {
+  padding: 48px 22px 28px;
+
+  @include tablet {
+    padding: 60px 22px 28px;
+  }
+
+  @include desktop {
+    padding: 24px 0 28px 131px;
+  }
+
+  @include desktop {
+    padding: 24px 0 28px 168px;
+  }
+}
+
+.title {
+  font-size: $font-size-xxl;
+  color: $gray-0;
+
+  @include tabletXL {
+    font-size: $font-size-4xl;
+  }
+
+  @include laptop {
+    font-size: $font-size-huge;
+  }
+}
+
+.contentWrapper {
+  @include set-flex(column);
+
+  gap: 32px;
+  margin-top: 48px;
+
+  @include laptop {
+    max-width: 638px;
+  }
+
+  @include desktop {
+    max-width: 656px;
+  }
+}
+
+.description {
+  color: $gray-10;
+}
+
+.list {
+  @include set-flex(column);
+
+  gap: 16px;
+  color: $gray-5;
+}
+
+.listWrapper {
+  @include set-flex(row);
+
+  gap: 8px;
+  width: 100%;
+
+  & :first-child {
+    width: 120px;
+    flex-shrink: 0;
+  }
+}

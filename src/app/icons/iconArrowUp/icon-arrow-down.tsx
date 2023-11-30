@@ -9,7 +9,7 @@ export const ArrowDownIcon: FC<Props> = ({ isRotated }) => {
 
   return (
     <svg
-      className={`rotate ${isRotated ? 'active' : ''}`}
+      className="rotate"
       xmlns="http://www.w3.org/2000/svg"
       width="32"
       height="32"
