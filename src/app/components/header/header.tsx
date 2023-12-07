@@ -39,8 +39,6 @@ const Header = () => {
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
   const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
-  const router = useRouter();
-  const pathName = usePathname();
 
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
@@ -57,11 +55,6 @@ const Header = () => {
     setShowProfileMenu(!showProfileMenu);
     setShowProfileMobileMenu(!showProfileMobileMenu);
     setShowMobileMenu(false);
-  };
-
-  const handleSignOut = () => {
-    signOut();
-    router.replace('/');
   };
 
   useEffect(() => {
@@ -195,7 +188,7 @@ const Header = () => {
                   )}
 
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={handleSignOut}>
+                  <button className={style.profileButton} onClick={signOut}>
                     <LogOutButton />
                   </button>
                 </div>
@@ -244,7 +237,7 @@ const Header = () => {
                     View Artist Profile
                   </Link>
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={handleSignOut}>
+                  <button className={style.profileButton} onClick={signOut}>
                     <LogOutButton />
                   </button>
                 </div>
