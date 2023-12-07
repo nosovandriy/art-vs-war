@@ -20,7 +20,7 @@ export default function Error({
 
   return (
     <div className={style.error}>
-      <h1 className={style.title}>Something went wrong!</h1>
+      <h1 className={style.title}>Oops, something went wrong...</h1>
       <p className={style.description}>
         Please try again later or contact support if the problem persists
       </p>
@@ -29,7 +29,7 @@ export default function Error({
           Try again
         </button>
         <button className={`${style.button} ${style.buttonMain}`} onClick={() => route.push('/')}>
-          Go back Home
+          Return to the homepage
         </button>
       </div>
     </div>
