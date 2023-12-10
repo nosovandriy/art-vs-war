@@ -248,7 +248,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
           <div className={style.params}>
             <div className={style.subject}>Price:</div>
-            <div className={style.value}>{`$ ${price}`}</div>
+            <div className={style.value}>{`€ ${price}`}</div>
           </div>
         </div>
       </div>
