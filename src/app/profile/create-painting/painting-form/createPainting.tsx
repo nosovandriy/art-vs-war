@@ -42,6 +42,7 @@ const CreatePainting: FC<Props> = ({
     control,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<PaintingForm>({
     defaultValues: {
@@ -50,7 +51,7 @@ const CreatePainting: FC<Props> = ({
       supportIds: [],
       subjectIds: [],
     },
-    mode: 'onTouched',
+    mode: 'all',
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -237,11 +238,12 @@ const CreatePainting: FC<Props> = ({
               type="file"
               className={style.file__input}
               {...register("image", {
-                required: "Image is required!",
                 validate: (inputValue) => {
                   if (inputValue.hasOwnProperty('publicId')) {
                     return true;
-                  } else if (inputValue instanceof FileList) {
+                  }
+
+                  if (inputValue instanceof FileList) {
                     return true;
                   }
 

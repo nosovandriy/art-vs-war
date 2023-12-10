@@ -78,6 +78,7 @@ export interface ResponseImage {
   imagePublicId: string;
   imageUrl: string;
   views?: string[];
+  id?: number;
 }
 
 export interface UploadedPaintingData {
