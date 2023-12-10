@@ -1,39 +1,31 @@
-"use client";
+'use client';
 
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
-import { Cart } from "@/app/icons/icon-cart";
-import { IconClose } from "@/app/icons/icon-close";
-import { MobileMenu } from "@/app/icons/icon-menu";
-import { ProfileIcon } from "@/app/icons/icon-profile";
-import { ArrowDownIcon } from "@/app/icons/iconArrowUp/icon-arrow-down";
-import {
-  setCartDataFromServer,
-  setDataToCartFromLocalStorage,
-} from "@/app/redux/slices/cartSlice";
-import { CartItem, DataFromLocalStorage } from "@/types/CartItem";
-import { Painting } from "@/types/Painting";
-import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
-import { getUserRole } from "@/utils/account";
-import {
-  getOrderDataFromServer,
-  saveOrderPaintingsToServer,
-} from "@/utils/api";
-import { handleCloseDropdown } from "@/utils/checkClick";
-import createHeaders from "@/utils/getAccessToken";
-import {
-  getDataFromLocalStorage,
-  setDataToLocalStorage,
-} from "@/utils/localStorageData";
-import { Logo } from "../logo/logo";
-import { MenuItems } from "../menuItems/menuItems";
-import SocialNetworkIcons from "../social-network/social-network";
-import LogOutButton from "./navigation/logOut-button/logOut-button";
-import LoginButton from "./navigation/login-button/login-button";
+import { Cart } from '@/app/icons/icon-cart';
+import { IconClose } from '@/app/icons/icon-close';
+import { MobileMenu } from '@/app/icons/icon-menu';
+import { ProfileIcon } from '@/app/icons/icon-profile';
+import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
+import { setCartDataFromServer, setDataToCartFromLocalStorage } from '@/app/redux/slices/cartSlice';
+import { CartItem, DataFromLocalStorage } from '@/types/CartItem';
+import { Painting } from '@/types/Painting';
+import { useAppDispatch, useAppSelector } from '@/types/ReduxHooks';
+import { getUserRole } from '@/utils/account';
+import { getOrderDataFromServer, saveOrderPaintingsToServer } from '@/utils/api';
+import { handleCloseDropdown } from '@/utils/checkClick';
+import createHeaders from '@/utils/getAccessToken';
+import { getDataFromLocalStorage, setDataToLocalStorage } from '@/utils/localStorageData';
+import { Logo } from '../logo/logo';
+import { MenuItems } from '../menuItems/menuItems';
+import SocialNetworkIcons from '../social-network/social-network';
+import LogOutButton from './navigation/logOut-button/logOut-button';
+import LoginButton from './navigation/login-button/login-button';
 
-import style from "./header.module.scss";
+import style from './header.module.scss';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -46,10 +38,10 @@ const Header = () => {
   const menuRef = useRef<HTMLInputElement>(null);
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
-  const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
+  const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
 
   const isHeaders = Object.keys(headers).length !== 0;
-  const authenticated = authStatus === "authenticated";
+  const authenticated = authStatus === 'authenticated';
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -66,10 +58,10 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
+    if (typeof document !== 'undefined') {
       showMobileMenu
-        ? (document.body.style.overflow = "hidden")
-        : (document.body.style.overflow = "auto");
+        ? (document.body.style.overflow = 'hidden')
+        : (document.body.style.overflow = 'auto');
     }
   }, [showMobileMenu]);
 
@@ -80,9 +72,7 @@ const Header = () => {
       dispatch(setDataToCartFromLocalStorage(data));
 
       if (user && isHeaders) {
-        const paintingsId = data.paintingsFromLocalStorage
-          .map((painting) => painting.id)
-          .join(",");
+        const paintingsId = data.paintingsFromLocalStorage.map((painting) => painting.id).join(',');
 
         saveOrderPaintingsToServer(paintingsId, headers);
       }
@@ -125,10 +115,10 @@ const Header = () => {
       handleCloseDropdown(event, menuRef, setShowProfileMenu);
     };
 
-    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener('mousedown', handleMouseDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener('mousedown', handleMouseDown);
     };
   });
 
@@ -136,38 +126,27 @@ const Header = () => {
     <header>
       <div className={style.header}>
         {showMobileMenu ? (
-          <div
-            className={style.header__mobileElement}
-            onClick={handleShowMobileMenu}
-          >
+          <div className={style.header__mobileElement} onClick={handleShowMobileMenu}>
             <IconClose />
           </div>
         ) : (
-          <div
-            className={style.header__mobileElement}
-            onClick={handleShowMobileMenu}
-          >
+          <div className={style.header__mobileElement} onClick={handleShowMobileMenu}>
             <MobileMenu />
           </div>
         )}
-        <Link href={"/"} onClick={handleCloseMobileMenu}>
+        <Link href={'/'} onClick={handleCloseMobileMenu}>
           <Logo />
         </Link>
 
         <nav className={style.navigation}>
-          <MenuItems
-            className={style.menuItems}
-            setShowMobileMenu={setShowMobileMenu}
-          />
+          <MenuItems className={style.menuItems} setShowMobileMenu={setShowMobileMenu} />
         </nav>
         <div className={style.cart__container}>
           <Link href={`/cart`} title="Cart">
             <div className={style.cart} onClick={handleCloseMobileMenu}>
               <Cart />
 
-              {paintings.length > 0 && (
-                <div className={style.cart__circle}>{paintings.length}</div>
-              )}
+              {paintings.length > 0 && <div className={style.cart__circle}>{paintings.length}</div>}
               <div className={style.cart__background} />
             </div>
           </Link>
@@ -226,9 +205,7 @@ const Header = () => {
 
       <nav
         className={`${style.mobileNavigation} ${
-          showMobileMenu
-            ? style.showMobileNavigation
-            : style.hideMobileNavigation
+          showMobileMenu ? style.showMobileNavigation : style.hideMobileNavigation
         }`}
       >
         <div>
@@ -272,10 +249,7 @@ const Header = () => {
             </Link>
           )}
 
-          <MenuItems
-            className={style.menuItems}
-            setShowMobileMenu={setShowMobileMenu}
-          />
+          <MenuItems className={style.menuItems} setShowMobileMenu={setShowMobileMenu} />
         </div>
         <div className={style.contacts}>
           <Link

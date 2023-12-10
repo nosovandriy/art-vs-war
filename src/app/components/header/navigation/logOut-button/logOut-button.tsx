@@ -1,11 +1,16 @@
-import style from "./logOut-button.module.scss";
+import style from './logOut-button.module.scss';
 
 type Props = {
   className?: string;
 };
 
 const LogOutButton: React.FC<Props> = ({ className }) => {
-  return <div className={`${style.loginButton} ${className}`}>Sign Out</div>;
+
+  return (
+    <a href={'/'} className={`${style.loginButton} ${className}`}>
+      Sign Out
+    </a>
+  );
 };
 
 export default LogOutButton;

@@ -1,0 +1,79 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.error {
+  @include set-flex(column, center, center);
+
+  width: 100%;
+  height: calc(100vh - 56px);
+  text-align: center;
+  padding: 0 22px;
+
+  @include laptop {
+    height: calc(100vh - 96px);
+  }
+}
+
+.title {
+  font-size: $font-size-xxl;
+  color: $gray-0;
+
+  @include tabletXL {
+    font-size: $font-size-4xl;
+  }
+
+  @include desktop {
+    font-size: $font-size-huge;
+  }
+}
+
+.description {
+  margin-top: 24px;
+  color: $gray-5;
+}
+
+.buttons {
+  @include set-flex(row, center, center);
+
+  gap: 24px;
+
+  @include tablet {
+    margin-top: 40px;
+  }
+
+  @include desktop{
+    margin-top: 72px;
+  }
+}
+
+.button {
+  @include set-flex(column, center, center);
+
+  border-radius: 24px;
+  border: 1px solid $gray-5;
+  color: $gray-5;
+  width: 100%;
+  height: 48px;
+
+  @include tablet {
+    width: 288px;
+  }
+}
+
+.buttonTry {
+  margin-top: 40px;
+
+  @include tablet {
+    margin-top: 0;
+  }
+}
+
+.buttonMain {
+  margin-top: 24px;
+  background-color: $gray-5;
+  color: $gray-100;
+
+  @include tablet {
+    margin-top: 0;
+  }
+}
