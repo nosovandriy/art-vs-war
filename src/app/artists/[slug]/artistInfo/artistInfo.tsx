@@ -32,23 +32,23 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
           {(!statuses.hasStripeProfile && !statuses.hasAddress) && (
             <>
               <span className={style.subtitle}>To sell your paintings you need to create a </span>
-              <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
+              <a href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </a>
               <span className={style.subtitle}>and fill in </span>
-              <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
+              <a href="/profile?tab=Delivery" className={style.subtitleLink}>address data</a>
             </>
           )}
 
           {(!statuses.hasStripeProfile && statuses.hasAddress) && (
             <>
               <span className={style.subtitle}>To sell your paintings you need to create a </span>
-              <Link href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </Link>
+              <a href="/profile?tab=Payment" className={style.subtitleLink}>Stripe account </a>
             </>
           )}
 
           {(statuses.hasStripeProfile && !statuses.hasAddress) && (
             <>
               <span className={style.subtitle}>To sell your paintings you need to fill in the </span>
-              <Link href="/profile?tab=Delivery" className={style.subtitleLink}>address data</Link>
+              <a href="/profile?tab=Delivery" className={style.subtitleLink}>address data</a>
             </>
           )}
         </div>
