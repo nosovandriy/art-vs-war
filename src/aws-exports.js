@@ -12,7 +12,7 @@ const awsmobile = {
             "email",
             "openid"
         ],
-        "redirectSignIn": "https://artvswar.gallery/profile",
+        "redirectSignIn": "https://artvswar.gallery",
         "redirectSignOut": "https://artvswar.gallery",
         "responseType": "code"
     },
@@ -21,7 +21,6 @@ const awsmobile = {
         "EMAIL"
     ],
     "aws_cognito_social_providers": [
-        "FACEBOOK",
         "GOOGLE"
     ],
     "aws_cognito_signup_attributes": [

@@ -318,6 +318,17 @@ export async function getAdditionalImages(headers: { Authorization?: string }, p
   return data;
 }
 
+export async function deleteAdditionalImages(
+  headers: { Authorization?: string },
+  paintingId: number,
+) {
+  const { data } = await axios.delete(BASE_URL + `additionalPaintingImage/${paintingId}`, {
+    headers,
+  });
+
+  return data;
+}
+
 export async function createProfile(userData: UserDataToSave, headers: object) {
   const { data } = await axios.post(BASE_URL + 'authors/', userData, {
     headers,
