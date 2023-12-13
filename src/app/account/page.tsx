@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Accordion, AccordionItem } from '@nextui-org/react';
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 
 import style from './account.module.scss';
 
@@ -14,24 +13,14 @@ import OrdersList from './orders/ordersList';
 import Ornament from "./account_ornament.png";
 import createHeaders from '@/utils/getAccessToken';
 import RegistersForm from './registers-form/registersForm';
-import ShippingForm from './shipping-form/shippingForm';
 import RegistersData from './registers-form/registersData';
 import { getUserRole } from '@/utils/account';
 import { ArrowLeft } from '../icons/icon-arrow-left';
 import { getAccount, getAddress, getOrders } from '@/utils/api';
-import { AccountData, CreatedAccountResponse } from '@/types/Account';
-import { ArrowDownIcon } from '../icons/iconArrowUp/icon-arrow-down';
+import { AccountData, CreatedAccountResponse, Order } from '@/types/Account';
 import { ShippingFormData, ShippingResponseData } from '@/types/ShippingForm';
 import { authenticatorStylesComponents } from '../profile/aws-authenticator-styles/aws-authenticator-styles';
 import Shipping from './shipping-form/shipping';
-
-const accordionStyles = {
-  base: style.accordion,
-  title: style.accordionTitle,
-  trigger: style.accordionItem,
-  content: [style.accordionTitle, style.content],
-  indicator: style.indicator,
-};
 
 const Account = () => {
   const router = useRouter();
@@ -40,7 +29,7 @@ const Account = () => {
   const [address, setAddress] = useState<ShippingFormData | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const [isOpenForm, setIsOpenForm] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
   const hasProfile = getUserRole(user, 'ROLE_AUTHOR');
 
@@ -50,12 +39,12 @@ const Account = () => {
     try {
       const fetchedUser: CreatedAccountResponse = await getAccount(headers);
       const fetchedAddress: ShippingResponseData[] = await getAddress(headers);
-      const fetchedOrders: any = await getOrders(headers);
+      const fetchedOrders: Order[] = await getOrders(headers);
 
       const { email, phone, firstName, lastName } = fetchedUser;
 
       setAccount({ email, phone, firstName, lastName });
-      setOrders(fetchedOrders.content);
+      setOrders(fetchedOrders);
 
       if (fetchedAddress?.length) {
         const {

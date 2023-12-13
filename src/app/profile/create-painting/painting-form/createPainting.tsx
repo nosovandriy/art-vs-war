@@ -6,6 +6,7 @@ import Select from "react-select";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FaTimes } from "react-icons/fa";
 
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
@@ -21,6 +22,7 @@ import {
   UploadedPaintingData,
 } from "@/types/Painting";
 import { ImageData } from "@/types/Profile";
+import { SizeArrowIcon } from "@/app/icons/icon-size-arrow";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
@@ -42,7 +44,7 @@ const CreatePainting: FC<Props> = ({
     control,
     reset,
     setValue,
-    watch,
+    resetField,
     formState: { errors },
   } = useForm<PaintingForm>({
     defaultValues: {
@@ -221,6 +223,11 @@ const CreatePainting: FC<Props> = ({
     reader.readAsDataURL(file);
   };
 
+  const handleResetPreview = () => {
+    resetField('image');
+    setImagePreview(null);
+  };
+
   return (
     <section className={style.createPainting}>
       <div className={style.navigationContainer}>
@@ -239,15 +246,9 @@ const CreatePainting: FC<Props> = ({
               className={style.file__input}
               {...register("image", {
                 validate: (inputValue) => {
-                  if (inputValue.hasOwnProperty('publicId')) {
-                    return true;
-                  }
+                  if (inputValue) return true;
 
-                  if (inputValue instanceof FileList) {
-                    return true;
-                  }
-
-                  return false;
+                  return 'Image is required!';
                 },
                 onChange: handleFileChange,
               })}
@@ -260,6 +261,13 @@ const CreatePainting: FC<Props> = ({
                   className={style.image}
                   fill
                 />
+
+                <button
+                  type="button"
+                  onClick={handleResetPreview}
+                >
+                  <FaTimes className={style.closeIcon} />
+                </button>
               </div>
             ) : typeof errors?.image?.message === "string" ? (
               <div className={`${style.error} ${style.error__file}`}>
@@ -268,7 +276,22 @@ const CreatePainting: FC<Props> = ({
             ) : (
               <>
                 <AddIcon className={style.file__icon} />
+
                 <span className={style.file__label}>Choose a file</span>
+
+                <div className={style.arrowWidth}>
+                  <SizeArrowIcon />
+                  <span className={style.arrowLabel}>
+                    Width
+                  </span>
+                </div>
+
+                <div className={style.arrowHeight}>
+                  <SizeArrowIcon />
+                  <span className={style.arrowLabel}>
+                    Height
+                  </span>
+                </div>
               </>
             )}
           </label>

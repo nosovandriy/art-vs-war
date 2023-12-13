@@ -5,7 +5,6 @@
   margin: 0 auto;
   padding: 0;
   width: 100%;
-  cursor: pointer;
 }
 
 .accordionItem {
@@ -41,13 +40,10 @@
   @include set-flex(column, center, center);
   gap: 24px;
   padding: 24px;
+  margin-bottom: 20px;
+  border-radius: 24px;
   background-color: $gray-90;
-
-  @include desktop {
-    border-radius: 24px;
-    border: 1px solid $gray-5;
-
-  }
+  border: 1px solid $gray-5;
 }
 
 .orders {
@@ -75,6 +71,10 @@
 .itemContainer {
   padding: 16px 0;
   border-bottom: 1px solid $gray-10;
+
+  &:first-child {
+    padding-top: 0;
+  }
 }
 
 .title {
@@ -133,4 +133,13 @@
   font-weight: $font-weight-regular;
   text-align: center;
   cursor: pointer;
+}
+
+.delivered {
+  color: $system-success;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: center;
 }

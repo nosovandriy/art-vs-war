@@ -21,9 +21,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   const [imagePreviews, setImagePreviews] = useState<(any)[]>([null, null, null]);
   const [images, setImages] = useState<File[]>([]);
 
-  console.log(images)
-  console.log(imagePreviews)
-
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const pathname = usePathname();

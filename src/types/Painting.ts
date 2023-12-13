@@ -102,3 +102,7 @@ export interface UploadedPaintingData {
   description: string;
   paymentStatus: string;
 }
+
+export interface OrderPainting extends Painting {
+  imageId: string;
+}

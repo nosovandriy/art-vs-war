@@ -194,7 +194,6 @@
 
 .select {
   width: 100%;
-  // cursor: pointer;
 }
 
 .about {
@@ -340,4 +339,17 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.closeIcon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: $gray-5;
+  display: none;
+  cursor: pointer;
+}
+
+.preview:hover .closeIcon {
+  display: block;
 }
