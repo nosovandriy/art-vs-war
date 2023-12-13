@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
@@ -47,7 +47,7 @@ const EditProfile: FC<Props> = ({
       city: author?.city || '',
       country: author?.country || '',
       aboutMe: author?.aboutMe || '',
-      image: [],
+      image: '',
     },
     mode: "onTouched",
   });
@@ -166,7 +166,7 @@ const EditProfile: FC<Props> = ({
       ? await toast.promise(
         handleEditProfile('update', dataToUpload),
         {
-          loading: 'Saving...',
+          loading: 'Updating...',
           success: <b>Profile edited!</b>,
           error: <b>Could not edit.</b>,
         }, {
@@ -191,7 +191,15 @@ const EditProfile: FC<Props> = ({
           }
         }
       );
+
+      router.push('/profile')
   };
+
+  useEffect(() => {
+    if (!author) return;
+
+    setValue('image', author.imageUrl)
+  }, [author]);
 
   return (
     <section className={style.editProfile}>
@@ -227,7 +235,11 @@ const EditProfile: FC<Props> = ({
                 className={style.file__input}
                 {...register("image", {
                   onChange: handleFileChange,
-                  required: "Image is required!",
+                  validate: (inputValue) => {
+                    if (inputValue) return true;
+
+                    return 'Image is required!';
+                  },
                 })}
               />
               {imagePreview ? (

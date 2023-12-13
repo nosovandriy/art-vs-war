@@ -6,6 +6,7 @@ import Select from "react-select";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FaTimes } from "react-icons/fa";
 
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
@@ -22,7 +23,6 @@ import {
 } from "@/types/Painting";
 import { ImageData } from "@/types/Profile";
 import { SizeArrowIcon } from "@/app/icons/icon-size-arrow";
-import { FaTimes } from "react-icons/fa";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
@@ -246,15 +246,9 @@ const CreatePainting: FC<Props> = ({
               className={style.file__input}
               {...register("image", {
                 validate: (inputValue) => {
-                  if (inputValue.hasOwnProperty('publicId')) {
-                    return true;
-                  }
+                  if (inputValue) return true;
 
-                  if (inputValue instanceof FileList) {
-                    return true;
-                  }
-
-                  return false;
+                  return 'Image is required!';
                 },
                 onChange: handleFileChange,
               })}

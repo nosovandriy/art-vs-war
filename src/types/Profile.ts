@@ -12,7 +12,7 @@ export interface ProfileForm {
   country: string;
   city: string;
   aboutMe: string;
-  image: FileList | [];
+  image: FileList | string;
 }
 
 export interface UserData {
@@ -20,7 +20,7 @@ export interface UserData {
   country: string;
   city: string;
   aboutMe: string;
-  image?: File;
+  image?: File | string;
 }
 
 export interface UserDataToSave {
