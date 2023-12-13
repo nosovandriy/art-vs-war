@@ -7,6 +7,7 @@ import OrderCard from './orderCard';
 import createHeaders from '@/utils/getAccessToken';
 import { getOrderById } from '@/utils/api';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
+import { Order } from '@/types/Account';
 
 const accordionStyles = {
   base: style.accordion,
@@ -17,33 +18,11 @@ const accordionStyles = {
 };
 
 type Props = {
-  orders: any;
+  orders: Order[];
   user: any;
-}
+};
 
 const OrdersList: FC<Props> = ({ orders, user }) => {
-  const [details, setDetails] = useState<any>([]);
-
-  const getOrdersDetails = async () => {
-    const ordersIds = orders?.map((order: any) => ({
-      id: order.id,
-      createdAt: order.orderCreatedAt.orderCreatedAt,
-    }))
-
-    const headers = createHeaders(user);
-    const detailsArray = [];
-
-    for (const order of ordersIds) {
-      const orderWithDetails = await getOrderById(headers, order.id);
-      detailsArray.push({ ...orderWithDetails, createdAt: order.createdAt });
-    }
-
-    setDetails(detailsArray);
-  }
-
-  useEffect(() => {
-    getOrdersDetails();
-  }, []);
 
   return (
     <Accordion>
@@ -54,8 +33,8 @@ const OrdersList: FC<Props> = ({ orders, user }) => {
         classNames={accordionStyles}
         indicator={<ArrowDownIcon />}
       >
-        {details.length && details.map((order: any) => (
-          <OrderCard key={order.id} order={order} />
+        {orders.length && orders.map((order: any) => (
+          <OrderCard key={order.id} order={order} user={user} />
         ))}
       </AccordionItem>
     </Accordion>

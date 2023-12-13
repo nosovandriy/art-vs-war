@@ -204,6 +204,7 @@
   margin-bottom: 32px;
   width: 100%;
   display: block;
+  cursor: text;
 
   @include laptop {
     @include set-flex (row, center, flex-start);
@@ -244,19 +245,17 @@
       color: $gray-30;
     }
   }
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .file {
   @include set-flex(column, center, center);
+  position: relative;
   margin-bottom: 32px;
   width: 100%;
   height: 412px;
   gap: 48px;
   background-color: $gray-90;
+  cursor: pointer;
 
   @include tablet {
     height: 524px;
@@ -266,10 +265,6 @@
     margin-bottom: 0;
     width: 50%;
     height: 556px;
-  }
-
-  &:hover {
-    cursor: pointer;
   }
 
   &__input {
@@ -341,4 +336,50 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.arrowLabel {
+  font-family: $font-text;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  color: $gray-30;
+}
+
+.arrowWidth {
+  @include set-flex(column, center, center);
+  position: absolute;
+  bottom: 10px;
+  margin-top: 20px;
+}
+
+.arrowHeight {
+  @include set-flex(column, center, center);;
+  transform: rotate(-90deg);
+  position: absolute;
+  right: -20%;
+
+  @include tablet {
+    right: -10%;
+  }
+
+  @include tabletXL {
+    right: 0;
+  }
+
+  @include desktop {
+    right: -10%;
+  }
+}
+
+.closeIcon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: $gray-5;
+  display: none;
+  cursor: pointer;
+}
+
+.preview:hover .closeIcon {
+  display: block;
 }

@@ -1,40 +1,89 @@
 import { FC } from 'react';
+import Link from 'next/link';
 
 import style from './orders.module.scss'
 
-type Props = {
-  order: any;
-}
+import { Order } from '@/types/Account';
+import { OrderPainting } from '@/types/Painting';
+import { setOrderDelivered } from '@/utils/api';
+import createHeaders from '@/utils/getAccessToken';
 
-const OrderCard: FC<Props> = ({ order}) => {
-  const { id, createdAt, paintings } = order;
+type Props = {
+  order: Order;
+  user: any;
+};
+
+const OrderCard: FC<Props> = ({ order, user }) => {
+  const {
+    id,
+    paintings,
+    totalAmount,
+    isDelivered,
+    orderCreatedAt,
+    shippingAmount,
+  } = order;
+
+  const handleConfirm = async () => {
+    const headers = createHeaders(user);
+
+    await setOrderDelivered(headers, id);
+  };
 
   return (
     <div className={style.order}>
       <div className={style.number}>{`№${id}`}</div>
 
-      <div className={style.date}>{createdAt}</div>
+      <div className={style.date}>{orderCreatedAt.orderCreatedAt}</div>
 
       <div className={style.orders}>
-        {paintings.map((painting: any) => (
+        {paintings.map((painting: OrderPainting) => (
           <div key={painting.id} className={style.itemContainer}>
-            <div className={style.title}>{painting.title}</div>
+            <Link href={`/gallery/${painting.prettyId}`}>
+              <div className={style.title}>
+                {painting.title}
+              </div>
+            </Link>
+
             <div className={style.details}>
-              <span className={style.name}>{`by ${painting.authorFullName}`}</span>
-              <span className={style.price}>{`€${painting.price}`}</span>
+              <Link href={`/artists/${painting.authorPrettyId}`}>
+                <span className={style.name}>
+                  by {painting.authorFullName}
+                </span>
+              </Link>
+
+              <span className={style.price}>
+                € {painting.price}
+              </span>
             </div>
           </div>
         ))}
 
         <div className={style.shippingContainer}>
           <div className={style.title}>Shipping</div>
-          <div className={style.price}>{`€${order.shippingAmount}`}</div>
+          <div className={style.price}>
+            € {shippingAmount}
+          </div>
         </div>
       </div>
 
       <div className={style.buttonContainer}>
-        <div className={style.number}>{`Total: €${order.totalAmount}`}</div>
-        <div className={style.button}>Confirm</div>
+        <div className={style.number}>
+          Total: € {totalAmount}
+        </div>
+
+        {isDelivered
+          ? (
+            <div className={style.delivered}>Delivered</div>
+          ) : (
+            <button
+              type="button"
+              className={style.button}
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button>
+          )
+        }
       </div>
     </div>
   );

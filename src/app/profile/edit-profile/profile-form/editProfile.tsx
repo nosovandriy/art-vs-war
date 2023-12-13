@@ -20,6 +20,7 @@ import { styles } from "./stylesSelect";
 import createHeaders from "@/utils/getAccessToken";
 import ArtistInfo from "@/app/artists/[slug]/artistInfo/artistInfo";
 import ArtistTabs from "@/app/artists/[slug]/artistTabs/artistTabs";
+import { FaTimes } from "react-icons/fa";
 
 const URL = 'authors/checkInputAndGet';
 
@@ -38,6 +39,7 @@ const EditProfile: FC<Props> = ({
     register,
     control,
     reset,
+    resetField,
     formState: { errors },
   } = useForm<ProfileForm>({
     values: {
@@ -50,7 +52,7 @@ const EditProfile: FC<Props> = ({
     mode: "onTouched",
   });
 
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(author?.imageUrl || null);
   const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
@@ -145,6 +147,11 @@ const EditProfile: FC<Props> = ({
     router.back();
   };
 
+  const handleResetPreview = () => {
+    resetField('image');
+    setImagePreview(null);
+  };
+
   const onSubmit = async (data: ProfileForm) => {
     if (!isAuthenticated || !data) {
       return;
@@ -218,13 +225,10 @@ const EditProfile: FC<Props> = ({
               <input
                 type="file"
                 className={style.file__input}
-                {...register("image", author
-                  ? { onChange: handleFileChange }
-                  : {
-                      onChange: handleFileChange,
-                      required: "Image is required!",
-                    }
-                )}
+                {...register("image", {
+                  onChange: handleFileChange,
+                  required: "Image is required!",
+                })}
               />
               {imagePreview ? (
                 <div className={style.preview}>
@@ -234,6 +238,13 @@ const EditProfile: FC<Props> = ({
                     alt="Preview"
                     fill
                   />
+
+                  <button
+                    type="button"
+                    onClick={handleResetPreview}
+                  >
+                    <FaTimes className={style.closeIcon} />
+                  </button>
                 </div>
               ) : (
                 typeof errors?.image?.message === 'string' ? (
@@ -241,20 +252,10 @@ const EditProfile: FC<Props> = ({
                     {errors.image.message}
                   </div>
                 ) : (
-                  author?.imageUrl
-                    ? (
-                      <Image
-                        src={author.imageUrl}
-                        style={{ padding: '20px', objectFit: 'contain' }}
-                        alt="Preview"
-                        fill
-                      />
-                    ) : (
                     <>
                       <AddIcon className={style.file__icon}/>
                       <span className={style.file__label}>Choose a file</span>
                     </>
-                  )
                 )
             )}
             </label>
