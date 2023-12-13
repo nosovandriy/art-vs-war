@@ -7,7 +7,6 @@
     "email"
   ],
   "authProvidersUserPool": [
-    "Facebook",
     "Google"
   ],
   "requiredAttributes": [

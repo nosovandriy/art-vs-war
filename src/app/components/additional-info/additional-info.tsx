@@ -3,10 +3,11 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaTimes } from 'react-icons/fa';
 
 import { AddIcon } from "@/app/icons/icon-add";
 import { ResponseImage, UploadedPaintingData } from "@/types/Painting";
-import { getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
+import { deleteAdditionalImages, getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import { uploadAdditionalImages } from "@/utils/profile";
 
@@ -17,11 +18,13 @@ type Props = {
 }
 
 const AdditionalInfo: FC<Props> = ({ uploaded }) => {
-  const [imagePreviews, setImagePreviews] = useState<(string | null)[]>([null, null, null]);
+  const [imagePreviews, setImagePreviews] = useState<(any)[]>([null, null, null]);
   const [images, setImages] = useState<File[]>([]);
+
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const pathname = usePathname();
+  const headers = createHeaders(user);
 
   const {
     id,
@@ -48,9 +51,10 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     if (!file) return;
 
     const imagesToUpload = images.filter(image => image.name !== file?.name);
-    const reader = new FileReader();
 
     setImages([...imagesToUpload, file]);
+
+    const reader = new FileReader();
 
     reader.onload = () => {
       const newImagePreviews = [...imagePreviews];
@@ -97,15 +101,50 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     );
   }
 
+  const handleDeleteAdditionalImage = async (id: number) => {
+    await toast.promise(
+      deleteAdditionalImages(headers, id),
+      {
+        loading: "Deleting...",
+        success: <b>Image deleted!</b>,
+        error: <b>Could not delete.</b>,
+      },
+      {
+        style: {
+          borderRadius: "10px",
+          background: "#1c1d1d",
+          color: "#b3b4b5",
+        },
+      }
+    );
+
+    setImagePreviews(current => current.map(item => item?.id === id ? null : item))
+  };
+
+  const onDeletePreview = (index: number) => {
+    const previews = imagePreviews.filter(item => item !== null)
+
+    const updatedImages = images.map((item, idx) => {
+      if (previews[idx] === imagePreviews[index]) {
+        return null;
+      }
+
+      return item;
+    }).filter(item => item !== null);
+
+    // @ts-ignore
+    setImages(updatedImages)
+    setImagePreviews(current => current.map((item, i) => i === index ? null : item));
+  };
+
   const getImagesFromServer = async () => {
     const headers = createHeaders(user);
 
     try {
-      const fetchedImages = await getAdditionalImages(headers, prettyId);
+      const fetchedImages: ResponseImage[] = await getAdditionalImages(headers, prettyId);
 
       if (fetchedImages.length) {
-        const updatedPreviews = fetchedImages.map((image: ResponseImage) => image.imageUrl)
-        setImagePreviews([updatedPreviews[0], updatedPreviews[1] || null, updatedPreviews[2] || null])
+        setImagePreviews([fetchedImages[0], fetchedImages[1] || null, fetchedImages[2] || null])
       }
     } catch (error) {
       console.log(error);
@@ -142,12 +181,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
       <h2 className={style.title}>
         {title}
       </h2>
-
-      <p className={style.links}>
-        To sell your paintings you need to create a
-        <span className={style.link}> Stripe account</span> and fill in
-        <span className={style.link}> address data.</span>
-      </p>
 
       <div className={style.painting}>
         <div className={style.imageContainer}>
@@ -212,7 +245,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
           <div className={style.params}>
             <div className={style.subject}>Price:</div>
-            <div className={style.value}>{`$ ${price}`}</div>
+            <div className={style.value}>{`€ ${price}`}</div>
           </div>
         </div>
       </div>
@@ -238,24 +271,35 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
         <div className={style.photos}>
           <div className={style.wrapper}>
-            {imagePreviews.map((preview, index) => (
+            {imagePreviews.map((item, index) => (
               <label className={style.file} key={index}>
                 <input
                   type="file"
                   className={style.file__input}
                   onChange={(e) => handleFileChange(e, index)}
                 />
-                {preview
+                {item
                   ? (
                     <div className={style.preview}>
-                      <Image src={preview} alt="Preview" className={style.image} fill />
+                      <Image src={item?.imageUrl || item} alt="Preview" className={style.image} fill />
+
+                      <button
+                        type="button"
+                        onClick={() => (
+                          item?.id
+                            ? handleDeleteAdditionalImage(item?.id)
+                            : onDeletePreview(index)
+                        )}
+                      >
+                        <FaTimes className={style.closeIcon} />
+                      </button>
                     </div>
                   ) : (
                     <>
                       <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
                     </>
-                  )}
+                )}
               </label>
             ))}
           </div>

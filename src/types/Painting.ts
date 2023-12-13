@@ -78,6 +78,7 @@ export interface ResponseImage {
   imagePublicId: string;
   imageUrl: string;
   views?: string[];
+  id?: number;
 }
 
 export interface UploadedPaintingData {
@@ -100,4 +101,8 @@ export interface UploadedPaintingData {
   addedToDataBase: { addedToDataBase: string };
   description: string;
   paymentStatus: string;
+}
+
+export interface OrderPainting extends Painting {
+  imageId: string;
 }

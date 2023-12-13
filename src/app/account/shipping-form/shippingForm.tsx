@@ -54,6 +54,7 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
 
   const handleSaveAddress = async (shippingData: ShippingFormTypes) => {
     await saveAddress(headers, shippingData);
+    setIsOpenForm(false);
   }
 
   const onSubmitShipping = (data: ShippingFormData) => {
@@ -76,7 +77,7 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
           color: '#b3b4b5',
         }
       }
-    )
+    );
   };
 
   const onReset = () => {

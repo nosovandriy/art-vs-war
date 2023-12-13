@@ -318,6 +318,17 @@ export async function getAdditionalImages(headers: { Authorization?: string }, p
   return data;
 }
 
+export async function deleteAdditionalImages(
+  headers: { Authorization?: string },
+  paintingId: number,
+) {
+  const { data } = await axios.delete(BASE_URL + `additionalPaintingImage/${paintingId}`, {
+    headers,
+  });
+
+  return data;
+}
+
 export async function createProfile(userData: UserDataToSave, headers: object) {
   const { data } = await axios.post(BASE_URL + 'authors/', userData, {
     headers,
@@ -638,7 +649,21 @@ export async function updateShippingAddress(
 export async function getOrders(
   headers: Headers,
 ) {
-  const { data } = await axios.get(`${BASE_URL}orders`, {
+  const { data } = await axios.get(`${BASE_URL}orders/all`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  return data.content;
+}
+
+export async function getOrderById(
+  headers: Headers,
+  id: number,
+) {
+  const { data } = await axios.get(`${BASE_URL}orders/${id}`, {
     headers: {
       ...headers,
       'Content-Type': 'application/json;charset=utf-8',
@@ -648,11 +673,11 @@ export async function getOrders(
   return data;
 }
 
-export async function getOrderById(
+export async function setOrderDelivered(
   headers: Headers,
-  id: string,
+  id: number,
 ) {
-  const { data } = await axios.get(`${BASE_URL}orders/${id}`, {
+  const { data } = await axios.patch(`${BASE_URL}orders/delivered/${id}`, {
     headers: {
       ...headers,
       'Content-Type': 'application/json;charset=utf-8',
