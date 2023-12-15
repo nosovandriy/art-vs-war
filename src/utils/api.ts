@@ -646,9 +646,7 @@ export async function updateShippingAddress(
   return data as AuthorShippingResponseData;
 }
 
-export async function getOrders(
-  headers: Headers,
-) {
+export async function getOrders(headers: Headers) {
   const { data } = await axios.get(`${BASE_URL}orders/all`, {
     headers: {
       ...headers,
@@ -659,10 +657,7 @@ export async function getOrders(
   return data.content;
 }
 
-export async function getOrderById(
-  headers: Headers,
-  id: number,
-) {
+export async function getOrderById(headers: Headers, id: number) {
   const { data } = await axios.get(`${BASE_URL}orders/${id}`, {
     headers: {
       ...headers,
@@ -673,10 +668,7 @@ export async function getOrderById(
   return data;
 }
 
-export async function setOrderDelivered(
-  headers: Headers,
-  id: number,
-) {
+export async function setOrderDelivered(headers: Headers, id: number) {
   const { data } = await axios.patch(`${BASE_URL}orders/delivered/${id}`, {
     headers: {
       ...headers,
@@ -684,5 +676,39 @@ export async function setOrderDelivered(
     },
   });
 
+  return data;
+}
+
+export async function getRejectedImagesList(headers: HeadersInit) {
+  const response = await fetch(`${BASE_URL}images/rejectedAssets`, {
+    cache: 'no-store',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
+export async function rejectNotValidImage(headers: HeadersInit, publicId: string) {
+  const url = `${BASE_URL}images/setRejected?publicId=${publicId}`;
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status code ${response.status}`);
+  }
+
+  const data = await response.text();
   return data;
 }

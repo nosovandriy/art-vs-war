@@ -21,8 +21,17 @@ import style from './order-info.module.scss';
 
 const OrderInfo = () => {
   const [activeSection, setActiveSection] = useState<CartSteps | null>(CartSteps.secondStep);
-  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>();
-
+  const [defaultValues, setDefaultValues] = useState<ShippingFormTypes>({
+    firstName: '',
+    lastName: '',
+    country: '',
+    city: '',
+    state: '',
+    postalCode: '',
+    addressLine1: '',
+    addressLine2: '',
+    phone: '',
+  });
   const { paintings, totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useAuthenticator((context) => [context.route]);
   const headers = createHeaders(user);
@@ -58,20 +67,6 @@ const OrderInfo = () => {
         phone,
       };
       setDefaultValues(accountInfo);
-    } else {
-      const formDefaultValue: ShippingFormTypes = {
-        firstName: '',
-        lastName: '',
-        country: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        addressLine1: '',
-        addressLine2: '',
-        phone: '',
-      };
-
-      setDefaultValues(formDefaultValue);
     }
   };
 
@@ -128,14 +123,12 @@ const OrderInfo = () => {
                 <ArrowUpIcon />
               </div>
             </div>
-            {defaultValues && (
-              <ShippingForm
-                headers={headers}
-                defaultValues={defaultValues}
-                isVisible={isVisibleShippingForm}
-                handleSectionClick={handleSectionClick}
-              />
-            )}
+            <ShippingForm
+              headers={headers}
+              defaultValues={defaultValues}
+              isVisible={isVisibleShippingForm}
+              handleSectionClick={handleSectionClick}
+            />
           </div>
           <OrderSummary />
         </div>
