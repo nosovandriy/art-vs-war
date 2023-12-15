@@ -64,37 +64,37 @@ const AddArtProcessContent = () => {
     formData.append('upload_preset', upload_preset);
     formData.append('api_key', cloudinaryApiKey);
 
-    // const { public_id, version, signature, width, height, moderation, secure_url } =
-    //   await uploadImage(formData, cloudName);
+    const { public_id, version, signature, width, height, moderation, secure_url } =
+      await uploadImage(formData, cloudName);
 
-    // const moderationStatus = moderation[0].status === 'approved' ? 'APPROVED' : 'PENDING';
-
-    // const artProcessData = {
-    //   description: data.description,
-    //   image: {
-    //     publicId: public_id,
-    //     moderationStatus,
-    //     version,
-    //     signature,
-    //     width,
-    //     height,
-    //     secureUrl: secure_url,
-    //   },
-    // };
-
-    const { public_id, version, signature, width, height } = await uploadImage(formData, cloudName);
+    const moderationStatus = moderation[0].status === 'approved' ? 'APPROVED' : 'PENDING';
 
     const artProcessData = {
       description: data.description,
       image: {
         publicId: public_id,
-        moderationStatus: 'APPROVED',
+        moderationStatus,
         version,
         signature,
         width,
         height,
+        secureUrl: secure_url,
       },
     };
+
+    // const { public_id, version, signature, width, height } = await uploadImage(formData, cloudName);
+
+    // const artProcessData = {
+    //   description: data.description,
+    //   image: {
+    //     publicId: public_id,
+    //     moderationStatus: 'APPROVED',
+    //     version,
+    //     signature,
+    //     width,
+    //     height,
+    //   },
+    // };
 
     toast.promise(
       createArtProcess(artProcessData, headers)

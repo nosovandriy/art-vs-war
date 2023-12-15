@@ -1,4 +1,4 @@
-import { CSSObjectWithLabel, DropdownIndicatorProps, GroupBase } from "react-select";
+import { CSSObjectWithLabel, DropdownIndicatorProps, GroupBase } from 'react-select';
 import { Option } from 'react-google-places-autocomplete/build/types';
 
 export const selectStyles = {
@@ -34,7 +34,7 @@ export const selectStyles = {
   ) => ({
     ...base,
     transition: 'all .2s ease',
-    transform: state.isFocused ? 'rotate(180deg)' : 'none'
+    transform: state.isFocused ? 'rotate(180deg)' : 'none',
   }),
   singleValue: (provided: CSSObjectWithLabel) => ({
     ...provided,

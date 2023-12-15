@@ -13,9 +13,9 @@ import ModalComponent from '../profile/[slug]/modal/modal';
 import style from './page.module.scss';
 
 interface CloudinaryImage {
-  created_at: string;
-  moderation_status: string;
-  public_id: string;
+  createdAt: string;
+  moderationStatus: string;
+  publicId: string;
 }
 
 const ImagesValidation = () => {
@@ -31,21 +31,24 @@ const ImagesValidation = () => {
 
   const getImagesList = async () => {
     const res = await getRejectedImagesList(headers);
-    setList(res.resources);
-    console.log(res.resources);
+    setList(res);
   };
 
-  const handleOpenModal = (public_id: string) => {
-    setSelectedImage(public_id);
+  const handleOpenModal = (publicId: string) => {
+    setSelectedImage(publicId);
     onOpen();
   };
 
   const handleRejectImage = async () => {
     if (selectedImage) {
       onClose();
-      console.log();
-      const data = await rejectNotValidImage(headers, selectedImage);
-      console.log(data);
+      try {
+        const data = await rejectNotValidImage(headers, selectedImage);
+
+        await getImagesList();
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -66,13 +69,17 @@ const ImagesValidation = () => {
         onAction={handleRejectImage}
       />
       {list.map((image) => (
-        <div key={image.public_id} className={style.image}>
+        <div key={image.publicId} className={style.image}>
           <p>Image ID</p>
-          <div className={style.id}>{image.public_id}</div>
-          <div className={style.id}>{image.created_at}</div>
-          <button className={style.button} onClick={() => handleOpenModal(image.public_id)}>
-            Reject
-          </button>
+          <div className={style.id}>{image.publicId}</div>
+          <div className={style.id}>{image.createdAt}</div>
+          {image.moderationStatus === 'REJECTED' ? (
+            <p className={style.rejected}>Rejected manually</p>
+          ) : (
+            <button className={style.button} onClick={() => handleOpenModal(image.publicId)}>
+              Reject
+            </button>
+          )}
         </div>
       ))}
     </section>
