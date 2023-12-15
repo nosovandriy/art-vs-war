@@ -1,5 +1,5 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .author {
   padding: 48px;
@@ -118,7 +118,7 @@
       }
 
       &__laptop {
-          display: none;
+        display: none;
 
         @include laptop {
           display: inline;
@@ -182,12 +182,10 @@
   margin-bottom: 22px;
   padding: 0 22px;
 
-
   @include tabletXL {
     padding: 0 36px;
     margin-bottom: 48px;
   }
-
 
   .subtitle {
     color: $gray-0;
@@ -200,8 +198,11 @@
 
   .subtitleLink {
     color: $system-info;
-    text-decoration: underline;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
