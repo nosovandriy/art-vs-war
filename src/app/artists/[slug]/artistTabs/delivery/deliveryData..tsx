@@ -1,16 +1,23 @@
 import { Dispatch, FC, SetStateAction } from 'react';
 
-import style from '../account.module.scss'
+import style from './delivery.module.scss'
 
-import { ShippingFormData } from '@/types/ShippingForm';
+import { AuthorShippingFormData } from '@/types/ShippingForm';
+import PhoneInput from 'react-phone-input-2';
 
 type Props = {
-  address: ShippingFormData;
+  address: AuthorShippingFormData | null;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
 }
 
-const ShippingData: FC<Props> = ({ address, setIsOpenForm }) => {
-  const { addressLine1, addressLine2, city, country, state, postalCode } = address;
+const DeliveryData: FC<Props> = ({ address, setIsOpenForm }) => {
+  if (!address) {
+    setIsOpenForm(true);
+
+    return null;
+  };
+
+  const { addressLine1, addressLine2, city, country, state, postalCode, phone } = address;
 
   return (
     <div className={style.form}>
@@ -18,7 +25,7 @@ const ShippingData: FC<Props> = ({ address, setIsOpenForm }) => {
         <div className={style.dataContainer}>
           <div>Address</div>
           <div className={style.input}>
-            <div className={style.inputData}>{addressLine1?.label}</div>
+            <div className={style.inputData}>{addressLine1}</div>
           </div>
 
           {!!addressLine2?.length && (
@@ -26,6 +33,22 @@ const ShippingData: FC<Props> = ({ address, setIsOpenForm }) => {
               <div className={style.inputData}>{addressLine2}</div>
             </div>
           )}
+        </div>
+
+        <div className={style.dataContainer}>
+          <div>Phone number</div>
+          <div className={style.input}>
+            <PhoneInput
+              value={phone}
+              excludeCountries={["ru", "by"]}
+              country={"ua"}
+              disabled
+              disableDropdown
+              containerClass={style.containerPhone}
+              buttonClass={style.buttonPhone}
+              inputClass={style.inputPhone}
+            />
+          </div>
         </div>
 
         <div className={style.addressContainer}>
@@ -86,4 +109,4 @@ const ShippingData: FC<Props> = ({ address, setIsOpenForm }) => {
   );
 };
 
-export default ShippingData;
+export default DeliveryData;

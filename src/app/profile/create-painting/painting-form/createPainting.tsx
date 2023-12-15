@@ -7,6 +7,7 @@ import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
+import { PatternFormat } from "react-number-format";
 
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
@@ -53,7 +54,7 @@ const CreatePainting: FC<Props> = ({
       supportIds: [],
       subjectIds: [],
     },
-    mode: 'all',
+    mode: 'onTouched',
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -339,6 +340,12 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Year of creation"
                       onWheel={(e) => e.currentTarget.blur()}
+                      onInput={(e) => {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value.replace(/[eE]/g, '');
+                        target.value = value;
+                      }}
                       {...register("yearOfCreation", {
                         required: "This field is required!",
                         min: {
@@ -375,6 +382,12 @@ const CreatePainting: FC<Props> = ({
                       type="number"
                       className={style.text}
                       placeholder="Weight grm"
+                      onInput={(e) => {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value.replace(/[eE]/g, '');
+                        target.value = value;
+                      }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("weight", {
                         required: "This field is required!",
@@ -408,6 +421,12 @@ const CreatePainting: FC<Props> = ({
                       accept="image/*"
                       className={style.text}
                       placeholder="Width cm"
+                      onInput={(e) => {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value.replace(/[eE]/g, '');
+                        target.value = value;
+                      }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("width", {
                         required: "This field is required!",
@@ -440,6 +459,12 @@ const CreatePainting: FC<Props> = ({
                       type="number"
                       className={style.text}
                       placeholder="Height cm"
+                      onInput={(e) => {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value.replace(/[eE]/g, '');
+                        target.value = value;
+                      }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("height", {
                         required: "This field is required!",
@@ -451,8 +476,10 @@ const CreatePainting: FC<Props> = ({
                           value: 200,
                           message: "Max height is 200 cm",
                         },
-                        validate: (value) =>
-                          Number.isInteger(Number(value)) || "Should be an integer",
+                        pattern: {
+                          value: /^[1-9]\d*$/,
+                          message: "Should be a positive integer",
+                        },
                       })}
                     />
 
@@ -468,11 +495,11 @@ const CreatePainting: FC<Props> = ({
                     <span className={style.star}>*</span>
                   </div>
                   <div className={style.input}>
-                    <input
+                    {/* <input
                       type="number"
                       className={style.text}
                       placeholder="Depth cm"
-                      step="0.1"
+                      // step="0.1"
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("depth", {
                         required: "This field is required!",
@@ -481,6 +508,52 @@ const CreatePainting: FC<Props> = ({
                           message: "Should be in the format _._ and between 1.0cm and 9.9cm",
                         },
                       })}
+                    /> */}
+
+                    <Controller
+                      control={control}
+                      name="depth"
+                      rules={{
+                        required: "This field is required!",
+                        validate: (value) => {
+                          const isValid = /^[1-9]\.\d$/.test(value.toString());
+                          if (!isValid) {
+                            return "Should be in the format _._ and between 1.0cm and 9.9cm";
+                          }
+                          return true;
+                        },
+                      }}
+                      render={({field: { value, onChange, onBlur }}) => {
+                        return (
+                          <PatternFormat
+                            className={style.text}
+                            placeholder="Depth cm"
+                            onInput={(e: any) => {
+                              e.preventDefault();
+
+                              const target = e.target as HTMLInputElement;
+                              let value = target.value;
+
+                              value = value.replace(/[^0-9.]/g, '');
+
+                              if (!value.includes('.') && value !== '0') {
+                                value += '.0';
+                              }
+
+                              if (value === '0') {
+                                value = ''
+                              }
+
+                              target.value = value;
+                            }}
+                            format="#.#"
+                            value={value}
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            patternChar="#"
+                          />
+                        )
+                      }}
                     />
 
                     {typeof errors?.depth?.message === "string" && (
@@ -686,26 +759,25 @@ const CreatePainting: FC<Props> = ({
           <div className={style.about__label}>
             About
             <span className={style.star}>*</span>
+          </div>
+
+          <div className={style.wrapper}>
+            <textarea
+              className={style.about__input}
+              placeholder="Write some description about the painting"
+              {...register("description", {
+                required: "This field is required!",
+                maxLength: {
+                  value: 1000,
+                  message: "Must be at most 1000 characters",
+                },
+              })}
+            />
+
             {typeof errors?.description?.message === "string" && (
               <p className={style.error}>{errors.description.message}</p>
             )}
           </div>
-
-          <textarea
-            className={style.about__input}
-            placeholder="Write some description about the painting"
-            {...register("description", {
-              required: "This field is required!",
-              maxLength: {
-                value: 1000,
-                message: "Must be at most 1000 characters",
-              },
-              pattern: {
-                value: /^[A-Za-z0-9\s!@#$%^&*(),.?":{}|<>]+$/,
-                message: "Only Latin letters, digits, and special symbols are allowed",
-              },
-            })}
-          />
         </label>
 
         <div className={style.buttonContainer}>

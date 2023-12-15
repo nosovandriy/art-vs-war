@@ -224,7 +224,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
           <div className={style.params}>
             <div className={style.subject}>Size:</div>
             <div className={style.value}>
-              {`${width} x ${height} x ${depth} cm`}
+              {`${width} W x ${height} H x ${depth} D cm`}
             </div>
           </div>
 

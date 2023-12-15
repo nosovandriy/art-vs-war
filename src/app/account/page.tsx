@@ -116,7 +116,7 @@ const Account = () => {
         />
       </div>
       {isFetching
-        ? <Loading />
+        ? <Loading className={style.loading} />
         : (
           <>
             <button
