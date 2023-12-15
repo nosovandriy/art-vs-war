@@ -386,10 +386,6 @@ const EditProfile: FC<Props> = ({
                       value: 1000,
                       message: 'Must be between 3 and 1000 characters',
                     },
-                    pattern: {
-                      value: /^[A-Za-z0-9\s!@#$%^&*(),.?":{}|<>]+$/,
-                      message: 'Only Latin letters, digits, and special symbols are allowed',
-                    },
                   })}
                 />
 

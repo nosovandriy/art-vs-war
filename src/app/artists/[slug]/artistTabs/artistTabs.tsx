@@ -23,22 +23,13 @@ const accordionStyles = {
 
 const ArtistTabs = () => {
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
-  const [openTab, setOpenTab] = useState<ArtistTabOptions | null>(null);
   const { width } = useWindowSize();
   const pathname = usePathname();
   const isProfile = pathname === '/profile';
 
-  const renderTabs = isProfile ? tabs : tabs.filter((_, index) => index <= 2);
+  const renderTabs = isProfile ? tabs : tabs.filter((_, index) => index < 2);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const onTabSelect = (tab: ArtistTabOptions) => {
-    if (tab === openTab) {
-      setOpenTab(null);
-    } else {
-      setOpenTab(tab);
-    }
-  };
 
   const handleSetSelectedTab = (option: ArtistTabOptions) => {
     setSelectedTab(option);

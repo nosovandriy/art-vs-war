@@ -11,8 +11,8 @@ import AdditionalInfo from "@/app/components/additional-info/additional-info";
 import { getProfilePainting } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
 import Loading from "@/app/loading";
-import { Statuses } from "@/types/Profile";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { authenticatorStylesComponents } from "../aws-authenticator-styles/aws-authenticator-styles";
 
 const CreatePaintingPage = () => {
   const { user } = useAuthenticator((context) => [context.user]);
@@ -26,24 +26,27 @@ const CreatePaintingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-    const headers = createHeaders(user);
+      const headers = createHeaders(user);
 
-    if (typeof params.slug === 'string' && pathName.includes(params.slug)) {
-      const fetched = await getProfilePainting(params.slug, headers);
+      if (typeof params.slug === 'string' && pathName.includes(params.slug)) {
+        const fetched = await getProfilePainting(params.slug, headers);
 
-      setPainting(fetched);
-    }
-
-    setIsFetching(false);
+        setPainting(fetched);
+      }
     };
 
     if (user?.username) {
     fetchData();
     }
+
+    setIsFetching(false);
   }, []);
 
   return (
-    <Authenticator className={style.auth}>
+    <Authenticator
+      className={style.auth}
+      components={authenticatorStylesComponents}
+    >
       {isFetching && <Loading />}
       {(isNextStepVisible && uploaded)
         ? <AdditionalInfo uploaded={uploaded} />

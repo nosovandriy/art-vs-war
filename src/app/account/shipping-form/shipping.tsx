@@ -24,7 +24,7 @@ type Props = {
 }
 
 const Shipping: FC<Props> = ({ account, setAccount, address }) => {
-  const [isOpenForm, setIsOpenForm] = useState(true);
+  const [isOpenForm, setIsOpenForm] = useState(address ? false : true);
 
   return (
     <Accordion>

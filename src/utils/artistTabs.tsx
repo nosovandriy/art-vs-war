@@ -10,10 +10,10 @@ export const tabs = [
     option: ArtistTabOptions.artworks,
     component: <ArtistPaintings />,
   },
-  {
-    option: ArtistTabOptions.collections,
-    component: <Collection title="This feature is under development now!" />,
-  },
+  // {
+  //   option: ArtistTabOptions.collections,
+  //   component: <Collection title="This feature is under development now!" />,
+  // },
   {
     option: ArtistTabOptions.artProcess,
     component: <ArtProcess />,
@@ -33,8 +33,8 @@ export const renderItem = (selectedTab: ArtistTabOptions) => {
     case ArtistTabOptions.artworks:
       return <ArtistPaintings />;
 
-    case ArtistTabOptions.collections:
-      return <Collection title="This feature is under development now!" />;
+    // case ArtistTabOptions.collections:
+    //   return <Collection title="This feature is under development now!" />;
 
     case ArtistTabOptions.artProcess:
       return <ArtProcess />;

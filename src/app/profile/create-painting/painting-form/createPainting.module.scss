@@ -81,7 +81,6 @@
 }
 
 .error {
-  position: absolute;
   margin-top: 2px;
   font-size: $font-size-sm;
   color: $system-error;
@@ -350,24 +349,28 @@
   position: absolute;
   bottom: 10px;
   margin-top: 20px;
+
+  @include tabletXL {
+    bottom: 60px;
+  }
+
+  @include desktop {
+    bottom: 20px;
+  }
 }
 
 .arrowHeight {
   @include set-flex(column, center, center);;
   transform: rotate(-90deg);
   position: absolute;
-  right: -20%;
+  right: -114px;
 
   @include tablet {
-    right: -10%;
+    right: -80px;
   }
 
   @include tabletXL {
     right: 0;
-  }
-
-  @include desktop {
-    right: -10%;
   }
 }
 
@@ -382,4 +385,8 @@
 
 .preview:hover .closeIcon {
   display: block;
+}
+
+.wrapper {
+  width: 100%;
 }
