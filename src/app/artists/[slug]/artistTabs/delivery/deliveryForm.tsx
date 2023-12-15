@@ -85,6 +85,8 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
         }
       }
     )
+
+    setIsOpenForm(false);
   };
 
   const onReset = () => {
