@@ -38,19 +38,16 @@ const RegistersData: FC<Props> = ({ account, setIsOpenForm }) => {
         <div className={style.dataContainer}>
           <div>Phone number</div>
           <div className={style.input}>
-              <PhoneInput
-                value={phone}
-                excludeCountries={["ru", "by"]}
-                country={"ua"}
-                disabled
-                disableDropdown
-                containerClass={style.containerPhone}
-                buttonClass={style.buttonPhone}
-                inputClass={style.inputPhone}
-              />
-            {/* <div className={style.inputData}>
-              {phone}
-            </div> */}
+            <PhoneInput
+              value={phone}
+              excludeCountries={["ru", "by"]}
+              country={"ua"}
+              disabled
+              disableDropdown
+              containerClass={style.containerPhone}
+              buttonClass={style.buttonPhone}
+              inputClass={style.inputPhone}
+            />
           </div>
         </div>
 
@@ -62,15 +59,6 @@ const RegistersData: FC<Props> = ({ account, setIsOpenForm }) => {
           >
             Edit account
           </button>
-
-          {/* <button
-            type='reset'
-            className={style.signOut}
-            onClick={signOut}
-          >
-            <LogoutIcon />
-            <span>Sign out</span>
-          </button> */}
         </div>
       </div>
     </div>

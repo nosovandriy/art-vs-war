@@ -38,6 +38,7 @@ export interface ShippingFormData {
 }
 
 export interface AuthorShippingFormData extends ShippingFormData {
+  authorCountry: string;
   phone?: string;
 }
 

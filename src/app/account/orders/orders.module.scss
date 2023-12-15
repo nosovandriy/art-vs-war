@@ -113,9 +113,14 @@
 }
 
 .buttonContainer {
-  @include set-flex(row, space-between, center);
+  @include set-flex(column, center, flex-start);
+    gap: 16px;
   width: 100%;
-  gap: 16px;
+
+  @include tablet {
+    @include set-flex(row, space-between, center);
+    gap: 16px;
+  }
 }
 
 .button {

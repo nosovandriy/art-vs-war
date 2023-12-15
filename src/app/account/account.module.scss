@@ -214,9 +214,14 @@
 }
 
 .addressContainer {
-  @include set-flex(row, center, center);
+  @include set-flex(column, flex-start);
   width: 100%;
-  gap: 24px;
+  gap: 16px;
+
+  @include tablet {
+    @include set-flex(row, center, center);
+    gap: 24px;
+  }
 }
 
 .inputsContainer {
@@ -395,15 +400,6 @@
   outline: none;
 }
 
-// .buttonPhone {
-//   border: none !important;
-//   outline: none !important;
-
-//   &:hover {
-//     cursor: default !important;
-//   }
-// }
-
 .buttonPhone {
   pointer-events: none;
   background: #161717 !important;
@@ -419,4 +415,8 @@
     outline: none !important;
     cursor: default !important;
   }
+}
+
+.loading {
+  margin: 0 auto !important;
 }
