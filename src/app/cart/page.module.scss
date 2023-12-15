@@ -29,6 +29,19 @@
 
 .arrowBack {
   @include set-flex(row, flex-start, center);
+
+  path {
+    fill: $gray-30;
+    transition: fill 0.3s;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    path {
+      fill: $gray-5;
+    }
+  }
 }
 
 .title {

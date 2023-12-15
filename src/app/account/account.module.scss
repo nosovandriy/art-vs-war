@@ -1,5 +1,5 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .auth {
   height: 100vh;
@@ -44,7 +44,7 @@
 
   @include desktop {
     position: absolute;
-    top: "20%";
+    top: '20%';
     right: 0;
     display: block;
   }
@@ -187,7 +187,7 @@
 
 .star {
   margin-left: 4px;
-  color: #D32B10;
+  color: #d32b10;
 }
 
 .label {
@@ -211,6 +211,7 @@
   font-size: $font-size-md;
   font-weight: $font-weight-regular;
   line-height: 20px;
+  border-bottom: 1px solid #262728;
 }
 
 .addressContainer {
@@ -252,7 +253,7 @@
   width: 100%;
 }
 
-.inputData{
+.inputData {
   width: 100%;
   height: 48px;
   padding: 12px 16px;
