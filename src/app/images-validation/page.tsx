@@ -11,6 +11,7 @@ import { getRejectedImagesList, rejectNotValidImage } from '@/utils/api';
 import ModalComponent from '../profile/[slug]/modal/modal';
 
 import style from './page.module.scss';
+import Link from 'next/link';
 
 interface CloudinaryImage {
   createdAt: string;
@@ -70,9 +71,18 @@ const ImagesValidation = () => {
       />
       {list.map((image) => (
         <div key={image.publicId} className={style.image}>
-          <p>Image ID</p>
+          <p className={style.title}>Public ID</p>
           <div className={style.id}>{image.publicId}</div>
+          <p className={style.title}>Created at</p>
           <div className={style.id}>{image.createdAt}</div>
+          <Link
+            className={`${style.title} ${style.link}`}
+            href={'/images-validation'}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Cloudinary Image link
+          </Link>
           {image.moderationStatus === 'REJECTED' ? (
             <p className={style.rejected}>Rejected manually</p>
           ) : (
