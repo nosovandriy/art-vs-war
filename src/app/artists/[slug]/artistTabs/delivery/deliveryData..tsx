@@ -73,16 +73,14 @@ const DeliveryData: FC<Props> = ({ address, setIsOpenForm }) => {
           </div>
 
           <div className={style.inputsContainer}>
-            {!!state?.length && (
-              <div className={style.dataContainer}>
-                <div>State / Region</div>
-                <div className={style.input}>
-                  <div className={style.inputData}>
-                    {state}
-                  </div>
+            <div className={style.dataContainer}>
+              <div>State / Region</div>
+              <div className={style.input}>
+                <div className={style.inputData}>
+                  {state}
                 </div>
               </div>
-            )}
+            </div>
 
             <div className={style.dataContainer}>
               <div>Postcode</div>

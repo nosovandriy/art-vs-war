@@ -1,0 +1,85 @@
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
+
+.imagesValidation {
+  padding: 48px 22px;
+  color: $gray-0;
+  max-width: 400px;
+  margin: 0 auto;
+
+  @include tablet {
+    max-width: 600px;
+  }
+
+  @include laptop {
+    max-width: 800px;
+  }
+}
+
+.title {
+  font-family: $font-title;
+  margin-top: 24px;
+  font-size: $font-size-xl;
+}
+
+.link {
+  display: block;
+  margin-top: 24px;
+  color: $system-info;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.image {
+  border: 1px solid $gray-0;
+  padding: 16px;
+  margin-top: 24px;
+
+  @include tablet {
+    padding: 16px 24px;
+  }
+}
+
+.id {
+  margin-top: 8px;
+}
+
+.rejected {
+  @include set-flex(row, center, center);
+
+  margin-top: 24px;
+  width: 100%;
+  height: 51px;
+  border: 1px solid $system-error;
+  color: $system-error;
+  margin: 24px auto;
+
+  @include tablet {
+    max-width: 300px;
+  }
+}
+
+.button {
+  @include set-flex(row, center, center);
+
+  margin: 24px auto;
+  height: 48px;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: 1px solid $gray-5;
+  background-color: $gray-5;
+  color: $gray-100;
+  font-family: $font-text;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-regular;
+  text-align: center;
+  cursor: pointer;
+
+  @include tablet {
+    max-width: 300px;
+  }
+}

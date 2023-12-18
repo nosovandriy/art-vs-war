@@ -1,19 +1,19 @@
 import { FC, Dispatch, SetStateAction } from "react";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { FieldError, Noop } from "react-hook-form";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-import { selectStyles } from "./styles";
+import { selectStyles } from './styles';
 
-import { OptionDetails } from "@/types/ShippingForm";
-import { SingleValue } from "react-select";
-import { Option } from "react-google-places-autocomplete/build/types";
-import { getPlaceDetails } from "@/utils/account";
+import { OptionDetails } from '@/types/ShippingForm';
+import { SingleValue } from 'react-select';
+import { Option } from 'react-google-places-autocomplete/build/types';
+import { getPlaceDetails } from '@/utils/account';
 
 interface GooglePlacesComponentProps {
   error?: FieldError | undefined;
   value: OptionDetails;
   onBlur: Noop;
-  onChange:  Dispatch<SetStateAction<OptionDetails>>;
+  onChange: Dispatch<SetStateAction<OptionDetails>>;
 }
 
 const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
@@ -34,11 +34,11 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
         country: details?.country || '',
         state: details?.state || '',
         city: details?.city || '',
-      }
+      };
 
-      onChange(foundAddress)
+      onChange(foundAddress);
     }
-  }
+  };
 
   return (
     <div>
@@ -63,9 +63,9 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
           },
         }}
       />
-      {error && <div style={{ color: "#d32b10", fontSize: 10 }}>{error.message}</div>}
+      {error && <div style={{ color: '#d32b10', fontSize: 10 }}>{error.message}</div>}
     </div>
-  )
+  );
 };
 
 export default GooglePlacesComponent;

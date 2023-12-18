@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import ButtonLoader from '@/app/components/button-loader/button-loader';
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowLeft } from '@/app/icons/icon-arrow-left';
+import { IconClose } from '@/app/icons/icon-close';
 import { ArtProcessData } from '@/types/Painting';
 import { createArtProcess, getSignature, uploadImage, validateData } from '@/utils/api';
 import createHeaders from '@/utils/getAccessToken';
@@ -34,6 +35,7 @@ const AddArtProcessContent = () => {
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm({
     mode: 'onTouched',
@@ -140,8 +142,16 @@ const AddArtProcessContent = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    console.log(event);
+    console.log(file);
 
     if (!file) {
+      return;
+    }
+
+    if (file.size > 10485760) {
+      setImagePreview(null);
+
       return;
     }
 
@@ -152,6 +162,12 @@ const AddArtProcessContent = () => {
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const handleFileRemove = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    resetField('image');
+    setImagePreview(null);
   };
 
   return (
@@ -187,6 +203,12 @@ const AddArtProcessContent = () => {
                   className={style.image}
                   fill
                 />
+                <div
+                  className={style.closeIconWrapper}
+                  onClick={(event) => handleFileRemove(event)}
+                >
+                  <IconClose />
+                </div>
               </div>
             ) : (
               <>
