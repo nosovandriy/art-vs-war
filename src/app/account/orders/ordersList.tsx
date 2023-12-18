@@ -1,11 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 
 import style from './orders.module.scss';
 
 import OrderCard from './orderCard';
-import createHeaders from '@/utils/getAccessToken';
-import { getOrderById } from '@/utils/api';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
 import { Order } from '@/types/Account';
 
@@ -18,8 +16,8 @@ const accordionStyles = {
 };
 
 type Props = {
-  orders: Order[];
   user: any;
+  orders: Order[];
 };
 
 const OrdersList: FC<Props> = ({ orders, user }) => {

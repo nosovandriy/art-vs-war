@@ -355,7 +355,7 @@
   }
 
   @include desktop {
-    bottom: 20px;
+    bottom: 50px;
   }
 }
 
@@ -363,7 +363,7 @@
   @include set-flex(column, center, center);;
   transform: rotate(-90deg);
   position: absolute;
-  right: -114px;
+  right: -100px;
 
   @include tablet {
     right: -80px;

@@ -14,7 +14,7 @@ import GooglePlacesComponent from "@/app/components/google-places/googlePlacesCo
 const defaultPlaceState = {
   city: '',
   state: '',
-  label: '',
+  label: 'Enter your address',
   postalCode: '',
   value: { terms: [{value: ''}, {value: ''}]},
 };
@@ -118,14 +118,20 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
               rules={{
                 required: "This is a required field"
               }}
-              render={({ field: { value, onChange, onBlur}, fieldState: { error } }) => (
-                <GooglePlacesComponent
-                  value={value}
-                  onBlur={onBlur}
-                  onChange={onChange}
-                  error={error}
-                />
-              )}
+              defaultValue={null}
+              render={({
+                field: { value, onChange, onBlur},
+                fieldState: { error }
+              }) => {
+                return (
+                  <GooglePlacesComponent
+                    value={value}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    error={error}
+                  />
+                )
+              }}
             />
           </div>
         </div>
@@ -292,7 +298,12 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
 
         <div className={style.buttonContainer}>
           <button type='submit' className={style.submit}>Submit</button>
-          <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+
+          {address && (
+            <button type='reset' onClick={onReset} className={style.cancel}>
+              Cancel
+            </button>
+          )}
         </div>
       </div>
     </form>

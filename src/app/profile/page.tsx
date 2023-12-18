@@ -42,15 +42,14 @@ const Profile = () => {
     const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
     const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
-    if (!hasCustomerRole) {
+    if (!isFetching && !hasCustomerRole) {
       router.replace("/account");
 
       return;
     }
 
-    if (!hasAuthorRole) {
+    if (!isFetching && !hasAuthorRole) {
       setAuthor(null);
-      setIsFetching(false);
 
       return;
     }
@@ -66,6 +65,7 @@ const Profile = () => {
 
       dispatch(resetArtistGalleryPageCount());
       dispatch(setArtistPaintings(paintingsData));
+      setIsFetching(false);
     };
 
     const fetchArtProcessData = async () => {
@@ -88,7 +88,7 @@ const Profile = () => {
       fetchStatuses();
       fetchArtProcessData();
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (author) {

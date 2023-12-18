@@ -55,6 +55,12 @@ export const stylesSelect = {
       color: '#eff0f1',
     },
   }),
+  dropdownIndicator: (provided: any, state: {
+    selectProps: any; isFocused: any
+}) => ({
+    ...provided,
+    transform: `rotate(${state.selectProps.menuIsOpen ? 180 : 0}deg)`,
+  }),
   indicatorSeparator: () => ({
     display: 'none',
   }),

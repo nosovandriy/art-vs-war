@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 
 import style from './orders.module.scss'
@@ -7,13 +7,18 @@ import { Order } from '@/types/Account';
 import { OrderPainting } from '@/types/Painting';
 import { setOrderDelivered } from '@/utils/api';
 import createHeaders from '@/utils/getAccessToken';
+import { useDisclosure } from '@nextui-org/react';
+import ModalComponent from '@/app/profile/[slug]/modal/modal';
 
 type Props = {
-  order: Order;
   user: any;
+  order: Order;
 };
 
 const OrderCard: FC<Props> = ({ order, user }) => {
+  const [tempOrder, setTempOrder] = useState(order);
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+
   const {
     id,
     paintings,
@@ -21,16 +26,28 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     isDelivered,
     orderCreatedAt,
     shippingAmount,
-  } = order;
+  } = tempOrder;
 
   const handleConfirm = async () => {
     const headers = createHeaders(user);
 
-    await setOrderDelivered(headers, id);
+    try {
+      await setOrderDelivered(headers, id);
+      setTempOrder(current => ({ ...current, isDelivered: true }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className={style.order}>
+      <ModalComponent
+        content="Do you want to confirm order delivery?"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onAction={handleConfirm}
+      />
+
       <div className={style.number}>{`№${id}`}</div>
 
       <div className={style.date}>{orderCreatedAt.orderCreatedAt}</div>
@@ -71,14 +88,14 @@ const OrderCard: FC<Props> = ({ order, user }) => {
           Total: € {totalAmount}
         </div>
 
-        {isDelivered
+        {!isDelivered
           ? (
             <div className={style.delivered}>Delivered</div>
           ) : (
             <button
               type="button"
               className={style.button}
-              onClick={handleConfirm}
+              onClick={onOpen}
             >
               Confirm
             </button>
