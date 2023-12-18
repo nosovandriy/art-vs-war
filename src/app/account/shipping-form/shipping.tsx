@@ -40,12 +40,12 @@ const Shipping: FC<Props> = ({ account, setAccount, address }) => {
         )}
 
         {isOpenForm && (
-            <ShippingForm
-              address={address}
-              account={account}
-              setAccount={setAccount}
-              setIsOpenForm={setIsOpenForm}
-            />
+          <ShippingForm
+            address={address}
+            account={account}
+            setAccount={setAccount}
+            setIsOpenForm={setIsOpenForm}
+          />
         )}
       </AccordionItem>
     </Accordion>

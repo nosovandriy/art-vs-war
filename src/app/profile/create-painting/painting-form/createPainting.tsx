@@ -62,6 +62,7 @@ const CreatePainting: FC<Props> = ({
   const [selectedMediums, setSelectedMediums] = useState<SubjectType[]>([]);
   const [selectedSupports, setSelectedSupports] = useState<SubjectType[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectType[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
 
   const { user, route } = useAuthenticator((context) => [context.route]);
   const isAuthenticated = route === "authenticated";
@@ -77,19 +78,19 @@ const CreatePainting: FC<Props> = ({
 
     setImagePreview(initial.image.imageUrl);
 
-    setValue('title', initial.title)
-    setValue('depth', initial.depth)
-    setValue('price', initial.price)
-    setValue('width', initial.width)
-    setValue('height', initial.height)
-    setValue('weight', initial.weight)
-    setValue('description',initial.description)
-    setValue('yearOfCreation', initial.yearOfCreation)
-    setValue('styleIds', getInitialIds(initial.styles))
-    setValue('mediumIds', getInitialIds(initial.mediums))
-    setValue('subjectIds', getInitialIds(initial.subjects))
-    setValue('supportIds', getInitialIds(initial.supports))
-    setValue('image', { publicId: initial.image.imagePublicId })
+    setValue('title', initial.title);
+    setValue('price', initial.price);
+    setValue('width', initial.width);
+    setValue('height', initial.height);
+    setValue('weight', initial.weight);
+    setValue('description',initial.description);
+    setValue('yearOfCreation', initial.yearOfCreation);
+    setValue('styleIds', getInitialIds(initial.styles));
+    setValue('mediumIds', getInitialIds(initial.mediums));
+    setValue('subjectIds', getInitialIds(initial.subjects));
+    setValue('supportIds', getInitialIds(initial.supports));
+    setValue('image', { publicId: initial.image.imagePublicId });
+    setValue('depth', `${initial.depth}`.length === 1 ? `${initial.depth}.0` : initial.depth);
   }, [initial]);
 
   const checkOptions = (options: SubjectType[]) => {
@@ -110,14 +111,16 @@ const CreatePainting: FC<Props> = ({
   };
 
   const handleCreatePainting = async (data: PaintingData) => {
-    if (data.image instanceof File) {
-      await uploadImageToServer(data, URL, headers).then((imageData) => {
-        const paintingData: PaintingDataToSave = {
-          ...data,
-          image: imageData,
-        };
+    setIsCreating(true);
 
-        toast.promise(
+    if (data.image instanceof File) {
+      toast.promise(
+        uploadImageToServer(data, URL, headers).then((imageData) => {
+          const paintingData: PaintingDataToSave = {
+            ...data,
+            image: imageData,
+          };
+
           axios.post(BASE_URL + "paintings", paintingData, { headers })
           .then(({ data }) => {
             setUploaded(data);
@@ -125,21 +128,22 @@ const CreatePainting: FC<Props> = ({
           })
           .finally(() => {
             onReset();
-          }),
-          {
-            loading: "Creating...",
-            success: <b>Painting created!</b>,
-            error: <b>Could not create.</b>,
+            setIsCreating(false);
+          })
+        }),
+        {
+          loading: "Creating...",
+          success: <b>Painting created!</b>,
+          error: <b>Could not create.</b>,
+        },
+        {
+          style: {
+            borderRadius: "10px",
+            background: "#1c1d1d",
+            color: "#b3b4b5",
           },
-          {
-            style: {
-              borderRadius: "10px",
-              background: "#1c1d1d",
-              color: "#b3b4b5",
-            },
-          }
-        );
-      })
+        }
+      );
     }
   };
 
@@ -339,13 +343,19 @@ const CreatePainting: FC<Props> = ({
                       type="number"
                       className={style.text}
                       placeholder="Year of creation"
-                      onWheel={(e) => e.currentTarget.blur()}
+                      onKeyDown={(e) => {
+                        if (e.key === 'e' || e.key === 'E') {
+                          e.preventDefault();
+                          return;
+                        }
+                      }}
                       onInput={(e) => {
                         e.preventDefault();
                         const target = e.target as HTMLInputElement;
                         const value = target.value.replace(/[eE]/g, '');
                         target.value = value;
                       }}
+                      onWheel={(e) => e.currentTarget.blur()}
                       {...register("yearOfCreation", {
                         required: "This field is required!",
                         min: {
@@ -382,6 +392,12 @@ const CreatePainting: FC<Props> = ({
                       type="number"
                       className={style.text}
                       placeholder="Weight grm"
+                      onKeyDown={(e) => {
+                        if (e.key === 'e' || e.key === 'E') {
+                          e.preventDefault();
+                          return;
+                        }
+                      }}
                       onInput={(e) => {
                         e.preventDefault();
                         const target = e.target as HTMLInputElement;
@@ -418,9 +434,14 @@ const CreatePainting: FC<Props> = ({
                   <div className={style.input}>
                     <input
                       type="number"
-                      accept="image/*"
                       className={style.text}
                       placeholder="Width cm"
+                      onKeyDown={(e) => {
+                        if (e.key === 'e' || e.key === 'E') {
+                          e.preventDefault();
+                          return;
+                        }
+                      }}
                       onInput={(e) => {
                         e.preventDefault();
                         const target = e.target as HTMLInputElement;
@@ -459,10 +480,16 @@ const CreatePainting: FC<Props> = ({
                       type="number"
                       className={style.text}
                       placeholder="Height cm"
+                      onKeyDown={(e) => {
+                        if (e.key === 'e' || e.key === 'E') {
+                          e.preventDefault();
+                          return;
+                        }
+                      }}
                       onInput={(e) => {
                         e.preventDefault();
                         const target = e.target as HTMLInputElement;
-                        const value = target.value.replace(/[eE]/g, '');
+                        const value = target.value.replace(/[eE]/g, target.value);
                         target.value = value;
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
@@ -495,21 +522,6 @@ const CreatePainting: FC<Props> = ({
                     <span className={style.star}>*</span>
                   </div>
                   <div className={style.input}>
-                    {/* <input
-                      type="number"
-                      className={style.text}
-                      placeholder="Depth cm"
-                      // step="0.1"
-                      onWheel={(e) => e.currentTarget.blur()}
-                      {...register("depth", {
-                        required: "This field is required!",
-                        pattern: {
-                          value: /^[1-9]\.\d$/,
-                          message: "Should be in the format _._ and between 1.0cm and 9.9cm",
-                        },
-                      })}
-                    /> */}
-
                     <Controller
                       control={control}
                       name="depth"
@@ -574,27 +586,29 @@ const CreatePainting: FC<Props> = ({
                       name="styleIds"
                       control={control}
                       rules={{ required: "This field is required!" }}
-                      render={({ field: { value, onChange } }) => (
-                        <Select
-                          options={styles}
-                          isMulti
-                          isOptionDisabled={() => checkOptions(selectedStyles)}
-                          value={styles.filter((option) =>
-                            value.includes(option.value)
-                          )}
-                          onChange={(newValues) => {
-                            setSelectedStyles(newValues as SubjectType[]);
+                      render={({ field: { value, onChange } }) => {
+                        return (
+                          <Select
+                            options={styles}
+                            isMulti
+                            isOptionDisabled={() => checkOptions(selectedStyles)}
+                            value={styles.filter((option) =>
+                              value.includes(option.value)
+                            )}
+                            onChange={(newValues) => {
+                              setSelectedStyles(newValues as SubjectType[]);
 
-                            return onChange(
-                              newValues.map((newValue) => newValue.value)
-                            );
-                          }}
-                          closeMenuOnSelect={false}
-                          className={style.select}
-                          placeholder="Choose styles"
-                          styles={stylesSelect}
-                        />
-                      )}
+                              return onChange(
+                                newValues.map((newValue) => newValue.value)
+                              );
+                            }}
+                            closeMenuOnSelect={false}
+                            className={style.select}
+                            placeholder="Choose styles"
+                            styles={stylesSelect}
+                          />
+                        )
+                      }}
                     />
 
                     {typeof errors?.styleIds?.message === "string" && (
@@ -788,7 +802,7 @@ const CreatePainting: FC<Props> = ({
           >
             Cancel
           </button>
-          <button type="submit" className={style.forward}>
+          <button type="submit" className={style.forward} disabled={isCreating}>
             Forward
           </button>
         </div>
