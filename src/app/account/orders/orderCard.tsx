@@ -88,7 +88,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
           Total: € {totalAmount}
         </div>
 
-        {!isDelivered
+        {isDelivered
           ? (
             <div className={style.delivered}>Delivered</div>
           ) : (
