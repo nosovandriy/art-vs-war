@@ -2,7 +2,6 @@
 @import "@styles/vars.scss";
 
 .about {
-  z-index: 1;
   @include laptop {
     padding-bottom: 150px;
   }
