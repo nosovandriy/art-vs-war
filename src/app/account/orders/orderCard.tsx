@@ -34,6 +34,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     try {
       await setOrderDelivered(headers, id);
       setTempOrder(current => ({ ...current, isDelivered: true }));
+      onClose();
     } catch (error) {
       console.log(error);
     }
