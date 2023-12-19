@@ -66,7 +66,7 @@ const CardPreview: React.FC<Props> = ({ paintingDetails, className }) => {
       image: imageUrl,
       width: width,
       height: height,
-      depth: depth,
+      depth: +depth,
     };
 
     dispatch(addPaintingToCart(orderData));
