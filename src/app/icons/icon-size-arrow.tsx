@@ -2,7 +2,7 @@ export const SizeArrowIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="270"
+      width="240"
       height="12"
       viewBox="0 0 432 12"
       fill="none"

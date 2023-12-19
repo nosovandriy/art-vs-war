@@ -153,6 +153,12 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   };
 
   const onSubmit = async () => {
+    if (!images.length) {
+      router.replace(`/profile/${prettyId}`);
+
+      return;
+    }
+
     const headers = createHeaders(user);
 
     await handleSaveImages(images, headers, id);

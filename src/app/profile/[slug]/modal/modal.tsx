@@ -53,7 +53,7 @@ const ModalComponent: FC<Props> = ({ isOpen, content, onOpenChange, onAction }) 
                 }}
                 onPress={onAction}
               >
-                Delete
+                Confirm
               </Button>
             </ModalFooter>
           </>

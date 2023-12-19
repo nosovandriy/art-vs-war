@@ -1,6 +1,6 @@
-import { FC, useRef, Dispatch, SetStateAction } from 'react';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
-import { FieldError, Noop } from 'react-hook-form';
+import { FC, Dispatch, SetStateAction } from "react";
+import { FieldError, Noop } from "react-hook-form";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 import { selectStyles } from './styles';
 
@@ -22,9 +22,7 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
   onBlur,
   onChange,
 }) => {
-  const getSlicedAdress = (value: string) => value.split(', ').slice(0, 2).join(', ');
-  const ref = useRef<HTMLDivElement | null>(null);
-
+  const getSlicedAdress = (val: string) => val.split(', ').slice(0, 1).join(', ');
   const onChangeValue = async (newValue: SingleValue<Option>) => {
     if (newValue) {
       const details = await getPlaceDetails(newValue?.value?.place_id);
@@ -55,13 +53,13 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
           isSearchable: true,
           styles: {
             ...selectStyles,
-            singleValue: (provided) => ({
-              ...provided,
-              color: value?.label?.length ? '#F9FAFB' : '#78797A',
-              fontSize: '16px',
-              fontFamily: 'var(--font-openSans)',
-              opacity: 1,
-            }),
+              singleValue: (provided) => ({
+                ...provided,
+                color: (value.label.includes('Enter')) ? '#78797A' : '#F9FAFB',
+                fontSize: '16px',
+                fontFamily: 'var(--font-openSans)',
+                opacity: 1,
+              }),
           },
         }}
       />

@@ -161,7 +161,7 @@ const Account = () => {
                     setAccount={setAccount}
                   />
 
-                  {orders.length && (
+                  {orders.length > 0 && (
                     <OrdersList
                       user={user}
                       orders={orders}
