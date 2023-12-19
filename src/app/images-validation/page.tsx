@@ -1,28 +1,28 @@
 'use client';
 
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useDisclosure } from '@nextui-org/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useDisclosure } from '@nextui-org/react';
 
-import createHeaders from '@/utils/getAccessToken';
 import { getUserRole } from '@/utils/account';
 import { getRejectedImagesList, rejectNotValidImage } from '@/utils/api';
+import createHeaders from '@/utils/getAccessToken';
 import ModalComponent from '../profile/[slug]/modal/modal';
 
 import style from './page.module.scss';
-import Link from 'next/link';
 
 interface CloudinaryImage {
   createdAt: string;
   moderationStatus: string;
   publicId: string;
+  url: string;
 }
 
 const ImagesValidation = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const [list, setList] = useState<CloudinaryImage[]>([]);
   const { user } = useAuthenticator((context) => [context.user]);
   const route = useRouter();
@@ -77,7 +77,7 @@ const ImagesValidation = () => {
           <div className={style.id}>{image.createdAt}</div>
           <Link
             className={`${style.title} ${style.link}`}
-            href={'/images-validation'}
+            href={image.url}
             target="_blank"
             rel="noreferrer noopener"
           >
