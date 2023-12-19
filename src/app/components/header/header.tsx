@@ -94,7 +94,7 @@ const Header = () => {
             image: item.imageUrl,
             width: item.width,
             height: item.height,
-            depth: item.depth,
+            depth: +item.depth,
           };
 
           return orderData;
