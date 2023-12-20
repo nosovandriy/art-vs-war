@@ -45,8 +45,6 @@ const HeroSection = ({ paintings, video }: HeroSectionProps) => {
 
   const [showImage, setShowImage] = useState(false);
 
-  console.log(video);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowImage(true);
