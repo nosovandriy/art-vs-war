@@ -25,7 +25,7 @@ const Footer = () => {
           <div>
             <ul className={style.list}>
               <Link href={'/for-artists'}>
-                <li>For artists</li>
+                <li>For Artists</li>
               </Link>
               <Link href={'/payment'}>
                 <li>Payment</li>
@@ -37,10 +37,10 @@ const Footer = () => {
                 <li>FAQ</li>
               </Link>
               <Link href={'/under-development'}>
-                <li>Terms of use</li>
+                <li>Terms of Use</li>
               </Link>
               <Link href={'/under-development'}>
-                <li>Privacy policy</li>
+                <li>Privacy Policy</li>
               </Link>
             </ul>
             <div className={style.icons}>
