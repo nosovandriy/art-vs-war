@@ -64,6 +64,7 @@
     font-weight: $font-weight-regular;
     background-color: $gray-5;
     color: $gray-100;
+    flex-shrink: 0;
 
     &:hover {
       cursor: pointer;
