@@ -21,11 +21,9 @@ import { getDataFromLocalStorage, setDataToLocalStorage } from '@/utils/localSto
 import { Logo } from '../logo/logo';
 import { MenuItems } from '../menuItems/menuItems';
 import SocialNetworkIcons from '../social-network/social-network';
-import LogOutButton from './navigation/logOut-button/logOut-button';
 import LoginButton from './navigation/login-button/login-button';
 
 import style from './header.module.scss';
-import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -39,9 +37,14 @@ const Header = () => {
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
   const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
+  const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
 
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
+
+  console.log(hasRole);
+  console.log(authenticated);
+  console.log(user);
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -122,6 +125,10 @@ const Header = () => {
     };
   });
 
+  const handleLogOutProfile = () => {
+    signOut();
+  };
+
   return (
     <header>
       <div className={style.header}>
@@ -156,7 +163,7 @@ const Header = () => {
               <div className={style.price__amount}>{`€ ${totalPrice}`}</div>
             </Link>
           </div>
-          {authenticated ? (
+          {authenticated && user ? (
             <div className={style.profileWrapper} ref={menuRef}>
               <button
                 title="Account"
@@ -188,9 +195,9 @@ const Header = () => {
                   )}
 
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={signOut}>
-                    <LogOutButton />
-                  </button>
+                  <div className={style.profileButton} onClick={handleLogOutProfile}>
+                    <button className={style.logOutButton}>Sign Out</button>
+                  </div>
                 </div>
               )}
             </div>
@@ -209,7 +216,7 @@ const Header = () => {
         }`}
       >
         <div>
-          {authenticated ? (
+          {authenticated && user ? (
             <>
               <div
                 className={style.profileButton}
@@ -237,9 +244,9 @@ const Header = () => {
                     View Artist Profile
                   </Link>
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={signOut}>
-                    <LogOutButton />
-                  </button>
+                  <div className={style.profileButton} onClick={handleLogOutProfile}>
+                    <button className={style.logOutButton}>Sign Out</button>
+                  </div>
                 </div>
               )}
             </>
