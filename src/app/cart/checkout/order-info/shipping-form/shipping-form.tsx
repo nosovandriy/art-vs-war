@@ -54,10 +54,20 @@ const ShippingForm: React.FC<Props> = ({
     try {
       setIsLoading(true);
       const shippingInfo = await getShippingInfo(orderIds, data, headers);
+
       dispatch(setPaintingsShippingInfo(shippingInfo));
       dispatch(setShippingAddress(data));
     } catch (error: any) {
       console.log('error', error);
+      const manualPrice = [
+        {
+          paintingId: 1,
+          shippingPrice: 101,
+          deliveryMinDays: 3,
+          deliveryMaxDays: 5,
+        },
+      ];
+      dispatch(setPaintingsShippingInfo(manualPrice));
     } finally {
       setIsLoading(false);
     }
