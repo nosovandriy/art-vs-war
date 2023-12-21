@@ -9,7 +9,11 @@ import { IconClose } from '@/app/icons/icon-close';
 import { MobileMenu } from '@/app/icons/icon-menu';
 import { ProfileIcon } from '@/app/icons/icon-profile';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
-import { setCartDataFromServer, setDataToCartFromLocalStorage } from '@/app/redux/slices/cartSlice';
+import {
+  clearOrderFromCart,
+  setCartDataFromServer,
+  setDataToCartFromLocalStorage,
+} from '@/app/redux/slices/cartSlice';
 import { CartItem, DataFromLocalStorage } from '@/types/CartItem';
 import { Painting } from '@/types/Painting';
 import { useAppDispatch, useAppSelector } from '@/types/ReduxHooks';
@@ -37,14 +41,8 @@ const Header = () => {
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
   const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
-  const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
-
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
-
-  console.log(hasRole);
-  console.log(authenticated);
-  console.log(user);
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -127,6 +125,7 @@ const Header = () => {
 
   const handleLogOutProfile = () => {
     signOut();
+    dispatch(clearOrderFromCart());
   };
 
   return (
@@ -195,8 +194,10 @@ const Header = () => {
                   )}
 
                   <hr className={style.line}></hr>
-                  <div className={style.profileButton} onClick={handleLogOutProfile}>
-                    <button className={style.logOutButton}>Sign Out</button>
+                  <div className={style.profileButton}>
+                    <button className={style.logOutButton} onClick={handleLogOutProfile}>
+                      Sign Out
+                    </button>
                   </div>
                 </div>
               )}
@@ -244,8 +245,10 @@ const Header = () => {
                     View Artist Profile
                   </Link>
                   <hr className={style.line}></hr>
-                  <div className={style.profileButton} onClick={handleLogOutProfile}>
-                    <button className={style.logOutButton}>Sign Out</button>
+                  <div className={style.profileButton}>
+                    <button className={style.logOutButton} onClick={handleLogOutProfile}>
+                      Sign Out
+                    </button>
                   </div>
                 </div>
               )}
