@@ -36,10 +36,10 @@ const Footer = () => {
               <Link href={'/under-development'}>
                 <li>FAQ</li>
               </Link>
-              <Link href={'/under-development'}>
+              <Link href={'/terms-of-use'}>
                 <li>Terms of Use</li>
               </Link>
-              <Link href={'/under-development'}>
+              <Link href={'/privacy-policy'}>
                 <li>Privacy Policy</li>
               </Link>
             </ul>
