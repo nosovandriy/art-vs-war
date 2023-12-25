@@ -13,7 +13,7 @@ export interface Painting {
   yearOfCreation: number;
   width: number;
   height: number;
-  depth: number | string;
+  depth: number;
 }
 
 export interface ArtProcess {

@@ -13,6 +13,7 @@ export interface ProfileForm {
   city: string;
   aboutMe: string;
   image: FileList | string;
+  isDeactivated: boolean;
 }
 
 export interface UserData {
@@ -21,6 +22,7 @@ export interface UserData {
   city: string;
   aboutMe: string;
   image?: File | string;
+  isDeactivated: boolean;
 }
 
 export interface UserDataToSave {

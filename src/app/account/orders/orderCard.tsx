@@ -98,7 +98,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
               className={style.button}
               onClick={onOpen}
             >
-              Confirm
+              Confirm delivery
             </button>
           )
         }

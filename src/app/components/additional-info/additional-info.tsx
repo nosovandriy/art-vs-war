@@ -202,28 +202,28 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
           <div className={style.params}>
             <div className={style.subject}>Subject:</div>
             <div className={style.value}>
-              {subjects.join(' ')}
+              {subjects.join(', ')}
             </div>
           </div>
 
           <div className={style.params}>
             <div className={style.subject}>Style:</div>
             <div className={style.value}>
-              {styles.join(' ')}
+              {styles.join(', ')}
             </div>
           </div>
 
           <div className={style.params}>
             <div className={style.subject}>Medium:</div>
             <div className={style.value}>
-              {mediums.join(' ')}
+              {mediums.join(', ')}
             </div>
           </div>
 
           <div className={style.params}>
             <div className={style.subject}>Support:</div>
             <div className={style.value}>
-              {supports.join(' ')}
+              {supports.join(', ')}
             </div>
           </div>
 
@@ -237,11 +237,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
           <div className={style.params}>
             <div className={style.subject}>Weight:</div>
             <div className={style.value}>{`${weight} grm`}</div>
-          </div>
-
-          <div className={style.params}>
-            <div className={style.subject}>Collection:</div>
-            <div className={style.value}>None</div>
           </div>
 
           <div className={style.params}>

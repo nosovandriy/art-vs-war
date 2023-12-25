@@ -48,7 +48,7 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
         <div className={style.subtitleContainer}>
           {!statuses.hasStripeProfile && !statuses.hasAddress && (
             <>
-              <span className={style.subtitle}>To sell your paintings you need to create a </span>
+              <span className={style.subtitle}>To showcase and sell your paintings you need to create a </span>
               <a href="/profile?tab=Payment" className={style.subtitleLink}>
                 Stripe account
               </a>
@@ -61,7 +61,7 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
 
           {!statuses.hasStripeProfile && statuses.hasAddress && (
             <>
-              <span className={style.subtitle}>To sell your paintings you need to create a </span>
+              <span className={style.subtitle}>To showcase and sell your paintings you need to create a </span>
               <a href="/profile?tab=Payment" className={style.subtitleLink}>
                 Stripe account{' '}
               </a>
@@ -71,7 +71,7 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
           {statuses.hasStripeProfile && !statuses.hasAddress && (
             <>
               <span className={style.subtitle}>
-                To sell your paintings you need to fill in the{' '}
+                To showcase and sell your paintings you need to fill in the{' '}
               </span>
               <a href="/profile?tab=Delivery" className={style.subtitleLink}>
                 address data
@@ -94,9 +94,13 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
 
             {styles.map((artistStyle: string, index: number) => (
               <span className={style.style} key={index}>
-                <span className={style.style__mobile}>{artistStyle}</span>
+                <span className={style.style__mobile}>
+                  {index === styles.length - 1 ? artistStyle : artistStyle + ','}
+                </span>
 
-                <span className={style.style__laptop}>{artistStyle}</span>
+                <span className={style.style__laptop}>
+                  {index === styles.length - 1 ? artistStyle : artistStyle + ','}
+                </span>
               </span>
             ))}
           </div>

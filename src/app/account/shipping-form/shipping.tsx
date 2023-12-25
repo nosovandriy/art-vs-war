@@ -20,10 +20,11 @@ const accordionStyles = {
 type Props = {
   account: AccountData | null;
   address: ShippingFormData | null;
+  setAddress: Dispatch<SetStateAction<ShippingFormData | null>>;
   setAccount: Dispatch<SetStateAction<AccountData | null>> | null;
 }
 
-const Shipping: FC<Props> = ({ account, setAccount, address }) => {
+const Shipping: FC<Props> = ({ account, setAccount, address, setAddress }) => {
   const [isOpenForm, setIsOpenForm] = useState(address ? false : true);
 
   return (
@@ -43,7 +44,7 @@ const Shipping: FC<Props> = ({ account, setAccount, address }) => {
           <ShippingForm
             address={address}
             account={account}
-            setAccount={setAccount}
+            setAddress={setAddress}
             setIsOpenForm={setIsOpenForm}
           />
         )}
