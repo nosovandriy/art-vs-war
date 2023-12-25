@@ -1,15 +1,16 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
+import { Accordion, AccordionItem } from '@nextui-org/react';
 
 import style from './account.module.scss';
 
 import Loading from '../loading';
-import OrdersList from './orders/ordersList';
+import OrdersList, { accordionStyles } from './orders/ordersList';
 import Ornament from "./account_ornament.png";
 import createHeaders from '@/utils/getAccessToken';
 import RegistersForm from './registers-form/registersForm';
@@ -20,7 +21,9 @@ import { getAccount, getAddress, getOrders } from '@/utils/api';
 import { AccountData, CreatedAccountResponse, Order } from '@/types/Account';
 import { ShippingFormData, ShippingResponseData } from '@/types/ShippingForm';
 import { authenticatorStylesComponents } from '../profile/aws-authenticator-styles/aws-authenticator-styles';
+import { ArrowDownIcon } from '../icons/iconArrowUp/icon-arrow-down';
 import Shipping from './shipping-form/shipping';
+import EmptyBlock from '../artists/[slug]/artistTabs/empty/emptyBlock';
 
 const Account = () => {
   const router = useRouter();
@@ -158,14 +161,27 @@ const Account = () => {
                   <Shipping
                     account={account}
                     address={address}
+                    setAddress={setAddress}
                     setAccount={setAccount}
                   />
 
-                  {orders.length > 0 && (
+                  {orders.length > 0 ? (
                     <OrdersList
                       user={user}
                       orders={orders}
                     />
+                  ) : (
+                    <Accordion>
+                      <AccordionItem
+                        key="Orders"
+                        title="Orders"
+                        aria-label="Orders"
+                        classNames={accordionStyles}
+                        indicator={<ArrowDownIcon />}
+                      >
+                        <EmptyBlock title="There are no orders yet" />
+                      </AccordionItem>
+                    </Accordion>
                   )}
                 </>
               )}

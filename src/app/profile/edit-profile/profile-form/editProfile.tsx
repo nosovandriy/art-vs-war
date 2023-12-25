@@ -1,13 +1,16 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
 import Image from "next/image";
 import Select from "react-select";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 import jwt_decode from 'jwt-decode';
 import toast from "react-hot-toast";
+import { FaTimes } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { Checkbox } from "@nextui-org/react";
+import { useForm, Controller } from "react-hook-form";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 import style from "./editProfile.module.scss";
+import { styles } from "./stylesSelect";
 
 import { AddIcon } from "@/app/icons/icon-add";
 import { CountryType, countries } from "./countries";
@@ -16,11 +19,8 @@ import { Artist } from "@/types/Artist";
 import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from "@/types/Profile";
 import { uploadImageToServer, validateDataOnServer } from "@/utils/profile";
 import { createProfile, updateProfile } from "@/utils/api";
-import { styles } from "./stylesSelect";
 import createHeaders from "@/utils/getAccessToken";
-import ArtistInfo from "@/app/artists/[slug]/artistInfo/artistInfo";
-import ArtistTabs from "@/app/artists/[slug]/artistTabs/artistTabs";
-import { FaTimes } from "react-icons/fa";
+import { moderateImage } from "../../create-painting/painting-form/createPainting";
 
 const URL = 'authors/checkInputAndGet';
 
@@ -34,12 +34,13 @@ const EditProfile: FC<Props> = ({
   setAuthor,
 }) => {
   const {
-    handleSubmit,
-    setValue,
-    register,
-    control,
     reset,
+    control,
+    register,
+    setError,
+    setValue,
     resetField,
+    handleSubmit,
     formState: { errors },
   } = useForm<ProfileForm>({
     values: {
@@ -47,6 +48,7 @@ const EditProfile: FC<Props> = ({
       city: author?.city || '',
       country: author?.country || '',
       aboutMe: author?.aboutMe || '',
+      isDeactivated: author?.isDeactivated || false,
       image: '',
     },
     mode: "onTouched",
@@ -129,7 +131,12 @@ const EditProfile: FC<Props> = ({
 
     if (!file) {
       return;
-    }
+    };
+
+    if (file.size > 500000) {
+      setError('image', { message: 'Max allowed size of image is 5 MB'});
+      return;
+    };
 
     const reader = new FileReader();
 
@@ -253,7 +260,11 @@ const EditProfile: FC<Props> = ({
 
                   <button
                     type="button"
-                    onClick={handleResetPreview}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      handleResetPreview();
+                    }}
                   >
                     <FaTimes className={style.closeIcon} />
                   </button>
@@ -272,11 +283,23 @@ const EditProfile: FC<Props> = ({
             )}
             </label>
             <div className={style.recomendations}>
-              **Please add a photo with a large resolution (!!!!!!!!!!!!!)
-              and proportions close to 3:4. we want art connoisseurs to be closer
+              * Please add a photo with a large resolution
+              and proportions close to 3:4. We want art connoisseurs to be closer
               to artists and we are sure that people who create masterpieces deserve
               to be shown vividly. Don’t be shy!
             </div>
+
+            <Controller
+              control={control}
+              name="isDeactivated"
+              render={({ field: { value, onChange }}) => {
+                return (
+                  <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
+                    <span style={{ color: 'white' }}>Deactivate accout</span>
+                  </Checkbox>
+                )
+              }}
+            />
           </div>
           <div className={style.inputsContainer}>
             <label className={style.label}>

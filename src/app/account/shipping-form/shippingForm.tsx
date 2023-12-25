@@ -23,10 +23,10 @@ type Props = {
   account: AccountData | null;
   address: ShippingFormData | null;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
-  setAccount: Dispatch<SetStateAction<AccountData | null>> | null;
+  setAddress: Dispatch<SetStateAction<ShippingFormData | null>>;
 }
 
-const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
+const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
 
@@ -57,14 +57,14 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
     setIsOpenForm(false);
   }
 
-  const onSubmitShipping = (data: ShippingFormData) => {
+  const onSubmitShipping = async (data: ShippingFormData) => {
     const shippingDataTosave = account && {
       ...data,
       ...account,
       addressLine1: data.addressLine1.label,
     };
 
-    shippingDataTosave && toast.promise(
+    shippingDataTosave && await toast.promise(
       handleSaveAddress(shippingDataTosave),
       {
         loading: 'Creating address...',
@@ -78,6 +78,8 @@ const ShippingForm: FC<Props> = ({ account, address, setIsOpenForm }) => {
         }
       }
     );
+
+    setAddress(data);
   };
 
   const onReset = () => {

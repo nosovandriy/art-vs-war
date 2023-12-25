@@ -85,13 +85,11 @@
 
     flex-wrap: wrap;
     margin-top: 16px;
-    gap: 10px;
+    gap: 5px;
 
     @include laptop {
       @include set-flex(row, flex-start, center);
-
       flex-wrap: wrap;
-      gap: 16px;
     }
 
     @include tablet {
@@ -239,6 +237,10 @@
   }
 
   @include tabletXL {
+    max-width: 640px;
+  }
+
+  @include laptop {
     display: none;
   }
 }

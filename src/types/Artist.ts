@@ -9,6 +9,7 @@ export interface Artist {
   prettyId: string;
   styles: string[];
   imagePublicId: string;
+  isDeactivated: boolean;
 }
 
 export interface ArtistsCollection {

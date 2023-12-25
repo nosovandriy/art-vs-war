@@ -7,7 +7,7 @@ import OrderCard from './orderCard';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
 import { Order } from '@/types/Account';
 
-const accordionStyles = {
+export const accordionStyles = {
   base: style.accordion,
   title: style.accordionTitle,
   trigger: style.accordionItem,
