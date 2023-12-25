@@ -75,6 +75,8 @@ const EditProfile: FC<Props> = ({
   };
 
   const handleCreateProfile = async (userData: UserDataToSave) => {
+    delete userData.isDeactivated;
+
     const createdAuthor = await createProfile(userData, headers);
 
     refreshAccessToken();
@@ -289,17 +291,19 @@ const EditProfile: FC<Props> = ({
               to be shown vividly. Don’t be shy!
             </div>
 
-            <Controller
-              control={control}
-              name="isDeactivated"
-              render={({ field: { value, onChange }}) => {
-                return (
-                  <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
-                    <span style={{ color: 'white' }}>Deactivate accout</span>
-                  </Checkbox>
-                )
-              }}
-            />
+            {author && (
+              <Controller
+                control={control}
+                name="isDeactivated"
+                render={({ field: { value, onChange }}) => {
+                  return (
+                    <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
+                      <span style={{ color: 'white' }}>Deactivate accout</span>
+                    </Checkbox>
+                  )
+                }}
+              />
+            )}
           </div>
           <div className={style.inputsContainer}>
             <label className={style.label}>
