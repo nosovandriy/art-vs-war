@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Transfers from './transfers/transfers';
 import Packaging from './packaging/packaging';
 
 import style from './page.module.scss';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 enum ArtistInformation {
   transfers = 'Transfers and Payouts',
@@ -24,9 +25,15 @@ const tabs = [
 
 const ForArtist = () => {
   const [selectedTab, setSelectedTab] = useState<ArtistInformation>(ArtistInformation.transfers);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleSetSelectedTab = (option: ArtistInformation) => {
     setSelectedTab(option);
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', option);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const renderItem = (selectedTab: ArtistInformation) => {
@@ -38,6 +45,13 @@ const ForArtist = () => {
         return <Packaging />;
     }
   };
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab) {
+      setSelectedTab(tab as ArtistInformation);
+    }
+  }, []);
 
   return (
     <div className={style.forArtist}>
