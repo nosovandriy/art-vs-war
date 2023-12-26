@@ -227,7 +227,7 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
             <p>
               Artists are responsible for packaging and adhering to “Art vs War”{' '}
               <Link href="/for-artists?tab=Packaging+Guidelines" className={style.question__help}>
-                packing guidelines.
+                packaging guidelines.
               </Link>
             </p>
           </div>
