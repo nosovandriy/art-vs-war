@@ -9,7 +9,11 @@ import { IconClose } from '@/app/icons/icon-close';
 import { MobileMenu } from '@/app/icons/icon-menu';
 import { ProfileIcon } from '@/app/icons/icon-profile';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
-import { setCartDataFromServer, setDataToCartFromLocalStorage } from '@/app/redux/slices/cartSlice';
+import {
+  clearOrderFromCart,
+  setCartDataFromServer,
+  setDataToCartFromLocalStorage,
+} from '@/app/redux/slices/cartSlice';
 import { CartItem, DataFromLocalStorage } from '@/types/CartItem';
 import { Painting } from '@/types/Painting';
 import { useAppDispatch, useAppSelector } from '@/types/ReduxHooks';
@@ -21,11 +25,9 @@ import { getDataFromLocalStorage, setDataToLocalStorage } from '@/utils/localSto
 import { Logo } from '../logo/logo';
 import { MenuItems } from '../menuItems/menuItems';
 import SocialNetworkIcons from '../social-network/social-network';
-import LogOutButton from './navigation/logOut-button/logOut-button';
 import LoginButton from './navigation/login-button/login-button';
 
 import style from './header.module.scss';
-import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -39,7 +41,6 @@ const Header = () => {
   const headers = createHeaders(user);
   const dispatch = useAppDispatch();
   const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
-
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
 
@@ -122,6 +123,11 @@ const Header = () => {
     };
   });
 
+  const handleLogOutProfile = () => {
+    signOut();
+    dispatch(clearOrderFromCart());
+  };
+
   return (
     <header>
       <div className={style.header}>
@@ -156,7 +162,7 @@ const Header = () => {
               <div className={style.price__amount}>{`€ ${totalPrice}`}</div>
             </Link>
           </div>
-          {authenticated ? (
+          {authenticated && user ? (
             <div className={style.profileWrapper} ref={menuRef}>
               <button
                 title="Account"
@@ -188,9 +194,11 @@ const Header = () => {
                   )}
 
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={signOut}>
-                    <LogOutButton />
-                  </button>
+                  <div className={style.profileButton}>
+                    <button className={style.logOutButton} onClick={handleLogOutProfile}>
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -209,7 +217,7 @@ const Header = () => {
         }`}
       >
         <div>
-          {authenticated ? (
+          {authenticated && user ? (
             <>
               <div
                 className={style.profileButton}
@@ -237,9 +245,11 @@ const Header = () => {
                     View Artist Profile
                   </Link>
                   <hr className={style.line}></hr>
-                  <button className={style.profileButton} onClick={signOut}>
-                    <LogOutButton />
-                  </button>
+                  <div className={style.profileButton}>
+                    <button className={style.logOutButton} onClick={handleLogOutProfile}>
+                      Sign Out
+                    </button>
+                  </div>
                 </div>
               )}
             </>

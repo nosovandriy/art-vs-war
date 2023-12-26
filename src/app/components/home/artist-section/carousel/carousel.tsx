@@ -7,11 +7,14 @@ import "./styles.scss";
 import "keen-slider/keen-slider.min.css";
 
 const images = [
-  "/assets/images/Rectangle3.png",
-  "/assets/images/Rectangle4.png",
-  "/assets/images/Rectangle5.png",
-  "/assets/images/Rectangle6.png",
-  "/assets/images/Rectangle7.png",
+  "/assets/images/1.jpg",
+  "/assets/images/2.jpg",
+  "/assets/images/3.jpg",
+  "/assets/images/4.jpg",
+  "/assets/images/5.jpg",
+  "/assets/images/6.jpg",
+  "/assets/images/7.jpg",
+  "/assets/images/8.jpg",
 ];
 
 const Carousel = () => {

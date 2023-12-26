@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { TitleAnimation } from "@/utils/animation";
+import { TitleAnimation } from '@/utils/animation';
 
-import style from "./hero-section.module.scss";
+import style from './hero-section.module.scss';
 
 type Painting = {
   url: string;
@@ -16,31 +16,32 @@ type Painting = {
 };
 
 type PaintingsData = {
-  "2.0": Painting[];
-  "1.75": Painting[];
-  "1.5": Painting[];
-  "1.0": Painting[];
-  "1.25": Painting[];
-  "0.75": Painting[];
+  '2.0': Painting[];
+  '1.75': Painting[];
+  '1.5': Painting[];
+  '1.0': Painting[];
+  '1.25': Painting[];
+  '0.75': Painting[];
 };
 
 type HeroSectionProps = {
   paintings: PaintingsData;
+  video: any;
 };
 
-const HeroSection = ({ paintings }: HeroSectionProps) => {
-  const firstImage2_0 = paintings["2.0"][0];
-  const secondImage2_0 = paintings["2.0"][1];
-  const firstImage1_75 = paintings["1.75"][0];
-  const firstImage1_5 = paintings["1.5"][0];
-  const secondImage1_5 = paintings["1.5"][1];
-  const firstImage1_25 = paintings["1.25"][0];
-  const secondImage1_25 = paintings["1.25"][1];
-  const thirdImage1_25 = paintings["1.25"][2];
-  const firstImage1_0 = paintings["1.0"][0];
-  const secondImage1_0 = paintings["1.0"][1];
-  const firstImage0_75 = paintings["0.75"][0];
-  const secondImage0_75 = paintings["0.75"][1];
+const HeroSection = ({ paintings, video }: HeroSectionProps) => {
+  const firstImage2_0 = paintings['2.0'][0];
+  const secondImage2_0 = paintings['2.0'][1];
+  const firstImage1_75 = paintings['1.75'][0];
+  const firstImage1_5 = paintings['1.5'][0];
+  const secondImage1_5 = paintings['1.5'][1];
+  const firstImage1_25 = paintings['1.25'][0];
+  const secondImage1_25 = paintings['1.25'][1];
+  const thirdImage1_25 = paintings['1.25'][2];
+  const firstImage1_0 = paintings['1.0'][0];
+  const secondImage1_0 = paintings['1.0'][1];
+  const firstImage0_75 = paintings['0.75'][0];
+  const secondImage0_75 = paintings['0.75'][1];
 
   const [showImage, setShowImage] = useState(false);
 
@@ -63,23 +64,30 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          variants={TitleAnimation("y")}
+          variants={TitleAnimation('y')}
           className={style.mobile__title}
         >
           Buy Art
           <br />
           Help Ukraine
         </motion.h1>
-
-        <Image
-          src="/assets/hero_image.webp"
+        <video
+          width="100%"
+          autoPlay
+          playsInline
+          muted
+          loop
           className={style.mobile__background}
-          alt="ukrainian art"
-          fill
-          priority
-          sizes="(max-width: 639px) 100vw"
-        />
-        <Link href={"/gallery"} className={style.mobile__button}>
+        >
+          <source src={video.src} type="video/mp4" />
+          <track
+            kind="captions"
+            label="Art vs War creating arts video"
+            srcLang="en"
+            default
+          />
+        </video>
+        <Link href={'/gallery'} className={style.mobile__button}>
           Explore
         </Link>
       </div>
@@ -89,7 +97,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            variants={TitleAnimation("y")}
+            variants={TitleAnimation('y')}
             className={style.title__text}
           >
             Buy Art
@@ -115,7 +123,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -129,7 +137,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -143,7 +151,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -157,7 +165,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -171,7 +179,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -185,7 +193,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -199,7 +207,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -213,7 +221,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -227,7 +235,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -241,7 +249,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -255,7 +263,7 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
         <Link
@@ -269,13 +277,13 @@ const HeroSection = ({ paintings }: HeroSectionProps) => {
             priority
             sizes="(max-width: 1600px) 33vw"
             className={`${style.image} imageOpacityEffect`}
-            onLoadingComplete={(img) => (img.style.opacity = "1")}
+            onLoadingComplete={(img) => (img.style.opacity = '1')}
           />
         </Link>
-        <Link href={"/gallery"} className={style.additionalButton}>
+        <Link href={'/gallery'} className={style.additionalButton}>
           More artworks
         </Link>
-        <Link href={"/gallery"} className={style.button}>
+        <Link href={'/gallery'} className={style.button}>
           Explore
         </Link>
       </div>

@@ -7,7 +7,6 @@ import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
-import { PatternFormat } from "react-number-format";
 
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
@@ -25,8 +24,39 @@ import {
 import { ImageData } from "@/types/Profile";
 import { SizeArrowIcon } from "@/app/icons/icon-size-arrow";
 
+import {
+  RekognitionClient,
+  DetectModerationLabelsCommand,
+} from "@aws-sdk/client-rekognition";
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
+
+const KEY = process.env.NEXT_APP_AWS_KEY!!;
+const SECRETKEY = process.env.NEXT_APP_AWS_SECRET_KEY!!;
+const region = 'eu-central-1';
+
+export const moderateImage = async (file: File) => {
+  const client = new RekognitionClient({ region, credentials: { accessKeyId: KEY, secretAccessKey: SECRETKEY }});
+
+  const arrayBuffer = await file.arrayBuffer();
+  const uint8Array = new Uint8Array(arrayBuffer);
+
+  const input = {
+    Image: {
+      Bytes: uint8Array,
+    },
+  }
+
+  const command = new DetectModerationLabelsCommand(input);
+
+  try {
+    const data = await client.send(command);
+    console.log('data', data)
+  } catch (error) {
+    console.log(error)
+  }
+};
 
 type Props = {
   initial: UploadedPaintingData | null;
@@ -40,12 +70,13 @@ const CreatePainting: FC<Props> = ({
   setUploaded,
 }) => {
   const {
-    handleSubmit,
-    register,
-    control,
     reset,
+    control,
     setValue,
+    setError,
+    register,
     resetField,
+    handleSubmit,
     formState: { errors },
   } = useForm<PaintingForm>({
     defaultValues: {
@@ -69,6 +100,7 @@ const CreatePainting: FC<Props> = ({
   const headers = createHeaders(user);
   const router = useRouter();
 
+
   useEffect(() => {
     if (!initial) return;
 
@@ -90,7 +122,7 @@ const CreatePainting: FC<Props> = ({
     setValue('subjectIds', getInitialIds(initial.subjects));
     setValue('supportIds', getInitialIds(initial.supports));
     setValue('image', { publicId: initial.image.imagePublicId });
-    setValue('depth', `${initial.depth}`.length === 1 ? `${initial.depth}.0` : initial.depth);
+    setValue('depth', initial.depth);
   }, [initial]);
 
   const checkOptions = (options: SubjectType[]) => {
@@ -212,12 +244,19 @@ const CreatePainting: FC<Props> = ({
     initial ? handleUpdatePainting(dataToUpload) : handleCreatePainting(dataToUpload);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange =  (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) {
       return;
-    }
+    };
+
+    // moderateImage(file);
+
+    if (file.size > 500000) {
+      setError('image', { message: 'Max allowed size of image is 5 MB'});
+      return;
+    };
 
     const reader = new FileReader();
 
@@ -269,7 +308,11 @@ const CreatePainting: FC<Props> = ({
 
                 <button
                   type="button"
-                  onClick={handleResetPreview}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    handleResetPreview();
+                  }}
                 >
                   <FaTimes className={style.closeIcon} />
                 </button>
@@ -522,50 +565,36 @@ const CreatePainting: FC<Props> = ({
                     <span className={style.star}>*</span>
                   </div>
                   <div className={style.input}>
-                    <Controller
-                      control={control}
-                      name="depth"
-                      rules={{
+                    <input
+                      type="number"
+                      className={style.text}
+                      placeholder="Depth cm"
+                      onKeyDown={(e) => {
+                        if (e.key === 'e' || e.key === 'E') {
+                          e.preventDefault();
+                          return;
+                        }
+                      }}
+                      onInput={(e) => {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        let value = +target.value.replace(/[eE]/g, target.value);
+                        value = Math.min(value, 10);
+
+                        target.value = value.toString();
+                      }}
+                      onWheel={(e) => e.currentTarget.blur()}
+                      {...register("depth", {
                         required: "This field is required!",
-                        validate: (value) => {
-                          const isValid = /^[1-9]\.\d$/.test(value.toString());
-                          if (!isValid) {
-                            return "Should be in the format _._ and between 1.0cm and 9.9cm";
-                          }
-                          return true;
+                        min: {
+                          value: 1,
+                          message: "Min height is 1 cm",
                         },
-                      }}
-                      render={({field: { value, onChange, onBlur }}) => {
-                        return (
-                          <PatternFormat
-                            className={style.text}
-                            placeholder="Depth cm"
-                            onInput={(e: any) => {
-                              e.preventDefault();
-
-                              const target = e.target as HTMLInputElement;
-                              let value = target.value;
-
-                              value = value.replace(/[^0-9.]/g, '');
-
-                              if (!value.includes('.') && value !== '0') {
-                                value += '.0';
-                              }
-
-                              if (value === '0') {
-                                value = ''
-                              }
-
-                              target.value = value;
-                            }}
-                            format="#.#"
-                            value={value}
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            patternChar="#"
-                          />
-                        )
-                      }}
+                        max: {
+                          value: 10,
+                          message: "Max height is 10 cm",
+                        },
+                      })}
                     />
 
                     {typeof errors?.depth?.message === "string" && (

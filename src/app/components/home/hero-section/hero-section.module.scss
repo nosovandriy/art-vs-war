@@ -1,5 +1,5 @@
-@import "@styles/mixins.scss";
-@import "@styles/vars.scss";
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
 
 .mobile {
   position: relative;
@@ -13,21 +13,13 @@
     display: none;
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $gray-100;
-    opacity: 0.3;
-    z-index: 1;
-  }
-
   &__background {
-    z-index: 0;
+    height: 100vh;
+    position: relative;
     object-fit: cover;
+    position: absolute;
+    max-width: 1920px;
+    top: 0;
   }
 
   &__title {
@@ -53,6 +45,7 @@
     font-weight: $font-weight-regular;
     background-color: $gray-5;
     color: $gray-100;
+    flex-shrink: 0;
 
     &:hover {
       cursor: pointer;

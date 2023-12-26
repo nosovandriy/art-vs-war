@@ -22,14 +22,14 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
   onBlur,
   onChange,
 }) => {
-  const getSlicedAdress = (val: string) => val.split(', ').slice(0, 1).join(', ');
   const onChangeValue = async (newValue: SingleValue<Option>) => {
+
     if (newValue) {
       const details = await getPlaceDetails(newValue?.value?.place_id);
 
       const foundAddress = {
         value: newValue?.value,
-        label: getSlicedAdress(newValue.label) || '',
+        label: newValue?.value?.structured_formatting?.main_text || '',
         postalCode: details?.postalCode || '',
         country: details?.country || '',
         state: details?.state || '',

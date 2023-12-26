@@ -1,0 +1,54 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.termsOfUse {
+  color: $gray-0;
+  padding: 48px 22px;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: $font-size-xxl;
+  text-align: center;
+
+  @include tablet {
+    font-size: $font-size-xxxl;
+  }
+
+  @include desktop {
+    font-size: $font-size-4xl;
+  }
+
+  @include desktopHD {
+    font-size: $font-size-huge;
+  }
+}
+
+.subtitle {
+  margin-top: 24px;
+  color: $gray-5;
+
+  @include desktop {
+    font-size: $font-size-lg;
+  }
+}
+
+.step {
+  margin-top: 24px;
+  font-size: $font-size-lg;
+  font-family: $font-title;
+
+  @include tablet {
+    font-size: $font-size-xl;
+  }
+
+  @include desktop {
+    font-size: $font-size-xxl;
+  }
+}
+
+.stepText {
+  margin-top: 8px;
+  color: $gray-10;
+}
