@@ -71,15 +71,6 @@ const HeroSection = ({ paintings, video }: HeroSectionProps) => {
           <br />
           Help Ukraine
         </motion.h1>
-
-        {/* <Image
-          src="/assets/hero_image.webp"
-          className={style.mobile__background}
-          alt="ukrainian art"
-          fill
-          priority
-          sizes="(max-width: 639px) 100vw"
-        /> */}
         <video
           width="100%"
           autoPlay
@@ -87,20 +78,18 @@ const HeroSection = ({ paintings, video }: HeroSectionProps) => {
           muted
           loop
           className={style.mobile__background}
-          // poster={video.poster}
         >
           <source src={video.src} type="video/mp4" />
           <track
             kind="captions"
-            label="Manoli the process of creating perfumes"
-            srcLang="uk"
+            label="Art vs War creating arts video"
+            srcLang="en"
             default
           />
         </video>
         <Link href={'/gallery'} className={style.mobile__button}>
           Explore
         </Link>
-        <p className={style.textTitle}>{video.text}</p>
       </div>
       <div className={style.hero}>
         <div className={style.title}>
