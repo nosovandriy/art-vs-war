@@ -12,6 +12,7 @@ import {
   ShippingResponseData,
 } from '@/types/ShippingForm';
 import { AccountData } from '@/types/Account';
+import { DataImage } from '@/types/cartSteps';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -679,8 +680,8 @@ export async function setOrderDelivered(headers: Headers, id: number) {
   return data;
 }
 
-export async function getRejectedImagesList(headers: HeadersInit) {
-  const response = await fetch(`${BASE_URL}images/rejectedAssets`, {
+export async function getValidationImagesList(headers: HeadersInit, status: string) {
+  const response = await fetch(`${BASE_URL}images/${status}`, {
     cache: 'no-store',
     headers,
   });
@@ -694,8 +695,8 @@ export async function getRejectedImagesList(headers: HeadersInit) {
   return data;
 }
 
-export async function rejectNotValidImage(headers: HeadersInit, publicId: string) {
-  const url = `${BASE_URL}images/setRejected?publicId=${publicId}`;
+export async function changeImagesStatus(headers: HeadersInit, body: DataImage) {
+  const url = `${BASE_URL}images/setStatus`;
 
   const response = await fetch(url, {
     method: 'PUT',
@@ -703,6 +704,7 @@ export async function rejectNotValidImage(headers: HeadersInit, publicId: string
       ...headers,
       'Content-Type': 'application/json;charset=utf-8',
     },
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
