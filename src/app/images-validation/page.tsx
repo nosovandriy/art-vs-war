@@ -23,6 +23,11 @@ interface CloudinaryImage {
   moderationStatus: string;
   publicId: string;
   url: string;
+  author: {
+    prettyId: string;
+    fullName: string;
+    email: string;
+  };
 }
 
 const ImagesValidation = () => {
@@ -58,7 +63,6 @@ const ImagesValidation = () => {
     setSelectedImage(dataImage);
     onOpen();
   };
-  console.log(selectedImage);
 
   const handleRejectImage = async () => {
     if (selectedImage?.publicId) {
@@ -112,6 +116,16 @@ const ImagesValidation = () => {
                 <p className={style.id}>{image.publicId}</p>
                 <p className={style.title}>Created at</p>
                 <div className={style.id}>{image.createdAt.createdAt}</div>
+                <p className={style.title}>Author</p>
+                <Link
+                  className={style.linkAuthor}
+                  href={`/artists/${image.author.prettyId}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {image.author.fullName}
+                </Link>
+                <div className={style.id}>{image.author.email}</div>
                 <Link
                   className={`${style.title} ${style.link}`}
                   href={image.url}
@@ -162,6 +176,16 @@ const ImagesValidation = () => {
                 <p className={style.id}>{image.publicId}</p>
                 <p className={style.title}>Created at</p>
                 <div className={style.id}>{image.createdAt.createdAt}</div>
+                <p className={style.title}>Author</p>
+                <Link
+                  className={style.linkAuthor}
+                  href={`/artists/${image.author.prettyId}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {image.author.fullName}
+                </Link>
+                <div className={style.id}>{image.author.email}</div>
                 <Link
                   className={`${style.title} ${style.link}`}
                   href={image.url}
