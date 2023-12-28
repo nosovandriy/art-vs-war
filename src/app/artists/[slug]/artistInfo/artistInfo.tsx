@@ -12,8 +12,6 @@ import { Artist } from '@/types/Artist';
 import { Statuses } from '@/types/Profile';
 
 import style from './artistInfo.module.scss';
-import { getUserRole } from '@/utils/account';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 
 type Props = {
   artistInfo: Artist;
@@ -23,9 +21,7 @@ type Props = {
 
 const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
   const { fullName, country, city, aboutMe, imageUrl, styles } = artistInfo;
-  const { user } = useAuthenticator((context) => [context.user]);
   const searchParams = useSearchParams();
-  const hasAdminRole = getUserRole(user, 'ROLE_ADMIN');
 
   useEffect(() => {
     const tab = searchParams.get('tab');
@@ -128,11 +124,6 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
               <Link className={style.button__edit} href="/profile/edit-profile">
                 Edit profile
               </Link>
-              {hasAdminRole && (
-                <Link className={style.button__edit} href="/images-validation">
-                  Validate images
-                </Link>
-              )}
             </div>
           )}
         </div>
