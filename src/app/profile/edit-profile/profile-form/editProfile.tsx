@@ -135,8 +135,8 @@ const EditProfile: FC<Props> = ({
       return;
     };
 
-    if (file.size > 500000) {
-      setError('image', { message: 'Max allowed size of image is 5 MB'});
+    if (file.size > 5242880) {
+      setError('image', { message: 'Max allowed size of image is 5MB'});
       return;
     };
 

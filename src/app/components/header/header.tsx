@@ -2,6 +2,7 @@
 
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { Cart } from '@/app/icons/icon-cart';
@@ -43,6 +44,7 @@ const Header = () => {
   const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
+  const router = useRouter();
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -126,6 +128,7 @@ const Header = () => {
   const handleLogOutProfile = () => {
     signOut();
     dispatch(clearOrderFromCart());
+    router.push('/');
   };
 
   return (
