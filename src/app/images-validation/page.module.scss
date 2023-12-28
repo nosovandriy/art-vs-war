@@ -4,7 +4,7 @@
 .imagesValidation {
   padding: 48px 22px;
   color: $gray-0;
-  max-width: 400px;
+  max-width: 550px;
   margin: 0 auto;
 
   @include tablet {
@@ -14,6 +14,10 @@
   @include laptop {
     max-width: 800px;
   }
+}
+
+.image {
+  margin: 0 auto;
 }
 
 .title {
@@ -32,7 +36,7 @@
   }
 }
 
-.image {
+.imageWrapper {
   border: 1px solid $gray-0;
   padding: 16px;
   margin-top: 24px;
@@ -44,6 +48,7 @@
 
 .id {
   margin-top: 8px;
+  word-wrap: break-word;
 }
 
 .rejected {
@@ -54,6 +59,21 @@
   height: 51px;
   border: 1px solid $system-error;
   color: $system-error;
+  margin: 24px auto;
+
+  @include tablet {
+    max-width: 300px;
+  }
+}
+
+.pending {
+  @include set-flex(row, center, center);
+
+  margin-top: 24px;
+  width: 100%;
+  height: 51px;
+  border: 1px solid $system-info;
+  color: $system-info;
   margin: 24px auto;
 
   @include tablet {
@@ -81,5 +101,50 @@
 
   @include tablet {
     max-width: 300px;
+  }
+
+  &__approve {
+    color: $system-info;
+  }
+  &__reject {
+    color: $system-error;
+  }
+}
+
+.orderInfo {
+  @include laptop {
+    // width: 65%;
+  }
+}
+
+.headerStep {
+  @include set-flex(row, space-between, center);
+
+  margin-top: 24px;
+  height: 48px;
+  width: 100%;
+  padding: 12px;
+  border-bottom: 1px solid $gray-50;
+  transition: 0.3s;
+  color: $gray-0;
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: 1px solid $gray-30;
+    transition: 0.3s;
+    color: $gray-10;
+
+    path {
+      fill: $gray-10;
+    }
+  }
+}
+
+.arrow {
+  transition: 0.3s;
+
+  &__close {
+    transform: rotate(180deg);
+    transition: 0.3s;
   }
 }
