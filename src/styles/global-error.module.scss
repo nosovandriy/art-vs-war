@@ -33,15 +33,18 @@
 }
 
 .buttons {
-  @include set-flex(row, center, center);
+  @include set-flex(column, center, center);
 
+  width: 100%;
   gap: 24px;
 
   @include tablet {
+    @include set-flex(row, center, center);
+
     margin-top: 40px;
   }
 
-  @include desktop{
+  @include desktop {
     margin-top: 72px;
   }
 }
@@ -69,7 +72,6 @@
 }
 
 .buttonMain {
-  margin-top: 24px;
   background-color: $gray-5;
   color: $gray-100;
 
