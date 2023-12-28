@@ -79,12 +79,12 @@ const ImagesValidation = () => {
   };
 
   useEffect(() => {
-    if (!hasAdminRole) {
+    if (user && hasAdminRole) {
+      getImagesList('rejected');
+      getImagesList('pending');
+    } else {
       route.push('/');
     }
-
-    getImagesList('rejected');
-    getImagesList('pending');
   }, []);
 
   const handleSectionClick = (step: ImageValidationCartSteps | null) => {
