@@ -122,7 +122,7 @@ const Payment = () => {
               <div className={style.payment}>
                 <div className={style.textWrapper}>
                   <p className={style.title}>
-                    Art vs war partners with Stripe for secure payments and financial services
+                    Art vs War partners with Stripe for secure payments and financial services
                   </p>
                   <p className={style.subtitle}>
                     To be able to sell your artworks, you should first activate your Stripe account.
