@@ -147,7 +147,7 @@ const AddArtProcessContent = () => {
       return;
     }
 
-    if (file.size > 10485760) {
+    if (file.size > 5242880) {
       setImagePreview(null);
 
       return;
@@ -212,8 +212,11 @@ const AddArtProcessContent = () => {
               <>
                 <AddIcon className={style.uploadSection__icon} isDark={false} />
                 <p className={style.uploadSection__text}>Choose a file</p>
-                {errors?.image?.message && (
+
+                {errors?.image?.message ? (
                   <div className={style.error}>{errors.image?.message}</div>
+                ) : (
+                  <p className={style.inputText__info}>Max allowed size of image is 5MB</p>
                 )}
               </>
             )}
