@@ -88,7 +88,7 @@ const Profile = () => {
       fetchStatuses();
       fetchArtProcessData();
     }
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
     if (author) {
