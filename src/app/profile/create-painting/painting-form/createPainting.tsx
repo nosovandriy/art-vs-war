@@ -11,52 +11,23 @@ import { FaTimes } from "react-icons/fa";
 import style from "./createPainting.module.scss";
 import { stylesSelect } from "./stylesSelect";
 
-import { AddIcon } from "@/app/icons/icon-add";
-import { SubjectType, mediums, styles, subjects, supports } from "./subjects";
-import { uploadImageToServer } from "@/utils/profile";
 import createHeaders from "@/utils/getAccessToken";
+import { AddIcon } from "@/app/icons/icon-add";
+import { ImageData } from "@/types/Profile";
+import { moderateImage, uploadImageToServer } from "@/utils/profile";
+import { SizeArrowIcon } from "@/app/icons/icon-size-arrow";
+import { SubjectType, mediums, styles, subjects, supports } from "./subjects";
 import {
+  ModerationStatus,
   PaintingData,
   PaintingDataToSave,
   PaintingForm,
   UploadedPaintingData,
 } from "@/types/Painting";
-import { ImageData } from "@/types/Profile";
-import { SizeArrowIcon } from "@/app/icons/icon-size-arrow";
-
-import {
-  RekognitionClient,
-  DetectModerationLabelsCommand,
-} from "@aws-sdk/client-rekognition";
+import { sendModerationEmail } from "@/utils/api";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = "paintings/checkInputAndGet";
-
-const KEY = process.env.NEXT_APP_AWS_KEY!!;
-const SECRETKEY = process.env.NEXT_APP_AWS_SECRET_KEY!!;
-const region = 'eu-central-1';
-
-export const moderateImage = async (file: File) => {
-  const client = new RekognitionClient({ region, credentials: { accessKeyId: KEY, secretAccessKey: SECRETKEY }});
-
-  const arrayBuffer = await file.arrayBuffer();
-  const uint8Array = new Uint8Array(arrayBuffer);
-
-  const input = {
-    Image: {
-      Bytes: uint8Array,
-    },
-  }
-
-  const command = new DetectModerationLabelsCommand(input);
-
-  try {
-    const data = await client.send(command);
-    console.log('data', data)
-  } catch (error) {
-    console.log(error)
-  }
-};
 
 type Props = {
   initial: UploadedPaintingData | null;
@@ -76,6 +47,7 @@ const CreatePainting: FC<Props> = ({
     setError,
     register,
     resetField,
+    clearErrors,
     handleSubmit,
     formState: { errors },
   } = useForm<PaintingForm>({
@@ -93,6 +65,7 @@ const CreatePainting: FC<Props> = ({
   const [selectedMediums, setSelectedMediums] = useState<SubjectType[]>([]);
   const [selectedSupports, setSelectedSupports] = useState<SubjectType[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectType[]>([]);
+  const [moderation, setModeration] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
 
   const { user, route } = useAuthenticator((context) => [context.route]);
@@ -145,13 +118,23 @@ const CreatePainting: FC<Props> = ({
   const handleCreatePainting = async (data: PaintingData) => {
     setIsCreating(true);
 
+    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+
     if (data.image instanceof File) {
       toast.promise(
-        uploadImageToServer(data, URL, headers).then((imageData) => {
+        uploadImageToServer(data, URL, headers, moderationStatus)
+        .then((imageData) => {
           const paintingData: PaintingDataToSave = {
             ...data,
             image: imageData,
           };
+
+          if (moderationStatus === 'PENDING') {
+            sendModerationEmail({
+              publicId: imageData.publicId,
+              message: moderation.toString(),
+            });
+          }
 
           axios.post(BASE_URL + "paintings", paintingData, { headers })
           .then(({ data }) => {
@@ -205,11 +188,21 @@ const CreatePainting: FC<Props> = ({
   }
 
   const updatePaintingWithImageUpload = async (data: PaintingData) => {
-    await uploadImageToServer(data, URL, headers).then((imageData: ImageData) => {
+    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+
+    await uploadImageToServer(data, URL, headers, moderationStatus)
+    .then((imageData: ImageData) => {
       const paintingData: PaintingDataToSave = {
         ...data,
         image: imageData,
       };
+
+      if (moderationStatus === 'PENDING') {
+        sendModerationEmail({
+          publicId: imageData.publicId,
+          message: moderation.toString(),
+        });
+      }
 
       updatePaintingOnServer(paintingData);
     })
@@ -244,16 +237,24 @@ const CreatePainting: FC<Props> = ({
     initial ? handleUpdatePainting(dataToUpload) : handleCreatePainting(dataToUpload);
   };
 
-  const handleFileChange =  (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange =  async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) {
       return;
     };
 
-    // moderateImage(file);
+    try {
+      const { ModerationLabels }: any = await moderateImage(file);
 
-    if (file.size > 500000) {
+      setModeration(ModerationLabels);
+      clearErrors('image')
+    } catch (error) {
+      setError('image', { message: 'Moderation error' });
+      return;
+    }
+
+    if (file.size > 5000000) {
       setError('image', { message: 'Max allowed size of image is 5 MB'});
       return;
     };
@@ -284,16 +285,12 @@ const CreatePainting: FC<Props> = ({
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.topContainer}>
-          <label className={style.file}>
+          <label className={`${style.file} ${typeof errors?.image?.message === "string"  ? style.file__error : ''}`}>
             <input
               type="file"
               className={style.file__input}
               {...register("image", {
-                validate: (inputValue) => {
-                  if (inputValue) return true;
-
-                  return 'Image is required!';
-                },
+                required: true,
                 onChange: handleFileChange,
               })}
             />
@@ -317,15 +314,15 @@ const CreatePainting: FC<Props> = ({
                   <FaTimes className={style.closeIcon} />
                 </button>
               </div>
-            ) : typeof errors?.image?.message === "string" ? (
-              <div className={`${style.error} ${style.error__file}`}>
-                {errors.image.message}
-              </div>
             ) : (
               <>
                 <AddIcon className={style.file__icon} />
-
                 <span className={style.file__label}>Choose a file</span>
+                <span className={`${typeof errors?.image?.message === "string" ? style.fileError : style.file__label}`}>
+                  Max allowed size of image is 5 MB.
+                  <br />
+                  Allowed formats are jpg, jpeg, png.
+                </span>
 
                 <div className={style.arrowWidth}>
                   <SizeArrowIcon />
@@ -387,16 +384,20 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Year of creation"
                       onKeyDown={(e) => {
-                        if (e.key === 'e' || e.key === 'E') {
+                        const key = e.key;
+                        const isDigit = /^\d$/.test(key)
+                          || key === 'Enter'
+                          || key === 'Backspace'
+                          || key === 'Delete'
+                          || key === 'ArrowLeft'
+                          || key === 'ArrowRight';
+
+                        const isEKey = key === 'e' || key === 'E';
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
                           e.preventDefault();
-                          return;
                         }
-                      }}
-                      onInput={(e) => {
-                        e.preventDefault();
-                        const target = e.target as HTMLInputElement;
-                        const value = target.value.replace(/[eE]/g, '');
-                        target.value = value;
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("yearOfCreation", {
@@ -436,16 +437,21 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Weight grm"
                       onKeyDown={(e) => {
-                        if (e.key === 'e' || e.key === 'E') {
+                        const key = e.key;
+                        const isDigit = /^\d$/.test(key)
+                          || key === 'Enter'
+                          || key === 'Backspace'
+                          || key === 'Delete'
+                          || key === 'ArrowLeft'
+                          || key === 'ArrowRight';
+
+                        const isEKey = key === 'e' || key === 'E';
+
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
                           e.preventDefault();
-                          return;
                         }
-                      }}
-                      onInput={(e) => {
-                        e.preventDefault();
-                        const target = e.target as HTMLInputElement;
-                        const value = target.value.replace(/[eE]/g, '');
-                        target.value = value;
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("weight", {
@@ -480,16 +486,21 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Width cm"
                       onKeyDown={(e) => {
-                        if (e.key === 'e' || e.key === 'E') {
+                        const key = e.key;
+                        const isDigit = /^\d$/.test(key)
+                          || key === 'Enter'
+                          || key === 'Backspace'
+                          || key === 'Delete'
+                          || key === 'ArrowLeft'
+                          || key === 'ArrowRight';
+
+                        const isEKey = key === 'e' || key === 'E';
+
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
                           e.preventDefault();
-                          return;
                         }
-                      }}
-                      onInput={(e) => {
-                        e.preventDefault();
-                        const target = e.target as HTMLInputElement;
-                        const value = target.value.replace(/[eE]/g, '');
-                        target.value = value;
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("width", {
@@ -524,16 +535,21 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Height cm"
                       onKeyDown={(e) => {
-                        if (e.key === 'e' || e.key === 'E') {
+                        const key = e.key;
+                        const isDigit = /^\d$/.test(key)
+                          || key === 'Enter'
+                          || key === 'Backspace'
+                          || key === 'Delete'
+                          || key === 'ArrowLeft'
+                          || key === 'ArrowRight';
+
+                        const isEKey = key === 'e' || key === 'E';
+
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
                           e.preventDefault();
-                          return;
                         }
-                      }}
-                      onInput={(e) => {
-                        e.preventDefault();
-                        const target = e.target as HTMLInputElement;
-                        const value = target.value.replace(/[eE]/g, target.value);
-                        target.value = value;
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("height", {
@@ -570,18 +586,21 @@ const CreatePainting: FC<Props> = ({
                       className={style.text}
                       placeholder="Depth cm"
                       onKeyDown={(e) => {
-                        if (e.key === 'e' || e.key === 'E') {
-                          e.preventDefault();
-                          return;
-                        }
-                      }}
-                      onInput={(e) => {
-                        e.preventDefault();
-                        const target = e.target as HTMLInputElement;
-                        let value = +target.value.replace(/[eE]/g, target.value);
-                        value = Math.min(value, 10);
+                        const key = e.key;
+                        const isDigit = /^\d$/.test(key)
+                          || key === 'Enter'
+                          || key === 'Backspace'
+                          || key === 'Delete'
+                          || key === 'ArrowLeft'
+                          || key === 'ArrowRight';
 
-                        target.value = value.toString();
+                        const isEKey = key === 'e' || key === 'E';
+
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
+                          e.preventDefault();
+                        }
                       }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register("depth", {

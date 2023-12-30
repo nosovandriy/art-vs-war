@@ -5,13 +5,13 @@ import React, { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTimes } from 'react-icons/fa';
 
+import style from "./additional-info.module.scss";
+
 import { AddIcon } from "@/app/icons/icon-add";
-import { ResponseImage, UploadedPaintingData } from "@/types/Painting";
+import { ModerationStatus, ResponseImage, UploadedPaintingData } from "@/types/Painting";
 import { deleteAdditionalImages, getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
-import { uploadAdditionalImages } from "@/utils/profile";
-
-import style from "./additional-info.module.scss";
+import { moderateImage, uploadAdditionalImages } from "@/utils/profile";
 
 type Props = {
   uploaded: UploadedPaintingData;
@@ -45,7 +45,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     yearOfCreation,
   } = uploaded;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -80,7 +80,14 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     headers: { Authorization?: string },
     paintingId: number,
   ) => {
-    const uploaded = await uploadAdditionalImages(images, headers, paintingId);
+    const moderationStatuses = images.map(item => {
+      const { ModerationLabels }: any = moderateImage(item);
+      const moderation: ModerationStatus = !ModerationLabels?.length ? 'APPROVED' : 'PENDING';
+
+      return { moderation, ModerationLabels };
+    })
+
+    const uploaded = await uploadAdditionalImages(images, headers, paintingId, moderationStatuses);
 
     if (!uploaded.length) return;
 
@@ -286,11 +293,13 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
                       <button
                         type="button"
-                        onClick={() => (
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
                           item?.id
                             ? handleDeleteAdditionalImage(item?.id)
                             : onDeletePreview(index)
-                        )}
+                        }}
                       >
                         <FaTimes className={style.closeIcon} />
                       </button>

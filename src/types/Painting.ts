@@ -106,3 +106,10 @@ export interface UploadedPaintingData {
 export interface OrderPainting extends Painting {
   imageId: string;
 }
+
+export type ModerationStatus = 'APPROVED' | 'PENDING';
+
+export interface ModerationData {
+  publicId: string;
+  message: string;
+}

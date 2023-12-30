@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { notFound } from 'next/navigation';
 
-import { ArtProcessData, PaintingData } from '@/types/Painting';
+import { ArtProcessData, ModerationData, PaintingData } from '@/types/Painting';
 import { Headers, ImageData, RequestParams, UserData, UserDataToSave } from '@/types/Profile';
 import {
   AuthorShippingFormData,
@@ -711,4 +711,8 @@ export async function rejectNotValidImage(headers: HeadersInit, publicId: string
 
   const data = await response.text();
   return data;
+}
+
+export async function sendModerationEmail(moderationData: ModerationData) {
+  await axios.post(`${BASE_URL}email/moderation`, moderationData);
 }

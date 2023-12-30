@@ -24,8 +24,9 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     paintings,
     totalAmount,
     isDelivered,
-    orderCreatedAt,
     shippingAmount,
+    orderCreatedAt,
+    orderDeliveredAt,
   } = tempOrder;
 
   const handleConfirm = async () => {
@@ -82,6 +83,15 @@ const OrderCard: FC<Props> = ({ order, user }) => {
             € {shippingAmount}
           </div>
         </div>
+
+        {isDelivered && (
+        <div className={style.details}>
+          <div className={style.name}>Delivery date</div>
+          <div className={style.name}>
+            {orderDeliveredAt.orderDeliveredAt}
+          </div>
+        </div>
+        )}
       </div>
 
       <div className={style.buttonContainer}>
