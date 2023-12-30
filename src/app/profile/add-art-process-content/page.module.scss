@@ -241,6 +241,12 @@
   &__error {
     border: 1px solid $system-error !important;
   }
+
+  &__info {
+    margin-top: 8px;
+    color: $gray-10;
+    font-size: $font-size-md;
+  }
 }
 
 .inputTextArea {

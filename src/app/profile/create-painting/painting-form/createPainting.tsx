@@ -254,7 +254,7 @@ const CreatePainting: FC<Props> = ({
       return;
     }
 
-    if (file.size > 5000000) {
+    if (file.size > 5242880) {
       setError('image', { message: 'Max allowed size of image is 5 MB'});
       return;
     };

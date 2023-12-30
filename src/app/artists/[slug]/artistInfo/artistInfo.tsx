@@ -48,7 +48,9 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
         <div className={style.subtitleContainer}>
           {!statuses.hasStripeProfile && !statuses.hasAddress && (
             <>
-              <span className={style.subtitle}>To showcase and sell your paintings you need to create a </span>
+              <span className={style.subtitle}>
+                To showcase and sell your paintings you need to create a{' '}
+              </span>
               <a href="/profile?tab=Payment" className={style.subtitleLink}>
                 Stripe account
               </a>
@@ -61,7 +63,9 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
 
           {!statuses.hasStripeProfile && statuses.hasAddress && (
             <>
-              <span className={style.subtitle}>To showcase and sell your paintings you need to create a </span>
+              <span className={style.subtitle}>
+                To showcase and sell your paintings you need to create a{' '}
+              </span>
               <a href="/profile?tab=Payment" className={style.subtitleLink}>
                 Stripe account{' '}
               </a>
