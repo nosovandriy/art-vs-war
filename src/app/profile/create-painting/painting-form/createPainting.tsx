@@ -200,7 +200,7 @@ const CreatePainting: FC<Props> = ({
       if (moderationStatus === 'PENDING') {
         sendModerationEmail({
           publicId: imageData.publicId,
-          message: moderation.toString(),
+          message: JSON.stringify(moderation),
         });
       }
 
