@@ -39,6 +39,10 @@ const Profile = () => {
   const router = useRouter();
 
   useEffect(() => {
+    router.refresh();
+  }, []);
+
+  useEffect(() => {
     const hasCustomerRole = getUserRole(user, "ROLE_CUSTOMER");
     const hasAuthorRole = getUserRole(user, "ROLE_AUTHOR");
 
@@ -88,7 +92,7 @@ const Profile = () => {
       fetchStatuses();
       fetchArtProcessData();
     }
-  }, [user, router]);
+  }, [user]);
 
   useEffect(() => {
     if (author) {

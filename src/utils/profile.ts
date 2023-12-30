@@ -199,7 +199,7 @@ export const uploadAdditionalImages = async (
         if (moderationStatuses[i].moderation === 'PENDING') {
           await sendModerationEmail({
             publicId: public_id,
-            message: moderationStatuses[i].ModerationLabels,
+            message: JSON.stringify(moderationStatuses[i].ModerationLabels),
           });
         };
 

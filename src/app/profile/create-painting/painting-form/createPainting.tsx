@@ -200,7 +200,7 @@ const CreatePainting: FC<Props> = ({
       if (moderationStatus === 'PENDING') {
         sendModerationEmail({
           publicId: imageData.publicId,
-          message: moderation.toString(),
+          message: JSON.stringify(moderation),
         });
       }
 
@@ -290,7 +290,11 @@ const CreatePainting: FC<Props> = ({
               type="file"
               className={style.file__input}
               {...register("image", {
-                required: true,
+                validate: (inputValue) => {
+                  if (inputValue) return true;
+
+                  return false;
+                },
                 onChange: handleFileChange,
               })}
             />
