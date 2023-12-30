@@ -17,10 +17,11 @@ export interface CreatedAccountResponse extends AccountData {
 
 export interface Order {
   id: number;
+  totalAmount: number;
   isDelivered: boolean;
-  orderCreatedAt: { orderCreatedAt: string };
-  paintings: OrderPainting[];
   shippingAmount: number;
   subtotalAmount: number;
-  totalAmount: number;
+  paintings: OrderPainting[];
+  orderCreatedAt: { orderCreatedAt: string };
+  orderDeliveredAt: { orderDeliveredAt: string };
 };

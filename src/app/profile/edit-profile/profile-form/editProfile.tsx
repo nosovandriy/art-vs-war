@@ -17,10 +17,10 @@ import { CountryType, countries } from "./countries";
 import { ArrowLeft } from "@/app/icons/icon-arrow-left";
 import { Artist } from "@/types/Artist";
 import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from "@/types/Profile";
-import { uploadImageToServer, validateDataOnServer } from "@/utils/profile";
-import { createProfile, updateProfile } from "@/utils/api";
+import { moderateImage, uploadImageToServer, validateDataOnServer } from "@/utils/profile";
+import { createProfile, sendModerationEmail, updateProfile } from "@/utils/api";
 import createHeaders from "@/utils/getAccessToken";
-import { moderateImage } from "../../create-painting/painting-form/createPainting";
+import { ModerationStatus } from "@/types/Painting";
 
 const URL = 'authors/checkInputAndGet';
 
@@ -40,6 +40,7 @@ const EditProfile: FC<Props> = ({
     setError,
     setValue,
     resetField,
+    clearErrors,
     handleSubmit,
     formState: { errors },
   } = useForm<ProfileForm>({
@@ -55,6 +56,7 @@ const EditProfile: FC<Props> = ({
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(author?.imageUrl || null);
+  const [moderation, setModeration] = useState([]);
   const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
@@ -92,13 +94,21 @@ const EditProfile: FC<Props> = ({
   const handleEditProfile = async (action: Action, data: UserData) => {
     let authorData: UserDataToSave;
 
+    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+
     if (data.image instanceof File) {
       const {
         publicId,
         version,
         signature,
-        moderationStatus,
-      } = await uploadImageToServer(data, URL, headers, userEmail);
+      } = await uploadImageToServer(data, URL, headers, moderationStatus, userEmail);
+
+      if (moderationStatus === 'PENDING') {
+        sendModerationEmail({
+          publicId,
+          message: JSON.stringify(moderation),
+        });
+      }
 
       const profileImage = {
         publicId,
@@ -128,15 +138,25 @@ const EditProfile: FC<Props> = ({
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) {
       return;
     };
 
+    try {
+      const { ModerationLabels }: any = await moderateImage(file);
+
+      setModeration(ModerationLabels);
+      clearErrors('image')
+    } catch (error) {
+      setError('image', { message: 'Moderation error' });
+      return;
+    }
+
     if (file.size > 5242880) {
-      setError('image', { message: 'Max allowed size of image is 5MB'});
+      setError('image', { message: 'Max allowed size of image is 5 MB'});
       return;
     };
 
@@ -238,7 +258,7 @@ const EditProfile: FC<Props> = ({
       >
         <div className={style.container}>
           <div className={style.fileContainer}>
-            <label className={style.file}>
+            <label className={`${style.file} ${typeof errors?.image?.message === "string"  ? style.file__error : ''}`}>
               <input
                 type="file"
                 className={style.file__input}
@@ -272,17 +292,17 @@ const EditProfile: FC<Props> = ({
                   </button>
                 </div>
               ) : (
-                typeof errors?.image?.message === 'string' ? (
-                  <div className={`${style.error} ${style.error__file}`}>
-                    {errors.image.message}
-                  </div>
-                ) : (
                     <>
                       <AddIcon className={style.file__icon}/>
                       <span className={style.file__label}>Choose a file</span>
+                      <span className={`${typeof errors?.image?.message === "string" ? style.fileError : style.file__label}`}>
+                        Max allowed size of image is 5 MB.
+                        <br />
+                        Allowed formats are jpg, jpeg, png.
+                      </span>
                     </>
-                )
-            )}
+              )
+            }
             </label>
             <div className={style.recomendations}>
               * Please add a photo with a large resolution
@@ -297,9 +317,15 @@ const EditProfile: FC<Props> = ({
                 name="isDeactivated"
                 render={({ field: { value, onChange }}) => {
                   return (
-                    <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
-                      <span style={{ color: 'white' }}>Deactivate accout</span>
-                    </Checkbox>
+                    <div className={style.checkbox}>
+                      <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
+                        <span style={{ color: 'white' }}>Deactivate Profile</span>
+                      </Checkbox>
+
+                      <div className={style.recomendations}>
+                        * In deactivated profile mode, your artworks will not be visible to customers.
+                      </div>
+                    </div>
                   )
                 }}
               />

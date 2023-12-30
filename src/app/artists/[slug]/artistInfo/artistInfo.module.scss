@@ -129,7 +129,6 @@
     @include set-flex(row, center, center);
     margin-top: 16px;
     gap: 16px;
-    color: $gray-10;
 
     @include laptop {
       margin-top: 32px;
@@ -147,6 +146,11 @@
       margin-top: 34px;
     }
   }
+}
+
+.deactivated {
+  margin-top: 12px;
+  color: $system-error;
 }
 
 .titleContainer {
