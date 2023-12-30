@@ -20,7 +20,7 @@ type Props = {
 };
 
 const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
-  const { fullName, country, city, aboutMe, imageUrl, styles } = artistInfo;
+  const { fullName, country, city, aboutMe, imageUrl, styles, isDeactivated } = artistInfo;
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -88,6 +88,12 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
       <div className={style.container}>
         <div className={style.author__photo}>
           <Image className={style.image} src={imageUrl} alt="author" width={1000} height={1000} />
+
+          {isDeactivated && (
+            <div className={style.deactivated}>
+              Profile is in deactivate mode
+            </div>
+          )}
         </div>
 
         <div className={style.author__info}>

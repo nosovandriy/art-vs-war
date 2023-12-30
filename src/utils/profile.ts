@@ -1,10 +1,18 @@
+import {
+  RekognitionClient,
+  DetectModerationLabelsCommand,
+} from "@aws-sdk/client-rekognition";
+
 import { ImageData, UserData } from "@/types/Profile";
-import { PaintingData } from "@/types/Painting";
-import { createFolder, getSignature, uploadImage, validateData } from "./api";
+import { ModerationStatus, PaintingData } from "@/types/Painting";
+import { createFolder, getSignature, sendModerationEmail, uploadImage, validateData } from "./api";
 
 const upload_preset = process.env.NEXT_APP_CLOUDINARY_UPLOAD_PRESET;
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const cloudinaryApiKey = process.env.NEXT_APP_CLOUDINARY_API_KEY;
+const KEY = process.env.NEXT_APP_AWS_KEY!;
+const SECRETKEY = process.env.NEXT_APP_AWS_SECRET_KEY!;
+const REGION = process.env.NEXT_APP_AWS_REGION!;
 
 export const refreshAccessToken = (refreshToken: any, user: any) => {
   if (refreshToken) {
@@ -72,10 +80,40 @@ export const getSignatureFromServer = async (
   }
 };
 
+export const moderateImage = async (file: File) => {
+  const client = new RekognitionClient({
+    region: REGION,
+    credentials: {
+      accessKeyId: KEY,
+      secretAccessKey: SECRETKEY,
+    }
+  });
+
+  const arrayBuffer = await file.arrayBuffer();
+  const uint8Array = new Uint8Array(arrayBuffer);
+
+  const input = {
+    Image: {
+      Bytes: uint8Array,
+    },
+  }
+
+  const command = new DetectModerationLabelsCommand(input);
+
+  try {
+    const data = await client.send(command);
+
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+};
+
 export const uploadImageToServer = async (
     data: UserData | PaintingData,
     url: string,
     headers: HeadersInit,
+    moderationStatus: ModerationStatus,
     email: string = '',
   ): Promise<any> => {
   if (
@@ -85,6 +123,7 @@ export const uploadImageToServer = async (
       && cloudName
       && data.image instanceof File
     ) {
+
     const { signature, timestamp, folder } = await getSignatureFromServer(data, url, headers, email);
     const formData = new FormData();
 
@@ -108,7 +147,7 @@ export const uploadImageToServer = async (
         version,
         signature,
         publicId: public_id,
-        moderationStatus: 'APPROVED',
+        moderationStatus,
         width,
         height,
       }
@@ -125,6 +164,7 @@ export const uploadAdditionalImages = async (
   images: File[],
   headers: { Authorization?: string },
   paintingId: number,
+  moderationStatuses: { moderation: ModerationStatus, ModerationLabels: any}[],
 ) => {
   if (!upload_preset || !cloudinaryApiKey || !cloudName) return [];
 
@@ -137,12 +177,12 @@ export const uploadAdditionalImages = async (
 
   const uploadedData = [];
 
-  for (const file of images) {
-    if (file) {
+  for (let i = 0; i <= images.length; i++) {
+    if (images[i]) {
       const { signature, timestamp } = await getSignature(requestParams, headers);
 
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', images[i]);
       formData.append('folder', folder);
       formData.append('signature', signature);
       formData.append('timestamp', timestamp);
@@ -156,11 +196,18 @@ export const uploadAdditionalImages = async (
           signature,
         } = await uploadImage(formData, cloudName);
 
+        if (moderationStatuses[i].moderation === 'PENDING') {
+          await sendModerationEmail({
+            publicId: public_id,
+            message: moderationStatuses[i].ModerationLabels,
+          });
+        };
+
         const imageData = {
           version,
           signature,
           publicId: public_id,
-          moderationStatus: 'APPROVED',
+          moderationStatus: moderationStatuses[i].moderation,
         };
 
         uploadedData.push(imageData);
@@ -172,4 +219,4 @@ export const uploadAdditionalImages = async (
   }
 
   return uploadedData;
-}
+};

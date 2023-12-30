@@ -10,6 +10,9 @@ const nextConfig = {
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     NEXT_APP_CLOUDINARY_UPLOAD_PRESET:
       process.env.NEXT_APP_CLOUDINARY_UPLOAD_PRESET,
+    NEXT_APP_AWS_KEY: process.env.NEXT_APP_AWS_KEY,
+    NEXT_APP_AWS_SECRET_KEY: process.env.NEXT_APP_AWS_SECRET_KEY,
+    NEXT_APP_AWS_REGION: process.env.NEXT_APP_AWS_REGION,
   },
   images: {
     remotePatterns: [
