@@ -290,7 +290,11 @@ const CreatePainting: FC<Props> = ({
               type="file"
               className={style.file__input}
               {...register("image", {
-                required: true,
+                validate: (inputValue) => {
+                  if (inputValue) return true;
+
+                  return false;
+                },
                 onChange: handleFileChange,
               })}
             />

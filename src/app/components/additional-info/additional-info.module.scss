@@ -90,8 +90,6 @@
     margin-bottom: 24px;
     width: 50%;
     height: 238px;
-    // flex-grow: 1;
-    // flex-basis: 30%;
 
     @include tablet {
       height: 456px;
@@ -246,7 +244,7 @@
       margin-bottom: 32px;
       width: 118px;
       height: 136px;
-      gap: 32px;
+      gap: 18px;
       background-color: $gray-90;
 
       @include tablet {
@@ -278,13 +276,17 @@
       &__label {
         color: $gray-5;
         font-family: $font-text;
-        font-size: $font-size-md;
+        font-size: $font-size-sm;
         font-weight: $font-weight-regular;
         line-height: 20px;
 
         @include tablet {
-          font-size: $font-size-base;
+          font-size: $font-size-md;
         }
+      }
+
+      &__error {
+        border: 1px solid $system-error;
       }
     }
 
@@ -312,6 +314,17 @@
     .preview:hover .closeIcon {
       display: block;
     }
+  }
+}
+
+.fileError {
+  font-family: $font-text;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-regular;
+  color: $system-error;
+
+  @include tablet {
+    font-size: $font-size-md;
   }
 }
 

@@ -310,9 +310,15 @@ const EditProfile: FC<Props> = ({
                 name="isDeactivated"
                 render={({ field: { value, onChange }}) => {
                   return (
-                    <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
-                      <span style={{ color: 'white' }}>Deactivate Profile</span>
-                    </Checkbox>
+                    <div className={style.checkbox}>
+                      <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
+                        <span style={{ color: 'white' }}>Deactivate Profile</span>
+                      </Checkbox>
+
+                      <div className={style.recomendations}>
+                        * In deactivated profile mode, your artworks will not be visible to customers.
+                      </div>
+                    </div>
                   )
                 }}
               />

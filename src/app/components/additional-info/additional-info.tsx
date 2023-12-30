@@ -3,14 +3,15 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import React, { FC, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 import { FaTimes } from 'react-icons/fa';
 
 import style from "./additional-info.module.scss";
 
+import createHeaders from "@/utils/getAccessToken";
 import { AddIcon } from "@/app/icons/icon-add";
 import { ModerationStatus, ResponseImage, UploadedPaintingData } from "@/types/Painting";
 import { deleteAdditionalImages, getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
-import createHeaders from "@/utils/getAccessToken";
 import { moderateImage, uploadAdditionalImages } from "@/utils/profile";
 
 type Props = {
@@ -19,12 +20,21 @@ type Props = {
 
 const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   const [imagePreviews, setImagePreviews] = useState<(any)[]>([null, null, null]);
-  const [images, setImages] = useState<File[]>([]);
-
   const { user } = useAuthenticator((context) => [context.user]);
   const router = useRouter();
   const pathname = usePathname();
   const headers = createHeaders(user);
+
+  const {
+    setValue,
+    setError,
+    register,
+    clearErrors,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'all',
+  });
 
   const {
     id,
@@ -40,7 +50,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     supports,
     subjects,
     prettyId,
-    collection,
     description,
     yearOfCreation,
   } = uploaded;
@@ -50,9 +59,18 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
     if (!file) return;
 
-    const imagesToUpload = images.filter(image => image.name !== file?.name);
+    try {
+      const { ModerationLabels }: any = await moderateImage(file);
+      clearErrors(`image_${index}`)
+    } catch (error) {
+      setError(`image_${index}`, { message: 'Moderation error' });
+      return;
+    }
 
-    setImages([...imagesToUpload, file]);
+    if (file.size > 5242880) {
+      setError(`image_${index}`, { message: 'Max allowed size of image is 5 MB'});
+      return;
+    };
 
     const reader = new FileReader();
 
@@ -80,32 +98,20 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     headers: { Authorization?: string },
     paintingId: number,
   ) => {
-    const moderationStatuses = images.map(item => {
-      const { ModerationLabels }: any = moderateImage(item);
-      const moderation: ModerationStatus = !ModerationLabels?.length ? 'APPROVED' : 'PENDING';
+    const moderationStatuses = [];
 
-      return { moderation, ModerationLabels };
-    })
+    for (const image of images) {
+      const { ModerationLabels }: any = await moderateImage(image);
+      const moderation: ModerationStatus = !ModerationLabels.length ? 'APPROVED' : 'PENDING';
+
+      moderationStatuses.push({ moderation, ModerationLabels })
+    }
 
     const uploaded = await uploadAdditionalImages(images, headers, paintingId, moderationStatuses);
 
     if (!uploaded.length) return;
 
-    toast.promise(
-      saveAdditionalPhotos(uploaded, headers, paintingId),
-      {
-        loading: "Creating...",
-        success: <b>Painting created!</b>,
-        error: <b>Could not create.</b>,
-      },
-      {
-        style: {
-          borderRadius: "10px",
-          background: "#1c1d1d",
-          color: "#b3b4b5",
-        },
-      }
-    );
+    await saveAdditionalPhotos(uploaded, headers, paintingId);
   }
 
   const handleDeleteAdditionalImage = async (id: number) => {
@@ -129,18 +135,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   };
 
   const onDeletePreview = (index: number) => {
-    const previews = imagePreviews.filter(item => item !== null)
-
-    const updatedImages = images.map((item, idx) => {
-      if (previews[idx] === imagePreviews[index]) {
-        return null;
-      }
-
-      return item;
-    }).filter(item => item !== null);
-
-    // @ts-ignore
-    setImages(updatedImages)
+    setValue(`image_${index}`, [])
     setImagePreviews(current => current.map((item, i) => i === index ? null : item));
   };
 
@@ -159,16 +154,38 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     }
   };
 
-  const onSubmit = async () => {
-    if (!images.length) {
+  const onSubmit = async (data: any) => {
+    const imagesToUpload = [];
+
+    for (const image in data) {
+      if (data[image].length > 0) {
+        imagesToUpload.push(data[image][0])
+      }
+    }
+
+    if (!imagesToUpload.length) {
       router.replace(`/profile/${prettyId}`);
 
       return;
-    }
+    };
 
     const headers = createHeaders(user);
 
-    await handleSaveImages(images, headers, id);
+    await toast.promise(
+      handleSaveImages(imagesToUpload, headers, id),
+      {
+        loading: "Creating...",
+        success: <b>Painting created!</b>,
+        error: <b>Could not create.</b>,
+      },
+      {
+        style: {
+          borderRadius: "10px",
+          background: "#1c1d1d",
+          color: "#b3b4b5",
+        },
+      }
+    );
 
     if (pathname.includes('profile')) {
       router.replace(`/profile/${prettyId}`);
@@ -278,13 +295,21 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
         </div>
 
         <div className={style.photos}>
-          <div className={style.wrapper}>
+          <form
+            className={style.wrapper}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {imagePreviews.map((item, index) => (
-              <label className={style.file} key={index}>
+              <label
+                key={index}
+                className={`${style.file} ${typeof errors[`image_${index}`]?.message === "string"  ? style.file__error : ''}`}
+              >
                 <input
                   type="file"
                   className={style.file__input}
-                  onChange={(e) => handleFileChange(e, index)}
+                  {...register(`image_${index}`, {
+                    onChange: (e) => handleFileChange(e, index),
+                  })}
                 />
                 {item
                   ? (
@@ -308,21 +333,30 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
                     <>
                       <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
+                      <span className={`${typeof errors[`image_${index}`]?.message === "string" ? style.fileError : style.file__label}`}>
+                        Max allowed size 5 MB.
+                        <br />
+                        formats jpg, jpeg, png.
+                      </span>
                     </>
                 )}
               </label>
             ))}
-          </div>
+          </form>
         </div>
       </div>
 
       <div className={style.buttons}>
-        <button className={style.submit} onClick={onSubmit}>
+        <button
+          type="submit"
+          className={style.submit}
+          onClick={handleSubmit(onSubmit)}
+        >
           Submit
         </button>
 
         <button className={style.cancel} onClick={resetFileInputs}>
-            Cancel
+          Cancel
         </button>
       </div>
     </section>

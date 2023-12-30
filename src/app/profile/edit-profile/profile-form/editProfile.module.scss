@@ -284,6 +284,10 @@
   font-size: $font-size-md;
   line-height: 20px;
   color: #fff;
+
+  &:nth-last-of-type(1) {
+    color: $system-error;
+  }
 }
 
 .submit {
@@ -364,4 +368,9 @@
 
 .preview:hover .closeIcon {
   display: block;
+}
+
+.checkbox {
+  @include set-flex(column, center, center);
+  gap: 8px;
 }
