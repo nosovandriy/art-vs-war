@@ -323,7 +323,7 @@ const EditProfile: FC<Props> = ({
                       </Checkbox>
 
                       <div className={style.recomendations}>
-                        * In deactivated profile mode, your artworks will not be visible to customers.
+                        * In deactivated profile mode, your artworks will not be visible to customers
                       </div>
                     </div>
                   )
