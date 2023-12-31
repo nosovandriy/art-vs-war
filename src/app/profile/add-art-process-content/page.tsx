@@ -12,9 +12,16 @@ import ButtonLoader from '@/app/components/button-loader/button-loader';
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowLeft } from '@/app/icons/icon-arrow-left';
 import { IconClose } from '@/app/icons/icon-close';
-import { ArtProcessData } from '@/types/Painting';
-import { createArtProcess, getSignature, uploadImage, validateData } from '@/utils/api';
+import { ArtProcessData, ModerationStatus, RekognitionModerationResponse } from '@/types/Painting';
+import {
+  createArtProcess,
+  getSignature,
+  sendModerationEmail,
+  uploadImage,
+  validateData,
+} from '@/utils/api';
 import createHeaders from '@/utils/getAccessToken';
+import { moderateImage } from '@/utils/profile';
 import { validation } from './form';
 
 import style from './page.module.scss';
@@ -22,6 +29,8 @@ import style from './page.module.scss';
 const AddArtProcessContent = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [moderation, setModeration] = useState<RekognitionModerationResponse>();
+
   const router = useRouter();
   const { user, route } = useAuthenticator((context) => [context.route]);
   const isAuthenticated = route === 'authenticated';
@@ -49,6 +58,10 @@ const AddArtProcessContent = () => {
 
     setIsLoading(true);
 
+    const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length
+      ? 'APPROVED'
+      : 'PENDING';
+
     const { folder } = await validateData(URL, data, headers);
 
     const cloudinaryParams = {
@@ -66,31 +79,13 @@ const AddArtProcessContent = () => {
     formData.append('upload_preset', upload_preset);
     formData.append('api_key', cloudinaryApiKey);
 
-    // const { public_id, version, signature, width, height, moderation, secure_url } =
-    //   await uploadImage(formData, cloudName);
-
-    // const moderationStatus = moderation[0].status === 'approved' ? 'APPROVED' : 'PENDING';
-
-    // const artProcessData = {
-    //   description: data.description,
-    //   image: {
-    //     publicId: public_id,
-    //     moderationStatus,
-    //     version,
-    //     signature,
-    //     width,
-    //     height,
-    //     secureUrl: secure_url,
-    //   },
-    // };
-
     const { public_id, version, signature, width, height } = await uploadImage(formData, cloudName);
 
     const artProcessData = {
       description: data.description,
       image: {
         publicId: public_id,
-        moderationStatus: 'APPROVED',
+        moderationStatus,
         version,
         signature,
         width,
@@ -100,7 +95,16 @@ const AddArtProcessContent = () => {
 
     toast.promise(
       createArtProcess(artProcessData, headers)
-        .then(() => {
+        .then((response) => {
+          if (moderationStatus === 'PENDING') {
+            const moderationData = {
+              publicId: response.imagePublicId,
+              message: JSON.stringify(moderation),
+            };
+
+            sendModerationEmail(moderationData);
+          }
+
           router.push('/profile?tab=Art+Process');
         })
         .catch((error) => {
@@ -132,15 +136,17 @@ const AddArtProcessContent = () => {
       return;
     }
 
-    const dataToUpload: ArtProcessData = {
-      ...data,
-      image: data.image[0],
-    };
+    if (moderation?.$metadata.httpStatusCode === 200) {
+      const dataToUpload: ArtProcessData = {
+        ...data,
+        image: data.image[0],
+      };
 
-    handleCreatePainting(dataToUpload);
+      handleCreatePainting(dataToUpload);
+    }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (!file) {
@@ -151,6 +157,9 @@ const AddArtProcessContent = () => {
       setImagePreview(null);
 
       return;
+    } else {
+      const response: any = await moderateImage(file);
+      setModeration(response);
     }
 
     const reader = new FileReader();

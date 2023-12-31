@@ -94,10 +94,10 @@ export interface UploadedPaintingData {
   height: number;
   depth: number;
   price: number;
-  styles: { id: number, value: string }[];
-  mediums: { id: number, value: string }[];
-  supports: { id: number, value: string }[];
-  subjects: { id: number, value: string }[];
+  styles: { id: number; value: string }[];
+  mediums: { id: number; value: string }[];
+  supports: { id: number; value: string }[];
+  subjects: { id: number; value: string }[];
   addedToDataBase: { addedToDataBase: string };
   description: string;
   paymentStatus: string;
@@ -108,6 +108,13 @@ export interface OrderPainting extends Painting {
 }
 
 export type ModerationStatus = 'APPROVED' | 'PENDING';
+
+export type RekognitionModerationResponse = {
+  $metadata: {
+    httpStatusCode: number;
+  };
+  ModerationLabels: [];
+};
 
 export interface ModerationData {
   publicId: string;
