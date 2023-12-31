@@ -188,7 +188,7 @@ const CreatePainting: FC<Props> = ({
   }
 
   const updatePaintingWithImageUpload = async (data: PaintingData) => {
-    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+    const moderationStatus: ModerationStatus = moderation.length > 0 ? 'PENDING' : 'APPROVED';
 
     await uploadImageToServer(data, URL, headers, moderationStatus)
     .then((imageData: ImageData) => {

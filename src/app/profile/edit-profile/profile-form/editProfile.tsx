@@ -94,7 +94,7 @@ const EditProfile: FC<Props> = ({
   const handleEditProfile = async (action: Action, data: UserData) => {
     let authorData: UserDataToSave;
 
-    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+    const moderationStatus: ModerationStatus = moderation.length > 0 ? 'PENDING' : 'APPROVED';
 
     if (data.image instanceof File) {
       const {
@@ -221,7 +221,8 @@ const EditProfile: FC<Props> = ({
         }
       );
 
-      router.push('/profile')
+      router.refresh();
+      router.replace('/profile')
   };
 
   useEffect(() => {
