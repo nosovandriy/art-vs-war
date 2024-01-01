@@ -153,9 +153,11 @@ const AddArtProcessContent = () => {
       return;
     }
 
-    if (file.size > 5242880) {
-      setImagePreview(null);
+    const acceptedFormats = ['.jpeg', '.jpg', '.png'];
+    const validFormat = acceptedFormats.some((format) => file.name.toLowerCase().endsWith(format));
 
+    if (!validFormat || file.size > 5242880) {
+      setImagePreview(null);
       return;
     } else {
       const response: any = await moderateImage(file);
@@ -197,7 +199,7 @@ const AddArtProcessContent = () => {
             <input
               type="file"
               className={style.uploadSection__input}
-              accept="image/*"
+              accept=".jpeg, .jpg, .png"
               {...register('image', {
                 onChange: handleFileChange,
               })}
@@ -225,7 +227,9 @@ const AddArtProcessContent = () => {
                 {errors?.image?.message ? (
                   <div className={style.error}>{errors.image?.message}</div>
                 ) : (
-                  <p className={style.inputText__info}>Max allowed size of image is 5MB</p>
+                  <p className={style.inputText__info}>
+                    Allowed formats for the image are JPG, JPEG, PNG and the maximum size is 5MB
+                  </p>
                 )}
               </>
             )}

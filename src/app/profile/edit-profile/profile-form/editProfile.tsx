@@ -1,26 +1,26 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import Image from "next/image";
-import Select from "react-select";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import Image from 'next/image';
+import Select from 'react-select';
 import jwt_decode from 'jwt-decode';
-import toast from "react-hot-toast";
-import { FaTimes } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { Checkbox } from "@nextui-org/react";
-import { useForm, Controller } from "react-hook-form";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import toast from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { Checkbox } from '@nextui-org/react';
+import { useForm, Controller } from 'react-hook-form';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
-import style from "./editProfile.module.scss";
-import { styles } from "./stylesSelect";
+import style from './editProfile.module.scss';
+import { styles } from './stylesSelect';
 
-import { AddIcon } from "@/app/icons/icon-add";
-import { CountryType, countries } from "./countries";
-import { ArrowLeft } from "@/app/icons/icon-arrow-left";
-import { Artist } from "@/types/Artist";
-import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from "@/types/Profile";
-import { moderateImage, uploadImageToServer, validateDataOnServer } from "@/utils/profile";
-import { createProfile, sendModerationEmail, updateProfile } from "@/utils/api";
-import createHeaders from "@/utils/getAccessToken";
-import { ModerationStatus } from "@/types/Painting";
+import { AddIcon } from '@/app/icons/icon-add';
+import { CountryType, countries } from './countries';
+import { ArrowLeft } from '@/app/icons/icon-arrow-left';
+import { Artist } from '@/types/Artist';
+import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from '@/types/Profile';
+import { moderateImage, uploadImageToServer, validateDataOnServer } from '@/utils/profile';
+import { createProfile, sendModerationEmail, updateProfile } from '@/utils/api';
+import createHeaders from '@/utils/getAccessToken';
+import { ModerationStatus } from '@/types/Painting';
 
 const URL = 'authors/checkInputAndGet';
 
@@ -29,10 +29,7 @@ type Props = {
   setAuthor: Dispatch<SetStateAction<Artist | null>>;
 };
 
-const EditProfile: FC<Props> = ({
-  author,
-  setAuthor,
-}) => {
+const EditProfile: FC<Props> = ({ author, setAuthor }) => {
   const {
     reset,
     control,
@@ -52,7 +49,7 @@ const EditProfile: FC<Props> = ({
       isDeactivated: author?.isDeactivated || false,
       image: '',
     },
-    mode: "onTouched",
+    mode: 'onTouched',
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(author?.imageUrl || null);
@@ -66,9 +63,8 @@ const EditProfile: FC<Props> = ({
   const headers = createHeaders(user);
   const router = useRouter();
 
-  const getValue = (value: string) => (
-    value ? countries.find(county => county.value === value) : ''
-  );
+  const getValue = (value: string) =>
+    value ? countries.find((county) => county.value === value) : '';
 
   const refreshAccessToken = () => {
     if (refreshToken) {
@@ -97,11 +93,13 @@ const EditProfile: FC<Props> = ({
     const moderationStatus: ModerationStatus = moderation.length > 0 ? 'PENDING' : 'APPROVED';
 
     if (data.image instanceof File) {
-      const {
-        publicId,
-        version,
-        signature,
-      } = await uploadImageToServer(data, URL, headers, moderationStatus, userEmail);
+      const { publicId, version, signature } = await uploadImageToServer(
+        data,
+        URL,
+        headers,
+        moderationStatus,
+        userEmail,
+      );
 
       if (moderationStatus === 'PENDING') {
         sendModerationEmail({
@@ -125,8 +123,7 @@ const EditProfile: FC<Props> = ({
 
       action === 'create' ? handleCreateProfile(authorData) : handleUpdateProfile(authorData);
     } else {
-      await validateDataOnServer(data, URL, headers, userEmail)
-      .then(() => {
+      await validateDataOnServer(data, URL, headers, userEmail).then(() => {
         authorData = {
           ...data,
           email: userEmail,
@@ -143,22 +140,22 @@ const EditProfile: FC<Props> = ({
 
     if (!file) {
       return;
-    };
+    }
 
     try {
       const { ModerationLabels }: any = await moderateImage(file);
 
       setModeration(ModerationLabels);
-      clearErrors('image')
+      clearErrors('image');
     } catch (error) {
       setError('image', { message: 'Moderation error' });
       return;
     }
 
     if (file.size > 5242880) {
-      setError('image', { message: 'Max allowed size of image is 5 MB'});
+      setError('image', { message: 'Max allowed size of image is 5 MB' });
       return;
-    };
+    }
 
     const reader = new FileReader();
 
@@ -184,7 +181,7 @@ const EditProfile: FC<Props> = ({
   const onSubmit = async (data: ProfileForm) => {
     if (!isAuthenticated || !data) {
       return;
-    };
+    }
 
     const dataToUpload: UserData = {
       ...data,
@@ -193,77 +190,71 @@ const EditProfile: FC<Props> = ({
 
     author
       ? await toast.promise(
-        handleEditProfile('update', dataToUpload),
-        {
-          loading: 'Updating...',
-          success: <b>Profile edited!</b>,
-          error: <b>Could not edit.</b>,
-        }, {
-          style: {
-            borderRadius: '10px',
-            background: '#1c1d1d',
-            color: '#b3b4b5',
-          }
-        }
-      )
+          handleEditProfile('update', dataToUpload),
+          {
+            loading: 'Updating...',
+            success: <b>Profile edited!</b>,
+            error: <b>Could not edit.</b>,
+          },
+          {
+            style: {
+              borderRadius: '10px',
+              background: '#1c1d1d',
+              color: '#b3b4b5',
+            },
+          },
+        )
       : await toast.promise(
-        handleEditProfile('create', dataToUpload),
-        {
-          loading: 'Creating...',
-          success: <b>Profile created!</b>,
-          error: <b>Could not create.</b>,
-        }, {
-          style: {
-            borderRadius: '10px',
-            background: '#1c1d1d',
-            color: '#b3b4b5',
-          }
-        }
-      );
+          handleEditProfile('create', dataToUpload),
+          {
+            loading: 'Creating...',
+            success: <b>Profile created!</b>,
+            error: <b>Could not create.</b>,
+          },
+          {
+            style: {
+              borderRadius: '10px',
+              background: '#1c1d1d',
+              color: '#b3b4b5',
+            },
+          },
+        );
 
-      router.refresh();
-      router.replace('/profile')
+    router.refresh();
+    router.replace('/profile');
   };
 
   useEffect(() => {
     if (!author) return;
 
-    setValue('image', author.imageUrl)
+    setValue('image', author.imageUrl);
   }, [author]);
 
   return (
     <section className={style.editProfile}>
       <div className={style.titleContainer}>
         {author && (
-          <button
-            type="button"
-            className={style.arrow}
-            onClick={() => router.back()}
-          >
+          <button type="button" className={style.arrow} onClick={() => router.back()}>
             <ArrowLeft />
           </button>
         )}
 
-        <h2 className={style.title}>
-          {author
-            ? 'Edit your profile'
-            : 'Welcome to Art vs War'
-          }
-        </h2>
+        <h2 className={style.title}>{author ? 'Edit your profile' : 'Welcome to Art vs War'}</h2>
       </div>
 
-      <form
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.container}>
           <div className={style.fileContainer}>
-            <label className={`${style.file} ${typeof errors?.image?.message === "string"  ? style.file__error : ''}`}>
+            <label
+              className={`${style.file} ${
+                typeof errors?.image?.message === 'string' ? style.file__error : ''
+              }`}
+            >
               <input
                 type="file"
+                accept=".jpeg, .jpg, .png"
                 className={style.file__input}
-                {...register("image", {
+                {...register('image', {
                   onChange: handleFileChange,
                   validate: (inputValue) => {
                     if (inputValue) return true;
@@ -284,8 +275,8 @@ const EditProfile: FC<Props> = ({
                   <button
                     type="button"
                     onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
+                      e.preventDefault();
+                      e.stopPropagation();
                       handleResetPreview();
                     }}
                   >
@@ -293,30 +284,34 @@ const EditProfile: FC<Props> = ({
                   </button>
                 </div>
               ) : (
-                    <>
-                      <AddIcon className={style.file__icon}/>
-                      <span className={style.file__label}>Choose a file</span>
-                      <span className={`${typeof errors?.image?.message === "string" ? style.fileError : style.file__label}`}>
-                        Max allowed size of image is 5 MB.
-                        <br />
-                        Allowed formats are jpg, jpeg, png.
-                      </span>
-                    </>
-              )
-            }
+                <>
+                  <AddIcon className={style.file__icon} />
+                  <span className={style.file__label}>Choose a file</span>
+                  <span
+                    className={`${
+                      typeof errors?.image?.message === 'string'
+                        ? style.fileError
+                        : style.file__label
+                    }`}
+                  >
+                    Max allowed size of image is 5 MB.
+                    <br />
+                    Allowed formats are jpg, jpeg, png.
+                  </span>
+                </>
+              )}
             </label>
             <div className={style.recomendations}>
-              * Please add a photo with a large resolution
-              and proportions close to 3:4. We want art connoisseurs to be closer
-              to artists and we are sure that people who create masterpieces deserve
-              to be shown vividly. Don’t be shy!
+              * Please add a photo with a large resolution and proportions close to 3:4. We want art
+              connoisseurs to be closer to artists and we are sure that people who create
+              masterpieces deserve to be shown vividly. Don’t be shy!
             </div>
 
             {author && (
               <Controller
                 control={control}
                 name="isDeactivated"
-                render={({ field: { value, onChange }}) => {
+                render={({ field: { value, onChange } }) => {
                   return (
                     <div className={style.checkbox}>
                       <Checkbox isSelected={value} color="warning" onValueChange={onChange}>
@@ -324,10 +319,11 @@ const EditProfile: FC<Props> = ({
                       </Checkbox>
 
                       <div className={style.recomendations}>
-                        * In deactivated profile mode, your artworks will not be visible to customers
+                        * In deactivated profile mode, your artworks will not be visible to
+                        customers
                       </div>
                     </div>
-                  )
+                  );
                 }}
               />
             )}
@@ -343,7 +339,7 @@ const EditProfile: FC<Props> = ({
                   type="text"
                   className={style.text}
                   placeholder="Enter your full name"
-                  {...register("fullName", {
+                  {...register('fullName', {
                     required: 'This field is required!',
                     maxLength: {
                       value: 40,
@@ -371,7 +367,7 @@ const EditProfile: FC<Props> = ({
                   type="text"
                   className={style.text}
                   placeholder="Enter a city of your current stay"
-                  {...register("city", {
+                  {...register('city', {
                     required: 'This field is required!',
                     maxLength: {
                       value: 40,
@@ -407,7 +403,7 @@ const EditProfile: FC<Props> = ({
                     <Select
                       options={countries}
                       value={getValue(value)}
-                      onChange={newValue => onChange((newValue as CountryType).value)}
+                      onChange={(newValue) => onChange((newValue as CountryType).value)}
                       isSearchable={false}
                       className={style.select}
                       placeholder="A country of your current stay"
@@ -430,7 +426,7 @@ const EditProfile: FC<Props> = ({
                 <textarea
                   className={style.about}
                   placeholder="Tell us about yourself. Don't be shy!"
-                  {...register("aboutMe", {
+                  {...register('aboutMe', {
                     required: 'This field is required!',
                     minLength: {
                       value: 3,
@@ -449,34 +445,20 @@ const EditProfile: FC<Props> = ({
               </div>
             </label>
             <div className={style.buttonContainerLaptop}>
-              <button
-                type="reset"
-                className={style.cancel}
-                onClick={onReset}
-              >
+              <button type="reset" className={style.cancel} onClick={onReset}>
                 Cancel
               </button>
-              <button
-                type="submit"
-                className={style.submit}
-              >
+              <button type="submit" className={style.submit}>
                 Submit
               </button>
             </div>
           </div>
         </div>
         <div className={style.buttonContainer}>
-          <button
-            type="reset"
-            className={style.cancel}
-            onClick={onReset}
-          >
+          <button type="reset" className={style.cancel} onClick={onReset}>
             Cancel
           </button>
-          <button
-            type="submit"
-            className={style.submit}
-          >
+          <button type="submit" className={style.submit}>
             Submit
           </button>
         </div>

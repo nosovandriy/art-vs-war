@@ -62,7 +62,7 @@ const ShippingForm: React.FC<Props> = ({
       const manualPrice = [
         {
           paintingId: 1,
-          shippingPrice: 101,
+          shippingPrice: 55,
           deliveryMinDays: 3,
           deliveryMaxDays: 5,
         },
