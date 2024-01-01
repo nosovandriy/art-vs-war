@@ -21,6 +21,7 @@ const ArtProcessGallery: React.FC<Props> = ({ artProcessImages, onOpen, setSelec
   const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
 
   const photosList = artProcessImages.map((photo) => ({
+    key: photo.id.toString(),
     id: photo.id,
     src: photo.imageUrl,
     width: photo.imageWidth,
@@ -49,6 +50,7 @@ const ArtProcessGallery: React.FC<Props> = ({ artProcessImages, onOpen, setSelec
   return (
     <>
       <PhotoAlbum
+        key={index}
         onClick={(event) => handleOnClick(event)}
         columns={(containerWidth) => {
           if (containerWidth < 480) {

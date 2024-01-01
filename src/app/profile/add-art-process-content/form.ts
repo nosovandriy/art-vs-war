@@ -12,6 +12,20 @@ export const validation = yup.object({
       }
 
       return true;
+    })
+    .test('fileFormat', 'Invalid file format. Only JPEG, JPG and PNG are allowed.', (value) => {
+      const [file] = Object.values(value) as any;
+
+      if (file) {
+        const acceptedFormats = ['.jpeg', '.jpg', '.png'];
+        const validFormat = acceptedFormats.some((format) =>
+          file.name.toLowerCase().endsWith(format),
+        );
+
+        return validFormat;
+      }
+
+      return true;
     }),
   description: yup.string().max(150, 'Max 150 characters'),
 });
