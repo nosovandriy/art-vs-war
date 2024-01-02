@@ -34,25 +34,25 @@
   }
 }
 
-  .title {
-    margin-bottom: 32px;
-    color: $gray-5;
-    font-family: $font-title;
-    font-weight: $font-weight-regular;
-    font-size: $font-size-xxl;
-    line-height: $line-height-xxl;
+.title {
+  margin-bottom: 32px;
+  color: $gray-5;
+  font-family: $font-title;
+  font-weight: $font-weight-regular;
+  font-size: $font-size-xxl;
+  line-height: $line-height-xxl;
 
-    @include tabletXL {
-      font-size: 48px;
-      line-height: 56px;
-    }
-
-    @include desktop {
-      margin-bottom: 48px;
-      font-size: $font-size-huge;
-      line-height: $line-height-huge;
-    }
+  @include tabletXL {
+    font-size: 48px;
+    line-height: 56px;
   }
+
+  @include desktop {
+    margin-bottom: 48px;
+    font-size: $font-size-huge;
+    line-height: $line-height-huge;
+  }
+}
 
 
 .links {
@@ -246,15 +246,12 @@
       height: 136px;
       gap: 18px;
       background-color: $gray-90;
+      cursor: pointer;
 
       @include tablet {
         width: 33%;
         min-width: 118px;
         height: 264px;
-      }
-
-      &:hover {
-        cursor: pointer;
       }
 
       &__input {
@@ -275,6 +272,7 @@
 
       &__label {
         color: $gray-5;
+        text-align: center;
         font-family: $font-text;
         font-size: $font-size-sm;
         font-weight: $font-weight-regular;
@@ -308,11 +306,17 @@
       left: 5px;
       color: $gray-5;
       cursor: pointer;
-      display: none;
+      display: block;
+
+      @include laptop {
+        display: none;
+      }
     }
 
-    .preview:hover .closeIcon {
-      display: block;
+    @include laptop {
+      .preview:hover .closeIcon {
+        display: block;
+      }
     }
   }
 }

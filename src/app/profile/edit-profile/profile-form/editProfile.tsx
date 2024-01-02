@@ -142,7 +142,10 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    if (!file) {
+    if (!file) return;
+
+    if (file.size > 5242880) {
+      setError('image', { message: 'Max allowed size of image is 5 MB' });
       return;
     }
 
@@ -153,11 +156,6 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
       clearErrors('image');
     } catch (error) {
       setError('image', { message: 'Moderation error' });
-      return;
-    }
-
-    if (file.size > 5242880) {
-      setError('image', { message: 'Max allowed size of image is 5 MB' });
       return;
     }
 
@@ -295,9 +293,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                         : style.file__label
                     }`}
                   >
-                    Max allowed size of image is 5 MB.
-                    <br />
-                    Allowed formats are jpg, jpeg, png.
+                    Allowed formats for the image are JPG, JPEG, PNG <br /> and the maximum size is 5 MB
                   </span>
                 </>
               )}
