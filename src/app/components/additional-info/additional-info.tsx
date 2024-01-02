@@ -64,14 +64,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
       return;
     };
 
-    try {
-      const { ModerationLabels }: any = await moderateImage(file);
-      clearErrors(`image_${index}`)
-    } catch (error) {
-      setError(`image_${index}`, { message: 'Moderation error' });
-      return;
-    }
-
     const reader = new FileReader();
 
     reader.onload = () => {
