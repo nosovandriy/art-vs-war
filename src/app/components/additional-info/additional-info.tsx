@@ -59,6 +59,11 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
     if (!file) return;
 
+    if (file.size > 5242880) {
+      setError(`image_${index}`, { message: 'Max allowed size of image is 5 MB'});
+      return;
+    };
+
     try {
       const { ModerationLabels }: any = await moderateImage(file);
       clearErrors(`image_${index}`)
@@ -66,11 +71,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
       setError(`image_${index}`, { message: 'Moderation error' });
       return;
     }
-
-    if (file.size > 5242880) {
-      setError(`image_${index}`, { message: 'Max allowed size of image is 5 MB'});
-      return;
-    };
 
     const reader = new FileReader();
 
@@ -334,9 +334,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
                       <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
                       <span className={`${typeof errors[`image_${index}`]?.message === "string" ? style.fileError : style.file__label}`}>
-                        Max allowed size 5 MB.
-                        <br />
-                        formats jpg, jpeg, png.
+                        Allowed JPG, JPEG, PNG <br /> maximum size is 5 MB
                       </span>
                     </>
                 )}

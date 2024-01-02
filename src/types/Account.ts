@@ -22,6 +22,7 @@ export interface Order {
   shippingAmount: number;
   subtotalAmount: number;
   paintings: OrderPainting[];
-  orderCreatedAt: { orderCreatedAt: string };
-  orderDeliveredAt: { orderDeliveredAt: string };
+  orderCreatedAt: { date: string };
+  orderDeliveredAt?: { date: string };
+  orderEstimatedDeliverydAt?: { date: string };
 };
