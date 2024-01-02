@@ -61,13 +61,14 @@ const ShippingForm: React.FC<Props> = ({
       console.log('error', error);
       const manualPrice = [
         {
-          paintingId: 1,
+          paintingId: Number(orderIds),
           shippingPrice: 55,
           deliveryMinDays: 3,
           deliveryMaxDays: 5,
         },
       ];
       dispatch(setPaintingsShippingInfo(manualPrice));
+      dispatch(setShippingAddress(data));
     } finally {
       setIsLoading(false);
     }
