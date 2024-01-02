@@ -258,7 +258,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                   validate: (inputValue) => {
                     if (inputValue) return true;
 
-                    return 'Image is required!';
+                    return false;
                   },
                 })}
               />
