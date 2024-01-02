@@ -27,6 +27,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     shippingAmount,
     orderCreatedAt,
     orderDeliveredAt,
+    orderEstimatedDeliverydAt,
   } = tempOrder;
 
   const handleConfirm = async () => {
@@ -52,7 +53,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
 
       <div className={style.number}>{`№${id}`}</div>
 
-      <div className={style.date}>{orderCreatedAt.orderCreatedAt}</div>
+      <div className={style.date}>{orderCreatedAt.date}</div>
 
       <div className={style.orders}>
         {paintings.map((painting: OrderPainting) => (
@@ -84,14 +85,15 @@ const OrderCard: FC<Props> = ({ order, user }) => {
           </div>
         </div>
 
-        {isDelivered && (
         <div className={style.details}>
           <div className={style.name}>Delivery date</div>
           <div className={style.name}>
-            {orderDeliveredAt.orderDeliveredAt}
+            {isDelivered && orderDeliveredAt
+              ? orderDeliveredAt?.date
+              : orderEstimatedDeliverydAt?.date
+            }
           </div>
         </div>
-        )}
       </div>
 
       <div className={style.buttonContainer}>
