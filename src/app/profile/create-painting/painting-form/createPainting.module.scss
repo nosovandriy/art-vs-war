@@ -91,6 +91,7 @@
 }
 
 .fileError {
+  text-align: center;
   font-family: $font-text;
   font-size: $font-size-base;
   line-height: $line-height-base;
@@ -392,12 +393,18 @@
   top: 10px;
   left: 10px;
   color: $gray-5;
-  display: none;
+  display: block;
   cursor: pointer;
+
+  @include laptop {
+    display: none;
+  }
 }
 
 .preview:hover .closeIcon {
-  display: block;
+  @include laptop {
+    display: block;
+  }
 }
 
 .wrapper {
