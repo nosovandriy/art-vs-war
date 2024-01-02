@@ -85,6 +85,10 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
     const updatedAuthor = await updateProfile(userData, headers);
 
     setAuthor(updatedAuthor);
+
+    if (updatedAuthor.imageUrl) {
+      router.replace('/profile');
+    }
   };
 
   const handleEditProfile = async (action: Action, data: UserData) => {
@@ -219,8 +223,6 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
             },
           },
         );
-
-    window.location.replace('/profile');
   };
 
   useEffect(() => {
