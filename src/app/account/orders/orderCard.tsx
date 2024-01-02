@@ -86,7 +86,9 @@ const OrderCard: FC<Props> = ({ order, user }) => {
         </div>
 
         <div className={style.details}>
-          <div className={style.name}>Delivery date</div>
+          <div className={style.name}>
+            {isDelivered ? 'Delivery date' : 'Estimated delivery date'}
+          </div>
           <div className={style.name}>
             {isDelivered && orderDeliveredAt
               ? orderDeliveredAt?.date
