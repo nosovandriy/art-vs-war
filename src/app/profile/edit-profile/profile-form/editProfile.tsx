@@ -220,8 +220,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
           },
         );
 
-    router.refresh();
-    router.replace('/profile');
+    window.location.replace('/profile');
   };
 
   useEffect(() => {
