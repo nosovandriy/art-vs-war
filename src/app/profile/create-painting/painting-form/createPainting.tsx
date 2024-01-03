@@ -315,7 +315,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                     typeof errors?.image?.message === 'string' ? style.fileError : style.file__label
                   }`}
                 >
-                  Allowed formats for the image are JPG, JPEG, PNG <br /> and the maximum size is 5 MB
+                  Allowed formats for the image are JPG, JPEG, PNG <br /> and the maximum size is 5
+                  MB
                 </span>
 
                 <div className={style.arrowWidth}>
@@ -339,7 +340,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors?.title?.message && style.text__error}`}
                   placeholder="Painting title"
                   {...register('title', {
                     required: 'This field is required!',
@@ -370,7 +371,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${
+                        errors?.yearOfCreation?.message && style.text__error
+                      }`}
                       placeholder="Year of creation"
                       onKeyDown={(e) => {
                         const key = e.key;
@@ -425,7 +428,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${errors?.weight?.message && style.text__error}`}
                       placeholder="Weight grm"
                       onKeyDown={(e) => {
                         const key = e.key;
@@ -475,7 +478,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${errors?.width?.message && style.text__error}`}
                       placeholder="Width cm"
                       onKeyDown={(e) => {
                         const key = e.key;
@@ -525,7 +528,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${errors?.height?.message && style.text__error}`}
                       placeholder="Height cm"
                       onKeyDown={(e) => {
                         const key = e.key;
@@ -577,7 +580,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${errors?.depth?.message && style.text__error}`}
                       placeholder="Depth cm"
                       onKeyDown={(e) => {
                         const key = e.key;
@@ -642,7 +645,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                               return onChange(newValues.map((newValue) => newValue.value));
                             }}
                             closeMenuOnSelect={false}
-                            className={style.select}
+                            className={`${style.select} ${
+                              errors?.styleIds?.message && style.select__error
+                            }`}
                             placeholder="Choose styles"
                             styles={stylesSelect}
                           />
@@ -676,7 +681,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           }}
                           isMulti
                           closeMenuOnSelect={false}
-                          className={style.select}
+                          className={`${style.select} ${
+                            errors?.mediumIds?.message && style.select__error
+                          }`}
                           placeholder="Choose mediums"
                           styles={stylesSelect}
                         />
@@ -709,7 +716,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           }}
                           isMulti
                           closeMenuOnSelect={false}
-                          className={style.select}
+                          className={`${style.select} ${
+                            errors?.supportIds?.message && style.select__error
+                          }`}
                           placeholder="Choose supports"
                           styles={stylesSelect}
                         />
@@ -742,7 +751,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           }}
                           isMulti
                           closeMenuOnSelect={false}
-                          className={style.select}
+                          className={`${style.select} ${
+                            errors?.subjectIds?.message && style.select__error
+                          }`}
                           placeholder="Choose subjects"
                           styles={stylesSelect}
                         />
@@ -762,7 +773,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   <div className={style.input}>
                     <input
                       type="number"
-                      className={style.text}
+                      className={`${style.text} ${errors?.price?.message && style.text__error}`}
                       placeholder="Price €"
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register('price', {
@@ -800,7 +811,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
 
           <div className={style.wrapper}>
             <textarea
-              className={style.about__input}
+              className={`${style.about__input} ${
+                errors?.description?.message && style.text__error
+              }`}
               placeholder="Write some description about the painting"
               {...register('description', {
                 required: 'This field is required!',
@@ -810,7 +823,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                 },
                 pattern: {
                   value: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>~_\-\s]*$/,
-                  message: 'Only Latin characters, numbers, and allowed special symbols are allowed',
+                  message:
+                    'Only Latin characters, numbers, and allowed special symbols are allowed',
                 },
               })}
             />
