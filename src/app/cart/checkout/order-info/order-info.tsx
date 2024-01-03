@@ -79,7 +79,7 @@ const OrderInfo = () => {
     } else {
       fetchAccountData();
     }
-  }, []);
+  }, [paintings]);
 
   const handleSectionClick = (step: CartSteps | null) => {
     setActiveSection(activeSection === step ? null : step);
