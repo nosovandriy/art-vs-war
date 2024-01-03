@@ -1,5 +1,5 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .createPainting {
   margin: 0 auto;
@@ -63,7 +63,6 @@
 .titleContainer {
   margin-bottom: 32px;
 
-
   .title {
     color: $gray-0;
     font-family: $font-text;
@@ -82,7 +81,7 @@
 
 .error {
   margin-top: 2px;
-  font-size: $font-size-sm;
+  font-size: $font-size-md;
   color: $system-error;
 
   &__file {
@@ -161,7 +160,7 @@
 
 .star {
   margin-left: 4px;
-  color: #D32B10;
+  color: #d32b10;
 }
 
 .label {
@@ -174,10 +173,6 @@
   font-size: $font-size-md;
   font-weight: $font-weight-regular;
   line-height: 20px;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .text {
@@ -185,7 +180,7 @@
   height: 48px;
   padding: 12px 16px;
   background-color: $gray-90;
-  color: #fff;
+  color: $gray-0;
   font-family: $font-text;
   font-size: $font-size-base;
   line-height: $line-height-base;
@@ -193,9 +188,25 @@
   text-align: start;
   outline: none;
   cursor: text;
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
 
   &::placeholder {
     color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50;
+    transition-duration: 0.3s;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+    transition-duration: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
   }
 }
 
@@ -206,6 +217,19 @@
 
 .select {
   width: 100%;
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid $gray-50;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
+  }
 }
 
 .about {
@@ -215,7 +239,7 @@
   cursor: text;
 
   @include laptop {
-    @include set-flex (row, center, flex-start);
+    @include set-flex(row, center, flex-start);
     padding: 48px 82px;
     gap: 18px;
   }
@@ -230,7 +254,7 @@
     text-transform: uppercase;
 
     @include desktop {
-     width: 208px;
+      width: 208px;
     }
   }
 
@@ -248,9 +272,22 @@
     font-weight: $font-weight-regular;
     resize: none;
     outline: none;
+    border: 1px solid transparent;
 
     &::placeholder {
       color: $gray-30;
+    }
+
+    &:hover {
+      border: 1px solid $gray-50;
+    }
+
+    &:focus {
+      border: 1px solid $gray-30;
+    }
+
+    &__error {
+      border: 1px solid $system-error !important;
     }
   }
 }
@@ -374,7 +411,7 @@
 }
 
 .arrowHeight {
-  @include set-flex(column, center, center);;
+  @include set-flex(column, center, center);
   transform: rotate(-90deg);
   position: absolute;
   right: -100px;

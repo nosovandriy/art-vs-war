@@ -228,7 +228,7 @@ const AddArtProcessContent = () => {
                   <div className={style.error}>{errors.image?.message}</div>
                 ) : (
                   <p className={style.inputText__info}>
-                    Allowed formats for the image are JPG, JPEG, PNG and the maximum size is 5MB
+                    Allowed formats for the image are JPG, JPEG, PNG and the maximum size is 5 MB
                   </p>
                 )}
               </>
