@@ -4,7 +4,7 @@ export const validation = yup.object({
   image: yup
     .mixed()
     .required('This field is required!')
-    .test('fileSize', 'Max allowed size of image is 5MB', (value) => {
+    .test('fileSize', 'Max allowed size of image is 5 MB', (value) => {
       const [file] = Object.values(value) as any;
 
       if (file) {
