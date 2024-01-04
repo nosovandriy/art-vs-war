@@ -27,7 +27,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     shippingAmount,
     orderCreatedAt,
     orderDeliveredAt,
-    orderEstimatedDeliverydAt,
+    orderEstimatedDeliveryAt,
   } = tempOrder;
 
   const handleConfirm = async () => {
@@ -92,7 +92,7 @@ const OrderCard: FC<Props> = ({ order, user }) => {
           <div className={style.name}>
             {isDelivered && orderDeliveredAt
               ? orderDeliveredAt?.date
-              : orderEstimatedDeliverydAt?.date
+              : orderEstimatedDeliveryAt?.date
             }
           </div>
         </div>
