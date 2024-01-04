@@ -24,5 +24,5 @@ export interface Order {
   paintings: OrderPainting[];
   orderCreatedAt: { date: string };
   orderDeliveredAt?: { date: string };
-  orderEstimatedDeliverydAt?: { date: string };
+  orderEstimatedDeliveryAt?: { date: string };
 };
