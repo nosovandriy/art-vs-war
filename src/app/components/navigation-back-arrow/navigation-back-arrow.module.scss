@@ -1,0 +1,17 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.arrowBack {
+  path {
+    fill: $gray-30;
+    transition: fill 0.3s;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    path {
+      fill: $gray-5;
+    }
+  }
+}
