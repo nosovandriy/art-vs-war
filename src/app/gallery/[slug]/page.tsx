@@ -8,6 +8,7 @@ import PaintingGallery from './paintingGallery/paintingGallery';
 import { ArrowBackIcon } from '@/app/icons/icon-arrow-back';
 
 import style from './page.module.scss';
+import NavigationBackArrow from '@/app/components/navigation-back-arrow/navigation-back-arrow';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   try {
@@ -86,11 +87,7 @@ const PaintingCard = async ({ params }: { params: { slug: string } }) => {
   return (
     <section className={style.card}>
       <div className={style.titleWrapper}>
-        <Link href={`/gallery`}>
-          <div className={style.arrowBack}>
-            <ArrowBackIcon />
-          </div>
-        </Link>
+        <NavigationBackArrow />
         <h1 className={style.paintingTitle}>{title}</h1>
       </div>
 
