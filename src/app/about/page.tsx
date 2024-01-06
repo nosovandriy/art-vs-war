@@ -6,13 +6,21 @@ const About = () => {
   return (
     <div className={style.about}>
       <h1 className={style.title}>About</h1>
-      <Image
+      {/* <Image
         src="/assets/about-ornament.png"
         alt="Ukrainian ornament"
         width={1300}
         height={200}
         className={style.image}
-      />
+      /> */}
+      <iframe
+        className={style.iframe}
+        src="https://www.youtube.com/embed/zgugyUkIdVw?si=yhgmNHxOnN3MoHVr"
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      ></iframe>
       <div className={style.articleBlock}>
         <article className={style.article}>
           <h2 className={style.titleH2}>Aims</h2>
@@ -98,14 +106,6 @@ const About = () => {
         height={200}
         className={style.image}
       />
-      <iframe
-        className={style.iframe}
-        src="https://www.youtube.com/embed/zgugyUkIdVw?si=yhgmNHxOnN3MoHVr"
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      ></iframe>
     </div>
   );
 };
