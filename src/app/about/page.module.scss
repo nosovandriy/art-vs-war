@@ -1,5 +1,5 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .about {
   padding: 24px 22px;
@@ -34,10 +34,17 @@
 .iframe {
   margin-top: 24px;
   width: 100%;
-  height: 300px;
-  
+  height: 315px;
+  margin: 0 auto;
+
+  @include tabletXL {
+    height: 415px;
+    width: 70%;
+  }
+
   @include laptop {
-    height: 100vh;
+    margin-top: 48px;
+    height: 500px;
   }
 }
 

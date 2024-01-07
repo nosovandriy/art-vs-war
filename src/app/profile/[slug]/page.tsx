@@ -15,6 +15,7 @@ import ModalComponent from './modal/modal';
 import PaintingGallery from './paintingGallery/paintingGallery';
 
 import style from './page.module.scss';
+import NavigationBackArrow from '@/app/components/navigation-back-arrow/navigation-back-arrow';
 
 const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
   const { user } = useAuthenticator((context) => [context.user]);
@@ -23,7 +24,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
   const headers = createHeaders(user);
   const router = useRouter();
 
-  const isSoldPainting = painting?.paymentStatus === "SOLD";
+  const isSoldPainting = painting?.paymentStatus === 'SOLD';
 
   const getPaintingFromServer = async () => {
     const fetched = await getAuthorPaintingById(headers, params.slug);
@@ -69,8 +70,10 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
         onOpenChange={onOpenChange}
         onAction={handleDeletePainting}
       />
-
-      <h1 className={style.paintingTitle}>{painting?.title}</h1>
+      <div className={style.titleWrapper}>
+        <NavigationBackArrow />
+        <h1 className={style.paintingTitle}>{painting?.title}</h1>
+      </div>
 
       <div className={style.gallery}>
         <div className={style.gallery__slider}>
@@ -160,11 +163,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
 
           {!isSoldPainting && (
             <div className={style.buttonContainer}>
-              <button
-                type="button"
-                className={style.buttonDelete}
-                onClick={onOpen}
-              >
+              <button type="button" className={style.buttonDelete} onClick={onOpen}>
                 Delete
               </button>
 

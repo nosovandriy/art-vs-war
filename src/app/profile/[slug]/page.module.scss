@@ -1,5 +1,5 @@
-@import "@styles/vars.scss";
-@import "@styles/mixins.scss";
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
 
 .card {
   @include set-flex(column, center);
@@ -16,6 +16,24 @@
   @include desktop {
     margin-left: 112px;
     font-size: $font-size-huge;
+  }
+}
+
+.titleWrapper {
+  @include set-flex(row, flex-start, center);
+
+  gap: 16px;
+
+  @include tablet {
+    gap: 48px;
+  }
+
+  @include desktop {
+    gap: 80px;
+  }
+
+  @include desktopHD {
+    gap: 96px;
   }
 }
 
