@@ -195,14 +195,51 @@
   text-align: start;
   outline: none;
   cursor: text;
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
 
   &::placeholder {
     color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50;
+    transition-duration: 0.3s;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+    transition-duration: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
   }
 }
 
 .select {
   width: 100%;
+
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
+
+  &::placeholder {
+    color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50;
+    transition-duration: 0.3s;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+    transition-duration: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
+  }
 }
 
 .about {
@@ -218,9 +255,25 @@
   resize: none;
   outline: none;
   cursor: text;
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
 
   &::placeholder {
     color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50;
+    transition-duration: 0.3s;
+  }
+
+  &:focus {
+    border: 1px solid $gray-30;
+    transition-duration: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
   }
 }
 
@@ -305,9 +358,16 @@
   line-height: $line-height-base;
   font-weight: $font-weight-regular;
   text-align: center;
+  cursor: pointer;
 
   &:hover {
-    cursor: pointer;
+    background-color: $gray-0;
+    color: $gray-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
   }
 }
 
@@ -325,9 +385,11 @@
   line-height: $line-height-base;
   font-weight: $font-weight-regular;
   text-align: center;
+  cursor: pointer;
 
-  &:hover {
-    cursor: pointer;
+  &:active {
+    transform: scale(0.9);
+    transition-duration: 0.3s;
   }
 }
 
