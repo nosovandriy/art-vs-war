@@ -284,6 +284,22 @@
   height: 316px;
   gap: 38px;
   background-color: $gray-90;
+  border: 1px solid $gray-90;
+  transition: 0.3s;
+
+  &:hover {
+    border-color: $gray-50;
+    transition: 0.3s;
+  }
+
+  &:focus {
+    border-color: $gray-30;
+    transition: 0.3s;
+  }
+
+  &__error {
+    border: 1px solid $system-error !important;
+  }
 
   @include tablet {
     height: 372px;
