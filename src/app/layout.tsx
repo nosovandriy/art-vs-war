@@ -27,7 +27,7 @@ const openSansFont = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://develop.artvswar.gallery"),
+  metadataBase: new URL("https://artvswar.gallery"),
   title: {
     default: "Art vs War GALLERY",
     template: `%s | Art vs War GALLERY`,
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google:
-      "google-site-verification=0m4tMeZMyX-batXw4H8H-CUJyAxN2ClefDqs-TAVxkA",
+      "google-site-verification=CiWabaZpuVq9uj6GuxU12zKD5rYiLx70khn4J0xJvg4",
   },
 };
 
