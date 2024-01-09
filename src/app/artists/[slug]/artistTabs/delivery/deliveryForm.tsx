@@ -5,13 +5,9 @@ import toast from "react-hot-toast";
 
 import style from './delivery.module.scss';
 
-import {
-  AuthorShippingFormData,
-  AuthorShippingResponseData,
-} from "@/types/ShippingForm";
-
 import createHeaders from "@/utils/getAccessToken";
-import { getShippingAddress, saveShippingAddress, updateShippingAddress } from "@/utils/api";
+import { AuthorShippingFormData } from "@/types/ShippingForm";
+import { saveShippingAddress, updateShippingAddress } from "@/utils/api";
 import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
 import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
 

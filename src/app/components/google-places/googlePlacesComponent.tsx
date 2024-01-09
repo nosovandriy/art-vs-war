@@ -51,6 +51,7 @@ const GooglePlacesComponent: FC<GooglePlacesComponentProps> = ({
           onBlur: onBlur,
           onChange: onChangeValue,
           isSearchable: true,
+          //@ts-ignore
           styles: {
             ...selectStyles,
               singleValue: (provided) => ({
