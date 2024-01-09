@@ -115,7 +115,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
           <div className={style.input}>
             <input
               type="text"
-              className={style.text}
+              className={`${style.text} ${errors1?.firstName?.message && style.text__error}`}
               placeholder="Enter your first name"
               {...registerAccount("firstName", {
                 required: 'This field is required!',
@@ -143,7 +143,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
           <div className={style.input}>
             <input
               type="text"
-              className={style.text}
+              className={`${style.text} ${errors1?.lastName?.message && style.text__error}`}
               placeholder="Enter your last name"
               {...registerAccount("lastName", {
                 required: 'This field is required!',

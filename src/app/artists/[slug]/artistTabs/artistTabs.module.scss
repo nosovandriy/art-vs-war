@@ -54,13 +54,15 @@
     height: 48px;
     text-align: center;
     background-color: $gray-100;
+    cursor: pointer;
 
     @include desktop {
       width: 184px;
     }
-
-    &:hover {
-      cursor: pointer;
+  
+    &:active {
+      transform: scale(0.9);
+      transition-duration: 0.3s;
     }
   }
 
@@ -73,13 +75,10 @@
     border-bottom: 3px solid $gray-100;
     border-radius: 24px 24px 0px 0px;
     z-index: 2;
+    cursor: pointer;
 
     @include desktop {
       width: 184px;
-    }
-
-    &:hover {
-      cursor: pointer;
     }
   }
 
@@ -96,15 +95,22 @@
     font-size: $font-size-base;
     line-height: $line-height-base;
     background-color: $gray-5;
-
-    &:hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
 
     @include laptop {
       @include set-flex(row, center, center);
       width: 184px;
       gap: 4px;
+    }
+
+    &:hover {
+      background-color: $gray-0;
+      color: $gray-100;
+    }
+  
+    &:active {
+      transform: scale(0.9);
+      transition-duration: 0.3s;
     }
   }
 
