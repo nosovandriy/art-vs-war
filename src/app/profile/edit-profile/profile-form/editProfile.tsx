@@ -244,11 +244,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.container}>
           <div className={style.fileContainer}>
-            <label
-              className={`${style.file} ${
-                typeof errors?.image?.message === 'string' ? style.file__error : ''
-              }`}
-            >
+            <label className={`${style.file} ${typeof errors?.image?.message === 'string' ? style.file__error : ''}`}>
               <input
                 type="file"
                 accept=".jpeg, .jpg, .png"
@@ -256,9 +252,13 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                 {...register('image', {
                   onChange: handleFileChange,
                   validate: (inputValue) => {
-                    if (inputValue) return true;
+                    //@ts-ignore
+                  if (inputValue?.length > 0) return true;
 
-                    return false;
+                  //@ts-ignore
+                  if (inputValue?.publicId) return true;
+
+                  return false;
                   },
                 })}
               />
@@ -290,7 +290,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                     className={`${
                       typeof errors?.image?.message === 'string'
                         ? style.fileError
-                        : style.file__label
+                        : style.file__labelInfo
                     }`}
                   >
                     Allowed formats for the image are JPG, JPEG, PNG <br /> and the maximum size is 5 MB

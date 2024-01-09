@@ -274,18 +274,18 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <div className={style.topContainer}>
-          <label
-            className={`${style.file} ${
-              typeof errors?.image?.message === 'string' ? style.file__error : ''
-            }`}
-          >
+          <label className={`${style.file} ${typeof errors?.image?.message === 'string' ? style.file__error : ''}`}>
             <input
               type="file"
               accept=".jpeg, .jpg, .png"
               className={style.file__input}
               {...register('image', {
                 validate: (inputValue) => {
-                  if (inputValue) return true;
+                  //@ts-ignore
+                  if (inputValue?.length > 0) return true;
+
+                  //@ts-ignore
+                  if (inputValue?.publicId) return true;
 
                   return false;
                 },
@@ -313,7 +313,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                 <span className={style.file__label}>Choose a file</span>
                 <span
                   className={`${
-                    typeof errors?.image?.message === 'string' ? style.fileError : style.file__label
+                    typeof errors?.image?.message === 'string' ? style.fileError : style.file__labelInfo
                   }`}
                 >
                   Allowed formats for the image are JPG, JPEG, PNG <br /> and the maximum size is 5
