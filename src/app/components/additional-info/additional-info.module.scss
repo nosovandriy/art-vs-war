@@ -357,13 +357,20 @@
     line-height: $line-height-base;
     font-weight: $font-weight-regular;
     text-align: center;
+    cursor: pointer;
 
     @include desktop {
       width: 25%;
     }
 
     &:hover {
-      cursor: pointer;
+      background-color: $gray-0;
+      color: $gray-100;
+    }
+  
+    &:active {
+      transform: scale(0.9);
+      transition-duration: 0.3s;
     }
   }
 
@@ -381,13 +388,15 @@
     line-height: $line-height-base;
     font-weight: $font-weight-regular;
     text-align: center;
+    cursor: pointer;
 
     @include desktop {
       width: 25%;
     }
-
-    &:hover {
-      cursor: pointer;
+  
+    &:active {
+      transform: scale(0.9);
+      transition-duration: 0.3s;
     }
   }
 }

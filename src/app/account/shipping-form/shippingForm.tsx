@@ -146,7 +146,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
           <div className={style.input}>
             <input
               type="text"
-              className={style.text}
+              className={`${style.text} ${errors2?.addressLine2?.message && style.text__error}`}
               placeholder="Enter your address"
               {...registerShipping("addressLine2", {
                 pattern: {
@@ -175,7 +175,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.country?.message && style.text__error}`}
                   placeholder="Choose country"
                   {...registerShipping("country", {
                     required: "This field is required!",
@@ -206,7 +206,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.state?.message && style.text__error}`}
                   placeholder="Enter state/region name"
                   {...registerShipping("state", {
                     minLength: {
@@ -239,7 +239,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.city?.message && style.text__error}`}
                   placeholder="Enter the city name"
                   {...registerShipping("city", {
                     required: "This field is required!",
@@ -271,8 +271,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
-
+                  className={`${style.text} ${errors2?.postalCode?.message && style.text__error}`}
                   placeholder="Enter your postcode"
                   {...registerShipping("postalCode", {
                     required: "This field is required!",

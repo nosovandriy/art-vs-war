@@ -334,7 +334,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors?.fullName?.message && style.text__error}`}
                   placeholder="Enter your full name"
                   {...register('fullName', {
                     required: 'This field is required!',
@@ -362,7 +362,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors?.city?.message && style.text__error}`}
                   placeholder="Enter a city of your current stay"
                   {...register('city', {
                     required: 'This field is required!',
@@ -402,7 +402,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                       value={getValue(value)}
                       onChange={(newValue) => onChange((newValue as CountryType).value)}
                       isSearchable={false}
-                      className={style.select}
+                      className={`${style.select} ${errors?.country?.message && style.select__error}`}
                       placeholder="A country of your current stay"
                       styles={styles}
                     />
@@ -421,7 +421,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
               </div>
               <div className={style.input}>
                 <textarea
-                  className={style.about}
+                  className={`${style.about} ${errors?.aboutMe?.message && style.about__error}`}
                   placeholder="Tell us about yourself. Don't be shy!"
                   {...register('aboutMe', {
                     required: 'This field is required!',

@@ -25,6 +25,7 @@ import {
   UploadedPaintingData,
 } from '@/types/Painting';
 import { sendModerationEmail } from '@/utils/api';
+import Link from 'next/link';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const URL = 'paintings/checkInputAndGet';
@@ -640,9 +641,14 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                             isOptionDisabled={() => checkOptions(selectedStyles)}
                             value={styles.filter((option) => value.includes(option.value))}
                             onChange={(newValues) => {
-                              setSelectedStyles(newValues as SubjectType[]);
+                              if (newValues.length > 3) return;
 
-                              return onChange(newValues.map((newValue) => newValue.value));
+                              if (value.length > 3) {
+                                return onChange([...value].slice(0, 3));
+                              };
+
+                              setSelectedStyles(newValues as SubjectType[]);
+                              onChange(newValues.map((newValue) => newValue.value));
                             }}
                             closeMenuOnSelect={false}
                             className={`${style.select} ${
@@ -676,8 +682,14 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           isOptionDisabled={() => checkOptions(selectedMediums)}
                           value={mediums.filter((option) => value.includes(option.value))}
                           onChange={(newValues) => {
+                            if (newValues.length > 3) return;
+
+                            if (value.length > 3) {
+                              return onChange([...value].slice(0, 3));
+                            };
+
                             setSelectedMediums(newValues as SubjectType[]);
-                            return onChange(newValues.map((newValue) => newValue.value));
+                            onChange(newValues.map((newValue) => newValue.value));
                           }}
                           isMulti
                           closeMenuOnSelect={false}
@@ -711,8 +723,14 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           isOptionDisabled={() => checkOptions(selectedSupports)}
                           value={supports.filter((option) => value.includes(option.value))}
                           onChange={(newValues) => {
+                            if (newValues.length > 3) return;
+
+                            if (value.length > 3) {
+                              return onChange([...value].slice(0, 3));
+                            };
+
                             setSelectedSupports(newValues as SubjectType[]);
-                            return onChange(newValues.map((newValue) => newValue.value));
+                            onChange(newValues.map((newValue) => newValue.value));
                           }}
                           isMulti
                           closeMenuOnSelect={false}
@@ -746,8 +764,14 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           isOptionDisabled={() => checkOptions(selectedSubjects)}
                           value={subjects.filter((option) => value.includes(option.value))}
                           onChange={(newValues) => {
+                            if (newValues.length > 3) return;
+
+                            if (value.length > 3) {
+                              return onChange([...value].slice(0, 3));
+                            };
+  
                             setSelectedSubjects(newValues as SubjectType[]);
-                            return onChange(newValues.map((newValue) => newValue.value));
+                            onChange(newValues.map((newValue) => newValue.value));
                           }}
                           isMulti
                           closeMenuOnSelect={false}
@@ -836,9 +860,9 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
         </label>
 
         <div className={style.buttonContainer}>
-          <button type="reset" className={style.cancel} onClick={() => router.push('/profile')}>
+          <Link href="/profile" className={style.cancel}>
             Cancel
-          </button>
+          </Link>
           <button type="submit" className={style.forward} disabled={isCreating}>
             Forward
           </button>
