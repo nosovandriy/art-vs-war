@@ -248,6 +248,19 @@
       background-color: $gray-90;
       cursor: pointer;
 
+      border: 1px solid $gray-90;
+      transition: 0.3s;
+
+      &:hover {
+        border-color: $gray-50;
+        transition: 0.3s;
+      }
+
+      &:focus {
+        border-color: $gray-30;
+        transition: 0.3s;
+      }
+
       @include tablet {
         width: 33%;
         min-width: 118px;
@@ -274,13 +287,18 @@
         color: $gray-5;
         text-align: center;
         font-family: $font-text;
-        font-size: $font-size-sm;
+        font-size: $font-size-md;
         font-weight: $font-weight-regular;
         line-height: 20px;
+      }
 
-        @include tablet {
-          font-size: $font-size-md;
-        }
+      &__labelInfo {
+        color: $gray-10;
+        text-align: center;
+        font-family: $font-text;
+        font-size: $font-size-sm;
+        line-height: $line-height-base;
+        font-weight: $font-weight-regular;
       }
 
       &__error {

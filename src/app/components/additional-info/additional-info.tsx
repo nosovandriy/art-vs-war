@@ -298,6 +298,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
               >
                 <input
                   type="file"
+                  accept=".jpeg, .jpg, .png"
                   className={style.file__input}
                   {...register(`image_${index}`, {
                     onChange: (e) => handleFileChange(e, index),
@@ -325,7 +326,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
                     <>
                       <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
-                      <span className={`${typeof errors[`image_${index}`]?.message === "string" ? style.fileError : style.file__label}`}>
+                      <span className={`${typeof errors[`image_${index}`]?.message === "string" ? style.fileError : style.file__labelInfo}`}>
                         Allowed JPG, JPEG, PNG <br /> maximum size is 5 MB
                       </span>
                     </>
