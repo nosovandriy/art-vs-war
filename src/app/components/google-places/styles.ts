@@ -6,10 +6,19 @@ export const selectStyles = {
     ...provided,
     backgroundColor: '#1C1D1D',
     outline: 'none',
-    border: 'none',
     boxShadow: 'none',
     height: '48px',
     cursor: 'text',
+    border: '1px solid transparent',
+    transitionDuration: 0.3,
+    '&:hover': {
+      border: '1px solid #3D3E3F',
+      transitionDuration: 0.3,
+    },
+    '&:focus-within': {
+      border: '1px solid #78797A',
+      transitionDuration: 0.3,
+    }
   }),
   input: (provided: CSSObjectWithLabel) => ({
     ...provided,
