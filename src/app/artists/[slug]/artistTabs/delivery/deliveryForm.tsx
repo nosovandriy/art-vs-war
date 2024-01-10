@@ -5,13 +5,9 @@ import toast from "react-hot-toast";
 
 import style from './delivery.module.scss';
 
-import {
-  AuthorShippingFormData,
-  AuthorShippingResponseData,
-} from "@/types/ShippingForm";
-
 import createHeaders from "@/utils/getAccessToken";
-import { getShippingAddress, saveShippingAddress, updateShippingAddress } from "@/utils/api";
+import { AuthorShippingFormData } from "@/types/ShippingForm";
+import { saveShippingAddress, updateShippingAddress } from "@/utils/api";
 import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
 import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
 
@@ -169,7 +165,7 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
           <div className={style.input}>
             <input
               type="text"
-              className={style.text}
+              className={`${style.text} ${errors2?.addressLine2?.message && style.text__error}`}
               placeholder="Enter your address"
               {...register("addressLine2")}
             />
@@ -214,7 +210,7 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
               <div className={`${style.input} ${errors2?.country ? style.inputError : ""}`}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.country?.message && style.text__error}`}
                   placeholder="Choose country"
                   {...register("country", { required: 'This field is required!' })}
                 />
@@ -231,7 +227,7 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
               <div className={style.input}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.state?.message && style.text__error}`}
                   placeholder="Enter state/region name"
                   {...register("state")}
                 />
@@ -251,7 +247,7 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
               <div className={`${style.input} ${errors2?.city ? style.inputError : ""}`}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.city?.message && style.text__error}`}
                   placeholder="Enter the city name"
                   {...register("city", { required: 'This field is required!' })}
                 />
@@ -269,7 +265,7 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
               <div className={`${style.input} ${errors2?.postalCode ? style.inputError : ""}`}>
                 <input
                   type="text"
-                  className={style.text}
+                  className={`${style.text} ${errors2?.postalCode?.message && style.text__error}`}
                   placeholder="Enter your postcode"
                   {...register("postalCode", { required: 'This field is required!' })}
                 />
