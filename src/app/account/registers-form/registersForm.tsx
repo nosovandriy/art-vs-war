@@ -79,7 +79,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
     toast.promise(
       account ? handleUpdateAccount(dataToSave) : handleCreateAccount(dataToSave),
       {
-        loading: `${account ? 'Creating' : 'Updating'} account...`,
+        loading: `${account ? 'Updating' : 'Creating'} account...`,
         success: <b>{`Account ${account ? 'updated!' : 'created!'}`}</b>,
         error: <b>{`Could not ${account ? 'update.' :'create.'}`}</b>,
       }, {
