@@ -3,4 +3,18 @@
 
 .phoneWrapper {
   margin: 0 !important;
+
+  &::placeholder {
+    color: $gray-30;
+  }
+
+  &:hover {
+    border: 1px solid $gray-50 !important;
+    transition-duration: 0.3s !important;
+  }
+
+  &:focus-within {
+    border: 1px solid $gray-30 !important;
+    transition-duration: 0.3s !important;
+  }
 }
