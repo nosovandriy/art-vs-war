@@ -1,19 +1,17 @@
-"use client";
+'use client';
 
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import Link from "next/link";
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import Link from 'next/link';
 
-import style from "./menuItems.module.scss";
+import style from './menuItems.module.scss';
 
 type Props = {
   className?: string;
   setShowMobileMenu?: (isShow: boolean) => void;
+  currentPageName: string;
 };
 
-export const MenuItems: React.FC<Props> = ({
-  className,
-  setShowMobileMenu,
-}) => {
+export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShowMobileMenu }) => {
   const { user } = useAuthenticator((context) => [context.route]);
 
   const handleCloseMobileMenu = () => {
@@ -22,13 +20,15 @@ export const MenuItems: React.FC<Props> = ({
     }
   };
 
+  console.log(currentPageName);
+
   const menuItems = [
     // { label: "Profile", href: "/account", shouldRender: !!user },
-    { label: "Gallery", href: "/gallery", shouldRender: true },
-    { label: "Artists", href: "/artists", shouldRender: true },
-    { label: "Donation", href: "/donation", shouldRender: true },
-    { label: "About", href: "/about", shouldRender: true },
-    { label: "Contacts", href: "/contacts", shouldRender: true },
+    { label: 'Gallery', href: '/gallery', shouldRender: true },
+    { label: 'Artists', href: '/artists', shouldRender: true },
+    { label: 'Donation', href: '/donation', shouldRender: true },
+    { label: 'About', href: '/about', shouldRender: true },
+    { label: 'Contacts', href: '/contacts', shouldRender: true },
   ];
 
   return (
@@ -39,11 +39,18 @@ export const MenuItems: React.FC<Props> = ({
             <li
               key={index}
               onClick={handleCloseMobileMenu}
-              className={item.label === "Profile" ? style.profile : ""}
+              className={item.label === 'Profile' ? style.profile : ''}
             >
-              <Link href={item.href}>{item.label}</Link>
+              <Link
+                href={item.href}
+                className={`${
+                  currentPageName === item.label.toLowerCase() ? style.activePage : ''
+                }`}
+              >
+                {item.label}
+              </Link>
             </li>
-          )
+          ),
       )}
     </ul>
   );
