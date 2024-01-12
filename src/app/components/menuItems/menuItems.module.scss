@@ -1,8 +1,19 @@
-@import "@styles/mixins.scss";
-@import "@styles/vars.scss";
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
 
 .profile {
   @include laptop {
     display: none;
+  }
+}
+
+.activePage {
+  font-weight: $font-weight-semibold;
+  color: $gray-30;
+  border-bottom: 1px solid $gray-30;
+  transition-duration: 0.3s;
+
+  &:hover {
+    border-bottom: 1px solid $gray-10;
   }
 }

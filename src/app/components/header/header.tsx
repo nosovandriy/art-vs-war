@@ -2,7 +2,7 @@
 
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import { Cart } from '@/app/icons/icon-cart';
@@ -27,6 +27,7 @@ import { Logo } from '../logo/logo';
 import { MenuItems } from '../menuItems/menuItems';
 import SocialNetworkIcons from '../social-network/social-network';
 import LoginButton from './navigation/login-button/login-button';
+import { getPageName } from '@/utils/getPageName';
 
 import style from './header.module.scss';
 
@@ -45,6 +46,8 @@ const Header = () => {
   const isHeaders = Object.keys(headers).length !== 0;
   const authenticated = authStatus === 'authenticated';
   const router = useRouter();
+  const path = usePathname();
+  const currentPageName = getPageName(path);
 
   const handleShowMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
@@ -148,7 +151,11 @@ const Header = () => {
         </Link>
 
         <nav className={style.navigation}>
-          <MenuItems className={style.menuItems} setShowMobileMenu={setShowMobileMenu} />
+          <MenuItems
+            className={style.menuItems}
+            currentPageName={currentPageName}
+            setShowMobileMenu={setShowMobileMenu}
+          />
         </nav>
         <div className={style.cart__container}>
           <Link href={`/cart`} title="Cart">
@@ -262,7 +269,11 @@ const Header = () => {
             </Link>
           )}
 
-          <MenuItems className={style.menuItems} setShowMobileMenu={setShowMobileMenu} />
+          <MenuItems
+            className={style.menuItems}
+            setShowMobileMenu={setShowMobileMenu}
+            currentPageName={currentPageName}
+          />
         </div>
         <div className={style.contacts}>
           <Link
