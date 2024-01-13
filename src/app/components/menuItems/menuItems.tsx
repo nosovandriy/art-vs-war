@@ -1,26 +1,26 @@
 'use client';
 
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { getPageName } from '@/utils/getPageName';
 
 import style from './menuItems.module.scss';
 
 type Props = {
   className?: string;
   setShowMobileMenu?: (isShow: boolean) => void;
-  currentPageName: string;
 };
 
-export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShowMobileMenu }) => {
-  const { user } = useAuthenticator((context) => [context.route]);
+export const MenuItems: React.FC<Props> = ({ className, setShowMobileMenu }) => {
+  const path = usePathname();
+  const activePage = getPageName(path);
 
   const handleCloseMobileMenu = () => {
     if (setShowMobileMenu) {
       setShowMobileMenu(false);
     }
   };
-
-  console.log(currentPageName);
 
   const menuItems = [
     // { label: "Profile", href: "/account", shouldRender: !!user },
@@ -43,9 +43,7 @@ export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShow
             >
               <Link
                 href={item.href}
-                className={`${
-                  currentPageName === item.label.toLowerCase() ? style.activePage : ''
-                }`}
+                className={`${activePage === item.label.toLowerCase() ? style.activePage : ''}`}
               >
                 {item.label}
               </Link>
