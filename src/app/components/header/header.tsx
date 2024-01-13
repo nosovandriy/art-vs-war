@@ -153,7 +153,7 @@ const Header = () => {
         <nav className={style.navigation}>
           <MenuItems
             className={style.menuItems}
-            currentPageName={currentPageName}
+            activePage={currentPageName}
             setShowMobileMenu={setShowMobileMenu}
           />
         </nav>
@@ -272,7 +272,7 @@ const Header = () => {
           <MenuItems
             className={style.menuItems}
             setShowMobileMenu={setShowMobileMenu}
-            currentPageName={currentPageName}
+            activePage={currentPageName}
           />
         </div>
         <div className={style.contacts}>

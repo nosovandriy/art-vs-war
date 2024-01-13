@@ -8,10 +8,10 @@ import style from './menuItems.module.scss';
 type Props = {
   className?: string;
   setShowMobileMenu?: (isShow: boolean) => void;
-  currentPageName: string;
+  activePage: string;
 };
 
-export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShowMobileMenu }) => {
+export const MenuItems: React.FC<Props> = ({ className, activePage, setShowMobileMenu }) => {
   const { user } = useAuthenticator((context) => [context.route]);
 
   const handleCloseMobileMenu = () => {
@@ -19,8 +19,6 @@ export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShow
       setShowMobileMenu(false);
     }
   };
-
-  console.log(currentPageName);
 
   const menuItems = [
     // { label: "Profile", href: "/account", shouldRender: !!user },
@@ -44,7 +42,7 @@ export const MenuItems: React.FC<Props> = ({ className, currentPageName, setShow
               <Link
                 href={item.href}
                 className={`${
-                  currentPageName === item.label.toLowerCase() ? style.activePage : ''
+                  activePage === item.label.toLowerCase() ? style.activePage : ''
                 }`}
               >
                 {item.label}
