@@ -160,7 +160,6 @@ const ShippingForm: React.FC<Props> = ({
                 render={({ field: { value, onChange }, fieldState: { error } }) => {
                   return (
                     <GoogleAutocompleteAddress
-                      autoComplete="one-time-code"
                       setValue={setValue}
                       value={value}
                       onChange={onChange}
@@ -173,6 +172,7 @@ const ShippingForm: React.FC<Props> = ({
                 <div className={style.error}>{errors.addressLine1?.message}</div>
               )}
               <input
+                autoComplete="one-time-code"
                 type="text"
                 className={style.inputText}
                 placeholder="Enter your street, apartment, №..."
