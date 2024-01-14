@@ -160,6 +160,7 @@ const ShippingForm: React.FC<Props> = ({
                 render={({ field: { value, onChange }, fieldState: { error } }) => {
                   return (
                     <GoogleAutocompleteAddress
+                      autoComplete="one-time-code"
                       setValue={setValue}
                       value={value}
                       onChange={onChange}
