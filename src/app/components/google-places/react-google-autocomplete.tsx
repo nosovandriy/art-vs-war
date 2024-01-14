@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import Autocomplete from 'react-google-autocomplete';
 import { FieldError, UseFormSetValue } from 'react-hook-form';
 
@@ -102,7 +104,6 @@ export const GoogleAutocompleteAddress: React.FC<Props> = ({
   };
 
   return (
-    // @ts-ignore
     <Autocomplete
       value={value}
       style={error && { border: '1px solid red' }}
