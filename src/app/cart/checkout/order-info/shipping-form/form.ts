@@ -39,7 +39,7 @@ export const validation = yup.object({
   addressLine1: yup
     .string()
     .required("This field is required!")
-    .max(100, "Max 100 characters"),
+    .max(150, "Max 150 characters"),
   addressLine2: yup.string(),
   phone: yup
     .string()

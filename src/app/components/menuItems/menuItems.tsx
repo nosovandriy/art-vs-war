@@ -10,11 +10,16 @@ import style from './menuItems.module.scss';
 type Props = {
   className?: string;
   setShowMobileMenu?: (isShow: boolean) => void;
+  isHeaderList: boolean;
 };
 
-export const MenuItems: React.FC<Props> = ({ className, setShowMobileMenu }) => {
+export const MenuItems: React.FC<Props> = ({
+  className,
+  isHeaderList = true,
+  setShowMobileMenu,
+}) => {
   const path = usePathname();
-  const activePage = getPageName(path);
+  const activePage = isHeaderList && getPageName(path);
 
   const handleCloseMobileMenu = () => {
     if (setShowMobileMenu) {
