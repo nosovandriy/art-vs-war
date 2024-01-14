@@ -5,13 +5,6 @@ import { FieldError, UseFormSetValue } from 'react-hook-form';
 
 import './react-google-autocomplete.scss';
 
-type Props = {
-  error: FieldError | undefined;
-  value?: string;
-  onChange: (phoneNumber: string) => void;
-  setValue: UseFormSetValue<any>;
-};
-
 interface PlaceDetails {
   postalCode: string | undefined;
   state: string | undefined;
@@ -32,6 +25,7 @@ const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
         fields: ['address_component', 'name', 'geometry'],
       },
       (place, status) => {
+
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           const postalCode = place?.address_components?.find((component) =>
             component.types.includes('postal_code'),
@@ -41,12 +35,17 @@ const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
           )?.long_name;
 
           const city =
-            place?.address_components?.find(
-              (component) =>
-                component.types.includes('locality') ||
-                component.types.includes('postal_town') ||
-                component.types.includes('sublocality_level_1'),
-            )?.long_name || place?.name;
+            place?.address_components?.find((component) =>
+              component.types.includes('administrative_area_level_2'),
+            )?.long_name ||
+            place?.address_components?.find((component) => component.types.includes('locality'))
+              ?.long_name ||
+            place?.address_components?.find((component) => component.types.includes('postal_town'))
+              ?.long_name ||
+            place?.address_components?.find((component) =>
+              component.types.includes('sublocality_level_1'),
+            )?.long_name ||
+            place?.name;
 
           const country =
             place?.address_components?.find((component) => component.types.includes('country'))
@@ -80,6 +79,13 @@ const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
       },
     );
   });
+};
+
+type Props = {
+  error: FieldError | undefined;
+  value?: string;
+  onChange: (phoneNumber: string) => void;
+  setValue: UseFormSetValue<any>;
 };
 
 export const GoogleAutocompleteAddress: React.FC<Props> = ({

@@ -172,6 +172,7 @@ const ShippingForm: React.FC<Props> = ({
                 <div className={style.error}>{errors.addressLine1?.message}</div>
               )}
               <input
+                autoComplete="one-time-code"
                 type="text"
                 className={style.inputText}
                 placeholder="Enter your street, apartment, №..."
