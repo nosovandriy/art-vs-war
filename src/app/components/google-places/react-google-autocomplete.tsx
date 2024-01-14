@@ -1,6 +1,5 @@
 import Autocomplete from 'react-google-autocomplete';
 import { FieldError, UseFormSetValue } from 'react-hook-form';
-import { useState } from 'react';
 
 import './react-google-autocomplete.scss';
 
@@ -31,8 +30,6 @@ const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
         fields: ['address_component', 'name', 'geometry'],
       },
       (place, status) => {
-        console.log(place);
-
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           const postalCode = place?.address_components?.find((component) =>
             component.types.includes('postal_code'),
@@ -89,16 +86,8 @@ export const GoogleAutocompleteAddress: React.FC<Props> = ({
   error,
   onChange,
 }) => {
-  const [detailsInfo, setDetailsInfo] = useState({});
-  // console.log('detailsInfo', detailsInfo);
-
   const handleChangeVale = async (newValue: any) => {
-    console.log(newValue);
-    console.log('value', value);
-
     const details = await getPlaceDetails(newValue?.place_id);
-
-    console.log(details);
 
     setValue('country', details.country);
     setValue('state', details.state);
@@ -107,24 +96,18 @@ export const GoogleAutocompleteAddress: React.FC<Props> = ({
 
     if (details.number) {
       setValue('addressLine1', details.number + ', ' + details.street);
-      console.log('1');
     } else {
       setValue('addressLine1', details.street);
-      console.log('2');
     }
-
-    setDetailsInfo(details);
   };
 
   return (
+    // @ts-ignore
     <Autocomplete
       value={value}
       style={error && { border: '1px solid red' }}
       placeholder={'Enter your street, apartment, №...'}
-      onChange={(event: any) => {
-        console.log(event.target.value);
-        return onChange(event.target.value);
-      }}
+      onChange={(event: any) => onChange(event.target.value)}
       language="en"
       apiKey={'AIzaSyCw5RG5hV0guHJOEenpb6afKt2MGSZB_Tw'}
       onPlaceSelected={(place) => handleChangeVale(place)}
