@@ -10,7 +10,7 @@ import style from './menuItems.module.scss';
 type Props = {
   className?: string;
   setShowMobileMenu?: (isShow: boolean) => void;
-  isHeaderList: boolean;
+  isHeaderList?: boolean;
 };
 
 export const MenuItems: React.FC<Props> = ({
