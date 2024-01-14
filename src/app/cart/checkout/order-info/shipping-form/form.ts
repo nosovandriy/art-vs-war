@@ -19,23 +19,23 @@ export const validation = yup.object({
   country: yup
     .string()
     .required("This field is required!")
-    .matches(/^[A-Za-z- ]+$/i, "The country should contain only Latin letters")
+    // .matches(/^[A-Za-z- ]+$/i, "The country should contain only Latin letters")
     .max(56, "Max 56 characters")
     .min(4, "Min 4 characters"),
   city: yup
     .string()
     .required("This field is required!")
     .max(40, "Max 40 characters")
-    .min(1, "Min 1 characters")
-    .matches(/^[A-Za-z- ]+$/i, "The city should contain only Latin letters"),
+    .min(1, "Min 1 characters"),
+    // .matches(/^[A-Za-z- ]+$/i, "The city should contain only Latin letters"),
   state: yup
     .string(),
   postalCode: yup
     .string()
     .required("This field is required!")
     .max(10, "Max 10 characters")
-    .min(4, "Min 4 characters")
-    .matches(/^[A-Za-z0-9- ]+$/i, "The country should contain only Latin letters and numbers"),
+    .min(4, "Min 4 characters"),
+    // .matches(/^[A-Za-z0-9- ]+$/i, "The country should contain only Latin letters and numbers"),
   addressLine1: yup
     .string()
     .required("This field is required!")
