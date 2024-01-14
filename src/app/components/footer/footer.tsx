@@ -21,7 +21,7 @@ const Footer = () => {
             Contact Us
           </Link>
 
-          <MenuItems className={style.menuItems} />
+          <MenuItems className={style.menuItems} isHeaderList={false} />
           <div>
             <ul className={style.list}>
               <Link href={'/for-artists'}>
