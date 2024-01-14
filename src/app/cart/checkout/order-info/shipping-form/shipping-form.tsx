@@ -6,6 +6,7 @@ import { Controller, SubmitErrorHandler, SubmitHandler, useForm } from 'react-ho
 import { useDispatch } from 'react-redux';
 
 import ButtonLoader from '@/app/components/button-loader/button-loader';
+import { GoogleAutocompleteAddress } from '@/app/components/google-places/react-google-autocomplete';
 import { setPaintingsShippingInfo, setShippingAddress } from '@/app/redux/slices/shippingSlice';
 import { useAppSelector } from '@/types/ReduxHooks';
 import { ShippingFormTypes } from '@/types/ShippingForm';
@@ -37,14 +38,18 @@ const ShippingForm: React.FC<Props> = ({
     register,
     handleSubmit,
     control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
-    mode: 'onChange',
+    mode: 'all',
     resolver: yupResolver(validation),
     defaultValues,
   });
 
   const submit: SubmitHandler<ShippingFormTypes> = async (data) => {
+    console.log(data);
+
     if (data && isVisible) {
       handleSectionClick(null);
     }
@@ -79,6 +84,11 @@ const ShippingForm: React.FC<Props> = ({
       handleSectionClick(CartSteps.secondStep);
     }
   };
+
+  const countryWatch = watch('country');
+  const cityWatch = watch('city');
+  const postalCodeWatch = watch('postalCode');
+  const stateWatch = watch('state');
 
   return (
     <form className={style.form} onSubmit={handleSubmit(submit, error)}>
@@ -118,96 +128,6 @@ const ShippingForm: React.FC<Props> = ({
               </div>
             </label>
           </div>
-          <div className={`${style.label} ${style.coupleInputs}`}>
-            <label className={style.label}>
-              <p className={style.label__text}>
-                Country<span className={style.star}> *</span>
-              </p>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.inputText} ${
-                    errors?.country?.message && style.inputText__error
-                  }`}
-                  placeholder="Enter the country"
-                  {...register('country')}
-                />
-                <div className={style.error}>{errors.country?.message}</div>
-              </div>
-            </label>
-            <label className={style.label}>
-              <p className={style.label__text}>State / Region</p>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.inputText} ${
-                    errors?.state?.message && style.inputText__error
-                  }`}
-                  placeholder="Enter state/region name"
-                  {...register('state')}
-                />
-                <div className={style.error}>{errors.state?.message}</div>
-              </div>
-            </label>
-          </div>
-          <div className={`${style.label} ${style.coupleInputs}`}>
-            <label className={style.label}>
-              <p className={style.label__text}>
-                City<span className={style.star}> *</span>
-              </p>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.inputText} ${
-                    errors?.city?.message && style.inputText__error
-                  }`}
-                  placeholder="Enter the city name"
-                  {...register('city')}
-                />
-                <div className={style.error}>{errors.city?.message}</div>
-              </div>
-            </label>
-            <label className={style.label}>
-              <p className={style.label__text}>
-                Postcode<span className={style.star}> *</span>
-              </p>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.inputText} ${
-                    errors?.postalCode?.message && style.inputText__error
-                  }`}
-                  placeholder="Enter your postcode"
-                  {...register('postalCode')}
-                />
-                <div className={style.error}>{errors.postalCode?.message}</div>
-              </div>
-            </label>
-          </div>
-          <label className={style.label}>
-            <p className={style.label__text}>
-              Address<span className={style.star}> *</span>
-            </p>
-            <div className={style.input}>
-              <input
-                type="text"
-                className={`${style.inputText} ${
-                  errors?.addressLine1?.message && style.inputText__error
-                }`}
-                placeholder="Enter your street, apartment, №..."
-                {...register('addressLine1')}
-              />
-              {errors?.addressLine1?.message && (
-                <div className={style.error}>{errors.addressLine1?.message}</div>
-              )}
-              <input
-                type="text"
-                className={style.inputText}
-                placeholder="Enter your street, apartment, №..."
-                {...register('addressLine2')}
-              />
-            </div>
-          </label>
           <label className={style.label}>
             <p className={style.label__text}>
               Phone number<span className={style.star}> *</span>
@@ -226,6 +146,107 @@ const ShippingForm: React.FC<Props> = ({
               />
             </div>
           </label>
+          <label className={style.label}>
+            <p className={style.label__text}>
+              Address<span className={style.star}> *</span>
+            </p>
+            <div className={style.input}>
+              <Controller
+                name="addressLine1"
+                control={control}
+                rules={{
+                  required: 'This is a required field',
+                }}
+                render={({ field: { value, onChange }, fieldState: { error } }) => {
+                  return (
+                    <GoogleAutocompleteAddress
+                      setValue={setValue}
+                      value={value}
+                      onChange={onChange}
+                      error={error}
+                    />
+                  );
+                }}
+              />
+              {errors?.addressLine1?.message && (
+                <div className={style.error}>{errors.addressLine1?.message}</div>
+              )}
+              <input
+                type="text"
+                className={style.inputText}
+                placeholder="Enter your street, apartment, №..."
+                {...register('addressLine2')}
+              />
+            </div>
+          </label>
+          <div className={`${style.label} ${style.coupleInputs}`}>
+            <label className={style.label}>
+              <p className={style.label__text}>
+                Country<span className={style.star}> *</span>
+              </p>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.inputText} ${
+                    errors?.country?.message && !countryWatch && style.inputText__error
+                  }`}
+                  placeholder="Enter the country"
+                  {...register('country')}
+                />
+                {!countryWatch && <div className={style.error}>{errors.country?.message}</div>}
+              </div>
+            </label>
+            <label className={style.label}>
+              <p className={style.label__text}>State / Region</p>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.inputText} ${
+                    errors?.state?.message && !stateWatch && style.inputText__error
+                  }`}
+                  placeholder="Enter state/region name"
+                  {...register('state')}
+                />
+                {!stateWatch && <div className={style.error}>{errors.state?.message}</div>}
+              </div>
+            </label>
+          </div>
+          <div className={`${style.label} ${style.coupleInputs}`}>
+            <label className={style.label}>
+              <p className={style.label__text}>
+                City<span className={style.star}> *</span>
+              </p>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.inputText} ${
+                    errors?.city?.message && !cityWatch && style.inputText__error
+                  }`}
+                  placeholder="Enter the city name"
+                  {...register('city')}
+                />
+                {!cityWatch && <div className={style.error}>{errors.city?.message}</div>}
+              </div>
+            </label>
+            <label className={style.label}>
+              <p className={style.label__text}>
+                Postcode<span className={style.star}> *</span>
+              </p>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.inputText} ${
+                    errors?.postalCode?.message && !postalCodeWatch && style.inputText__error
+                  }`}
+                  placeholder="Enter your postcode"
+                  {...register('postalCode')}
+                />
+                {!postalCodeWatch && (
+                  <div className={style.error}>{errors.postalCode?.message}</div>
+                )}
+              </div>
+            </label>
+          </div>
         </>
       )}
 
