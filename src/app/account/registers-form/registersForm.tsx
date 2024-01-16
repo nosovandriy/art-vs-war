@@ -1,32 +1,43 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
-import toast from "react-hot-toast";
+import { Dispatch, FC, SetStateAction, useState } from 'react';
+import toast from 'react-hot-toast';
 import jwt_decode from 'jwt-decode';
-import { useForm, Controller } from "react-hook-form";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { useForm, Controller } from 'react-hook-form';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useDisclosure } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
 
 import './registers.scss';
 import style from '../account.module.scss';
 
-import { createAccount, updateAccount } from "@/utils/api";
-import { CustomJwtPayload } from "@/types/Profile";
-import createHeaders from "@/utils/getAccessToken";
-import { refreshAccessToken } from "@/utils/profile";
-import { AccountData, AccountFormData } from "@/types/Account";
-import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
+import { createAccount, deleteAccount, updateAccount } from '@/utils/api';
+import { CustomJwtPayload } from '@/types/Profile';
+import createHeaders from '@/utils/getAccessToken';
+import { refreshAccessToken } from '@/utils/profile';
+import { AccountData, AccountFormData } from '@/types/Account';
+import { PhoneNumber } from '@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number';
+import ModalComponent from '@/app/profile/[slug]/modal/modal';
+import { useAppDispatch } from '@/types/ReduxHooks';
+import { clearOrderFromCart } from '@/app/redux/slices/cartSlice';
+import { getUserRole } from '@/utils/account';
 
 type Props = {
   account: AccountData | null;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
   setAccount: Dispatch<SetStateAction<AccountData | null>>;
-}
+};
 
 const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { user } = useAuthenticator((context) => [context.user]);
+  const { signOut } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
   const decoded = idToken ? (jwt_decode(idToken) as CustomJwtPayload) : '';
   const userEmail = decoded && decoded.email;
   const headers = createHeaders(user);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const hasAuthorRole = getUserRole(user, 'ROLE_AUTHOR');
 
   const {
     control: accountControl,
@@ -35,60 +46,61 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
     formState: { errors: errors1 },
     reset: resetAccountForm,
   } = useForm<AccountFormData>({
-    mode: "onTouched",
+    mode: 'onTouched',
     values: {
       firstName: account?.firstName || '',
       lastName: account?.lastName || '',
       phone: account?.phone || '',
-    }
+    },
   });
 
   const handleCreateAccount = async (userData: AccountData) => {
-    const createdUser: AccountData = await createAccount(headers, userData,);
+    const createdUser: AccountData = await createAccount(headers, userData);
 
     const dataToSave: AccountData = {
       firstName: createdUser.firstName,
       lastName: createdUser.lastName,
       email: createdUser.email,
       phone: createdUser.phone,
-    }
+    };
 
     setAccount(dataToSave);
     refreshAccessToken(refreshToken, user);
-  }
+  };
 
   const handleUpdateAccount = async (userData: AccountData) => {
-    const updatedUser: AccountData = await updateAccount(headers, userData,);
+    const updatedUser: AccountData = await updateAccount(headers, userData);
 
     const dataToSave: AccountData = {
       firstName: updatedUser.firstName,
       lastName: updatedUser.lastName,
       email: updatedUser.email,
       phone: updatedUser.phone,
-    }
+    };
 
     setAccount(dataToSave);
-  }
+  };
 
   const onSubmitAccount = (data: AccountFormData) => {
     const dataToSave: AccountData = {
       ...data,
       email: userEmail,
-    }
+    };
 
     toast.promise(
       account ? handleUpdateAccount(dataToSave) : handleCreateAccount(dataToSave),
       {
         loading: `${account ? 'Updating' : 'Creating'} account...`,
         success: <b>{`Account ${account ? 'updated!' : 'created!'}`}</b>,
-        error: <b>{`Could not ${account ? 'update.' :'create.'}`}</b>,
-      }, {
+        error: <b>{`Could not ${account ? 'update.' : 'create.'}`}</b>,
+      },
+      {
         style: {
           borderRadius: '10px',
           background: '#1c1d1d',
           color: '#b3b4b5',
-        }
-      }
+        },
+      },
     );
 
     setIsOpenForm(false);
@@ -97,7 +109,23 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
   const onReset = () => {
     resetAccountForm();
     setIsOpenForm(false);
-  }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const status = await deleteAccount(headers);
+      console.log(status);
+
+      if (status === 204) {
+        onClose();
+        signOut();
+        dispatch(clearOrderFromCart());
+        router.push('/');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <form
@@ -117,7 +145,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
               type="text"
               className={`${style.text} ${errors1?.firstName?.message && style.text__error}`}
               placeholder="Enter your first name"
-              {...registerAccount("firstName", {
+              {...registerAccount('firstName', {
                 required: 'This field is required!',
                 maxLength: {
                   value: 30,
@@ -145,7 +173,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
               type="text"
               className={`${style.text} ${errors1?.lastName?.message && style.text__error}`}
               placeholder="Enter your last name"
-              {...registerAccount("lastName", {
+              {...registerAccount('lastName', {
                 required: 'This field is required!',
                 maxLength: {
                   value: 30,
@@ -188,10 +216,7 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
                 },
               }}
               defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <>
                   <PhoneNumber value={value} onChange={onChange} error={error} />
                   {typeof errors1?.phone?.message === 'string' && (
@@ -202,17 +227,35 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
             />
           </div>
         </label>
+        <button type="button" className={style.buttonDelete} onClick={onOpen}>
+          Delete Account
+        </button>
+        <ModalComponent
+          content="Are you shure you want to delete your account?"
+          subContent={
+            hasAuthorRole
+              ? 'This action will also delete your Artist Profile along with all artworks'
+              : ''
+          }
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          onAction={handleDeleteAccount}
+        />
 
         <div className={style.buttonContainer}>
-          <button type='submit' className={style.submit}>{account ? 'Update' : 'Submit'}</button>
+          <button type="submit" className={style.submit}>
+            {account ? 'Update' : 'Submit'}
+          </button>
 
           {account && (
-            <button type='reset' onClick={onReset} className={style.cancel}>Cancel</button>
+            <button type="reset" onClick={onReset} className={style.cancel}>
+              Cancel
+            </button>
           )}
         </div>
       </div>
     </form>
-  )
+  );
 };
 
 export default RegistersForm;

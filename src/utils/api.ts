@@ -718,3 +718,17 @@ export async function changeImagesStatus(headers: HeadersInit, body: DataImage) 
 export async function sendModerationEmail(moderationData: ModerationData) {
   await axios.post(`${BASE_URL}email/moderation`, moderationData);
 }
+
+export async function deleteAccount(headers: HeadersInit) {
+  const response = await fetch(`${BASE_URL}account`, {
+    method: 'DELETE',
+    cache: 'no-store',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  } else {
+    return response.status;
+  }
+}
