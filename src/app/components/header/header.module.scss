@@ -1,5 +1,5 @@
-@import "@styles/mixins.scss";
-@import "@styles/vars.scss";
+@import '@styles/mixins.scss';
+@import '@styles/vars.scss';
 
 .header {
   @include set-flex(row, space-between, center);
@@ -39,7 +39,7 @@
   z-index: 1;
 
   &::before {
-    content: "";
+    content: '';
     @include set-square(50px);
 
     position: absolute;
@@ -143,15 +143,15 @@
 
 .mobileNavigation {
   @include set-flex(column, space-around, center);
-  @include set-size(100vw, 100%);
+
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   top: 57px;
   left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: scroll;
-
   position: fixed;
-  z-index: $z-index-menu;
+  overflow: scroll;
+  z-index: -1;
   background-color: $gray-100;
   transition-timing-function: ease;
   transition-duration: 0.3s;
@@ -159,6 +159,10 @@
   @include laptop {
     display: none;
   }
+}
+
+.mobileNavigationContent {
+  margin-top: 100px;
 }
 
 .profileWrapper {
@@ -274,7 +278,7 @@
   }
 
   :first-child {
-    margin-top: 72px;
+    margin-top: 42px;
 
     @include laptop {
       margin-top: 0;

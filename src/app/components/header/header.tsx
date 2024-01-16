@@ -219,7 +219,7 @@ const Header = () => {
           showMobileMenu ? style.showMobileNavigation : style.hideMobileNavigation
         }`}
       >
-        <div>
+        <div className={style.mobileNavigationContent}>
           {authenticated && user ? (
             <>
               <div
@@ -257,7 +257,7 @@ const Header = () => {
               )}
             </>
           ) : (
-            <Link href={`/profile`} onClick={handleCloseMobileMenu}>
+            <Link href={`/account`} onClick={handleCloseMobileMenu}>
               <LoginButton className={style.loginMobile} />
             </Link>
           )}
