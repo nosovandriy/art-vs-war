@@ -2,8 +2,13 @@
 @import "@styles/mixins.scss";
 
 .auth {
-  height: 100vh;
+  height: calc(100vh - 56px);
+  min-height: 600px;
   background-color: $gray-100;
+
+  @include laptop {
+    height: calc(100vh - 96px);
+  }
 
   @include desktop {
     padding: 48px 0 200px 48px;
