@@ -161,8 +161,10 @@
   }
 }
 
-.mobileNavigationContent {
-  margin-top: 100px;
+@media (max-height: 500px) {
+  .mobileNavigationContent {
+    margin-top: 200px;
+  }
 }
 
 .profileWrapper {
