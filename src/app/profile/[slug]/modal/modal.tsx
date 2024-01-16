@@ -4,11 +4,12 @@ import { Modal, Button, ModalContent, ModalBody, ModalFooter } from '@nextui-org
 type Props = {
   isOpen: boolean;
   content: string;
+  subContent?: string;
   onAction: () => void;
   onOpenChange: () => void;
 };
 
-const ModalComponent: FC<Props> = ({ isOpen, content, onOpenChange, onAction }) => {
+const ModalComponent: FC<Props> = ({ isOpen, content, subContent, onOpenChange, onAction }) => {
   return (
     <Modal isOpen={isOpen} placement="center" onOpenChange={onOpenChange}>
       <ModalContent>
@@ -18,12 +19,21 @@ const ModalComponent: FC<Props> = ({ isOpen, content, onOpenChange, onAction }) 
               style={{
                 textAlign: 'center',
                 color: '#262728',
-                fontSize: 32,
+                fontSize: 26,
                 fontWeight: 400,
                 lineHeight: 40,
               }}
             >
               <p>{content}</p>
+              <p
+                style={{
+                  color: '#46484b',
+                  fontSize: 18,
+                  fontWeight: 400,
+                }}
+              >
+                {subContent}
+              </p>
             </ModalBody>
             <ModalFooter style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <Button

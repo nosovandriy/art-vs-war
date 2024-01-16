@@ -1,4 +1,4 @@
-@import "@styles/vars.scss";
+@import '@styles/vars.scss';
 
 .accountWrapper {
   padding: 0 !important;
@@ -21,7 +21,7 @@
   color: $gray-0;
 }
 
-.amplify-button[data-variation="primary"] {
+.amplify-button[data-variation='primary'] {
   border-radius: 24px;
   background-color: $gray-5;
   color: $gray-100;
@@ -32,13 +32,13 @@
   }
 }
 
-.amplify-tabs-item[data-spacing="equal"] {
+.amplify-tabs-item[data-spacing='equal'] {
   background-color: $gray-70;
   color: $gray-0;
   border-color: $gray-50;
 }
 
-.amplify-tabs-item[data-state="active"] {
+.amplify-tabs-item[data-state='active'] {
   background-color: $gray-100;
   color: $gray-5;
   border-color: $gray-5;
@@ -89,7 +89,18 @@
   &__image {
     position: absolute;
     right: -28%;
-    top: -26%;
+    top: -28%;
+
+    rotate: -45deg;
+
+    @media screen and (min-width: 480px) {
+      right: -19%;
+    }
+  }
+  &__createAccountImage {
+    position: absolute;
+    right: -28%;
+    top: 1%;
 
     rotate: -45deg;
 

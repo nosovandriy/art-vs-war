@@ -25,8 +25,6 @@ const getPlaceDetails = (placeId: string): Promise<PlaceDetails> => {
         fields: ['address_component', 'name', 'geometry'],
       },
       (place, status) => {
-        console.log(place);
-
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           const postalCode = place?.address_components?.find((component) =>
             component.types.includes('postal_code'),

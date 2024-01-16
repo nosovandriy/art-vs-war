@@ -90,6 +90,8 @@ const ShippingForm: React.FC<Props> = ({
   const postalCodeWatch = watch('postalCode');
   const stateWatch = watch('state');
 
+  console.log(cityWatch);
+
   return (
     <form className={style.form} onSubmit={handleSubmit(submit, error)}>
       {isVisible && (
@@ -189,12 +191,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.country?.message && !countryWatch && style.inputText__error
+                    errors?.country?.message && style.inputText__error
                   }`}
                   placeholder="Enter the country"
                   {...register('country')}
                 />
-                {!countryWatch && <div className={style.error}>{errors.country?.message}</div>}
+                {<div className={style.error}>{errors.country?.message}</div>}
               </div>
             </label>
             <label className={style.label}>
@@ -203,12 +205,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.state?.message && !stateWatch && style.inputText__error
+                    errors?.state?.message && style.inputText__error
                   }`}
                   placeholder="Enter state/region name"
                   {...register('state')}
                 />
-                {!stateWatch && <div className={style.error}>{errors.state?.message}</div>}
+                {<div className={style.error}>{errors.state?.message}</div>}
               </div>
             </label>
           </div>
@@ -221,12 +223,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.city?.message && !cityWatch && style.inputText__error
+                    errors?.city?.message && style.inputText__error
                   }`}
                   placeholder="Enter the city name"
                   {...register('city')}
                 />
-                {!cityWatch && <div className={style.error}>{errors.city?.message}</div>}
+                {<div className={style.error}>{errors.city?.message}</div>}
               </div>
             </label>
             <label className={style.label}>
@@ -237,14 +239,12 @@ const ShippingForm: React.FC<Props> = ({
                 <input
                   type="text"
                   className={`${style.inputText} ${
-                    errors?.postalCode?.message && !postalCodeWatch && style.inputText__error
+                    errors?.postalCode?.message && style.inputText__error
                   }`}
                   placeholder="Enter your postcode"
                   {...register('postalCode')}
                 />
-                {!postalCodeWatch && (
-                  <div className={style.error}>{errors.postalCode?.message}</div>
-                )}
+                {<div className={style.error}>{errors.postalCode?.message}</div>}
               </div>
             </label>
           </div>
