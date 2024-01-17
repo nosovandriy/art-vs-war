@@ -87,46 +87,31 @@ export const authenticatorStylesComponents = {
   ConfirmSignUp: {
     Header() {
       const { tokens } = useTheme();
-      // return (
-      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-      //     Enter Information:
-      //   </Heading>
-      // );
-      return '';
-    },
-    Footer() {
-      // return <Text>Footer Information</Text>;
-      return '';
+      return (
+        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+          {/* Enter Information: */}
+        </Heading>
+      );
     },
   },
   SetupTOTP: {
     Header() {
       const { tokens } = useTheme();
-      return '';
-      // return (
-      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-      //     Enter Information:
-      //   </Heading>
-      // );
-    },
-    Footer() {
-      return '';
-      // return <Text>Footer Information</Text>;
+      return (
+        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+          {/* Enter Information: */}
+        </Heading>
+      );
     },
   },
   ConfirmSignIn: {
     Header() {
       const { tokens } = useTheme();
-      return '';
-      // return (
-      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-      //     Enter Information:
-      //   </Heading>
-      // );
-    },
-    Footer() {
-      return '';
-      // return <Text>Footer Information</Text>;
+      return (
+        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+          {/* Enter Information: */}
+        </Heading>
+      );
     },
   },
   ResetPassword: {
