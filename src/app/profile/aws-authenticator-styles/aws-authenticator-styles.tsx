@@ -92,14 +92,17 @@ export const authenticatorStylesComponents = {
       //     Enter Information:
       //   </Heading>
       // );
+      return '';
     },
     Footer() {
       // return <Text>Footer Information</Text>;
+      return '';
     },
   },
   SetupTOTP: {
     Header() {
       const { tokens } = useTheme();
+      return '';
       // return (
       //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
       //     Enter Information:
@@ -107,19 +110,22 @@ export const authenticatorStylesComponents = {
       // );
     },
     Footer() {
+      return '';
       // return <Text>Footer Information</Text>;
     },
   },
   ConfirmSignIn: {
     Header() {
       const { tokens } = useTheme();
-      return (
-        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-          Enter Information:
-        </Heading>
-      );
+      return '';
+      // return (
+      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+      //     Enter Information:
+      //   </Heading>
+      // );
     },
     Footer() {
+      return '';
       // return <Text>Footer Information</Text>;
     },
   },
