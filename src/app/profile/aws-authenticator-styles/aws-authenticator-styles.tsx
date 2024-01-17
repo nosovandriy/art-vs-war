@@ -87,27 +87,21 @@ export const authenticatorStylesComponents = {
   ConfirmSignUp: {
     Header() {
       const { tokens } = useTheme();
-      // return (
-      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-      //     Enter Information:
-      //   </Heading>
-      // );
-    },
-    Footer() {
-      // return <Text>Footer Information</Text>;
+      return (
+        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+          {/* Enter Information: */}
+        </Heading>
+      );
     },
   },
   SetupTOTP: {
     Header() {
       const { tokens } = useTheme();
-      // return (
-      //   <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-      //     Enter Information:
-      //   </Heading>
-      // );
-    },
-    Footer() {
-      // return <Text>Footer Information</Text>;
+      return (
+        <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
+          {/* Enter Information: */}
+        </Heading>
+      );
     },
   },
   ConfirmSignIn: {
@@ -115,12 +109,9 @@ export const authenticatorStylesComponents = {
       const { tokens } = useTheme();
       return (
         <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-          Enter Information:
+          {/* Enter Information: */}
         </Heading>
       );
-    },
-    Footer() {
-      // return <Text>Footer Information</Text>;
     },
   },
   ResetPassword: {
