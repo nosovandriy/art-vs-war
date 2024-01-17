@@ -11,7 +11,8 @@ export const styles = {
     fontSize: '16px',
     lineHeight: '24px',
     fontWeight: '400',
-    ":hover": {
+    boxShadow: 'none',
+    ':hover': {
       cursor: 'pointer',
     },
   }),
@@ -23,11 +24,11 @@ export const styles = {
     lineHeight: '24px',
     fontWeight: '400',
   }),
-  option: (provided: any, state: { isSelected: any; }) => ({
+  option: (provided: any, state: { isSelected: any }) => ({
     ...provided,
     backgroundColor: state.isSelected ? '#1c1d1d' : '#3d3e3f',
     color: state.isSelected ? '#fff' : '#eff0f1',
-    ":hover": {
+    ':hover': {
       backgroundColor: '#1c1d1d',
       color: '#fff',
       cursor: 'pointer',
