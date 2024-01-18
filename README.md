@@ -24,13 +24,15 @@ Next.js, TypeScript, HTML, SCSS, Redux, Axios, React-hook-form, AWS Amplify, AWS
 ## Features
 
 - Built the project based on the Next.js and Spring Boot frameworks;
-- Implemented UI and logic flow for all primary pages, including payment and shipping functionalities;
-- Utilized services such as AWS Cognito and Amplify for authorization and deployment, and Cloudinary for image management;
-- Conducted code reviews, investigated, and resolved bugs;
-- Deployed the project on the AWS platform;
-- Managed tasks and estimates in Jira following SCRUM;
+- The website features a responsive design with a mobile-first approach;
+- Navigation is implemented using the Next.js App router;
+- An Account page and a Profile page are implemented for customers and artists;
+- The website allows artists to upload artworks, additional artwork images, and art-process images;
+- A Gallery page is implemented with a masonry layout, infinite scroll, filters, sorting options, and search functionality;
+- A secure payment system is integrated using Stripe software;
 - Connected AWS SES and configured email templates;
-- Collaborating with a team of frontend and backend developers, QA engineers, and UI/UX designers.
+- Utilized services such as AWS Cognito and Amplify for authorization and deployment, and Cloudinary for image management.
+
 ## Optimizations
 
 
