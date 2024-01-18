@@ -89,7 +89,7 @@ export const authenticatorStylesComponents = {
       const { tokens } = useTheme();
       return (
         <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-          {/* Enter Information: */}
+          Confirmation Code
         </Heading>
       );
     },
@@ -99,7 +99,7 @@ export const authenticatorStylesComponents = {
       const { tokens } = useTheme();
       return (
         <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-          {/* Enter Information: */}
+          Confirmation Code
         </Heading>
       );
     },
@@ -109,7 +109,7 @@ export const authenticatorStylesComponents = {
       const { tokens } = useTheme();
       return (
         <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
-          {/* Enter Information: */}
+          Confirmation Code
         </Heading>
       );
     },

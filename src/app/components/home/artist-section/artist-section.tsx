@@ -25,9 +25,9 @@ const Artist = () => {
         </div>
 
         <h2 className={styles.title}>Are you an artist?</h2>
-        <h6 className={styles.subtitle}>
+        <p className={styles.subtitle}>
           Become a part of our conscious community
-        </h6>
+        </p>
         <button className={styles.button} onClick={handleButtonClick}>
           Create account
         </button>
