@@ -1,34 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Art vs War Gallery
 
-First, run the development server:
+The "Art vs War" gallery platform is designed to facilitate the sale of paintings, with a focus
+on merging art and charity. The platform offers possibilities where artists can sell their paintings. Key
+features of the project include user registration, artist profiles for uploading and editing paintings, and
+secure sales transactions. This project is based on Next.js and Spring Boot frameworks, utilizing Amazon
+Web Services and Stripe payment service. Our team consists of a PM, frontend and backend developers,
+QA, and a UI/UX designer.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Link
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+https://artvswar.gallery/
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+![Logo](https://serving.photos.photobox.com/401304333daedacf62f3efee0946e6fd3e13e1596a382bdc4b784518d6f02a09581f8b9b.jpg)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Next.js, TypeScript, HTML, SCSS, Redux, Axios, React-hook-form, AWS Amplify, AWS Cognito, AWS SES, Cloudinary, Stripe.
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Built the project based on the Next.js and Spring Boot frameworks;
+- Implemented UI and logic flow for all primary pages, including payment and shipping functionalities;
+- Utilized services such as AWS Cognito and Amplify for authorization and deployment, and Cloudinary for image management;
+- Conducted code reviews, investigated, and resolved bugs;
+- Deployed the project on the AWS platform;
+- Managed tasks and estimates in Jira following SCRUM;
+- Connected AWS SES and configured email templates;
+- Collaborating with a team of frontend and backend developers, QA engineers, and UI/UX designers.
+## Optimizations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+
+
+## Screenshots
+
+![Main page](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWtoODdpYW93OWx2YjlyOXViZG9jdDZjc3hzYzdoOXV6cXczeTA5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/33ryrKQSIXrbWtSkbO/giphy.gif)
+
+![Gallery page](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2czNWg4bWljampiNWIyc2E5YnB6ZDN2NnVtc2ZuanYwM282eTlpbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7fFz2ZxYMivxDaDiIU/giphy.gif)
+## 🔗 Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://andriynosov.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andriy-nosov/)
+
+
+## Authors
+
+- [Rymma Borovko [UX/UI Designer]](https://www.linkedin.com/in/rymma-borovko-4b6788282/)
+- [Andriy Nosov [Frontend developer]](https://www.linkedin.com/in/andriy-nosov/)
+- [Rafael Mamedov [Frontend developer]](https://www.linkedin.com/in/rafmamedov/)
+- [Roman Novosad [Backend developer]](https://www.linkedin.com/in/roman-novosad-010417292/)
+- [Iryna Masliuk [QA Engineer]](https://www.linkedin.com/in/%D1%96%D1%80%D0%B8%D0%BD%D0%B0-%D0%BC%D0%B0%D1%81%D0%BB%D1%8E%D0%BA-b98573236/)

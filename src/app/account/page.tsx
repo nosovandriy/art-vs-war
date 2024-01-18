@@ -149,7 +149,7 @@ const Account = () => {
                 <div className={style.subtitle}>
                   <>
                     <Link href="/profile" className={style.login}>Click here</Link>
-                    <span> to create an Artist Profile now!</span>
+                    <span> If you are an artist, you can create a Profile and upload your artwork</span>
                   </>
                 </div>
               )}
