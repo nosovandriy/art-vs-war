@@ -114,7 +114,6 @@ const RegistersForm: FC<Props> = ({ account, setAccount, setIsOpenForm }) => {
   const handleDeleteAccount = async () => {
     try {
       const status = await deleteAccount(headers);
-      console.log(status);
 
       if (status === 204) {
         onClose();

@@ -55,7 +55,7 @@ const Funds = () => {
               </p>
               <hr className={style.line}></hr>
               <div className={`${style.actor}`}>
-                <h6 className={style.actor__title}>Mark Hamill</h6>
+                <p className={style.actor__title}>Mark Hamill</p>
                 <p className={style.actor__description}>
                   Actor, United24 Ambassador
                 </p>

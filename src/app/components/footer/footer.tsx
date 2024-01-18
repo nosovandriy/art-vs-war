@@ -24,25 +24,26 @@ const Footer = () => {
           <MenuItems className={style.menuItems} isHeaderList={false} />
           <div>
             <ul className={style.list}>
-              <Link href={'/for-artists'}>
-                <li>For Artists</li>
-              </Link>
-              <Link href={'/payment'}>
-                <li>Payment</li>
-              </Link>
-              <Link href={'/under-development'}>
-                <li>Delivery</li>
-              </Link>
-              <Link href={'/under-development'}>
-                <li>FAQ</li>
-              </Link>
-              <Link href={'/terms-of-use'}>
-                <li>Terms of Use</li>
-              </Link>
-              <Link href={'/privacy-policy'}>
-                <li>Privacy Policy</li>
-              </Link>
+              <li>
+                <Link href={'/for-artists'}>For Artists</Link>
+              </li>
+              <li>
+                <Link href={'/payment'}>Payment</Link>
+              </li>
+              <li>
+                <Link href={'/under-development'}>Delivery</Link>
+              </li>
+              <li>
+                <Link href={'/under-development'}>FAQ</Link>
+              </li>
+              <li>
+                <Link href={'/terms-of-use'}>Terms of Use</Link>
+              </li>
+              <li>
+                <Link href={'/privacy-policy'}>Privacy Policy</Link>
+              </li>
             </ul>
+
             <div className={style.icons}>
               <SocialNetworkIcons className={style.icon} />
             </div>

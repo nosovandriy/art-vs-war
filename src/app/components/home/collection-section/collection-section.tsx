@@ -25,9 +25,9 @@ const HaveCollection = () => {
 
       <div className={styles.content}>
         <h2 className={styles.title}>Have an art collection?</h2>
-        <h6 className={styles.subtitle}>
+        <p className={styles.subtitle}>
           You can donate your collection items to support Ukraine
-        </h6>
+        </p>
         <button onClick={handleButtonClick} className={styles.button}>
           Learn more
         </button>
