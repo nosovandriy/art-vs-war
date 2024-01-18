@@ -17,29 +17,29 @@ const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
     <section className={style.dataInfo}>
       <div className={style.data}>
         <div className={style.info}>
-          <h4 className={style.quantity}>
+          <p className={style.quantity}>
             <CountUp
               end={dataInfo.authorsQuantity}
               duration={3}
               enableScrollSpy={true}
               scrollSpyOnce={true}
             />
-          </h4>
+          </p>
           <p className={style.text}>ARTISTS IN COMMUNITY</p>
         </div>
         <div className={style.info}>
-          <h4 className={style.quantity}>
+          <p className={style.quantity}>
             <CountUp
               end={dataInfo.paintingsQuantity}
               duration={3}
               enableScrollSpy={true}
               scrollSpyOnce={true}
             />
-          </h4>
+          </p>
           <p className={style.text}>PAINTINGS IN DATABASE</p>
         </div>
         <div className={style.info}>
-          <h4 className={style.quantity}>
+          <p className={style.quantity}>
             <CountUp
               end={dataInfo.raisedFunds}
               duration={3}
@@ -47,7 +47,7 @@ const DataInfo = ({ dataInfo }: { dataInfo: DataInfoTypes }) => {
               enableScrollSpy={true}
               scrollSpyOnce={true}
             />
-          </h4>
+          </p>
           <p className={style.text}>TOTAL PAINTINGS SOLD</p>
         </div>
       </div>

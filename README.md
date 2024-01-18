@@ -33,7 +33,8 @@ Next.js, TypeScript, HTML, SCSS, Redux, Axios, React-hook-form, AWS Amplify, AWS
 - Collaborating with a team of frontend and backend developers, QA engineers, and UI/UX designers.
 ## Optimizations
 
-What optimizations did you make in your code? E.g. refactors, performance improvements, accessibility
+
+![Logo](https://serving.photos.photobox.com/40847110bca476243fbeda2238adf6e4eca78d211e051892225964dc6abe4c6f1134c620.jpg)
 
 
 ## Screenshots
