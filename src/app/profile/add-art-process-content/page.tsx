@@ -251,13 +251,13 @@ const AddArtProcessContent = () => {
 
         <div className={style.formAction}>
           <label className={style.label}>
-            <p className={style.label__text}>Description</p>
+            <p className={style.label__text}>Description (optional)</p>
             <div className={style.input}>
               <textarea
                 className={`${style.inputText} ${style.inputTextArea} ${
                   errors?.description?.message && style.inputText__error
                 }`}
-                placeholder="Add image description"
+                placeholder="Add image description (for internal information)"
                 {...register('description')}
               />
               {errors?.description?.message && (
