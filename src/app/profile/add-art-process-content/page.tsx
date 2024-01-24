@@ -30,6 +30,7 @@ const AddArtProcessContent = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [moderation, setModeration] = useState<RekognitionModerationResponse>();
+  const [isModerationError, setIsModerationError] = useState(false);
 
   const router = useRouter();
   const { user, route } = useAuthenticator((context) => [context.route]);
@@ -161,7 +162,13 @@ const AddArtProcessContent = () => {
       return;
     } else {
       const response: any = await moderateImage(file);
-      setModeration(response);
+
+      if (response === undefined) {
+        setIsModerationError(true);
+      } else {
+        setModeration(response);
+        setIsModerationError(false);
+      }
     }
 
     const reader = new FileReader();
@@ -177,6 +184,7 @@ const AddArtProcessContent = () => {
     event.preventDefault();
     resetField('image');
     setImagePreview(null);
+    setIsModerationError(false);
   };
 
   return (
@@ -232,6 +240,11 @@ const AddArtProcessContent = () => {
                   </p>
                 )}
               </>
+            )}
+            {isModerationError && (
+              <p className={style.error}>
+                You&apos;ve selected an image with an invalid format. Please choose another image
+              </p>
             )}
           </label>
         </div>
