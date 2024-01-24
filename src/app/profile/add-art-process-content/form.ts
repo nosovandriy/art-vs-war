@@ -13,6 +13,15 @@ export const validation = yup.object({
 
       return true;
     })
+    .test('fileEmpty', 'This field is required!', (value) => {
+      const [file] = Object.values(value) as any;
+
+      if (file === undefined) {
+        return false;
+      }
+
+      return true;
+    })
     .test('fileFormat', 'Invalid file format. Only JPEG, JPG and PNG are allowed.', (value) => {
       const [file] = Object.values(value) as any;
 
