@@ -9,6 +9,7 @@ const awsmobile = {
     "oauth": {
         "domain": "auth.artvswar.gallery.auth.eu-west-3.amazoncognito.com",
         "scope": [
+            "aws.cognito.signin.user.admin",
             "email",
             "openid"
         ],
