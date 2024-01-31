@@ -112,7 +112,6 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                 field: { value, onChange },
                 fieldState: { error }
               }) => {
-                console.log('value', value)
                 return (
                   <GoogleAutocompleteAddress
                     value={value}
