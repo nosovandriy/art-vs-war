@@ -829,7 +829,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           message: 'Must be at least 1 character',
                         },
                         max: {
-                          value: 99999,
+                          value: 10000,
                           message: 'Price must have maximum 5 number of digits without cents',
                         },
                         validate: (value) =>
@@ -868,9 +868,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   message: 'Must be at most 1000 characters',
                 },
                 pattern: {
-                  value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
-                  message:
-                    'Only Latin characters, numbers, and allowed special symbols are allowed',
+                  value: /^[^\u0400-\u04FF]*$/,
+                  message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                 },
               })}
             />

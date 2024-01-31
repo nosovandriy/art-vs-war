@@ -28,6 +28,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
     register: registerShipping,
     formState: { errors: errors2 },
     reset: resetShippingform,
+    clearErrors,
     setValue,
   } = useForm<ShippingFormData>({
     mode: "onTouched",
@@ -104,6 +105,10 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                     return "This is a required field";
                   }
 
+                  if (value.length > 150) {
+                    return "Max length 150";
+                  }
+
                   return true;
                 }
               }}
@@ -118,6 +123,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                     setValue={setValue}
                     onChange={onChange}
                     error={error}
+                    clearErrors={clearErrors}
                   />
                 )
               }}
@@ -140,13 +146,13 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               className={`${style.text} ${errors2?.addressLine2?.message && style.text__error}`}
               placeholder="Enter your address"
               {...registerShipping("addressLine2", {
-                pattern: {
-                  value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
-                  message: "Should contain only Latin letters, digits, spaces, /, -, '",
-                },
                 maxLength: {
                   value: 40,
                   message: "Must be at most 40 characters",
+                },
+                pattern: {
+                  value: /^[^\u0400-\u04FF]*$/,
+                  message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                 },
               })}
             />
@@ -170,17 +176,13 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                   placeholder="Choose country"
                   {...registerShipping("country", {
                     required: "This field is required!",
-                    minLength: {
-                      value: 1,
-                      message: "Must be at least 1 character",
-                    },
                     maxLength: {
                       value: 56,
                       message: "Must be at most 56 characters",
                     },
                     pattern: {
-                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
-                      message: "Should contain only Latin letters, space, /, -, '",
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                   })}
                 />
@@ -201,17 +203,13 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                   placeholder="Enter the city name"
                   {...registerShipping("city", {
                     required: "This field is required!",
-                    minLength: {
-                      value: 1,
-                      message: "Must be at least 1 character",
-                    },
                     maxLength: {
                       value: 40,
                       message: "Must be at most 40 characters",
                     },
                     pattern: {
-                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
-                      message: "Should contain only Latin letters, space, /, -, '",
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                   })}
                 />
@@ -233,17 +231,13 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                   className={`${style.text} ${errors2?.state?.message && style.text__error}`}
                   placeholder="Enter state/region name"
                   {...registerShipping("state", {
-                    minLength: {
-                      value: 1,
-                      message: "Must be at least 1 character",
-                    },
                     maxLength: {
                       value: 50,
                       message: "Must be at most 50 characters",
                     },
                     pattern: {
-                      value: /^[A-Za-z\s/'-]+$/,
-                      message: "Should contain only Latin letters, space, /, -, '",
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                   })}
                 />
@@ -265,10 +259,6 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                   placeholder="Enter your postcode"
                   {...registerShipping("postalCode", {
                     required: "This field is required!",
-                    pattern: {
-                      value: /^[A-Za-z0-9\s-]+$/,
-                      message: "Should contain only Latin letters, digits, space, -",
-                    },
                     minLength: {
                       value: 4,
                       message: "Must be at least 4 characters",

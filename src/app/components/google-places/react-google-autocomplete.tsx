@@ -85,6 +85,7 @@ type Props = {
   value?: string;
   onChange: (phoneNumber: string) => void;
   setValue: UseFormSetValue<any>;
+  clearErrors?: UseFormClearErrors<AuthorShippingFormData>,
 };
 
 export const GoogleAutocompleteAddress: React.FC<Props> = ({
@@ -92,6 +93,7 @@ export const GoogleAutocompleteAddress: React.FC<Props> = ({
   value,
   error,
   onChange,
+  clearErrors,
 }) => {
   const handleChangeVale = async (newValue: any) => {
     const details = await getPlaceDetails(newValue?.place_id);
@@ -100,6 +102,7 @@ export const GoogleAutocompleteAddress: React.FC<Props> = ({
     setValue('state', details.state);
     setValue('city', details.city);
     setValue('postalCode', details.postalCode);
+    clearErrors();
 
     if (details.number) {
       setValue('addressLine1', details.number + ', ' + details.street);
