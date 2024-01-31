@@ -22,6 +22,7 @@ import {
   PaintingData,
   PaintingDataToSave,
   PaintingForm,
+  RekognitionModerationResponse,
   UploadedPaintingData,
 } from '@/types/Painting';
 import { sendModerationEmail } from '@/utils/api';
@@ -62,7 +63,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
   const [selectedMediums, setSelectedMediums] = useState<SubjectType[]>([]);
   const [selectedSupports, setSelectedSupports] = useState<SubjectType[]>([]);
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectType[]>([]);
-  const [moderation, setModeration] = useState([]);
+  const [moderation, setModeration] = useState<RekognitionModerationResponse>();
   const [isCreating, setIsCreating] = useState(false);
 
   const { user, route } = useAuthenticator((context) => [context.route]);
@@ -112,7 +113,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
   const handleCreatePainting = async (data: PaintingData) => {
     setIsCreating(true);
 
-    const moderationStatus: ModerationStatus = !moderation?.length ? 'APPROVED' : 'PENDING';
+    const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
     if (data.image instanceof File) {
       toast.promise(
@@ -125,7 +126,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
           if (moderationStatus === 'PENDING') {
             sendModerationEmail({
               publicId: imageData.publicId,
-              message: moderation.toString(),
+              message: JSON.stringify(moderation),
             });
           }
 
@@ -183,7 +184,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
   };
 
   const updatePaintingWithImageUpload = async (data: PaintingData) => {
-    const moderationStatus: ModerationStatus = moderation.length > 0 ? 'PENDING' : 'APPROVED';
+    const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
     await uploadImageToServer(data, URL, headers, moderationStatus).then((imageData: ImageData) => {
       const paintingData: PaintingDataToSave = {
@@ -241,9 +242,12 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
     }
 
     try {
-      const { ModerationLabels }: any = await moderateImage(file);
+      const moderationLabels: any = await moderateImage(file);
 
-      setModeration(ModerationLabels);
+      if (moderationLabels !== undefined) {
+        setModeration(moderationLabels);
+      }
+
       clearErrors('image');
     } catch (error) {
       setError('image', { message: 'Moderation error' });
@@ -606,11 +610,11 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                         required: 'This field is required!',
                         min: {
                           value: 1,
-                          message: 'Min height is 1 cm',
+                          message: 'Min depth is 1 cm',
                         },
                         max: {
                           value: 10,
-                          message: 'Max height is 10 cm',
+                          message: 'Max depth is 10 cm',
                         },
                       })}
                     />
@@ -799,6 +803,24 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                       type="number"
                       className={`${style.text} ${errors?.price?.message && style.text__error}`}
                       placeholder="Price €"
+                      onKeyDown={(e) => {
+                        const key = e.key;
+                        const isDigit =
+                          /^\d$/.test(key) ||
+                          key === 'Enter' ||
+                          key === 'Backspace' ||
+                          key === 'Delete' ||
+                          key === 'ArrowLeft' ||
+                          key === 'ArrowRight';
+
+                        const isEKey = key === 'e' || key === 'E';
+
+                        const isDot = key === '.' || key === 'Decimal';
+
+                        if (!isDigit || isEKey || isDot) {
+                          e.preventDefault();
+                        }
+                      }}
                       onWheel={(e) => e.currentTarget.blur()}
                       {...register('price', {
                         required: 'This field is required!',
@@ -846,7 +868,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   message: 'Must be at most 1000 characters',
                 },
                 pattern: {
-                  value: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>~_\-\s]*$/,
+                  value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
                   message:
                     'Only Latin characters, numbers, and allowed special symbols are allowed',
                 },

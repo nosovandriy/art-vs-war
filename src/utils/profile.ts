@@ -164,7 +164,7 @@ export const uploadAdditionalImages = async (
   images: File[],
   headers: { Authorization?: string },
   paintingId: number,
-  moderationStatuses: { moderation: ModerationStatus, ModerationLabels: any}[],
+  moderationStatuses: { moderation: ModerationStatus, moderationLabels: any}[],
 ) => {
   if (!upload_preset || !cloudinaryApiKey || !cloudName) return [];
 
@@ -199,7 +199,7 @@ export const uploadAdditionalImages = async (
         if (moderationStatuses[i].moderation === 'PENDING') {
           await sendModerationEmail({
             publicId: public_id,
-            message: JSON.stringify(moderationStatuses[i].ModerationLabels),
+            message: JSON.stringify(moderationStatuses[i].moderationLabels),
           });
         };
 

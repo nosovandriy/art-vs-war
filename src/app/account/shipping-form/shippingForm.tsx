@@ -9,15 +9,7 @@ import { saveAddress } from "@/utils/api";
 import { AccountData } from "@/types/Account";
 import createHeaders from "@/utils/getAccessToken";
 import { ShippingFormData, ShippingFormTypes } from "@/types/ShippingForm";
-import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
-
-const defaultPlaceState = {
-  city: '',
-  state: '',
-  label: 'Enter your address',
-  postalCode: '',
-  value: { terms: [{value: ''}, {value: ''}]},
-};
+import { GoogleAutocompleteAddress } from "@/app/components/google-places/react-google-autocomplete";
 
 type Props = {
   account: AccountData | null;
@@ -37,11 +29,10 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
     formState: { errors: errors2 },
     reset: resetShippingform,
     setValue,
-    watch,
   } = useForm<ShippingFormData>({
     mode: "onTouched",
     defaultValues: {
-      addressLine1: address?.addressLine1 || defaultPlaceState,
+      addressLine1: address?.addressLine1 || '',
       addressLine2: address?.addressLine2 || '',
       city: address?.city || '',
       state: address?.state || '',
@@ -49,8 +40,6 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
       postalCode: address?.postalCode || '',
     },
   });
-
-  const watchAddress = watch('addressLine1');
 
   const handleSaveAddress = async (shippingData: ShippingFormTypes) => {
     await saveAddress(headers, shippingData);
@@ -61,7 +50,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
     const shippingDataTosave = account && {
       ...data,
       ...account,
-      addressLine1: data.addressLine1.label,
+      addressLine1: data.addressLine1,
     };
 
     shippingDataTosave && await toast.promise(
@@ -90,15 +79,6 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
     };
   };
 
-  useEffect(() => {
-    if(!watchAddress?.city) return;
-
-    setValue('city', watchAddress.city);
-    setValue('state', watchAddress.state);
-    setValue('country', watchAddress.country);
-    setValue('postalCode', watchAddress.postalCode);
-  }, [watchAddress]);
-
   return (
     <form
       noValidate
@@ -118,23 +98,34 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               name="addressLine1"
               control={shippingControl}
               rules={{
-                required: "This is a required field"
+                required: "This is a required field",
+                validate: (value) => {
+                  if (!value?.length) {
+                    return "This is a required field";
+                  }
+
+                  return true;
+                }
               }}
-              defaultValue={null}
+              defaultValue={''}
               render={({
-                field: { value, onChange, onBlur},
+                field: { value, onChange },
                 fieldState: { error }
               }) => {
                 return (
-                  <GooglePlacesComponent
+                  <GoogleAutocompleteAddress
                     value={value}
-                    onBlur={onBlur}
+                    setValue={setValue}
                     onChange={onChange}
                     error={error}
                   />
                 )
               }}
             />
+
+            {typeof errors2?.addressLine1?.message === 'string' && (
+              <div className={style.error}>{errors2.addressLine1.message}</div>
+            )}
           </div>
         </div>
 
@@ -150,7 +141,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
               placeholder="Enter your address"
               {...registerShipping("addressLine2", {
                 pattern: {
-                  value: /^[A-Za-z0-9\s/'-]+$/,
+                  value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
                   message: "Should contain only Latin letters, digits, spaces, /, -, '",
                 },
                 maxLength: {
@@ -188,7 +179,7 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                       message: "Must be at most 56 characters",
                     },
                     pattern: {
-                      value: /^[A-Za-z\s/'-]+$/,
+                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
                       message: "Should contain only Latin letters, space, /, -, '",
                     },
                   })}
@@ -198,7 +189,40 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                 )}
               </div>
             </label>
+            <label className={style.label}>
+              <div>
+                City
+                <span className={style.star}>*</span>
+              </div>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.text} ${errors2?.city?.message && style.text__error}`}
+                  placeholder="Enter the city name"
+                  {...registerShipping("city", {
+                    required: "This field is required!",
+                    minLength: {
+                      value: 1,
+                      message: "Must be at least 1 character",
+                    },
+                    maxLength: {
+                      value: 40,
+                      message: "Must be at most 40 characters",
+                    },
+                    pattern: {
+                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
+                      message: "Should contain only Latin letters, space, /, -, '",
+                    },
+                  })}
+                />
+                {typeof errors2?.city?.message === 'string' && (
+                  <div className={style.error}>{errors2.city.message}</div>
+                )}
+              </div>
+            </label>
+          </div>
 
+          <div className={style.inputsContainer}>
             <label className={style.label}>
               <div>
                 State / Region
@@ -225,40 +249,6 @@ const ShippingForm: FC<Props> = ({ account, address, setAddress, setIsOpenForm }
                 />
                 {typeof errors2?.state?.message === 'string' && (
                   <div className={style.error}>{errors2.state.message}</div>
-                )}
-              </div>
-            </label>
-          </div>
-
-          <div className={style.inputsContainer}>
-            <label className={style.label}>
-              <div>
-                City
-                <span className={style.star}>*</span>
-              </div>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.text} ${errors2?.city?.message && style.text__error}`}
-                  placeholder="Enter the city name"
-                  {...registerShipping("city", {
-                    required: "This field is required!",
-                    minLength: {
-                      value: 1,
-                      message: "Must be at least 1 character",
-                    },
-                    maxLength: {
-                      value: 40,
-                      message: "Must be at most 56 characters",
-                    },
-                    pattern: {
-                      value: /^[A-Za-z\s/'-]+$/,
-                      message: "Should contain only Latin letters, space, /, -, '",
-                    },
-                  })}
-                />
-                {typeof errors2?.city?.message === 'string' && (
-                  <div className={style.error}>{errors2.city.message}</div>
                 )}
               </div>
             </label>

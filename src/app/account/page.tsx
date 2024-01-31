@@ -65,7 +65,7 @@ const Account = () => {
           country,
           postalCode,
           addressLine2,
-          addressLine1: { value: '', label: addressLine1, postalCode: '', state: '', city: '' },
+          addressLine1,
         });
       }
 

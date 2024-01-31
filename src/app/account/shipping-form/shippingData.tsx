@@ -18,7 +18,7 @@ const ShippingData: FC<Props> = ({ address, setIsOpenForm }) => {
         <div className={style.dataContainer}>
           <div>Address</div>
           <div className={style.input}>
-            <div className={style.inputData}>{addressLine1?.label}</div>
+            <div className={style.inputData}>{addressLine1}</div>
           </div>
 
           {!!addressLine2?.length && (
