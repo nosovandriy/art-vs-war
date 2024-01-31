@@ -26,6 +26,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
     control,
     register,
     setValue,
+    clearErrors,
     handleSubmit,
     formState: { errors: errors2 },
   } = useForm<AuthorShippingFormData>({
@@ -123,7 +124,18 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
               name="addressLine1"
               control={control}
               rules={{
-                required: "This is a required field"
+                required: "This is a required field",
+                validate: (value) => {
+                  if (!value?.length) {
+                    return "This is a required field";
+                  }
+
+                  if (value.length > 150) {
+                    return "Max length 150";
+                  }
+
+                  return true;
+                }
               }}
               render={({
                 field: { value, onChange},
@@ -134,6 +146,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                   setValue={setValue}
                   onChange={onChange}
                   error={error}
+                  clearErrors={clearErrors}
                 />
               )}
             />
@@ -154,7 +167,16 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
               type="text"
               className={`${style.text} ${errors2?.addressLine2?.message && style.text__error}`}
               placeholder="Enter your address"
-              {...register("addressLine2")}
+              {...register("addressLine2", {
+                maxLength: {
+                  value: 40,
+                  message: "Must be at most 40 characters",
+                },
+                pattern: {
+                  value: /^[^\u0400-\u04FF]*$/,
+                  message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                },
+              })}
             />
             {typeof errors2?.addressLine2?.message === 'string' && (
               <div className={style.error}>{errors2.addressLine2.message}</div>
@@ -171,7 +193,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
           <Controller
             control={control}
             name="phone"
-            defaultValue=""
             rules={{ required: "This field is required!" }}
             render={({
               field: { onChange, value },
@@ -199,7 +220,17 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                   type="text"
                   className={`${style.text} ${errors2?.country?.message && style.text__error}`}
                   placeholder="Choose country"
-                  {...register("country", { required: 'This field is required!' })}
+                  {...register("country", {
+                    required: "This field is required!",
+                    maxLength: {
+                      value: 56,
+                      message: "Must be at most 56 characters",
+                    },
+                    pattern: {
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                    },
+                  })}
                 />
                 {typeof errors2?.country?.message === 'string' && (
                   <div className={style.error}>{errors2.country.message}</div>
@@ -207,25 +238,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
               </div>
             </label>
 
-            <label className={style.label}>
-              <div>
-                State / Region
-              </div>
-              <div className={style.input}>
-                <input
-                  type="text"
-                  className={`${style.text} ${errors2?.state?.message && style.text__error}`}
-                  placeholder="Enter state/region name"
-                  {...register("state")}
-                />
-                {typeof errors2?.state?.message === 'string' && (
-                  <div className={style.error}>{errors2.state.message}</div>
-                )}
-              </div>
-            </label>
-          </div>
-
-          <div className={style.inputsContainer}>
             <label className={style.label}>
               <div>
                 City
@@ -236,10 +248,48 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                   type="text"
                   className={`${style.text} ${errors2?.city?.message && style.text__error}`}
                   placeholder="Enter the city name"
-                  {...register("city", { required: 'This field is required!' })}
+                  {...register("city", {
+                    required: "This field is required!",
+                    maxLength: {
+                      value: 40,
+                      message: "Must be at most 40 characters",
+                    },
+                    pattern: {
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                    },
+                  })}
                 />
                 {typeof errors2?.city?.message === 'string' && (
                   <div className={style.error}>{errors2.city.message}</div>
+                )}
+              </div>
+            </label>
+          </div>
+
+          <div className={style.inputsContainer}>
+            <label className={style.label}>
+              <div>
+                State / Region
+              </div>
+              <div className={style.input}>
+                <input
+                  type="text"
+                  className={`${style.text} ${errors2?.state?.message && style.text__error}`}
+                  placeholder="Enter state/region name"
+                  {...register("state", {
+                    maxLength: {
+                      value: 50,
+                      message: "Must be at most 50 characters",
+                    },
+                    pattern: {
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                    },
+                  })}
+                />
+                {typeof errors2?.state?.message === 'string' && (
+                  <div className={style.error}>{errors2.state.message}</div>
                 )}
               </div>
             </label>
@@ -254,7 +304,17 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                   type="text"
                   className={`${style.text} ${errors2?.postalCode?.message && style.text__error}`}
                   placeholder="Enter your postcode"
-                  {...register("postalCode", { required: 'This field is required!' })}
+                  {...register("postalCode", {
+                    required: 'This field is required!',
+                    minLength: {
+                      value: 4,
+                      message: "Must be at least 4 characters",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Must be at most 10 characters",
+                    },
+                  })}
                 />
                 {typeof errors2?.postalCode?.message === 'string' && (
                   <div className={style.error}>{errors2.postalCode.message}</div>
