@@ -347,7 +347,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
         </button>
 
         <button className={style.cancel} onClick={resetFileInputs}>
-          Cancel
+          Skip
         </button>
       </div>
     </section>

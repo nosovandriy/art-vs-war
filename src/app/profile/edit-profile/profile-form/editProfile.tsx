@@ -346,7 +346,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                       message: 'Full name must be between 1 and 40 characters',
                     },
                     pattern: {
-                      value: /^[A-Za-z ',-]+$/,
+                      value: /^[^\u0400-\u04FF]*$/,
                       message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                   })}
@@ -374,7 +374,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                       message: 'City must be between 1 and 40 characters',
                     },
                     pattern: {
-                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
+                      value: /^[^\u0400-\u04FF]*$/,
                       message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                     validate: {
@@ -435,6 +435,10 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                     maxLength: {
                       value: 1000,
                       message: 'Must be between 3 and 1000 characters',
+                    },
+                    pattern: {
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                   })}
                 />
