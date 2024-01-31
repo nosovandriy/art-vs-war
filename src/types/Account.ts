@@ -25,4 +25,5 @@ export interface Order {
   orderCreatedAt: { date: string };
   orderDeliveredAt?: { date: string };
   orderEstimatedDeliveryAt?: { date: string };
+  daysForAutomaticConfirm?: string;
 };

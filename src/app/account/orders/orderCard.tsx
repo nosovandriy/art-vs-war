@@ -9,6 +9,7 @@ import { setOrderDelivered } from '@/utils/api';
 import createHeaders from '@/utils/getAccessToken';
 import { useDisclosure } from '@nextui-org/react';
 import ModalComponent from '@/app/profile/[slug]/modal/modal';
+import { error } from 'console';
 
 type Props = {
   user: any;
@@ -28,18 +29,26 @@ const OrderCard: FC<Props> = ({ order, user }) => {
     orderCreatedAt,
     orderDeliveredAt,
     orderEstimatedDeliveryAt,
+    daysForAutomaticConfirm,
   } = tempOrder;
 
   const handleConfirm = async () => {
     const headers = createHeaders(user);
 
-    try {
-      await setOrderDelivered(headers, id);
-      setTempOrder(current => ({ ...current, isDelivered: true }));
-      onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    setOrderDelivered(headers, id)
+      .then(response => {
+        console.log('response', response);
+
+        setTempOrder(current => ({
+          ...current,
+          isDelivered: true,
+          orderDeliveredAt: response?.orderDeliveredAt,
+        }));
+        onClose();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -96,6 +105,17 @@ const OrderCard: FC<Props> = ({ order, user }) => {
             }
           </div>
         </div>
+
+        {!isDelivered && (
+          <div className={style.details}>
+            <div className={style.name}>
+              The system automatically confirm receipt after
+            </div>
+            <div className={style.name}>
+              {daysForAutomaticConfirm}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={style.buttonContainer}>
