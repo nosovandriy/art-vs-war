@@ -36,5 +36,12 @@ export const validation = yup.object({
 
       return true;
     }),
-  description: yup.string().max(150, 'Max 150 characters'),
+  description: yup
+    .string()
+    .max(150, 'Max 150 characters')
+    .matches(
+      /^[^\u0400-\u04FF]*$/,
+      'Only Latin letters, numbers, spaces, punctuation, and symbols are allowed.',
+    )
+    .nullable(),
 });
