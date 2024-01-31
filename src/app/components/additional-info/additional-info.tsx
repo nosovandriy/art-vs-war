@@ -94,7 +94,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
 
     for (const image of images) {
       const moderationLabels: any = await moderateImage(image);
-      const moderation: ModerationStatus = !moderationLabels.length ? 'APPROVED' : 'PENDING';
+      const moderation: ModerationStatus = !moderationLabels?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
       moderationStatuses.push({ moderation, moderationLabels })
     }
