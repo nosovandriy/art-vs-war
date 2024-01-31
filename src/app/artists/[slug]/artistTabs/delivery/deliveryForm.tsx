@@ -9,22 +9,15 @@ import createHeaders from "@/utils/getAccessToken";
 import { AuthorShippingFormData } from "@/types/ShippingForm";
 import { saveShippingAddress, updateShippingAddress } from "@/utils/api";
 import { PhoneNumber } from "@/app/cart/checkout/order-info/shipping-form/phone-number/phone-number";
-import GooglePlacesComponent from "@/app/components/google-places/googlePlacesComponent";
-
-const defaultPlaceState = {
-  city: '',
-  state: '',
-  label: '',
-  postalCode: '',
-  value: { terms: [{value: ''}, {value: ''}]},
-};
+import { GoogleAutocompleteAddress } from "@/app/components/google-places/react-google-autocomplete";
 
 type Props = {
   address: AuthorShippingFormData | null;
   setIsOpenForm: Dispatch<SetStateAction<boolean>>;
+  setAddress: Dispatch<SetStateAction<AuthorShippingFormData | null>>;
 }
 
-const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
+const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const headers = createHeaders(user);
 
@@ -35,34 +28,33 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
     setValue,
     handleSubmit,
     formState: { errors: errors2 },
-    watch,
   } = useForm<AuthorShippingFormData>({
     mode: "onTouched",
     defaultValues: {
+      city: '',
       state: '',
       phone: '',
-      postalCode: '',
-      addressLine2: '',
-      city: '',
       country: '',
+      postalCode: '',
       addressLine1: '',
+      addressLine2: '',
     },
   });
 
-  const watchAddress = watch('addressLine1');
-
   const handleSaveAddress = async (shippingData: AuthorShippingFormData) => {
     await saveShippingAddress(headers, shippingData);
+    setAddress(shippingData);
   };
 
   const handleUpdateAddress = async (shippingData: AuthorShippingFormData) => {
     await updateShippingAddress(headers, shippingData);
+    setAddress(shippingData);
   };
 
   const onSubmitShipping = (data: AuthorShippingFormData) => {
     const shippingDataTosave = {
       ...data,
-      addressLine1: data.addressLine1.label,
+      addressLine1: data.addressLine1,
     };
 
     shippingDataTosave && toast.promise(
@@ -109,17 +101,8 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
       setValue('country', authorCountry)
       setValue('postalCode', postalCode);
       setValue('addressLine2', addressLine2)
-      setValue('addressLine1', { ...defaultPlaceState, label: addressLine1 });
+      setValue('addressLine1', addressLine1);
   }, [address]);
-
-  useEffect(() => {
-    if(!watchAddress.city) return;
-
-    setValue('city', watchAddress.city);
-    setValue('state', watchAddress.state);
-    setValue('country', watchAddress.country);
-    setValue('postalCode', watchAddress.postalCode);
-  }, [watchAddress]);
 
   return (
     <form
@@ -135,18 +118,22 @@ const DeliveryForm: FC<Props> = ({ address, setIsOpenForm }) => {
             <span className={style.star}>*</span>
           </div>
 
-          <div className={`${style.input} ${errors2?.addressLine1 ? style.inputError : ""}`}>
+          <div className={style.input}>
             <Controller
               name="addressLine1"
               control={control}
               rules={{
                 required: "This is a required field"
               }}
-              render={({ field: { value, onBlur, onChange}, fieldState }) => (
-                <GooglePlacesComponent
+              render={({
+                field: { value, onChange},
+                fieldState: { error },
+              }) => (
+                <GoogleAutocompleteAddress
                   value={value}
-                  onBlur={onBlur}
+                  setValue={setValue}
                   onChange={onChange}
+                  error={error}
                 />
               )}
             />

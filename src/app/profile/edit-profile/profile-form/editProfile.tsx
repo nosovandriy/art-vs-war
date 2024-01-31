@@ -20,7 +20,7 @@ import { Action, CustomJwtPayload, ProfileForm, UserData, UserDataToSave } from 
 import { moderateImage, uploadImageToServer, validateDataOnServer } from '@/utils/profile';
 import { createProfile, sendModerationEmail, updateProfile } from '@/utils/api';
 import createHeaders from '@/utils/getAccessToken';
-import { ModerationStatus } from '@/types/Painting';
+import { ModerationStatus, RekognitionModerationResponse } from '@/types/Painting';
 
 const URL = 'authors/checkInputAndGet';
 
@@ -53,7 +53,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(author?.imageUrl || null);
-  const [moderation, setModeration] = useState([]);
+  const [moderation, setModeration] = useState<RekognitionModerationResponse>();
   const { user, route } = useAuthenticator((context) => [context.route]);
   const idToken = user.getSignInUserSession()?.getIdToken().getJwtToken();
   const refreshToken = user.getSignInUserSession()?.getRefreshToken();
@@ -94,7 +94,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
   const handleEditProfile = async (action: Action, data: UserData) => {
     let authorData: UserDataToSave;
 
-    const moderationStatus: ModerationStatus = moderation.length > 0 ? 'PENDING' : 'APPROVED';
+    const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
     if (data.image instanceof File) {
       const { publicId, version, signature } = await uploadImageToServer(
@@ -150,9 +150,12 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
     }
 
     try {
-      const { ModerationLabels }: any = await moderateImage(file);
+      const moderationLabels: any = await moderateImage(file);
 
-      setModeration(ModerationLabels);
+      if (moderationLabels !== undefined) {
+        setModeration(moderationLabels);
+      };
+
       clearErrors('image');
     } catch (error) {
       setError('image', { message: 'Moderation error' });
@@ -371,7 +374,7 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
                       message: 'City must be between 1 and 40 characters',
                     },
                     pattern: {
-                      value: /^[A-Za-z ',-]+$/,
+                      value: /[\p{IsLatin}\w\s\p{P}\p{S}]/,
                       message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
                     },
                     validate: {

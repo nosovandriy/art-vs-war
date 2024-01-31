@@ -58,9 +58,16 @@ const Delivery: FC = () => {
       )}
 
       {(isOpenForm && !isFetching) ? (
-          <DeliveryForm address={address} setIsOpenForm={setIsOpenForm} />
+          <DeliveryForm
+            address={address}
+            setAddress={setAddress}
+            setIsOpenForm={setIsOpenForm}
+          />
         ) : (
-          <DeliveryData address={address} setIsOpenForm={setIsOpenForm} />
+          <DeliveryData
+            address={address}
+            setIsOpenForm={setIsOpenForm}
+          />
         )}
     </div>
   );

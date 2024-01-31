@@ -93,10 +93,10 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     const moderationStatuses = [];
 
     for (const image of images) {
-      const { ModerationLabels }: any = await moderateImage(image);
-      const moderation: ModerationStatus = !ModerationLabels.length ? 'APPROVED' : 'PENDING';
+      const moderationLabels: any = await moderateImage(image);
+      const moderation: ModerationStatus = !moderationLabels.length ? 'APPROVED' : 'PENDING';
 
-      moderationStatuses.push({ moderation, ModerationLabels })
+      moderationStatuses.push({ moderation, moderationLabels })
     }
 
     const uploaded = await uploadAdditionalImages(images, headers, paintingId, moderationStatuses);
