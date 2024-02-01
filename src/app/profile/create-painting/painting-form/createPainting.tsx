@@ -461,7 +461,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           message: 'Min weight is 1g',
                         },
                         max: {
-                          value: 99999,
+                          value: 10000,
                           message: 'Max weight is 10000g',
                         },
                         validate: (value) =>
@@ -829,7 +829,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                           message: 'Must be at least 1 character',
                         },
                         max: {
-                          value: 10000,
+                          value: 99999,
                           message: 'Price must have maximum 5 number of digits without cents',
                         },
                         validate: (value) =>
