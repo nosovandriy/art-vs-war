@@ -96,6 +96,11 @@
   font-size: $font-size-md;
   font-weight: $font-weight-regular;
   line-height: 20px;
+
+  @include mobile {
+    font-size: $font-size-sm;
+    max-width: 70%;
+  }
 }
 
 .price {

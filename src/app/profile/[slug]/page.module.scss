@@ -162,12 +162,13 @@
 }
 
 .soldButton {
-  @include set-size(100%, 48px);
-
+  @include set-size(150px, 48px);
   background-color: transparent;
   border: 1px solid $system-error;
   font-weight: $font-weight-semibold;
+  line-height: $line-height-xxl;
   color: $system-error;
+  text-align: center;
 }
 
 .title {
