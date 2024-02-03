@@ -161,7 +161,7 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
             </div>
           </div>
 
-          {!isSoldPainting && (
+          {!isSoldPainting ? (
             <div className={style.buttonContainer}>
               <button type="button" className={style.buttonDelete} onClick={onOpen}>
                 Delete
@@ -171,6 +171,8 @@ const ProfilePaintingCard = ({ params }: { params: { slug: string } }) => {
                 Edit
               </Link>
             </div>
+          ) : (
+            <div className={style.soldButton}>SOLD</div>
           )}
         </div>
       </div>
