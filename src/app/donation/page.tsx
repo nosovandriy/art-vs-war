@@ -7,7 +7,7 @@ const Donation = () => {
   return (
     <section className={style.donation}>
       <h1 className={style.title}>Buy Art - Help Ukraine</h1>
-      {/* <div className={style.textBlockWrapper}>
+      <div className={style.textBlockWrapper}>
         <div className={style.testBlock}>
           <p className={style.testBlock__title}>
             Nice to see you here, inspired stranger!
@@ -47,7 +47,7 @@ const Donation = () => {
             Donate
           </Link>
         </div>
-      </div> */}
+      </div>
 
       <article className={style.article}>
         <div className={style.articleWrapper}>

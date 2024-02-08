@@ -20,7 +20,7 @@ const Transfers = () => {
         <br />
         Art vs War collects all payment for artworks upfront to be disbursed to artists once an
         artwork has been safely delivered. For all artworks, Art vs War will begin processing your
-        payment 14 days from the date of delivery your order.
+        payment the next day from the date of delivery your order.
         <br />
         <br />
         As soon as your payment has been processed Art vs War will immediately email you to confirm
@@ -60,6 +60,9 @@ const Transfers = () => {
         configure your preferences in the dashboard.
         <br />
         <br />
+        The distribution of funds from the purchase of a painting is as follows: 50% goes to the
+        artist, 25% is allocated to charity and the remaining 25% serves as a fee for Art vs War,
+        which is the lowest fee available on the market for online platforms.
       </p>
       <div className={style.activationWrapper}>
         <p className={style.activation}>
