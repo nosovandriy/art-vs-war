@@ -33,6 +33,11 @@ Next.js, TypeScript, HTML, SCSS, Redux, Axios, React-hook-form, AWS Amplify, AWS
 - Connected AWS SES and configured email templates;
 - Utilized services such as AWS Cognito and Amplify for authorization and deployment, and Cloudinary for image management.
 
+## Project structure
+
+
+![Structure](https://serving.photos.photobox.com/7239191627fb26f2620bb685ef40a9e1649bf561e5e412f3ddc3208be68deefac92c5ae3.jpg)
+
 ## Optimizations
 
 
