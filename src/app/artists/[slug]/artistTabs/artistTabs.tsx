@@ -10,7 +10,7 @@ import style from './artistTabs.module.scss';
 
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
-import { ArtistTabOptions } from '@/types/ArtistTabOptions';
+import { ArtistTabOptions, TabOptionsKeys } from '@/types/ArtistTabOptions';
 import { renderItem, tabs } from '@/utils/artistTabs';
 
 const accordionStyles = {
@@ -23,6 +23,7 @@ const accordionStyles = {
 
 const ArtistTabs = () => {
   const [selectedTab, setSelectedTab] = useState(ArtistTabOptions.artworks);
+
   const { width } = useWindowSize();
   const pathname = usePathname();
   const isProfile = pathname === '/profile';
@@ -49,7 +50,7 @@ const ArtistTabs = () => {
     <>
       <div className={style.tabs}>
         {width < 1024 && (
-          <Accordion>
+          <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
             {renderTabs.map(({ option, component }) => (
               <AccordionItem
                 key={option}
