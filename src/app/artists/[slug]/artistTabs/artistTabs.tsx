@@ -43,6 +43,11 @@ const ArtistTabs = () => {
     const tab = searchParams.get('tab');
     if (tab) {
       setSelectedTab(tab as ArtistTabOptions);
+      
+      const element = document.getElementById('target');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   }, []);
 
@@ -50,7 +55,10 @@ const ArtistTabs = () => {
     <>
       <div className={style.tabs}>
         {width < 1024 && (
-          <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
+          <Accordion
+            id="target"
+            defaultExpandedKeys={[searchParams.get('tab') || '']}
+          >
             {renderTabs.map(({ option, component }) => (
               <AccordionItem
                 key={option}
