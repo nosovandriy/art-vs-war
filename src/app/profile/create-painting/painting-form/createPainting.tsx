@@ -354,8 +354,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                       message: 'Must be between 1 and 40 character',
                     },
                     pattern: {
-                      value: /^[A-Za-z\d\s\-',!\/]+$/,
-                      message: "Title accepts only Latin, digits,  space, ', !, / and -",
+                      value: /^[^\u0400-\u04FF]*$/,
+                      message: 'Only Latin letters are allowed',
                     },
                   })}
                 />
@@ -868,8 +868,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
                   message: 'Must be at most 1000 characters',
                 },
                 pattern: {
-                  value: /[\u0020-\u007E\u0080-\u00FF\w\s\u2000-\u206F\u2E00-\u2E7F]+/,
-                  message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                  value: /^[^\u0400-\u04FF]*$/,
+                  message: 'Only Latin letters are allowed',
                 },
               })}
             />
