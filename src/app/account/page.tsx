@@ -87,6 +87,16 @@ const Account = () => {
     if (user?.username) {
       fetchData();
     }
+
+    const tab = searchParams.get('tab');
+
+    if (tab) {
+      const element = document.getElementById('target');
+
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   }, []);
 
   const getContent = () => {
@@ -172,7 +182,7 @@ const Account = () => {
                       orders={orders}
                     />
                   ) : (
-                    <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
+                    <Accordion id="target" defaultExpandedKeys={[searchParams.get('tab') || '']}>
                       <AccordionItem
                         key="Orders"
                         title="Orders"
