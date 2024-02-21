@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 
@@ -35,6 +35,7 @@ const Account = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const hasRole = getUserRole(user, 'ROLE_CUSTOMER');
   const hasProfile = getUserRole(user, 'ROLE_AUTHOR');
+  const searchParams = useSearchParams();
 
   const fetchData = async () => {
     const headers = createHeaders(user);
@@ -171,7 +172,7 @@ const Account = () => {
                       orders={orders}
                     />
                   ) : (
-                    <Accordion>
+                    <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
                       <AccordionItem
                         key="Orders"
                         title="Orders"
