@@ -25,7 +25,7 @@ const OrdersList: FC<Props> = ({ orders, user }) => {
   const searchParams = useSearchParams();
 
   return (
-    <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
+    <Accordion id="target" defaultExpandedKeys={[searchParams.get('tab') || '']}>
       <AccordionItem
         key="Orders"
         title="Orders"
