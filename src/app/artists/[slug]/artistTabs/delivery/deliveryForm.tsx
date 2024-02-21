@@ -272,7 +272,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
             <label className={style.label}>
               <div>
                 State / Region
-                <span className={style.star}>*</span>
               </div>
               <div className={style.input}>
                 <input
@@ -280,7 +279,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                   className={`${style.text} ${errors2?.state?.message && style.text__error}`}
                   placeholder="Enter state/region name"
                   {...register("state", {
-                    required: "This field is required!",
                     maxLength: {
                       value: 50,
                       message: "Must be at most 50 characters",
