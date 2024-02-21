@@ -175,7 +175,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                 },
                 pattern: {
                   value: /^[^\u0400-\u04FF]*$/,
-                  message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                  message: 'Only Latin letters are allowed',
                 },
               })}
             />
@@ -229,7 +229,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                     },
                     pattern: {
                       value: /^[^\u0400-\u04FF]*$/,
-                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                      message: 'Only Latin letters are allowed',
                     },
                   })}
                 />
@@ -257,7 +257,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                     },
                     pattern: {
                       value: /^[^\u0400-\u04FF]*$/,
-                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                      message: 'Only Latin letters are allowed',
                     },
                   })}
                 />
@@ -285,7 +285,7 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
                     },
                     pattern: {
                       value: /^[^\u0400-\u04FF]*$/,
-                      message: 'Only Latin letters, spaces, hyphens, and apostrophes are allowed',
+                      message: 'Only Latin letters are allowed',
                     },
                   })}
                 />

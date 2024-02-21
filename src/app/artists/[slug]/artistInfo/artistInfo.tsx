@@ -99,21 +99,23 @@ const ArtistInfo: FC<Props> = ({ isProfile = false, artistInfo, statuses }) => {
         <div className={style.author__info}>
           <div className={style.author__name}>{fullName}</div>
 
-          <div className={style.author__styles}>
-            <ArtStylesIcon />
+          {styles?.length > 0 && (
+            <div className={style.author__styles}>
+              <ArtStylesIcon />
 
-            {styles.map((artistStyle: string, index: number) => (
-              <span className={style.style} key={index}>
-                <span className={style.style__mobile}>
-                  {index === styles.length - 1 ? artistStyle : artistStyle + ','}
-                </span>
+              {styles.map((artistStyle: string, index: number) => (
+                <span className={style.style} key={index}>
+                  <span className={style.style__mobile}>
+                    {index === styles.length - 1 ? artistStyle : artistStyle + ','}
+                  </span>
 
-                <span className={style.style__laptop}>
-                  {index === styles.length - 1 ? artistStyle : artistStyle + ','}
+                  <span className={style.style__laptop}>
+                    {index === styles.length - 1 ? artistStyle : artistStyle + ','}
+                  </span>
                 </span>
-              </span>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className={style.author__location}>
             <MapPointIcon />
