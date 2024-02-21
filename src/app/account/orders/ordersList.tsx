@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Accordion, AccordionItem } from '@nextui-org/react';
+import { useSearchParams } from 'next/navigation';
 
 import style from './orders.module.scss';
 
@@ -21,9 +22,10 @@ type Props = {
 };
 
 const OrdersList: FC<Props> = ({ orders, user }) => {
+  const searchParams = useSearchParams();
 
   return (
-    <Accordion>
+    <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']}>
       <AccordionItem
         key="Orders"
         title="Orders"
