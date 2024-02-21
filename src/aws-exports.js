@@ -13,7 +13,7 @@ const awsmobile = {
             "email",
             "openid"
         ],
-        "redirectSignIn": "https://artvswar.gallery",
+        "redirectSignIn": "https://artvswar.gallery/account",
         "redirectSignOut": "https://artvswar.gallery",
         "responseType": "code"
     },
