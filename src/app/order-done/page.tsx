@@ -27,7 +27,7 @@ const OrderDone = () => {
         You can view the details of the order in your account!
       </p>
 
-      <Link href="/account" className={style.button}>
+      <Link href="/account?tab=Orders" className={style.button}>
         My Orders
       </Link>
       <div className={style.quote}>
