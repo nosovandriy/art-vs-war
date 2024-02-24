@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import { Accordion, AccordionItem } from '@nextui-org/react';
@@ -91,12 +91,8 @@ const Account = () => {
     const tab = searchParams.get('tab');
 
     if (tab) {
-      const element = document.getElementById('target');
-
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+      window.scrollTo({ top: 500, behavior: 'smooth' });
+    };
   }, []);
 
   const getContent = () => {
@@ -182,7 +178,7 @@ const Account = () => {
                       orders={orders}
                     />
                   ) : (
-                    <Accordion id="target" defaultExpandedKeys={[searchParams.get('tab') || '']}>
+                    <Accordion defaultExpandedKeys={[searchParams.get('tab') || '']} >
                       <AccordionItem
                         key="Orders"
                         title="Orders"

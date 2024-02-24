@@ -45,11 +45,13 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
   const handleSaveAddress = async (shippingData: AuthorShippingFormData) => {
     await saveShippingAddress(headers, shippingData);
     setAddress(shippingData);
+    setIsOpenForm(false);
   };
 
   const handleUpdateAddress = async (shippingData: AuthorShippingFormData) => {
     await updateShippingAddress(headers, shippingData);
     setAddress(shippingData);
+    setIsOpenForm(false);
   };
 
   const onSubmitShipping = (data: AuthorShippingFormData) => {
@@ -74,8 +76,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
         }
       }
     )
-
-    setIsOpenForm(false);
   };
 
   const onReset = () => {
@@ -92,7 +92,6 @@ const DeliveryForm: FC<Props> = ({ address, setAddress, setIsOpenForm }) => {
       phone,
       country,
       postalCode,
-      authorCountry,
       addressLine1,
       addressLine2,
     } = address;
