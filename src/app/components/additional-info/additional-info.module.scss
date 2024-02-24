@@ -241,7 +241,7 @@
 
     .file {
       @include set-flex(column, center, center);
-      margin-bottom: 32px;
+      // margin-bottom: 32px;
       width: 118px;
       height: 136px;
       gap: 18px;
@@ -259,6 +259,10 @@
       &:focus {
         border-color: $gray-30;
         transition: 0.3s;
+      }
+
+      @include mobile {
+        gap: 12px;
       }
 
       @include tablet {
@@ -299,6 +303,10 @@
         font-size: $font-size-sm;
         line-height: $line-height-base;
         font-weight: $font-weight-regular;
+
+        @include mobile {
+          font-size: 8px;
+        }
       }
 
       &__error {
