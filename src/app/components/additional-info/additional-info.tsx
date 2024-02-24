@@ -14,6 +14,13 @@ import { ModerationStatus, ResponseImage, UploadedPaintingData } from "@/types/P
 import { deleteAdditionalImages, getAdditionalImages, saveAdditionalPhotos } from "@/utils/api";
 import { moderateImage, uploadAdditionalImages } from "@/utils/profile";
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
 type Props = {
   uploaded: UploadedPaintingData;
 }
@@ -29,7 +36,6 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     setValue,
     setError,
     register,
-    clearErrors,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -187,6 +193,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
   };
 
   useEffect(() => {
+    scrollToTop();
     getImagesFromServer();
   }, []);
 
@@ -327,7 +334,7 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
                       <AddIcon className={style.file__icon} />
                       <span className={style.file__label}>Choose a file</span>
                       <span className={`${typeof errors[`image_${index}`]?.message === "string" ? style.fileError : style.file__labelInfo}`}>
-                        Allowed JPG, JPEG, PNG <br /> maximum size is 5 MB
+                        Allowed JPG, JPEG, PNG <br /> max size is 5 MB
                       </span>
                     </>
                 )}
