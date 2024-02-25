@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { usePathname } from "next/navigation";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 import Loading from "@/app/loading";
 import {
@@ -9,9 +11,10 @@ import {
   increaseArtistGalleryPage,
 } from "@/app/redux/slices/artistPaintingsSlice";
 import { useAppDispatch, useAppSelector } from "@/types/ReduxHooks";
-import { getPaintingsByArtist } from "@/utils/api";
+import { getAllPaintingsByArtist, getPaintingsByArtist } from "@/utils/api";
 
 import style from "./more-artist-paintings-auto-fetch.module.scss";
+import createHeaders from "@/utils/getAccessToken";
 
 const MoreArtistPaintingsAutoFetch = () => {
   const [ref, inView] = useInView({
@@ -21,6 +24,10 @@ const MoreArtistPaintingsAutoFetch = () => {
   const { totalSize, artistPaintings, pagesCount, artistId } = useAppSelector(
     (state) => state.artistPaintings
   );
+
+  const pathname = usePathname();
+  const isProfile = pathname === '/profile';
+  const { user } = useAuthenticator((context) => [context.user]);
 
   const dispatch = useAppDispatch();
 
@@ -38,9 +45,19 @@ const MoreArtistPaintingsAutoFetch = () => {
     dispatch(increaseArtistGalleryPage());
   };
 
+  const handleGetNewPageProfile = async () => {
+    const currentPage = pagesCount + 1;
+    const headers = createHeaders(user);
+
+    const moreArtistPaintings = await getAllPaintingsByArtist(headers, currentPage);
+
+    dispatch(addMoreArtistPaintings(moreArtistPaintings));
+    dispatch(increaseArtistGalleryPage());
+  }
+
   useEffect(() => {
     if (inView) {
-      handleGetNewPage();
+      isProfile ? handleGetNewPageProfile() : handleGetNewPage();
     }
   }, [inView]);
 

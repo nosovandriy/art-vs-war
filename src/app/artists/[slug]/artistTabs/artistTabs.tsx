@@ -10,7 +10,7 @@ import style from './artistTabs.module.scss';
 
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
-import { ArtistTabOptions, TabOptionsKeys } from '@/types/ArtistTabOptions';
+import { ArtistTabOptions } from '@/types/ArtistTabOptions';
 import { renderItem, tabs } from '@/utils/artistTabs';
 
 const accordionStyles = {
@@ -39,12 +39,20 @@ const ArtistTabs = () => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  const srollHandler = () => {
+    if (width < 1024) {
+      window.scrollTo({ top: 900, behavior: 'smooth' });
+    };
+  }
+
   useEffect(() => {
     const tab = searchParams.get('tab');
+
     if (tab) {
       setSelectedTab(tab as ArtistTabOptions);
       
       const element = document.getElementById('target');
+
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
@@ -62,8 +70,9 @@ const ArtistTabs = () => {
             {renderTabs.map(({ option, component }) => (
               <AccordionItem
                 key={option}
-                aria-label={option}
                 title={option}
+                aria-label={option}
+                onPress={srollHandler}
                 classNames={accordionStyles}
                 indicator={<ArrowDownIcon />}
               >

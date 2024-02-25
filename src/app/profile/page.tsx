@@ -115,6 +115,7 @@ const Profile = () => {
               statuses={statuses}
               artistInfo={author}
             />
+
             <ArtistTabs />
           </>
         ) : (

@@ -200,8 +200,8 @@ export async function getMightLikePaintings(id: string, size: number) {
   return data;
 }
 
-export async function getAllPaintingsByArtist(headers: HeadersInit) {
-  const response = await fetch(`${BASE_URL}paintings/author/all?&page=0`, {
+export async function getAllPaintingsByArtist(headers: HeadersInit, page = 0) {
+  const response = await fetch(`${BASE_URL}paintings/author/all?&page=${page}`, {
     cache: 'no-store',
     headers,
   });
