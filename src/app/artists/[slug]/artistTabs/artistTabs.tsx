@@ -10,7 +10,7 @@ import style from './artistTabs.module.scss';
 
 import { AddIcon } from '@/app/icons/icon-add';
 import { ArrowDownIcon } from '@/app/icons/iconArrowUp/icon-arrow-down';
-import { ArtistTabOptions, TabOptionsKeys } from '@/types/ArtistTabOptions';
+import { ArtistTabOptions } from '@/types/ArtistTabOptions';
 import { renderItem, tabs } from '@/utils/artistTabs';
 
 const accordionStyles = {
