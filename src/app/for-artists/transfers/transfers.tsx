@@ -60,9 +60,11 @@ const Transfers = () => {
         configure your preferences in the dashboard.
         <br />
         <br />
-        The distribution of funds from the purchase of a painting is as follows: 50% goes to the
-        artist, 25% is allocated to charity and the remaining 25% serves as a fee for Art vs War,
-        which is the lowest fee available on the market for online platforms.
+        <span className={style.payPercents}>
+          The distribution of funds from the purchase of a painting is as follows: 50% goes to the
+          artist, 25% is allocated to charity and the remaining 25% serves as a fee for Art vs War,
+          which is the lowest fee available on the market for online platforms.
+        </span>
       </p>
       <div className={style.activationWrapper}>
         <p className={style.activation}>
