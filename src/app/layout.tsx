@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     template: `%s | Art vs War GALLERY`,
   },
   description:
-    "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
+    "Our project is dedicated to supporting Ukraine by providing a platform for artists and creatives to showcase their work, connect with appreciative customers and offer a unique opportunity to acquire artwork while contributing to a noble cause.",
   icons: "./favicon.ico",
   keywords: "artist, gallery, paintings, ukraine artists, arts, ukraine",
   openGraph: {
     title: "Art vs War GALLERY",
     description:
-      "Our project dedicated to supporting Ukrainian artists and creatives who have been displaced abroad due to the war in Ukraine. We offer a unique opportunity to purchase their artwork while contributing to a good cause.",
+      "Our project is dedicated to supporting Ukraine by providing a platform for artists and creatives to showcase their work, connect with appreciative customers and offer a unique opportunity to acquire artwork while contributing to a noble cause.",
     url: "https://artvswar.gallery/",
     siteName: "Art vs War GALLERY",
     images: [
