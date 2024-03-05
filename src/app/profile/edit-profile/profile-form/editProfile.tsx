@@ -75,14 +75,44 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
   const handleCreateProfile = async (userData: UserDataToSave) => {
     delete userData.isDeactivated;
 
-    const createdAuthor = await createProfile(userData, headers);
+    const createdAuthor = await toast.promise(
+      createProfile(userData, headers),
+      {
+        loading: 'Creaitng profile...',
+        success: <b>Profile created!</b>,
+        error: <b>Could not create.</b>,
+      },
+      {
+        success: { duration: 1000 },
+        style: {
+          borderRadius: '10px',
+          background: '#1c1d1d',
+          color: '#b3b4b5',
+        },
+      },
+    );
 
     refreshAccessToken();
     setAuthor(createdAuthor);
   };
 
   const handleUpdateProfile = async (userData: UserDataToSave) => {
-    const updatedAuthor = await updateProfile(userData, headers);
+    const updatedAuthor = await toast.promise(
+      updateProfile(userData, headers),
+      {
+        loading: 'Updating profile...',
+        success: <b>Profile updated!</b>,
+        error: <b>Could not update.</b>,
+      },
+      {
+        success: { duration: 1000 },
+        style: {
+          borderRadius: '10px',
+          background: '#1c1d1d',
+          color: '#b3b4b5',
+        },
+      },
+    );
 
     setAuthor(updatedAuthor);
 
@@ -97,13 +127,27 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
     const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
     if (data.image instanceof File) {
-      const { publicId, version, signature } = await uploadImageToServer(
+      const { publicId, version, signature } = await toast.promise(
+      uploadImageToServer(
         data,
         URL,
         headers,
         moderationStatus,
         userEmail,
-      );
+      ),
+      {
+        loading: 'Uploading image...',
+        success: <b>Image uploaded!</b>,
+        error: <b>Could not upload.</b>,
+      },
+      {
+        success: { duration: 1000 },
+        style: {
+          borderRadius: '10px',
+          background: '#1c1d1d',
+          color: '#b3b4b5',
+        },
+      });
 
       if (moderationStatus === 'PENDING') {
         sendModerationEmail({
@@ -194,36 +238,8 @@ const EditProfile: FC<Props> = ({ author, setAuthor }) => {
     };
 
     author
-      ? await toast.promise(
-          handleEditProfile('update', dataToUpload),
-          {
-            loading: 'Updating...',
-            success: <b>Profile edited!</b>,
-            error: <b>Could not edit.</b>,
-          },
-          {
-            style: {
-              borderRadius: '10px',
-              background: '#1c1d1d',
-              color: '#b3b4b5',
-            },
-          },
-        )
-      : await toast.promise(
-          handleEditProfile('create', dataToUpload),
-          {
-            loading: 'Creating...',
-            success: <b>Profile created!</b>,
-            error: <b>Could not create.</b>,
-          },
-          {
-            style: {
-              borderRadius: '10px',
-              background: '#1c1d1d',
-              color: '#b3b4b5',
-            },
-          },
-        );
+      ? await handleEditProfile('update', dataToUpload)
+      : await handleEditProfile('create', dataToUpload);
   };
 
   useEffect(() => {
