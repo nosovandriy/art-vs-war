@@ -172,9 +172,9 @@ const AdditionalInfo: FC<Props> = ({ uploaded }) => {
     await toast.promise(
       handleSaveImages(imagesToUpload, headers, id),
       {
-        loading: "Creating...",
-        success: <b>Painting created!</b>,
-        error: <b>Could not create.</b>,
+        loading: "Uploading additional images...",
+        success: <b>Images uploaded!</b>,
+        error: <b>Could not upload.</b>,
       },
       {
         style: {
