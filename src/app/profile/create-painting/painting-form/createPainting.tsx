@@ -117,7 +117,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
 
     if (data.image instanceof File) {
       toast.promise(
-        uploadImageToServer(data, URL, headers, moderationStatus).then((imageData) => {
+        uploadImageToServer(data, URL, headers, moderationStatus)
+        .then((imageData) => {
           const paintingData: PaintingDataToSave = {
             ...data,
             image: imageData,
@@ -130,8 +131,8 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
             });
           }
 
-          axios
-            .post(BASE_URL + 'paintings', paintingData, { headers })
+          toast.promise(
+            axios.post(BASE_URL + 'paintings', paintingData, { headers })
             .then(({ data }) => {
               setUploaded(data);
               setNextStep(true);
@@ -139,12 +140,25 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
             .finally(() => {
               onReset();
               setIsCreating(false);
-            });
+            }),
+            {
+              loading: 'Creating...',
+              success: <b>Painting created!</b>,
+              error: <b>Could not create.</b>,
+            },
+            {
+              style: {
+                borderRadius: '10px',
+                background: '#1c1d1d',
+                color: '#b3b4b5',
+              },
+            },
+          )
         }),
         {
-          loading: 'Creating...',
-          success: <b>Painting created!</b>,
-          error: <b>Could not create.</b>,
+          loading: 'Uploading image...',
+          success: <b>Image uploaded!</b>,
+          error: <b>Could not upload.</b>,
         },
         {
           style: {
@@ -159,8 +173,7 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
 
   const updatePaintingOnServer = (paintingData: PaintingData) => {
     toast.promise(
-      axios
-        .put(`${BASE_URL}paintings/${initial?.prettyId}`, paintingData, { headers })
+      axios.put(`${BASE_URL}paintings/${initial?.prettyId}`, paintingData, { headers })
         .then(({ data }) => {
           setUploaded(data);
           setNextStep(true);
@@ -169,11 +182,12 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
           onReset();
         }),
       {
-        loading: 'Updating...',
+        loading: 'Updating painting...',
         success: <b>Painting updated!</b>,
         error: <b>Could not update.</b>,
       },
       {
+        success: { duration: 1000 },
         style: {
           borderRadius: '10px',
           background: '#1c1d1d',
@@ -186,21 +200,37 @@ const CreatePainting: FC<Props> = ({ initial, setNextStep, setUploaded }) => {
   const updatePaintingWithImageUpload = async (data: PaintingData) => {
     const moderationStatus: ModerationStatus = !moderation?.ModerationLabels?.length ? 'APPROVED' : 'PENDING';
 
-    await uploadImageToServer(data, URL, headers, moderationStatus).then((imageData: ImageData) => {
-      const paintingData: PaintingDataToSave = {
-        ...data,
-        image: imageData,
-      };
+    toast.promise(
+     uploadImageToServer(data, URL, headers, moderationStatus)
+      .then((imageData: ImageData) => {
+        const paintingData: PaintingDataToSave = {
+          ...data,
+          image: imageData,
+        };
 
-      if (moderationStatus === 'PENDING') {
-        sendModerationEmail({
-          publicId: imageData.publicId,
-          message: JSON.stringify(moderation),
-        });
-      }
+        if (moderationStatus === 'PENDING') {
+          sendModerationEmail({
+            publicId: imageData.publicId,
+            message: JSON.stringify(moderation),
+          });
+        }
 
-      updatePaintingOnServer(paintingData);
-    });
+        updatePaintingOnServer(paintingData);
+      }),
+      {
+        loading: 'Uploading image...',
+        success: <b>Image uploaded!</b>,
+        error: <b>Could not upload.</b>,
+      },
+      {
+        success: { duration: 1000 },
+        style: {
+          borderRadius: '10px',
+          background: '#1c1d1d',
+          color: '#b3b4b5',
+        },
+      },
+    )
   };
 
   const handleUpdatePainting = (data: PaintingData) => {
